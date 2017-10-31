@@ -1,0 +1,330 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>FEH Mass Simulator JP</title>
+	<meta name="description" content="FE ヒーローズの対戦シミュレーターです。英雄を選択すると複数の対戦結果を一度に閲覧可能です。"/>
+	<link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+	<link rel="shortcut icon" href="favicon.ico" />
+
+	<!-- Global Site Tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-9346373-6"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+	  gtag('config', 'UA-9346373-6');
+	</script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<!--<script src="https://unpkg.com/react@15/dist/react.js"></script>
+	<script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>-->
+
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="style.css?v=2017103101"/>
+	<script type="text/javascript" src="db.js?v=2017103101"></script>
+	<script type="text/javascript" src="code.js?v=2017103101"></script>
+
+</head>
+
+<body>
+	<div id="frame_main">
+		<div id="header"><img src="logo.png" style="margin-right:20px;"/><div style="display:inline-block;">FEH Mass Simulator JP</div><div id="subtitle"></div></div>
+		<div id="frame_updatenotice" data-update="2017103101">隣接関連スキル対応しました。特効無効スキルの取り扱いを変更しました(兵種特効のみ)。
+			<div id="update_icon">!</div>
+			<div class="button" id="button_closeupdatenotice" onclick="hideUpdateNotice();">x</div>
+		</div>
+		<div id="frame_options">
+			<div id="frame_challenger">
+				<div id="challenger_bar_top">
+					<div class="bar_top_title">自軍
+						<div class="bar_top_title_right">
+							<div class="button button_copy" id="copy_challenger">Copy</div>
+							<div class="button button_importexport" id="import_challenger">Import</div>
+							<div class="button button_importexport" id="export_challenger">Export</div>
+						</div>
+					</div>
+				</div>
+				<div class="frame_hero_main">
+					<div class="bar_top_options">
+						<select id="challenger_name" data-var="challenger.index"></select>
+						<div class="bar_top_options_right"><span class="bar_label">★</span><input id="challenger_rarity" data-var="challenger.rarity" type="number" class="rarityinput smallnuminput" value=5 min=1 max=5 /><span class="bar_label">Lvl 40+</span><input id="challenger_merge" data-var="challenger.merge" class="smallnuminput" type="number" value=0 min=0 max=10 /><div class="button reset_button" id="reset_challenger">初期化</div></div>
+					</div>
+					<div class="frame_hero_main_top">
+						<div class="frame_hero_picture"><img class="hero_picture" id="challenger_picture" src="heroes/nohero.png"/><img id="challenger_weapon_icon" class="weaponIcon" src="weapons/noweapon.png"/><img id="challenger_movement_icon" class="movementIcon" src="weapons/noweapon.png"/></div>
+						<div class="frame_stats">
+							<div class="bufflabel">強化</div><div class="debufflabel">弱体</div><div class="spurlabel">紋章</div>
+							<div class="stat_row">ＨＰ <span class="stat_number" id="challenger_hp">-</span></div>
+							<div class="stat_row">攻撃 <span class="stat_number" id="challenger_atk">-</span><input id="challenger_atk_buff" data-var="challenger.buffs.atk" class="buff_input smallnuminput" type="number" value=0 min=0 max=7 /><input id="challenger_atk_debuff" data-var="challenger.debuffs.atk" class="debuff_input smallnuminput" type="number" value=0 min=-7 max=0 /><input id="challenger_atk_spur" data-var="challenger.spur.atk" class="spur_input smallnuminput" type="number" value=0 min=0 max=24 /></div>
+							<div class="stat_row">速さ <span class="stat_number" id="challenger_spd">-</span><input id="challenger_spd_buff" data-var="challenger.buffs.spd" class="buff_input smallnuminput" type="number" value=0 min=0 max=7 /><input id="challenger_spd_debuff" data-var="challenger.debuffs.spd" class="debuff_input smallnuminput" type="number" value=0 min=-7 max=0 /><input id="challenger_spd_spur" data-var="challenger.spur.spd" class="spur_input smallnuminput" type="number" value=0 min=0 max=24 /></div>
+							<div class="stat_row">守備 <span class="stat_number" id="challenger_def">-</span><input id="challenger_def_buff" data-var="challenger.buffs.def" class="buff_input smallnuminput" type="number" value=0 min=0 max=7 /><input id="challenger_def_debuff" data-var="challenger.debuffs.def" class="debuff_input smallnuminput" type="number" value=0 min=-7 max=0 /><input id="challenger_def_spur" data-var="challenger.spur.def" class="spur_input smallnuminput" type="number" value=0 min=0 max=24 /></div>
+							<div class="stat_row">魔防 <span class="stat_number" id="challenger_res">-</span><input id="challenger_res_buff" data-var="challenger.buffs.res" class="buff_input smallnuminput" type="number" value=0 min=0 max=7 /><input id="challenger_res_debuff" data-var="challenger.debuffs.res" class="debuff_input smallnuminput" type="number" value=0 min=-7 max=0 /><input id="challenger_res_spur" data-var="challenger.spur.res" class="spur_input smallnuminput" type="number" value=0 min=0 max=24 /></div>
+						</div>
+					</div>
+					<div class="frame_hero_main_bottom">
+						<div class="hero_skills">
+							<div class="skill_row"><img class="skill_picture" id="challenger_weapon_picture" src="skills/weapon.png"/><select class="skill_select" data-var="challenger.weapon" id="challenger_weapon"></select></div>
+							<div class="skill_row"><img class="skill_picture" id="challenger_special_picture" src="skills/special.png"/><select class="skill_select" data-var="challenger.special" id="challenger_special"></select></div>
+							<div class="skill_row"><img class="skill_picture" id="challenger_a_picture" src="skills/noskill.png"/><div class="skill_letter red">A</div><select class="skill_select" data-var="challenger.a" id="challenger_a"></select></div>
+							<div class="skill_row"><img class="skill_picture" id="challenger_b_picture" src="skills/noskill.png"/><div class="skill_letter blue">B</div><select class="skill_select" data-var="challenger.b" id="challenger_b"></select></div>
+							<div class="skill_row"><img class="skill_picture" id="challenger_c_picture" src="skills/noskill.png"/><div class="skill_letter green">C</div><select class="skill_select" data-var="challenger.c" id="challenger_c"></select></div>
+							<div class="skill_row"><img class="skill_picture" id="challenger_s_picture" src="skills/noskill.png"/><div class="skill_letter yellow">S</div><select class="skill_select" data-var="challenger.s" id="challenger_s"></select></div>
+						</div>
+						<div class="hero_misc">
+							<div class="misc_row">個体値
+								<select class="misc_input_left" data-var="challenger.boon" id="challenger_boon">
+									<option value="boon" disabled> ↑ </option>
+									<option value="none">基準</option><option value="hp">ＨＰ</option><option value="atk">攻撃</option><option value="spd">速さ</option><option value="def">守備</option><option value="res">魔防</option>
+								</select>
+								<select class="misc_input" data-var="challenger.bane" id="challenger_bane">
+									<option value="bane" disabled>↓</option>
+									<option value="none">基準</option><option value="hp">ＨＰ</option><option value="atk">攻撃</option><option value="spd">速さ</option><option value="def">守備</option><option value="res">魔防</option>
+								</select>
+							</div>
+							<div class="misc_row">支援
+								<select class="misc_input_left" data-var="challenger.summoner" id="challenger_summoner">
+									<option value="summoner" disabled>召喚師</option>
+									<option value="none">標準</option><option value="s">S</option><option value="a">A</option><option value="b">B</option><option value="c">C</option>
+								</select>
+								<select class="misc_input" data-var="challenger.ally" id="challenger_ally">
+									<option value="ally" disabled>仲間</option>
+									<option value="none">標準</option>
+									<option value="s">S</option><option value="s-">S-</option><option value="a">A</option><option value="a-">A-</option>
+									<option value="b">B</option><option value="b-">B-</option><option value="c">C</option><option value="c-">C-</option>
+								</select>
+							</div>
+							<div class="misc_row">隣接の味方
+								<input type="number" id="challenger_adjacent" data-var="challenger.adjacent" class="misc_input smallnuminput" value=1 min=0 max=4 />
+							</div>
+							<div class="misc_row">
+								ＨＰ
+								<input id="challenger_currenthp" data-var="challenger.currenthp" class="misc_input_left smallnuminput" type="number" value=0 min=0 max=99 />
+								<span class="misc_separator">/</span>
+								<span id="challenger_basehp" class="misc_number">-</span>
+							</div>
+							<div class="misc_row">
+								奥義
+								<input type="number" id="challenger_precharge" data-var="challenger.precharge" class="misc_input_left smallnuminput" value=0 min=0 max=6 />
+								<span class="misc_separator">/</span>
+								<span id="challenger_specialcharge" class="misc_number">-</span>
+							</div>
+							<div class="misc_row">総合値 / 総ＳＰ
+								<span id="challenger_bst" class="misc_number">-</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="frame_enemies">
+				<div id="enemies_bar_top">
+					<div class="bar_top_title">敵
+						<div class="bar_top_title_right">
+							<select id="enemies_mode" data-var="options.customEnemyList" class="bar_label"><option value=0>フィルター</option><option value=1>カスタム</option></select>
+							<div class="button button_copy" id="copy_enemy">Copy</div>
+							<div class="button button_importexport" id="import_enemies">Import</div>
+							<div class="button button_importexport" id="export_enemies">Export</div>
+						</div>
+					</div>
+				</div>
+				<div id="enemies_full_list" class="frame_hero_main">
+					<div class="bar_top_options"><span class="bar_label">★</span><input id="enemies_rarity" data-var="enemies.fl.rarity" type="number" class="rarityinput smallnuminput" value=5 min=1 max=5 /><span class="bar_label">Lvl 40+</span><input id="enemies_merge" data-var="enemies.fl.merge" class="smallnuminput" type="number" value=0 min=0 max=10 /><div class="bar_top_options_right"><div class="button reset_button reset_enemies" id="reset_enemies">初期化</div></div></div>
+					<div class="frame_hero_main_top">
+						<div id="enemies_include">
+							<div id="enemies_includeheader">対象 <span id="enemies_count">-</span></div>
+							<div class="includebuttons_row"><div class="button wideincludebutton included" id="include_melee">近接</div><div class="button wideincludebutton included" id="include_ranged">遠隔</div></div>
+							<div class="includebuttons_row"><div class="button thinincludebutton included" id="include_red">赤</div><div class="button thinincludebutton included" id="include_blue">青</div><div class="button thinincludebutton included" id="include_green">緑</div><div class="button thinincludebutton included" id="include_gray">白</div></div>
+							<div class="includebuttons_row"><div class="button wideincludebutton included" id="include_physical">物理</div><div class="button wideincludebutton included" id="include_magical">魔法</div></div>
+							<div class="includebuttons_row"><div class="button thinincludebutton included" id="include_infantry">歩行</div><div class="button thinincludebutton included" id="include_cavalry">騎馬</div><div class="button thinincludebutton included" id="include_flying">飛行</div><div class="button thinincludebutton included" id="include_armored">重装</div></div>
+							<div class="includebuttons_row"><div class="button wideincludebutton notincluded" id="include_staff">ヒーラー</div><div class="button wideincludebutton included" id="include_nonstaff">ヒーラー以外</div></div>
+						</div>
+						<div class="frame_stats">
+							<div class="bufflabel">強化</div><div class="debufflabel">弱体</div><div class="spurlabel">紋章</div>
+							<div class="stat_row">ＨＰ <span class="stat_number" id="enemies_hp">-</span></div>
+							<div class="stat_row">攻撃 <span class="stat_number" id="enemies_atk">-</span><input id="enemies_atk_buff" data-var="enemies.fl.buffs.atk" class="buff_input smallnuminput" type="number" value=0 min=0 max=7 /><input id="enemies_atk_debuff" data-var="enemies.fl.debuffs.atk" class="debuff_input smallnuminput" type="number" value=0 min=-7 max=0 /><input id="enemies_atk_spur" data-var="enemies.fl.spur.atk" class="spur_input smallnuminput" type="number" value=0 min=0 max=24 /></div>
+							<div class="stat_row">速さ <span class="stat_number" id="enemies_spd">-</span><input id="enemies_spd_buff" data-var="enemies.fl.buffs.spd" class="buff_input smallnuminput" type="number" value=0 min=0 max=7 /><input id="enemies_spd_debuff" data-var="enemies.fl.debuffs.spd" class="debuff_input smallnuminput" type="number" value=0 min=-7 max=0 /><input id="enemies_spd_spur" data-var="enemies.fl.spur.spd" class="spur_input smallnuminput" type="number" value=0 min=0 max=24 /></div>
+							<div class="stat_row">守備 <span class="stat_number" id="enemies_def">-</span><input id="enemies_def_buff" data-var="enemies.fl.buffs.def" class="buff_input smallnuminput" type="number" value=0 min=0 max=7 /><input id="enemies_def_debuff" data-var="enemies.fl.debuffs.def" class="debuff_input smallnuminput" type="number" value=0 min=-7 max=0 /><input id="enemies_def_spur" data-var="enemies.fl.spur.def" class="spur_input smallnuminput" type="number" value=0 min=0 max=24 /></div>
+							<div class="stat_row">魔防 <span class="stat_number" id="enemies_res">-</span><input id="enemies_res_buff" data-var="enemies.fl.buffs.res" class="buff_input smallnuminput" type="number" value=0 min=0 max=7 /><input id="enemies_res_debuff" data-var="enemies.fl.debuffs.res" class="debuff_input smallnuminput" type="number" value=0 min=-7 max=0 /><input id="enemies_res_spur" data-var="enemies.fl.spur.res" class="spur_input smallnuminput" type="number" value=0 min=0 max=24 /></div>
+						</div>
+					</div>
+					<div class="frame_hero_main_bottom">
+						<div class="hero_skills">
+							<div class="skill_row"><img class="skill_picture" id="enemies_weapon_picture" src="skills/weapon.png"/><select class="skill_select" data-var="enemies.fl.weapon" id="enemies_weapon"></select><select class="skill_overwrite" data-var="enemies.fl.replaceWeapon" id="enemies_weapon_overwrite"><option value=0>空の場合</option><option value=1>上書き</option></select></div>
+							<div class="skill_row"><img class="skill_picture" id="enemies_special_picture" src="skills/special.png"/><select class="skill_select" data-var="enemies.fl.special" id="enemies_special"></select><select class="skill_overwrite" data-var="enemies.fl.replaceSpecial" id="enemies_special_overwrite"><option value=0>空の場合</option><option value=1>上書き</option></select></div>
+							<div class="skill_row"><img class="skill_picture" id="enemies_a_picture" src="skills/noskill.png"/><div class="skill_letter red">A</div><select class="skill_select" data-var="enemies.fl.a" id="enemies_a"></select><select class="skill_overwrite" data-var="enemies.fl.replaceA" id="enemies_a_overwrite"><option value=0>空の場合</option><option value=1>上書き</option></select></div>
+							<div class="skill_row"><img class="skill_picture" id="enemies_b_picture" src="skills/noskill.png"/><div class="skill_letter blue">B</div><select class="skill_select" data-var="enemies.fl.b" id="enemies_b"></select><select class="skill_overwrite" data-var="enemies.fl.replaceB" id="enemies_b_overwrite"><option value=0>空の場合</option><option value=1>上書き</option></select></div>
+							<div class="skill_row"><img class="skill_picture" id="enemies_c_picture" src="skills/noskill.png"/><div class="skill_letter green">C</div><select class="skill_select" data-var="enemies.fl.c" id="enemies_c"></select><select class="skill_overwrite" data-var="enemies.fl.replaceC" id="enemies_c_overwrite"><option value=0>空の場合</option><option value=1>上書き</option></select></div>
+							<div class="skill_row"><img class="skill_picture" id="enemies_s_picture" src="skills/noskill.png"/><div class="skill_letter yellow">S</div><select class="skill_select" data-var="enemies.fl.s" id="enemies_s"></select></div>
+						</div>
+						<div class="hero_misc">
+							<div class="misc_row">個体値
+								<select class="misc_input_left" data-var="enemies.fl.boon" id="enemies_boon">
+									<option value="boon" disabled> ↑ </option>
+									<option value="none">基準</option><option value="hp">ＨＰ</option><option value="atk">攻撃</option><option value="spd">速さ</option><option value="def">守備</option><option value="res">魔防</option>
+								</select>
+								<select class="misc_input" data-var="enemies.fl.bane" id="enemies_bane">
+									<option value="bane" disabled>↓</option>
+									<option value="none">基準</option><option value="hp">ＨＰ</option><option value="atk">攻撃</option><option value="spd">速さ</option><option value="def">守備</option><option value="res">魔防</option>
+								</select>
+							</div>
+							<div class="misc_row">支援
+								<select class="misc_input_left" data-var="enemies.fl.summoner" id="enemies_summoner">
+									<option value="summoner" disabled>召喚師</option>
+									<option value="none">標準</option><option value="s">S</option><option value="a">A</option><option value="b">B</option><option value="c">C</option>
+								</select>
+								<select class="misc_input" data-var="enemies.fl.ally" id="enemies_ally">
+									<option value="ally" disabled>仲間</option>
+									<option value="none">標準</option>
+									<option value="s">S</option><option value="s-">S-</option><option value="a">A</option><option value="a-">A-</option>
+									<option value="b">B</option><option value="b-">B-</option><option value="c">C</option><option value="c-">C-</option>
+								</select>
+							</div>
+							<div class="misc_row">隣接の味方
+								<input type="number" id="enemies_adjacent" data-var="enemies.fl.adjacent" class="misc_input smallnuminput" value=1 min=0 max=4 />
+							</div>
+							<div class="misc_row">被ダメージ<input id="enemies_damage" data-var="enemies.fl.damage" class="misc_input smallnuminput" type="number" value=0 min=0 max=99 /></div>
+							<div class="misc_row">奥義カウント<input type="number" id="enemies_precharge" data-var="enemies.fl.precharge" class="misc_input smallnuminput" value=0 min=0 max=6 /></div>
+						</div>
+					</div>
+				</div>
+				<div id="enemies_custom_list" class="frame_hero_main" style="display:none;">
+					<div id="cl_enemylist">
+						<div id="cl_enemylist_list"></div>
+						<div id="cl_addenemy" class="clbutton button" onclick="addClEnemy();">+Add one</div>
+						<div id="cl_removeall" class="clbutton button" onclick="removeAllClEnemies();">-Clear all</div>
+					</div>
+					<div class="frame_hero_main_right">
+						<div class="bar_top_options"><select id="cl_enemy_name" data-var="enemies.cl.list.index"></select><div class="bar_top_options_right"><span class="bar_label">★</span><input id="cl_enemy_rarity" data-var="enemies.cl.list.rarity" type="number" class="rarityinput smallnuminput" value=5 min=1 max=5 /><span class="bar_label">Lvl 40+</span><input id="cl_enemy_merge" data-var="enemies.cl.list.merge" class="smallnuminput" type="number" value=0 min=0 max=10 /><div class="button reset_button reset_enemies" id="reset_cl_enemy">初期化</div></div></div>
+						<div class="frame_hero_main_top">
+							<div class="frame_hero_picture">
+								<img class="hero_picture" id="cl_enemy_picture" src="heroes/nohero.png"/>
+								<img id="cl_enemy_weapon_icon" class="weaponIcon" src="weapons/noweapon.png"/>
+								<img id="cl_enemy_movement_icon" class="movementIcon" src="weapons/noweapon.png"/>
+							</div>
+							<div class="frame_stats">
+								<div class="bufflabel">強化</div><div class="debufflabel">弱体</div><div class="spurlabel">紋章</div>
+								<div class="stat_row">ＨＰ <span class="stat_number" id="cl_enemy_hp">-</span></div>
+								<div class="stat_row">攻撃 <span class="stat_number" id="cl_enemy_atk">-</span><input id="cl_enemy_atk_buff" data-var="enemies.cl.list.buffs.atk" class="buff_input smallnuminput" type="number" value=0 min=0 max=7 /><input id="cl_enemy_atk_debuff" data-var="enemies.cl.list.debuffs.atk" class="debuff_input smallnuminput" type="number" value=0 min=-7 max=0 /><input id="cl_enemy_atk_spur" data-var="enemies.cl.list.spur.atk" class="spur_input smallnuminput" type="number" value=0 min=0 max=24 /></div>
+								<div class="stat_row">速さ <span class="stat_number" id="cl_enemy_spd">-</span><input id="cl_enemy_spd_buff" data-var="enemies.cl.list.buffs.spd" class="buff_input smallnuminput" type="number" value=0 min=0 max=7 /><input id="cl_enemy_spd_debuff" data-var="enemies.cl.list.debuffs.spd" class="debuff_input smallnuminput" type="number" value=0 min=-7 max=0 /><input id="cl_enemy_spd_spur" data-var="enemies.cl.list.spur.spd" class="spur_input smallnuminput" type="number" value=0 min=0 max=24 /></div>
+								<div class="stat_row">守備 <span class="stat_number" id="cl_enemy_def">-</span><input id="cl_enemy_def_buff" data-var="enemies.cl.list.buffs.def" class="buff_input smallnuminput" type="number" value=0 min=0 max=7 /><input id="cl_enemy_def_debuff" data-var="enemies.cl.list.debuffs.def" class="debuff_input smallnuminput" type="number" value=0 min=-7 max=0 /><input id="cl_enemy_def_spur" data-var="enemies.cl.list.spur.def" class="spur_input smallnuminput" type="number" value=0 min=0 max=24 /></div>
+								<div class="stat_row">魔防 <span class="stat_number" id="cl_enemy_res">-</span><input id="cl_enemy_res_buff" data-var="enemies.cl.list.buffs.res" class="buff_input smallnuminput" type="number" value=0 min=0 max=7 /><input id="cl_enemy_res_debuff" data-var="enemies.cl.list.debuffs.res" class="debuff_input smallnuminput" type="number" value=0 min=-7 max=0 /><input id="cl_enemy_res_spur" data-var="enemies.cl.list.spur.res" class="spur_input smallnuminput" type="number" value=0 min=0 max=24 /></div>
+							</div>
+						</div>
+						<div class="frame_hero_main_bottom">
+							<div class="hero_skills">
+								<div class="skill_row"><img class="skill_picture" id="cl_enemy_weapon_picture" src="skills/weapon.png"/><select class="skill_select" data-var="enemies.cl.list.weapon" id="cl_enemy_weapon"></select></div>
+								<div class="skill_row"><img class="skill_picture" id="cl_enemy_special_picture" src="skills/special.png"/><select class="skill_select" data-var="enemies.cl.list.special" id="cl_enemy_special"></select></div>
+								<div class="skill_row"><img class="skill_picture" id="cl_enemy_a_picture" src="skills/noskill.png"/><div class="skill_letter red">A</div><select class="skill_select" data-var="enemies.cl.list.a" id="cl_enemy_a"></select></div>
+								<div class="skill_row"><img class="skill_picture" id="cl_enemy_b_picture" src="skills/noskill.png"/><div class="skill_letter blue">B</div><select class="skill_select" data-var="enemies.cl.list.b" id="cl_enemy_b"></select></div>
+								<div class="skill_row"><img class="skill_picture" id="cl_enemy_c_picture" src="skills/noskill.png"/><div class="skill_letter green">C</div><select class="skill_select" data-var="enemies.cl.list.c" id="cl_enemy_c"></select></div>
+								<div class="skill_row"><img class="skill_picture" id="cl_enemy_s_picture" src="skills/noskill.png"/><div class="skill_letter yellow">S</div><select class="skill_select" data-var="enemies.cl.list.s" id="cl_enemy_s"></select></div>
+							</div>
+							<div class="hero_misc">
+								<div class="misc_row">個体値
+									<select class="misc_input_left" data-var="enemies.cl.list.boon" id="cl_enemy_boon">
+										<option value="boon" disabled> ↑ </option>
+										<option value="none">基準</option><option value="hp">ＨＰ</option><option value="atk">攻撃</option><option value="spd">速さ</option><option value="def">守備</option><option value="res">魔防</option>
+									</select>
+									<select class="misc_input" data-var="enemies.cl.list.bane" id="cl_enemy_bane">
+										<option value="bane" disabled>↓</option>
+										<option value="none">基準</option><option value="hp">ＨＰ</option><option value="atk">攻撃</option><option value="spd">速さ</option><option value="def">守備</option><option value="res">魔防</option>
+									</select>
+								</div>
+								<div class="misc_row">支援
+									<select class="misc_input_left" data-var="enemies.cl.list.summoner" id="cl_enemy_summoner">
+										<option value="summoner" disabled>召喚師</option>
+										<option value="none">標準</option><option value="s">S</option><option value="a">A</option><option value="b">B</option><option value="c">C</option>
+									</select>
+									<select class="misc_input" data-var="enemies.cl.list.ally" id="cl_enemy_ally">
+										<option value="ally" disabled>仲間</option>
+										<option value="none">標準</option>
+										<option value="s">S</option><option value="s-">S-</option><option value="a">A</option><option value="a-">A-</option>
+										<option value="b">B</option><option value="b-">B-</option><option value="c">C</option><option value="c-">C-</option>
+									</select>
+								</div>
+								<div class="misc_row">隣接の味方
+									<input type="number" id="cl_enemies_adjacent" data-var="enemies.cl.list.adjacent" class="misc_input smallnuminput" value=1 min=0 max=4 />
+								</div>
+								<div class="misc_row">
+									ＨＰ
+									<input id="cl_enemy_currenthp" data-var="enemies.cl.list.currenthp" class="misc_input_left smallnuminput" type="number" value=0 min=0 max=99 />
+									<span class="misc_separator">/</span>
+									<span id="cl_enemy_basehp" class="misc_number">-</span>
+								</div>
+								<div class="misc_row">奥義
+									<input type="number" id="cl_enemy_precharge" data-var="enemies.cl.list.precharge" class="misc_input_left smallnuminput" value=0 min=0 max=6 />
+									<span class="misc_separator">/</span>
+									<span id="cl_enemy_specialcharge" class="misc_number">-</span>
+								</div>
+								<div class="misc_row">総合値 / 総ＳＰ
+									<span id="cl_enemy_bst" class="misc_number">-</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="frame_rules">
+			<div id="rules_bar_top">
+				Duel Rules
+			</div>
+			<div id="rules_turnorder">
+				<div id="turnorder_left">
+					<div id="turnorder_label">ラウンド順</div>
+					<div class="turnorder_button_row"><div class="button turnorder_button" id="add_turn_challenger_reset">自軍</div><div class="button turnorder_button_add" id="add_turn_challenger">+</div></div>
+					<div class="turnorder_button_row"><div class="button turnorder_button" id="add_turn_enemy_reset">敵</div><div class="button turnorder_button_add" id="add_turn_enemy">+</div></div>
+				</div>
+				<div id="turnorder_right">
+					<div class="turn_label" id="turn_0"><span id="turn_text_0">自軍 攻撃</span><div class="button turn_delete" id="turn_delete_0" onclick="deleteTurn(0);">x</div></div>
+					<div class="turn_label" id="turn_1"><span id="turn_text_1">敵 攻撃</span><div class="button turn_delete" id="turn_delete_1" onclick="deleteTurn(1);">x</div></div>
+					<div class="turn_label" id="turn_2" style="display:none;"><span id="turn_text_2"></span><div class="button turn_delete" id="turn_delete_2" onclick="deleteTurn(2);">x</div></div>
+					<div class="turn_label" id="turn_3" style="display:none;"><span id="turn_text_3"></span><div class="button turn_delete" id="turn_delete_3" onclick="deleteTurn(3);">x</div></div>
+				</div>
+			</div>
+			<div id="rules_other">
+				<div id="rules_inputs">
+					<div class="rules_inputs_line">
+						最初のターンに 威嚇・謀策 を反映 <div class="rules_inputs_lineright"><select id="rules_threaten" data-var="options.threatenRule" class="duelrule_select"><option>両者</option><option>自軍</option><option>敵</option><option selected="selected">なし</option></select></div>
+					</div>
+					<div class="rules_inputs_line">
+						防御地形 <div class="rules_inputs_lineright"><select id="defense_tile" data-var="options.defenseTile" class="duelrule_select"><option>両者</option><option>自軍</option><option>敵</option><option selected="selected">なし</option></select></div>
+					</div>
+					<div class="rules_inputs_line">
+						遠隔の攻撃の向き(謀策用) <div class="rules_inputs_lineright"><select id="rules_ploy" data-var="options.ployBehavior" class="duelrule_select"><option>斜め</option><option>十字</option></select></div>
+					</div>
+					<div class="rules_inputs_line">
+						回復 の効果がはじまるターン <div class="rules_inputs_lineright"><input type="number" data-var="options.startTurn" min=1 max=5 id="rules_renewal" class="duelrule_smallnuminput" value=1 /></div>
+					</div>
+				</div>
+				<div id="rules_checks">
+					<span class="checkrule"><label><input type="checkbox" data-var="options.showOnlyMaxSkills" id="rules_prereqs" checked="checked" /> 最大スキルレベルのみ</label></span><span class="checkrule"><label><span class="checkrule"><input type="checkbox" id="rules_hideunaffecting" data-var="options.hideUnaffectingSkills" checked="checked" /> 対戦に影響しないスキルを非表示</label></span><span class="checkrule"><label><input type="checkbox" data-var="options.useGaleforce" id="rules_galeforce" checked="checked" /> 疾風迅雷 発動時に再度攻撃</label></span>
+				</div>
+			</div>
+		</div>
+		<div id="frame_results">
+			<div id="results_bar_top">
+				<div class="button" id="button_calculate" onclick="calculate();">計算</div> <input type="checkbox" data-var="options.autoCalculate" id="autocalculate" checked="checked"/>自動計算
+				<div id="results_bar_right"><span class="bar_label">ビュー </span><select id="view_results" data-var="options.viewFilter" class="duelrule_select"><option value="all" >全対戦</option><option value="changeVictor" >勝者が変更された</option><option value="changeRounds" >ラウンドが変更された</option><option value="changeDamage" >ダメージが変更された</option><option value="win" >勝利</option><option value="loss" >敗北</option><option value="inconclusive" >未決着</option></select><span class="bar_label">並び替え</span><select id="sort_results" data-var="options.sortOrder" class="duelrule_select"><option value=1 >ベスト</option><option value=-1 >ワースト</option></select><div class="button" id="button_exportcalc" onclick="exportCalc();">結果出力</div></div>
+			</div>
+			<div id="results_graph_back">
+				<div id="results_graph_wins"></div>
+				<div id="results_graph_losses"></div>
+			</div>
+			<div id="winpercentages"><span class="results_stat">勝利 <span id="win_pct">-</span></span><span class="results_stat">敗北 <span id="lose_pct">-</span></span><span class="results_stat">未決着 <span id="inconclusive_pct">-</span></span></div>
+			<div id="results_list"></div>
+		</div>
+		<div id="footer"><a href="https://github.com/Andu2/FEH-Mass-Simulator">本家</a> Last <a href="changelog.txt">updated</a> 2017-10-31. バグ等については <a href="https://twitter.com/krbysh_x86">@krbysh_x86</a> までご連絡ください。</div>
+	</div>
+	<div id="frame_tooltip"></div>
+	<div id="screen_fade"></div>
+	<div id="frame_import" class="challengerimport">
+		<div id="import_header"><span id="import_title"></span><div class="button" id="import_exit">x</div></div>
+		<textarea class="importinput" id="importinput" tabindex="-1" ></textarea>
+		<div id="import_footer"><div class="button" id="button_import">Import into calculator</div></div>
+		<label id="export_collapse_label"><input type="checkbox" id="export_collapse" />Collapse</label>
+	</div>
+</body>
+
+</html>
