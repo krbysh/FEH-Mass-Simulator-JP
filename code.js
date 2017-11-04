@@ -56,6 +56,13 @@ data.enemyPrompts = {
 	"default":"Enemies to fight:",
 }
 
+data.newHeroesCsvs = [
+	"サクラ(仮装の収穫祭) (5★);Weapon: 猫の暗器+;Special: 氷華;A: 明鏡の構え 3;B: キャンセル 3;C: 暗器の技量 3;",
+	"ジョーカー(仮装の収穫祭) (5★);Weapon: 怪物の弓+;Special: 華炎;A: 金剛明鏡の一撃 2;B: 守備隊形 3;",
+	"ヘンリー(仮装の収穫祭) (5★);Weapon: ゴーストの魔道書+;Special: 血讐;B: 栄誉の喜び;C: 重装の行軍 3;",
+	"ノノ(仮装の収穫祭) (5★);Weapon: グリモワール;A: 攻撃魔防の絆 3;B: 豊穣の喜び;C: 飛刃の鼓舞;",
+];
+
 function initOptions(){
 	//Initializes options from localStorage or from scratch
 
@@ -442,6 +449,10 @@ $(document).ready(function(){
 			copyChallenger();
 		}
 
+	})
+
+	$(".button_newheroes").click(function(){
+		ImportCharDirect(data.newHeroesCsvs[this.id]);
 	})
 
 	$(".button_importexport").click(function(){
@@ -1518,6 +1529,353 @@ function copyEnemy(){
 		validateNumberInputs();
 		calculate();
 	}
+}
+
+function ImportCharDirect(chartext){
+	var errorMsg = "";
+
+	var text = chartext;
+	text = removeDiacritics(text); //Fuckin rauðrblade
+	var importSplit = text.split(/\n|;/).map(function (line) {
+		return line.trim();
+	});
+
+	var importMode = "none";
+	var firstLine = parseFirstLine(importSplit[0]);
+	if(typeof firstLine.index != "undefined"){
+		importMode = "challenger";
+		challenger.index = -1;
+		resetHero(challenger);
+		parseHero(importSplit,firstLine);
+		updateChallengerUI();
+		$("#challenger_name").trigger('change.select2');
+	}
+	else{
+		errorMsg = "Import challenger failed.";
+	}
+
+	function parseHero(lines,firstLine){
+		//challenger will pass first line because it needs to parse it to see if it's a challenger
+		firstLine = firstLine || parseFirstLine(lines[0]);
+
+		var hero;
+		if(importMode == "challenger"){
+			hero = challenger;
+		}
+		else{
+			enemies.cl.list.push({
+				"index":-1,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
+				"buffs": {"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"atk":0,"spd":0,"def":0,"res":0}, "spur": {"atk":0,"spd":0,"def":0,"res":0},
+				"boon": "none", "bane": "none", "summoner": "none", "ally": "none", "merge":0, "rarity": 5, "precharge":0, "adjacent":1, "damage": 0
+			});
+			hero = enemies.cl.list[enemies.cl.list.length-1];
+		}
+
+		hero.index = firstLine.index;
+		if(firstLine.rarity){
+			hero.rarity = firstLine.rarity;
+		}
+		else{
+			hero.rarity = 5;
+		}
+
+		if(firstLine.merge){
+			hero.merge = firstLine.merge;
+		}
+
+		if(firstLine.boon){
+			hero.boon = firstLine.boon;
+		}
+		if(firstLine.bane){
+			hero.bane = firstLine.bane;
+		}
+		if(firstLine.summoner){
+			hero.summoner = firstLine.summoner;
+		}
+		if(firstLine.ally){
+			hero.ally = firstLine.ally;
+		}
+
+		//Reset skills - they won't be reset with setSkills
+		hero.weapon = -1;
+		hero.special = -1;
+		hero.a = -1;
+		hero.b = -1;
+		hero.c = -1;
+		hero.s = -1;
+
+		for(var line = 1; line < lines.length; line++){
+			//Check if the line looks like a firstline; If yes, start parsing a new hero
+			var firstLine = parseFirstLine(lines[line]);
+			if(typeof firstLine.index != "undefined"){
+				parseHero(lines.slice(line));
+				break;
+			}
+			else{
+				var lineData = parseAttributeLine(lines[line]);
+				for(var key in lineData){
+					hero[key] = lineData[key];
+				}
+			}
+		}
+
+		initHero(hero,true);
+	}
+
+	function parseFirstLine(line){
+		var dataFound = {};
+		//Try all lengths up to 20 characters to find hero name
+		for(var tryLength = 2; tryLength <= 30; tryLength++){
+			var tryString = removeEdgeJunk(line.slice(0,tryLength));
+			var tryIndex = getIndexFromName(tryString,data.heroes);
+			if(tryIndex != -1){
+				//console.log(tryString);
+				dataFound.index = tryIndex;
+				//break; Don't break in case there is a hero with a name that is the beginning of another hero's name
+			}
+		}
+
+		var tryRarityIndex = line.indexOf("★");
+		if(tryRarityIndex == -1){
+			tryRarityIndex = line.indexOf("*");
+		}
+		if(tryRarityIndex != -1){
+			var tryRarity = parseInt(line.slice(tryRarityIndex - 1, tryRarityIndex)); //Try left side
+			if(tryRarity >= 1 && tryRarity <= 5){
+				dataFound.rarity = tryRarity;
+			}
+			// else{
+			// 	tryRarity = parseInt(line.slice(tryRarityIndex + 1, tryRarityIndex+2)); //Try right side
+			// 	if(tryRarity >= 1 && tryRarity <= 5){
+			// 		dataFound.rarity = tryRarity;
+			// 	}
+			// }
+		}
+
+		var plusSplit = line.split("+");
+		if(plusSplit.length > 1){ //Don't check if there's no pluses
+			for(var plusLine = 0; plusLine < plusSplit.length; plusLine++){
+				plusSplit[plusLine] = removeEdgeJunk(plusSplit[plusLine]).toLowerCase();
+
+				var tryMerge = parseInt(plusSplit[plusLine].slice(0,2));
+				if(tryMerge >= 1 && tryMerge <= 10){
+					dataFound.merge = tryMerge;
+				}
+				// else{
+				// 	tryMerge = parseInt(plusSplit[plusLine].slice(-2));
+				// 	if(tryMerge >= 1 && tryMerge <= 10){
+				// 		dataFound.merge = tryMerge;
+				// 	}
+				// }
+
+				data.stats.forEach(function(stat){
+					if(plusSplit[plusLine].slice(0,stat.length) == stat){
+						dataFound.boon = stat;
+					}
+				});
+			}
+		}
+
+		var minusSplit = line.split("-");
+		if(minusSplit.length > 1){ //Don't check if there's no minuses
+			for(var minusLine = 0; minusLine < minusSplit.length; minusLine++){
+				minusSplit[minusLine] = removeEdgeJunk(minusSplit[minusLine]).toLowerCase();
+
+				data.stats.forEach(function(stat){
+					if(minusSplit[minusLine].slice(0,stat.length) == stat){
+						dataFound.bane = stat;
+					}
+				});
+			}
+		}
+
+		var summonerSplit = line.split("Summoner: ");
+		if(summonerSplit.length > 1){ //Don't check if there's no "Summoner: "
+			for(var summonerLine = 0; summonerLine < summonerSplit.length; summonerLine++){
+				summonerSplit[summonerLine] = removeEdgeJunk(summonerSplit[summonerLine]).toLowerCase();
+
+				data.support.forEach(function(support){
+					if(summonerSplit[summonerLine].slice(0,support.length) == support){
+						dataFound.summoner = support;
+					}
+				});
+			}
+		}
+
+		var allySplit = line.split("Ally: ");
+		if(allySplit.length > 1){ //Don't check if there's no "Ally: "
+			for(var allyLine = 0; allyLine < allySplit.length; allyLine++){
+				allySplit[allyLine] = removeEdgeJunk(allySplit[allyLine]).toLowerCase();
+
+				data.support.forEach(function(support){
+					if(allySplit[allyLine].slice(0,support.length) == support){
+						dataFound.ally = support;
+					}
+				});
+			}
+		}
+
+		return dataFound;
+	}
+
+	function parseAttributeLine(line){
+		var dataFound = {};
+
+		var keyValue = trySplit(line,[":","-","="]);
+		keyValue[0] = removeEdgeJunk(keyValue[0]);
+		if(keyValue.length==1){
+			keyValue[1] = "";
+		}
+		keyValue[1] = removeEdgeJunk(keyValue[1].toLowerCase());
+		var key = "";
+		var value;
+		var buffObject = false;
+		var skillName = false;
+		var includeObject = false;
+
+		if(includesLike(keyValue[0],"debuff")){ //do debuff first, because buff is contained in it
+			key = "debuffs";
+			buffObject = true;
+		}
+		else if(includesLike(keyValue[0],"buff")){
+			key = "buffs";
+			buffObject = true;
+		}
+		else if(includesLike(keyValue[0],"spur")){
+			key = "spur";
+			buffObject = true;
+		}
+		else if(includesLike(keyValue[0],"charge")){
+			key = "precharge";
+		}
+		else if(includesLike(keyValue[0],"adjacent")){
+			key = "adjacent";
+		}
+		else if(includesLike(keyValue[0],"damage")){
+			key = "damage";
+		}
+		else if(includesLike(keyValue[0],"rarity")){
+			key = "rarity";
+		}
+		else if(includesLike(keyValue[0],"merge")){
+			key = "merge";
+		}
+		else if(includesLike(keyValue[0],"boon")){
+			key = "boon";
+		}
+		else if(includesLike(keyValue[0],"bane")){
+			key = "bane";
+		}
+		else if(includesLike(keyValue[0],"summoner")){
+			key = "summoner";
+		}
+		else if(includesLike(keyValue[0],"ally")){
+			key = "ally";
+		}
+		else if(includesLike(keyValue[0],"include")){
+			key = "include";
+			includeObject = true;
+		}
+		else if(includesLike(keyValue[0],"weapon")){
+			key = "weapon";
+			skillName = true;
+		}
+		else if(includesLike(keyValue[0],"special")){
+			key = "special";
+			skillName = true;
+		}
+		else if(includesLike(keyValue[0],"passive a") || keyValue[0].toLowerCase().slice(-1) == "a"){
+			key = "a";
+			skillName = true;
+		}
+		else if(includesLike(keyValue[0],"passive b") || keyValue[0].toLowerCase().slice(-1) == "b"){
+			key = "b";
+			skillName = true;
+		}
+		else if(includesLike(keyValue[0],"passive c") || keyValue[0].toLowerCase().slice(-1) == "c"){
+			key = "c";
+			skillName = true;
+		}
+		else if(includesLike(keyValue[0],"passive s") || keyValue[0].toLowerCase().slice(-1) == "s"){
+			key = "s";
+			skillName = true;
+		}
+
+		if(includesLike(keyValue[0],"replace") && skillName){
+			key = "replace" + capitalize(key);
+			skillName = false;
+		}
+
+		if(buffObject){
+			var value = {"atk":0,"spd":0,"def":0,"res":0};
+			var splitBuffs = trySplit(keyValue[1],[","]);
+			for(var i = 0; i < splitBuffs.length; i++){
+				data.buffStats.forEach(function(stat){
+					if(includesLike(splitBuffs[i],stat)){
+						var numMatch = splitBuffs[i].match(/-?[0-9]+/);
+						if(numMatch){
+							value[stat] = parseInt(numMatch[0]);
+						}
+					}
+				});
+			}
+		}
+		else if(skillName){
+			value = getIndexFromName(removeEdgeJunk(keyValue[1]),data.skills,key);
+			//console.log("Looking for " + key + ", found " + value);
+		}
+		else if(key=="boon" || key=="bane"){
+			data.stats.forEach(function(stat){
+				if(keyValue[1].indexOf(stat) != -1){
+					value = stat;
+				}
+			});
+		}
+		//***Implement Support Key***
+		else if(key == "summoner" || key == "ally"){
+			data.support.forEach(function(support){
+				if(keyValue[1].indexOf(support) != -1){
+					value = support;
+				}
+			});
+		}
+		else if(includeObject){
+			var value = {"melee":0,"ranged":0,"red":0,"blue":0,"green":0,"gray":0,"physical":0,"magical":0,"infantry":0,"cavalry":0,"flying":0,"armored":0,"staff":0,"nonstaff":0};
+			var splitInclude = trySplit(keyValue[1],[","," "]);
+			for(var i = 0; i < splitInclude.length; i++){
+				for(var includeKey in value){
+					if(removeEdgeJunk(splitInclude[i]) == includeKey){
+						value[includeKey] = 1;
+					}
+				}
+			}
+		}
+		else{
+			//Make all numbers
+			keyValue[1] = keyValue[1].replace("true","1");
+			keyValue[1] = keyValue[1].replace("false","0");
+			var numMatch = keyValue[1].match(/-?\d/);
+			if(numMatch){
+				value = parseInt(numMatch[0]);
+			}
+		}
+
+		//console.log(key + ": " + value + " (from " + keyValue[1] + ")");
+
+		if(key && typeof value != "undefined"){
+			dataFound[key] = value;
+		}
+
+		return dataFound;
+	}
+
+	if(errorMsg){
+		alert("Error: " + errorMsg);
+	}
+
+	validateNumberInputs();
+	hideImportDialog();
+	calculate();
 }
 
 function showImportDialog(side,type){

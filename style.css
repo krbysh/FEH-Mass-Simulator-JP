@@ -38,6 +38,11 @@ body{
 	margin:10px 0;
 }
 
+#maintitle{
+	position:relative;
+	bottom:15px;
+}
+
 #subtitle{
 	position:absolute;
 	left:400px;
@@ -206,6 +211,22 @@ body{
 	padding: 0 6px;
 	width:54px;
 	text-align:center;
+}
+
+.button_newheroes{
+	padding: 0;
+	border: none;
+	background: transparent;
+}
+
+.button_newheroes img{
+	display: block;
+}
+
+.newheroes_picture{
+	border-radius: 50%;
+	width:40px;
+	height:40px;
 }
 
 #frame_challenger .button_copy{
