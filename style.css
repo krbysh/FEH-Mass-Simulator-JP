@@ -17,6 +17,7 @@ body{
 	color:#ffffff;
 	min-width:920px;
 	font-size: 13px;
+	overflow-y: scroll;
 }
 
 #frame_main{

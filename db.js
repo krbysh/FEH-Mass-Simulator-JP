@@ -1482,7 +1482,7 @@ window.data.skills = [
 	},{
 		"skill_id":534,"name":"HP Spd 1","name":"ＨＰ速さ 1","slot":"a","sp":100,"description":"","hp":3,"atk":0,"spd":1,"def":0,"res":0,"charge":0,"inheritrule":"","affectsduel":1
 	},{
-		"skill_id":535,"name":"HP Spd 2","name":"ＨＰ速さ 1","slot":"a","sp":200,"description":"","hp":4,"atk":0,"spd":2,"def":0,"res":0,"charge":0,"inheritrule":"","affectsduel":1
+		"skill_id":535,"name":"HP Spd 2","name":"ＨＰ速さ 2","slot":"a","sp":200,"description":"","hp":4,"atk":0,"spd":2,"def":0,"res":0,"charge":0,"inheritrule":"","affectsduel":1
 	},{
 		"skill_id":536,"name":"Shield Pulse 1","name":"盾の鼓動 1","slot":"b","sp":60,"description":"","hp":0,"atk":0,"spd":0,"def":0,"res":0,"charge":0,"inheritrule":"melee,nonflying,noncavalry","affectsduel":1
 	},{
