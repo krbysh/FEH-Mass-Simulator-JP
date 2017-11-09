@@ -4766,7 +4766,8 @@ function activeHero(hero){
 			var rawDmg = (thisEffAtk * effectiveBonus | 0) + ((thisEffAtk * effectiveBonus | 0) * weaponAdvantageBonus | 0) + (dmgBoost | 0);
 			var reduceDmg = relevantDef + (relevantDef * enemyDefModifier | 0) + relevantTileDef;
 			var dmg = (rawDmg - reduceDmg) * weaponModifier | 0;
-			dmg = (dmg * dmgMultiplier | 0) - (dmg * (1 - dmgReduction) | 0);
+			dmg = dmg * dmgMultiplier | 0;
+			dmg = dmg - (dmg * (1 - dmgReduction) | 0);
 
 			//Pushing Shield check
 			if (defensiveSpecialActivated && (enemy.has("盾の鼓動 2") || enemy.has("盾の鼓動 3"))){
