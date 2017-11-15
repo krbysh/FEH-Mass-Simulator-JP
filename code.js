@@ -23,11 +23,13 @@ data.support = ["s","s-","a","a-","b","b-","c","c-"];
 
 //Growth shifts of 3 are what make some banes/boons +/- 4
 //growth table from https://feheroes.wiki/Stat_Growth
-data.growths = [[6,8,9,11,13,14,16,18,19,21,23,24],
-				[7,8,10,12,14,15,17,19,21,23,25,26],
-				[7,9,11,13,15,17,19,21,23,25,27,29],
-				[8,10,12,14,16,18,20,22,24,26,28,31],
-				[8,10,13,15,17,19,22,24,26,28,30,33,35]];
+data.growths = [
+	[6,8,9,11,13,14,16,18,19,21,23,24,26],
+	[7,8,10,12,14,15,17,19,21,23,25,26,28],
+	[7,9,11,13,15,17,19,21,23,25,27,29,31,33],
+	[8,10,12,14,16,18,20,22,24,26,28,31,33,35],
+	[8,10,13,15,17,19,22,24,26,28,30,33,35,37]
+];
 
 //Remember: heroes, skills, prereqs, and heroskills arrays come from PHP-created script
 
@@ -57,10 +59,10 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"サクラ(仮装の収穫祭) (5★);Weapon: 猫の暗器+;Special: 氷華;A: 明鏡の構え 3;B: キャンセル 3;C: 暗器の技量 3;",
-	"ジョーカー(仮装の収穫祭) (5★);Weapon: 怪物の弓+;Special: 華炎;A: 金剛明鏡の一撃 2;B: 守備隊形 3;",
-	"ヘンリー(仮装の収穫祭) (5★);Weapon: ゴーストの魔道書+;Special: 血讐;B: 栄誉の喜び;C: 重装の行軍 3;",
-	"ノノ(仮装の収穫祭) (5★);Weapon: グリモワール;A: 攻撃魔防の絆 3;B: 豊穣の喜び;C: 飛刃の鼓舞;",
+	"ルーテ (5★);Weapon: 奇異ルーテの書;A: ＨＰ魔防 2;C: 魔防の謀策 3;",
+	"ワユ (5★);Weapon: 気鋭ワユの剣;Special: 月光;A: 柔剣 3;B: 待ち伏せ 3;",
+	"ドルカス (5★);Weapon: 剛斧トマホーク;Special: 竜裂;A: 鬼神の構え 3;B: 切り返し 3;C: 歩行の鼓動 3;",
+	"ヨシュア (5★);Weapon: 氷剣アウドムラ;Special: 月虹;A: 近距離防御 3;B: 風薙ぎ 3;",
 ];
 
 function initOptions(){
@@ -2984,8 +2986,8 @@ function activeHero(hero){
 		//resets charge based on weapon
 		if(this.has("キルソード") || this.has("キラーアクス") || this.has("キラーランス") || this.has("キラーボウ")
 			|| this.has("キラーボウ鍛") || this.has("キルソード鍛") || this.has("キラーアクス鍛") || this.has("キラーランス鍛")
-			|| this.has("魔性の槍")|| this.has("ミストルティン") || this.has("オートクレール")
-			|| this.has("ウルヴァン")){
+			|| this.has("魔性の槍") || this.has("ミストルティン") || this.has("オートクレール")
+			|| this.has("ウルヴァン") || this.has("氷剣アウドムラ")){
 			this.charge = 1;
 		}
 		else if(this.has("ラウアブレード") || this.has("雷のブレス") || this.has("ブラーブレード") || this.has("グルンブレード")){
@@ -3028,6 +3030,10 @@ function activeHero(hero){
 				if(this.hasExactly("ファラフレイム")){
 					threatDebuffs.atk = Math.min(threatDebuffs.atk, -4);
 					threatDebuffs.res = Math.min(threatDebuffs.res, -4);
+					skillNames.push(data.skills[this.weaponIndex].name);
+				}
+				if(this.hasExactly("奇異ルーテの書")){
+					threatDebuffs.spd = Math.min(threatDebuffs.spd, -4);
 					skillNames.push(data.skills[this.weaponIndex].name);
 				}
 				//Passive C Skills
@@ -3527,6 +3533,15 @@ function activeHero(hero){
 				this.combatSpur.res += 4;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + "の効果で、敵から攻撃された時、魔防 +4。<br>";
 			}
+			//Atk passive
+			var stanceAtk = 0;
+			if(this.has("鬼神の構え")){
+				stanceAtk = this.has("鬼神の構え") * 2;
+				skillName = data.skills[this.aIndex].name;
+				this.combatSpur.atk += stanceAtk;
+				boostText += this.name + "は、" + skillName + "の効果で、敵から攻撃された時、攻撃 +" + stanceAtk + "。<br>";
+			}
+
 			//Def passive
 			var stanceDef = 0;
 			if(this.has("金剛の構え")){
@@ -3545,7 +3560,7 @@ function activeHero(hero){
 			if(this.has("明鏡の構え")){
 				stanceRes = this.has("明鏡の構え") * 2;
 				skillName = data.skills[this.aIndex].name;
-				this.combatSpur.def += stanceRes;
+				this.combatSpur.res += stanceRes;
 				boostText += this.name + "は、" + skillName + " の効果で、敵から攻撃された時、魔防 +" + stanceRes + "。<br>";
 			}
 
@@ -3958,15 +3973,15 @@ function activeHero(hero){
 				if(AOEActivated){
 					this.resetCharge();
 
-					if(this.has("倭刀") || this.hasExactly("共鳴エクスカリバー")){
+					if(this.has("倭刀") || this.hasExactly("共鳴エクスカリバー") || this.hasExactly("気鋭ワユの剣")){
 						AOEDamage += 10;
-						damageText += this.name + " gains 10 damage from " + data.skills[hero.weapon].name + ".<br>";
+						damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で奥義発動時 +10 ダメージ。<br>";
 					}
 					//Wrath damage is checked when special is activated
 					if(this.has("怒り")){
 						if(this.hp/this.maxHp <= .25 * this.has("怒り")){
 							AOEDamage += 10;
-							damageText += this.name + " gains 10 damage from " + data.skills[this.bIndex].name + ".<br>";
+							damageText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で奥義発動時 +10 ダメージ。<br>";
 						}
 					}
 
@@ -4061,9 +4076,9 @@ function activeHero(hero){
 				this.resetCharge();
 				damageText += this.name + " activates " + data.skills[this.specialIndex].name + ".<br>";
 
-				if(this.has("倭刀") || this.hasExactly("共鳴エクスカリバー")){
+				if(this.has("倭刀") || this.hasExactly("共鳴エクスカリバー") || this.hasExactly("気鋭ワユの剣")){
 					dmgBoost += 10;
-					damageText += this.name + " gains 10 damage from " + data.skills[hero.weapon].name + ".<br>";
+					damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で奥義発動時 +10 ダメージ。<br>";
 				}
 				//Wrath damage is checked when special is activated
 				if(this.has("怒り")){
@@ -4354,7 +4369,8 @@ function activeHero(hero){
 				//gotta check range
 				var anyRangeCounter = false;
 				if(this.has("近距離反撃") || this.has("遠距離反撃") || this.has("雷のブレス")
-					|| this.has("雷神刀") || this.has("ジークフリート") || this.has("ラグネル") || this.has("グラディウス") || this.has("エタルド")){
+				|| this.has("雷神刀") || this.has("ジークフリート") || this.has("ラグネル")
+				|| this.has("グラディウス") || this.has("エタルド") || this.has("剛斧トマホーク")){
 					anyRangeCounter = true;
 				}
 
@@ -4424,7 +4440,7 @@ function activeHero(hero){
 			var reduceDmg = relevantDef + (relevantDef * enemyDefModifier | 0) + relevantTileDef;
 			var dmg = (rawDmg - reduceDmg) * weaponModifier | 0;
 			dmg = dmg * dmgMultiplier | 0;
-			dmg = dmg - (dmg * (1 - dmgReduction) | 0);
+			dmg -= dmg * (1 - dmgReduction) | 0;
 
 			//Pushing Shield check
 			if (defensiveSpecialActivated && (enemy.has("盾の鼓動 2") || enemy.has("盾の鼓動 3"))){
@@ -4486,6 +4502,12 @@ function activeHero(hero){
 					if(thisEffAtk - enemyEffAtk >= 1){
 						gainCharge = Math.max(gainCharge, 1);
 						skillNames.push(data.skills[this.weaponIndex].name);
+					}
+				}
+				if(this.has("柔剣")){
+					if(thisEffSpd - enemyEffSpd >= this.has("柔剣")*-2 + 7){
+						gainCharge = Math.max(gainCharge, 1);
+						skillNames.push(data.skills[this.aIndex].name);
 					}
 				}
 				if(this.hasExactly("瞬閃アイラの剣")){
@@ -4656,7 +4678,7 @@ function activeHero(hero){
 		//check for any-distance counterattack
 		var anyRangeCounter = false;
 		if(enemy.has("近距離反撃") || enemy.has("遠距離反撃") || enemy.has("雷のブレス")
-			|| enemy.has("雷神刀") || enemy.has("ラグネル") || enemy.has("ジークフリート") || enemy.has("グラディウス") || enemy.has("エタルド") ){
+			|| enemy.has("雷神刀") || enemy.has("ラグネル") || enemy.has("ジークフリート") || enemy.has("グラディウス") || enemy.has("エタルド") || enemy.has("剛斧トマホーク")){
 			anyRangeCounter = true;
 		}
 

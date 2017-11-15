@@ -418,6 +418,14 @@ window.data.heroes = [
 		"hero_id":211,"name_en":"Henry (Trick or Defeat!)","name":"ヘンリー(仮装の収穫祭)","basehp":17,"baseatk":9,"basespd":10,"basedef":4,"baseres":12,"maxhp":0,"maxatk":0,"maxspd":0,"maxdef":0,"maxres":0,"hpgrowth":5,"atkgrowth":7,"spdgrowth":7,"defgrowth":6,"resgrowth":7,"color":"green","weapontype":"greentome","movetype":"armored","minrarity":5
 	},{
 		"hero_id":212,"name_en":"Nowi (Trick or Defeat!)","name":"ノノ(仮装の収穫祭)","basehp":17,"baseatk":8,"basespd":6,"basedef":5,"baseres":8,"maxhp":0,"maxatk":0,"maxspd":0,"maxdef":0,"maxres":0,"hpgrowth":4,"atkgrowth":8,"spdgrowth":8,"defgrowth":3,"resgrowth":5,"color":"red","weapontype":"redtome","movetype":"flying","minrarity":5
+	},{
+		"hero_id":213,"name_en":"Lute","name":"ルーテ","basehp":16,"baseatk":10,"basespd":8,"basedef":3,"baseres":8,"maxhp":0,"maxatk":0,"maxspd":0,"maxdef":0,"maxres":0,"hpgrowth":4,"atkgrowth":8,"spdgrowth":7,"defgrowth":2,"resgrowth":8,"color":"blue","weapontype":"bluetome","movetype":"infantry","minrarity":5
+	},{
+		"hero_id":214,"name_en":"Mia","name":"ワユ","basehp":16,"baseatk":8,"basespd":12,"basedef":6,"baseres":6,"maxhp":0,"maxatk":0,"maxspd":0,"maxdef":0,"maxres":0,"hpgrowth":6,"atkgrowth":7,"spdgrowth":9,"defgrowth":6,"resgrowth":5,"color":"red","weapontype":"sword","movetype":"infantry","minrarity":5
+	},{
+		"hero_id":215,"name_en":"Dorcas","name":"ドルカス","basehp":19,"baseatk":9,"basespd":6,"basedef":9,"baseres":5,"maxhp":0,"maxatk":0,"maxspd":0,"maxdef":0,"maxres":0,"hpgrowth":8,"atkgrowth":8,"spdgrowth":4,"defgrowth":8,"resgrowth":5,"color":"green","weapontype":"axe","movetype":"infantry","minrarity":5
+	},{
+		"hero_id":216,"name_en":"Joshua","name":"ヨシュア","basehp":18,"baseatk":7,"basespd":9,"basedef":8,"baseres":6,"maxhp":0,"maxatk":0,"maxspd":0,"maxdef":0,"maxres":0,"hpgrowth":6,"atkgrowth":7,"spdgrowth":8,"defgrowth":6,"resgrowth":6,"color":"red","weapontype":"sword","movetype":"infantry","minrarity":4
 	}
 ];
 window.data.skills = [
@@ -1911,6 +1919,30 @@ window.data.skills = [
 		"skill_id":749,"name":"Atk Res Bond 2","name":"攻撃魔防の絆 2","slot":"a","sp":120,"description":"","hp":0,"atk":0,"spd":0,"def":0,"res":0,"charge":0,"inheritrule":"","affectsduel":1
 	},{
 		"skill_id":750,"name":"Atk Res Bond 3","name":"攻撃魔防の絆 3","slot":"a","sp":240,"description":"","hp":0,"atk":0,"spd":0,"def":0,"res":0,"charge":0,"inheritrule":"","affectsduel":1
+	},{
+		"skill_id":751,"name":"Weirding Tome","name":"奇異ルーテの書","slot":"weapon","sp":400,"description":"","hp":0,"atk":14,"spd":3,"def":0,"res":0,"charge":0,"inheritrule":"unique","affectsduel":1
+	},{
+		"skill_id":752,"name":"HP Res 1","name":"ＨＰ魔防 1","slot":"a","sp":100,"description":"","hp":3,"atk":0,"spd":0,"def":0,"res":1,"charge":0,"inheritrule":"","affectsduel":1
+	},{
+		"skill_id":753,"name":"HP Res 2","name":"ＨＰ魔防 2","slot":"a","sp":200,"description":"","hp":4,"atk":0,"spd":0,"def":0,"res":2,"charge":0,"inheritrule":"","affectsduel":1
+	},{
+		"skill_id":754,"name":"Resolute Blade","name":"気鋭ワユの剣","slot":"weapon","sp":400,"description":"","hp":0,"atk":19,"spd":0,"def":0,"res":0,"charge":0,"inheritrule":"unique","affectsduel":1
+	},{
+		"skill_id":755,"name":"Flashing Blade 1","name":"柔剣 1","slot":"a","sp":60,"description":"","hp":0,"atk":0,"spd":0,"def":0,"res":0,"charge":0,"inheritrule":"nonflying,noncavalry,nonstaff","affectsduel":1
+	},{
+		"skill_id":756,"name":"Flashing Blade 2","name":"柔剣 2","slot":"a","sp":120,"description":"","hp":0,"atk":0,"spd":0,"def":0,"res":0,"charge":0,"inheritrule":"nonflying,noncavalry,nonstaff","affectsduel":1
+	},{
+		"skill_id":757,"name":"Flashing Blade 3","name":"柔剣 3","slot":"a","sp":240,"description":"","hp":0,"atk":0,"spd":0,"def":0,"res":0,"charge":0,"inheritrule":"nonflying,noncavalry,nonstaff","affectsduel":1
+	},{
+		"skill_id":758,"name":"Stout Tomahawk","name":"剛斧トマホーク","slot":"weapon","sp":400,"description":"","hp":0,"atk":16,"spd":0,"def":0,"res":0,"charge":0,"inheritrule":"unique","affectsduel":1
+	},{
+		"skill_id":759,"name":"Fierce Stance 1","name":"鬼神の構え 1","slot":"a","sp":50,"description":"","hp":0,"atk":0,"spd":0,"def":0,"res":0,"charge":0,"inheritrule":"","affectsduel":1
+	},{
+		"skill_id":760,"name":"Fierce Stance 2","name":"鬼神の構え 2","slot":"a","sp":100,"description":"","hp":0,"atk":0,"spd":0,"def":0,"res":0,"charge":0,"inheritrule":"","affectsduel":1
+	},{
+		"skill_id":761,"name":"Fierce Stance 3","name":"鬼神の構え 3","slot":"a","sp":200,"description":"","hp":0,"atk":0,"spd":0,"def":0,"res":0,"charge":0,"inheritrule":"","affectsduel":1
+	},{
+		"skill_id":762,"name":"Audhulma","name":"氷剣アウドムラ","slot":"weapon","sp":400,"description":"","hp":0,"atk":16,"spd":0,"def":0,"res":5,"charge":0,"inheritrule":"unique","affectsduel":1
 	}
 ];
 window.data.prereqs = [
@@ -3052,6 +3084,30 @@ window.data.prereqs = [
 		"skill_id":749,"required_id":748
 	},{
 		"skill_id":750,"required_id":749
+	},{
+		"skill_id":751,"required_id":83
+	},{
+		"skill_id":752,"required_id":214
+	},{
+		"skill_id":753,"required_id":752
+	},{
+		"skill_id":754,"required_id":13
+	},{
+		"skill_id":755,"required_id":0
+	},{
+		"skill_id":756,"required_id":755
+	},{
+		"skill_id":757,"required_id":756
+	},{
+		"skill_id":758,"required_id":43
+	},{
+		"skill_id":759,"required_id":0
+	},{
+		"skill_id":760,"required_id":759
+	},{
+		"skill_id":761,"required_id":760
+	},{
+		"skill_id":762,"required_id":532
 	}
 ];
 window.data.heroSkills = [
@@ -7271,5 +7327,107 @@ window.data.heroSkills = [
 		"hero_id":212,"skill_id":749,"rarity":4
 	},{
 		"hero_id":212,"skill_id":750,"rarity":5
-	}
+	},{
+		"hero_id":213,"skill_id":81,"rarity":1
+	},{
+		"hero_id":213,"skill_id":82,"rarity":2
+	},{
+		"hero_id":213,"skill_id":83,"rarity":3
+	},{
+		"hero_id":213,"skill_id":132,"rarity":3
+	},{
+		"hero_id":213,"skill_id":214,"rarity":3
+	},{
+		"hero_id":213,"skill_id":548,"rarity":3
+	},{
+		"hero_id":213,"skill_id":549,"rarity":4
+	},{
+		"hero_id":213,"skill_id":550,"rarity":5
+	},{
+		"hero_id":213,"skill_id":568,"rarity":4
+	},{
+		"hero_id":213,"skill_id":751,"rarity":5
+	},{
+		"hero_id":213,"skill_id":752,"rarity":4
+	},{
+		"hero_id":213,"skill_id":753,"rarity":5
+	},{
+		"hero_id":214,"skill_id":1,"rarity":1
+	},{
+		"hero_id":214,"skill_id":2,"rarity":2
+	},{
+		"hero_id":214,"skill_id":13,"rarity":3
+	},{
+		"hero_id":214,"skill_id":158,"rarity":3
+	},{
+		"hero_id":214,"skill_id":170,"rarity":4
+	},{
+		"hero_id":214,"skill_id":280,"rarity":2
+	},{
+		"hero_id":214,"skill_id":281,"rarity":3
+	},{
+		"hero_id":214,"skill_id":282,"rarity":4
+	},{
+		"hero_id":214,"skill_id":754,"rarity":5
+	},{
+		"hero_id":214,"skill_id":755,"rarity":3
+	},{
+		"hero_id":214,"skill_id":756,"rarity":4
+	},{
+		"hero_id":214,"skill_id":757,"rarity":5
+	},{
+		"hero_id":215,"skill_id":41,"rarity":1
+	},{
+		"hero_id":215,"skill_id":42,"rarity":2
+	},{
+		"hero_id":215,"skill_id":43,"rarity":3
+	},{
+		"hero_id":215,"skill_id":155,"rarity":3
+	},{
+		"hero_id":215,"skill_id":163,"rarity":4
+	},{
+		"hero_id":215,"skill_id":283,"rarity":2
+	},{
+		"hero_id":215,"skill_id":284,"rarity":3
+	},{
+		"hero_id":215,"skill_id":285,"rarity":4
+	},{
+		"hero_id":215,"skill_id":578,"rarity":3
+	},{
+		"hero_id":215,"skill_id":579,"rarity":4
+	},{
+		"hero_id":215,"skill_id":580,"rarity":5
+	},{
+		"hero_id":215,"skill_id":758,"rarity":5
+	},{
+		"hero_id":215,"skill_id":759,"rarity":3
+	},{
+		"hero_id":215,"skill_id":760,"rarity":4
+	},{
+		"hero_id":215,"skill_id":761,"rarity":5
+	},{
+		"hero_id":216,"skill_id":1,"rarity":1
+	},{
+		"hero_id":216,"skill_id":2,"rarity":2
+	},{
+		"hero_id":216,"skill_id":158,"rarity":3
+	},{
+		"hero_id":216,"skill_id":169,"rarity":4
+	},{
+		"hero_id":216,"skill_id":405,"rarity":3
+	},{
+		"hero_id":216,"skill_id":406,"rarity":4
+	},{
+		"hero_id":216,"skill_id":407,"rarity":5
+	},{
+		"hero_id":216,"skill_id":516,"rarity":3
+	},{
+		"hero_id":216,"skill_id":517,"rarity":4
+	},{
+		"hero_id":216,"skill_id":518,"rarity":5
+	},{
+		"hero_id":216,"skill_id":532,"rarity":3
+	},{
+		"hero_id":216,"skill_id":762,"rarity":5
+  }
 ];
