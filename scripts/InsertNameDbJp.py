@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf_8 -*- 
+# -*- coding: utf_8 -*-
 
 def InsertNameJp(r):
 
@@ -20,19 +20,19 @@ def InsertNameJp(r):
     Sheet = r["name_heroes"]
     for Item in tqdm(Sheet):
      	if Item["db_jp"] is not None:
-#	    en_heroes[i] = u'\t\t' + Item["db_en"]
-#    	    jp_heroes[i] = u'\t\t' + Item["db_en"] + u'\n\t\t' + Item["db_jp"]
-	    en_heroes[i] = Item["db_en"]
-    	    jp_heroes[i] = Item["db_en"] + Item["db_jp"]
+            en_heroes[i] = u'\t\t' + Item["db_en"]
+    	    jp_heroes[i] = u'\t\t' + Item["db_en"] + u'\n\t\t' + Item["db_jp"]
+#   	    en_heroes[i] = Item["db_en"]
+#    	    jp_heroes[i] = Item["db_en"] + Item["db_jp"]
             i += 1
-    	
+
     Sheet = r["name_skills"]
     for Item in tqdm(Sheet):
      	if Item["db_jp"] is not None:
-#	    en_skills[k] = u'\t\t' + Item["db_en"]
-#    	    jp_skills[k] = u'\t\t' + Item["db_en"] + u'\n\t\t' + Item["db_jp"]
-	    en_skills[k] = Item["db_en"]
-    	    jp_skills[k] = Item["db_en"] + Item["db_jp"]
+            en_skills[k] = u'\t\t' + Item["db_en"]
+            jp_skills[k] = u'\t\t' + Item["db_en"] + u'\n\t\t' + Item["db_jp"]
+#            en_skills[k] = Item["db_en"]
+#    	    jp_skills[k] = Item["db_en"] + Item["db_jp"]
             k += 1
 
     for line in tqdm(read_file):
@@ -46,7 +46,7 @@ def InsertNameJp(r):
 
     read_file.close()
     write_file.close()
-	
+
 #    if os.path.isfile(db.js) and os.path.isfile(temp_db):
 #        os.remove(db.js)
 #        os.rename(temp_db, db.js)

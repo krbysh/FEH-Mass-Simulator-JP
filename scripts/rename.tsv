@@ -1,158 +1,190 @@
-quad_Ace_A	第１迷宮の覇者
-Squad_Ace_B	第２迷宮の覇者
-Squad_Ace_C	第３迷宮の覇者
-Squad_Ace_D	第４迷宮の覇者
-Squad_Ace_E	第５迷宮の覇者
-Seal_Res	魔防封じ
-Fortify_Res	魔防の鼓舞
-Res_Ploy	魔防の謀策
-Defiant_Res	魔防の覚醒
-Spur_Res	魔防の紋章
-Threaten_Res	魔防の威嚇
-Drive_Res	魔防の大紋章
-Fortress_Res	魔防の城塞
-Resistance	魔防
-Swift_Sparrow	鬼神飛燕の一撃
-Sturdy_Blow	鬼神金剛の一撃
-Mirror_Strike	鬼神明鏡の一撃
-Death_Blow	鬼神の一撃
-Fortify_Cavalry	騎盾の鼓舞
-Ward_Cavalry	騎盾の紋章
-Hone_Cavalry	騎刃の鼓舞
-Goad_Cavalry	騎刃の紋章
-Fortify_Fliers	飛盾の鼓舞
-Ward_Fliers	飛盾の紋章
-Steady_Blow	飛燕金剛の一撃
-Swift_Strike	飛燕明鏡の一撃
-Darting_Blow	飛燕の一撃
-Hone_Fliers	飛刃の鼓舞
-Goad_Fliers	飛刃の紋章
-Windsweep	風薙ぎ
-Torrent_Dance	静水の舞い
-B_Tomebreaker	青魔殺し
-B_Tome_Exp.	青魔の経験
-B_Tome_Valor	青魔の技量
-Escape_Route	離脱の行路
-Steady_Stance	金剛の構え
-Steady_Breath	金剛の呼吸
-Armored_Blow	金剛の一撃
-Armor_March	重装の行軍
-Fortify_Armor	重盾の鼓舞
-Ward_Armor	重盾の紋章
-Hone_Armor	重刃の鼓舞
-Goad_Armor	重刃の紋章
-Distant_Def	遠距離防御
-Distant_Counter	遠距離反撃
-Obstruct	進軍阻止
-Deflect_Magic	連撃防御・魔道
-Deflect_Missile	連撃防御・弓暗器
-Deflect_Melee	連撃防御・剣槍斧
-Spd_Res	速さ魔防
-Seal_Spd	速さ封じ
-Spur_Spd_Def	速さ守備の紋章
-Spd_Def	速さ守備
-Hone_Spd	速さの鼓舞
-Spd_Ploy	速さの謀策
-Defiant_Spd	速さの覚醒
-Phantom_Spd	速さの虚勢
-Spd_Smoke	速さの紫煙
-Spur_Spd	速さの紋章
-Threaten_Spd	速さの威嚇
-Drive_Spd	速さの大紋章
-Speed	速さ
-Follow-Up_Ring	追撃リング
-Close_Def	近距離防御
-Close_Counter	近距離反撃
-R_Tomebreaker	赤魔殺し
-Live_for_Bounty	豊穣の喜び
-Poison_Strike	蛇毒
-Crusader's_Ward	聖騎士の加護
-Flier_Formation	編隊飛行
-G_Tomebreaker	緑魔殺し
-G_Tome_Valor	緑魔の技量
-Fortify_Dragons	竜盾の鼓舞
-Guidance	空からの先導
-Wrathful_Staff	神罰の杖
-Shield_Pulse	盾の鼓動
-Cancel_Affinity	相性相殺
-Triangle_Adept	相性激化
-Gale_Dance	疾風の舞い
-Water_Boost	生命の静水
-Wind_Boost	生命の疾風
-Fire_Boost	生命の業火
-Earth_Boost	生命の大地
-Breath_of_Life	生の息吹
-Fury	獅子奮迅
-Watersweep	水薙ぎ
-Life_and_Death	死線
-Savage_Blow	死の吐息
-Infantry_Pulse	歩行の鼓動
-Lancebreaker	槍殺し
-Lance_Valor	槍の技量
-Blaze_Dance	業火の舞い
-Live_for_Honor	栄誉の喜び
-Daggerbreaker	暗器殺し
-Warding_Blow	明鏡の一撃
-Axebreaker	斧殺し
-Axe_Experience	斧の経験
-Axe_Valor	斧の技量
-Wings_of_Mercy	救援の行路
-Attack_Res	攻撃魔防
-Seal_Atk_Spd	攻撃速さ封じ
-Atk_Spd	攻撃速さ
-Seal_Atk	攻撃封じ
-Seal_Atk_Def	攻撃守備封じ
-Attack_Def	攻撃守備
-Hone_Atk	攻撃の鼓舞
-Atk_Ploy	攻撃の謀策
-Defiant_Atk	攻撃の覚醒
-Atk_Smoke	攻撃の紫煙
-Spur_Atk	攻撃の紋章
-Threaten_Atk	攻撃の威嚇
-Drive_Atk	攻撃の大紋章
-Attack	攻撃
-Desperation	攻め立て
-Panic_Ploy	恐慌の奇策
-Wrath	怒り
-Vantage	待ち伏せ
-Drag_Back	引き込み
-Bowbreaker	弓殺し
-Bow_Experience	弓の経験
-Dazzling_Staff	幻惑の杖
-Brash_Assault	差し違え
-Spur_Def_Res	守備魔防の紋章
-Wary_Fighter	守備隊形
-Seal_Def	守備封じ
-Fortify_Def	守備の鼓舞
-Def_Ploy	守備の謀策
-Defiant_Def	守備の覚醒
-Spur_Def	守備の紋章
-Threaten_Def	守備の威嚇
-Drive_Def	守備の大紋章
-Fortress_Def	守備の城塞
-Defense	守備
-Quickened_Pulse	奥義の鼓動
-Geyser_Dance	大地静水の舞い
-Renewal	回復
-Knock_Back	叩き込み
-Swordbreaker	剣殺し
-Sword_Exp.	剣の経験
-Sword_Valor	剣の技量
-Heavy_Blade	剛剣
-Quick_Riposte	切り返し
-Lunge	切り込み
-Hardy_Bearing	不動の姿勢
-Hit_and_Run	一撃離脱
-Recover_Ring	リカバーリング
-Beorc's_Blessing	ベオクの加護
-Pass	すり抜け
-Svalinn_Shield	スヴェルの盾
-Sacae's_Blessing	サカの加護
-Live_to_Serve	ご奉仕の喜び
-Grani's_Shield	グラ二の盾
-Guard	キャンセル
-Embla's_Ward	エンブラの加護
-Iote's_Shield	アイオテの盾
-HP_Spd	ＨＰ速さ
-HP_Def	ＨＰ守備
-HP	ＨＰ
+"name": "Alfonse",	"name":  "アルフォンス",
+"name": "Caeda",	"name":  "シーダ",
+"name": "Cain",	"name":  "カイン",
+"name": "Chrom",	"name":  "クロム",
+"name": "Corrin(M)",	"name":  "カムイ(男)",
+"name": "Draug",	"name":  "ドーガ",
+"name": "Eirika",	"name":  "エイリーク",
+"name": "Eldigan",	"name":  "エルトシャン",
+"name": "Eliwood",	"name":  "エリウッド",
+"name": "Fir",	"name":  "フィル",
+"name": "Hana",	"name":  "カザハナ",
+"name": "Henry",	"name":  "ヘンリー",
+"name": "Hinata",	"name":  "ヒナタ",
+"name": "Karel",	"name":  "カレル",
+"name": "Laslow",	"name":  "ラズワルド",
+"name": "Leo",	"name":  "レオン",
+"name": "Lilina",	"name":  "リリーナ",
+"name": "Lonqu",	"name":  "ロンク―",
+"name": "Lucina",	"name":  "ルキナ",
+"name": "Lyn",	"name":  "リン",
+"name": "Marth",	"name":  "マルス",
+"name": "Ogma",	"name":  "オグマ",
+"name": "Olivia",	"name":  "オリヴィエ",
+"name": "Palla",	"name":  "パオラ",
+"name": "Raigh",	"name":  "レイ",
+"name": "Roy",	"name":  "ロイ",
+"name": "Ryoma",	"name":  "リョウマ",
+"name": "Sanaki",	"name":  "サナキ",
+"name": "Selena",	"name":  "ルーナ",
+"name": "Seliph",	"name":  "セリス",
+"name": "Sophia",	"name":  "ソフィーヤ",
+"name": "Stahl",	"name":  "ソール",
+"name": "Tharja",	"name":  "サーリャ",
+"name": "Tiki(A)",	"name":  "チキ(大人)",
+"name": "Tiki(Y)",	"name":  "チキ(子供)",
+"name": "Anna",	"name":  "アンナ",
+"name": "Arthur",	"name":  "ハロルド",
+"name": "Barst",	"name":  "バーツ",
+"name": "Bartre",	"name":  "バアトル",
+"name": "Beruka",	"name":  "ベルカ",
+"name": "Camilla",	"name":  "カミラ",
+"name": "Cecilia",	"name":  "セシリア",
+"name": "Cherche",	"name":  "セルジュ",
+"name": "Fae",	"name":  "ファ",
+"name": "Frederick",	"name":  "フレデリク",
+"name": "Gunter",	"name":  "ギュンター",
+"name": "Hawkeye",	"name":  "ホークアイ",
+"name": "Hector",	"name":  "ヘクトル",
+"name": "Julia",	"name":  "ユリア",
+"name": "Merric",	"name":  "マリク",
+"name": "Minerva",	"name":  "ミネルバ",
+"name": "Narcian",	"name":  "ナーシェン",
+"name": "Nino",	"name":  "ニノ",
+"name": "Raven",	"name":  "レイヴァン",
+"name": "Robin(F)",	"name":  "ルフレ(女)",
+"name": "Sheena",	"name":  "シーマ",
+"name": "Abel",	"name":  "アベル",
+"name": "Azura",	"name":  "アクア",
+"name": "Catria",	"name":  "カチュア",
+"name": "Cordelia",	"name":  "ティアモ",
+"name": "Corrin(F)",	"name":  "カムイ(女)",
+"name": "Donnel",	"name":  "ドニ",
+"name": "Effie",	"name":  "エルフィ",
+"name": "Ephraim",	"name":  "エフラム",
+"name": "Est",	"name":  "エスト",
+"name": "Florina",	"name":  "フロリーナ",
+"name": "Gwendolyn",	"name":  "ウェンディ",
+"name": "Hinoka",	"name":  "ヒノカ",
+"name": "Jagen",	"name":  "ジェイガン",
+"name": "Linde",	"name":  "リンダ",
+"name": "Ninian",	"name":  "ニニアン",
+"name": "Nowi",	"name":  "ノノ",
+"name": "Oboro",	"name":  "オボロ",
+"name": "Odin",	"name":  "オーディン",
+"name": "Olwen",	"name":  "オルエン",
+"name": "Peri",	"name":  "ピエリ",
+"name": "Reinhardt",	"name":  "ラインハルト",
+"name": "Robin(M)",	"name":  "ルフレ(男)",
+"name": "Shanna",	"name":  "シャニー",
+"name": "Sharena",	"name":  "シャロン",
+"name": "Subaki",	"name":  "ツバキ",
+"name": "Sully",	"name":  "ソワレ",
+"name": "Ursula",	"name":  "ウルスラ",
+"name": "Azama",	"name":  "アサマ",
+"name": "Clarine",	"name":  "クラリーネ",
+"name": "Elise",	"name":  "エリーゼ",
+"name": "Felicia",	"name":  "フェリシア",
+"name": "Gaius",	"name":  "ガイア",
+"name": "Gordin",	"name":  "ゴードン",
+"name": "Jaffar",	"name":  "ジャファル",
+"name": "Jakob",	"name":  "ジョーカー",
+"name": "Jeorge",	"name":  "ジョルジュ",
+"name": "Kagero",	"name":  "カゲロウ",
+"name": "Klein",	"name":  "クレイン",
+"name": "Lachesis",	"name":  "ラケシス",
+"name": "Lissa",	"name":  "リズ",
+"name": "Lucius",	"name":  "ルセア",
+"name": "Maria",	"name":  "マリア",
+"name": "Matthew",	"name":  "マシュー",
+"name": "Niles",	"name":  "ゼロ",
+"name": "Priscilla",	"name":  "プリシラ",
+"name": "Rebecca",	"name":  "レベッカ",
+"name": "Saizo",	"name":  "サイゾウ",
+"name": "Sakura",	"name":  "サクラ",
+"name": "Serra",	"name":  "セーラ",
+"name": "Setsuna",	"name":  "セツナ",
+"name": "Takumi",	"name":  "タクミ",
+"name": "Virion",	"name":  "ヴィオール",
+"name": "Wrys",	"name":  "リフ",
+"name": "Michalis",	"name":  "ミシェイル",
+"name": "Lucina (Spring)",	"name":  "ルキナ(豊穣の春祭り)",
+"name": "Camilla (Spring)",	"name":  "カミラ(豊穣の春祭り)",
+"name": "Xander (Spring)",	"name":  "マークス(豊穣の春祭り)",
+"name": "Chrom (Spring)",	"name":  "クロム(豊穣の春祭り)",
+"name": "Navarre",	"name":  "ナバール",
+"name": "Alm",	"name":  "アルム",
+"name": "Clair",	"name":  "クレア",
+"name": "Lukas",	"name":  "ルカ",
+"name": "Faye",	"name":  "エフィ",
+"name": "Zephiel",	"name":  "ゼフィール",
+"name": "Ike",	"name":  "アイク",
+"name": "Mist",	"name":  "ミスト",
+"name": "Soren",	"name":  "セネリオ",
+"name": "Titania",	"name":  "ティアマト",
+"name": "Xander",	"name":  "マークス",
+"name": "Boey",	"name":  "ボーイ",
+"name": "Celica",	"name":  "セリカ",
+"name": "Genny",	"name":  "ジェニー",
+"name": "Mae",	"name":  "メイ",
+"name": "Lloyd",	"name":  "ロイド",
+"name": "Caeda (Bride)",	"name":  "シーダ(花嫁たちに祝福を)",
+"name": "Camus",	"name":  "カミュ",
+"name": "Charlotte (Bride)",	"name":  "シャーロッテ(花嫁たちに祝福を)",
+"name": "Cordelia (Bride)",	"name":  "ティアモ(花嫁たちに祝福を)",
+"name": "Lyn (Bride)",	"name":  "リン(花嫁たちに祝福を)",
+"name": "Marth (Masked)",	"name":  "マルス(仮面)",
+"name": "Katarina",	"name":  "カタリナ",
+"name": "Athena",	"name":  "アテナ",
+"name": "Roderick",	"name":  "ロディ",
+"name": "Luke",	"name":  "ルーク",
+"name": "Legion",	"name":  "ローロー",
+"name": "Clarisse",	"name":  "クライネ",
+"name": "Frederick (Summer)",	"name":  "フレデリク(覚醒の夏)",
+"name": "Gaius (Summer)",	"name":  "ガイア(覚醒の夏)",
+"name": "Robin(F) (Summer)",	"name":  "ルフレ(女)(覚醒の夏)",
+"name": "Tiki(A) (Summer)",	"name":  "チキ(大人)(覚醒の夏)",
+"name": "Tobin",	"name":  "ロビン",
+"name": "Delthea",	"name":  "デューテ",
+"name": "Sonya",	"name":  "ソニア",
+"name": "Gray",	"name":  "グレイ",
+"name": "Leon",	"name":  "レオ",
+"name": "Saber",	"name":  "セーバー",
+"name": "Mathilda",	"name":  "マチルダ",
+"name": "Berkut",	"name":  "ベルクト",
+"name": "Corrin(F) (Summer)",	"name":  "カムイ(女)(暗夜の夏)",
+"name": "Leo (Summer)",	"name":  "レオン(暗夜の夏)",
+"name": "Xander (Summer)",	"name":  "マークス(暗夜の夏)",
+"name": "Elise (Summer)",	"name":  "エリーゼ(暗夜の夏)",
+"name": "Amelia",	"name":  "アメリア",
+"name": "Innes",	"name":  "ヒーニアス",
+"name": "Tana",	"name":  "ターナ",
+"name": "Seth",	"name":  "ゼト",
+"name": "Valter",	"name":  "ヴァルター",
+"name": "Ike (Brave Heroes)",	"name":  "アイク(大いなる英雄たち)",
+"name": "Lyn (Brave Heroes)",	"name":  "リン(大いなる英雄たち)",
+"name": "Lucina (Brave Heroes)",	"name":  "ルキナ(大いなる英雄たち)",
+"name": "Roy (Brave Heroes)",	"name":  "ロイ(大いなる英雄たち)",
+"name": "Clive",	"name":  "クレーベ",
+"name": "Elincia",	"name":  "エリンシア",
+"name": "Nephenee",	"name":  "ネフェニー",
+"name": "Oscar",	"name":  "オスカー",
+"name": "Black Knight",	"name":  "漆黒の騎士",
+"name": "Azura (Performing Arts)",	"name":  "アクア(優雅なる舞踏祭)",
+"name": "Inigo (Performing Arts)",	"name":  "アズール(優雅なる舞踏祭)",
+"name": "Olivia (Performing Arts)",	"name":  "オリヴィエ(優雅なる舞踏祭)",
+"name": "Shigure (Performing Arts)",	"name":  "シグレ(優雅なる舞踏祭)",
+"name": "Ayra",	"name":  "アイラ",
+"name": "Deirdre",	"name":  "ディアドラ",
+"name": "Tailtiu",	"name":  "ティルテュ",
+"name": "Arden",	"name":  "アーダン",
+"name": "Arvis",	"name":  "アルヴィス",
+"name": "Sigurd",	"name":  "シグルド",
+"name": "Henry (Trick or Defeat!)",	"name": "ジョーカー(仮装の収穫祭)"
+"name": "Jakob (Trick or Defeat!)",	"name": "ヘンリー(仮装の収穫祭)",
+"name": "Nowi (Trick or Defeat!)",	"name": "ノノ(仮装の収穫祭)",
+"name": "Sakura (Trick or Defeat!)",	"name": "サクラ(仮装の収穫祭)",
+"name": "Dorcas",	"name": "ドルカス",
+"name": "Lute",	"name": "ルーテ"
+"name": "Mia",	"name": "ワユ"
+"name": "Joshua",	"name": "ヨシュア"
