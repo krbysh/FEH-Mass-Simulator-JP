@@ -1342,9 +1342,10 @@ function updateHeroUI(hero){
 			if(hero.weapon != -1){
 				var weaponName = data.skills[hero.weapon].name;
 
-				if(weaponName.indexOf("キラー") != -1 || weaponName.indexOf("キル") != -1 || weaponName.indexOf("鍛") != -1
+				if((weaponName.indexOf("ホースキラー") == -1 ) &&
+					(weaponName.indexOf("キラー") != -1 || weaponName.indexOf("キル") != -1 || weaponName.indexOf("鍛") != -1
 					|| weaponName.indexOf("ミストルティン") != -1 || weaponName.indexOf("オートクレール") != -1 || weaponName.indexOf("魔性の槍") != -1
-					|| weaponName.indexOf("ウルヴァン") != -1){
+					|| weaponName.indexOf("ウルヴァン") != -1)){
 					specialCharge -= 1;
 				}
 				else if(weaponName.indexOf("ラウアブレード") != -1 || weaponName.indexOf("雷のブレス") != -1 || weaponName.indexOf("ブラーブレード") != -1 || weaponName.indexOf("グルンブレード") != -1){
