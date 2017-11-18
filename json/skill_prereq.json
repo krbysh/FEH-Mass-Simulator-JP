@@ -1768,5 +1768,29 @@
 	}, {
 		"skill_id": 752,
 		"required_id": 538
+	}, {
+		"skill_id": 10002,
+		"required_id": 10001
+	}, {
+		"skill_id": 10003,
+		"required_id": 10002
+	}, {
+		"skill_id": 10005,
+		"required_id": 10004
+	}, {
+		"skill_id": 10006,
+		"required_id": 10005
+	}, {
+		"skill_id": 10008,
+		"required_id": 10007
+	}, {
+		"skill_id": 10009,
+		"required_id": 10008
+	}, {
+		"skill_id": 10011,
+		"required_id": 10010
+	}, {
+		"skill_id": 10012,
+		"required_id": 10011
 	}
 ]
