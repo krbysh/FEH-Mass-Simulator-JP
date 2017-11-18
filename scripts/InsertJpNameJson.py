@@ -40,9 +40,9 @@ def InsertNameJp(r):
             k += 1
 
     for line in tqdm(read_hero):
+        line = line.replace("name", "name_en")
         for j in range(len(jp_heroes)):
             if line.find(en_heroes[j]) != -1:
-                line = line.replace("name", "name_en")
                 line = line.replace(en_heroes[j], jp_heroes[j])
         write_hero.write(line.encode('utf-8'))
 

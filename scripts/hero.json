@@ -1,6 +1,7 @@
 [{
 		"hero_id": 1,
-		"name": "Alfonse",
+		"name_en": "Alfonse",
+		"name": "アルフォンス",
 		"basehp": 19,
 		"baseatk": 9,
 		"basespd": 6,
@@ -17,7 +18,8 @@
 		"minrarity": 2
 	}, {
 		"hero_id": 2,
-		"name": "Caeda",
+		"name_en": "Caeda",
+		"name": "シーダ",
 		"basehp": 17,
 		"baseatk": 6,
 		"basespd": 9,
@@ -34,7 +36,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 3,
-		"name": "Cain",
+		"name_en": "Cain",
+		"name": "カイン",
 		"basehp": 18,
 		"baseatk": 8,
 		"basespd": 6,
@@ -51,7 +54,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 4,
-		"name": "Chrom",
+		"name_en": "Chrom",
+		"name": "クロム",
 		"basehp": 21,
 		"baseatk": 9,
 		"basespd": 6,
@@ -68,7 +72,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 5,
-		"name": "Corrin (M)",
+		"name_en": "Corrin (M)",
+		"name": "カムイ(男)",
 		"basehp": 20,
 		"baseatk": 8,
 		"basespd": 8,
@@ -85,7 +90,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 6,
-		"name": "Draug",
+		"name_en": "Draug",
+		"name": "ドーガ",
 		"basehp": 24,
 		"baseatk": 8,
 		"basespd": 6,
@@ -102,7 +108,8 @@
 		"minrarity": 2
 	}, {
 		"hero_id": 7,
-		"name": "Eirika",
+		"name_en": "Eirika",
+		"name": "エイリーク",
 		"basehp": 18,
 		"baseatk": 7,
 		"basespd": 9,
@@ -119,7 +126,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 8,
-		"name": "Eldigan",
+		"name_en": "Eldigan",
+		"name": "エルトシャン",
 		"basehp": 19,
 		"baseatk": 8,
 		"basespd": 5,
@@ -136,7 +144,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 9,
-		"name": "Eliwood",
+		"name_en": "Eliwood",
+		"name": "エリウッド",
 		"basehp": 17,
 		"baseatk": 7,
 		"basespd": 8,
@@ -153,7 +162,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 10,
-		"name": "Fir",
+		"name_en": "Fir",
+		"name": "フィル",
 		"basehp": 19,
 		"baseatk": 6,
 		"basespd": 10,
@@ -170,7 +180,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 11,
-		"name": "Hana",
+		"name_en": "Hana",
+		"name": "カザハナ",
 		"basehp": 18,
 		"baseatk": 9,
 		"basespd": 10,
@@ -187,7 +198,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 12,
-		"name": "Henry",
+		"name_en": "Henry",
+		"name": "ヘンリー",
 		"basehp": 19,
 		"baseatk": 6,
 		"basespd": 5,
@@ -204,7 +216,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 13,
-		"name": "Hinata",
+		"name_en": "Hinata",
+		"name": "ヒナタ",
 		"basehp": 21,
 		"baseatk": 8,
 		"basespd": 5,
@@ -221,7 +234,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 14,
-		"name": "Karel",
+		"name_en": "Karel",
+		"name": "カレル",
 		"basehp": 19,
 		"baseatk": 8,
 		"basespd": 9,
@@ -238,7 +252,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 15,
-		"name": "Laslow",
+		"name_en": "Laslow",
+		"name": "ラズワルド",
 		"basehp": 20,
 		"baseatk": 9,
 		"basespd": 7,
@@ -255,7 +270,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 16,
-		"name": "Leo",
+		"name_en": "Leo",
+		"name": "レオン",
 		"basehp": 17,
 		"baseatk": 7,
 		"basespd": 5,
@@ -272,7 +288,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 17,
-		"name": "Lilina",
+		"name_en": "Lilina",
+		"name": "リリーナ",
 		"basehp": 16,
 		"baseatk": 9,
 		"basespd": 6,
@@ -289,7 +306,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 18,
-		"name": "Lon'qu",
+		"name_en": "Lon'qu",
+		"name": "ロンク―",
 		"basehp": 19,
 		"baseatk": 7,
 		"basespd": 11,
@@ -306,7 +324,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 19,
-		"name": "Lucina",
+		"name_en": "Lucina",
+		"name": "ルキナ",
 		"basehp": 19,
 		"baseatk": 8,
 		"basespd": 10,
@@ -323,7 +342,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 20,
-		"name": "Lyn",
+		"name_en": "Lyn",
+		"name": "リン",
 		"basehp": 18,
 		"baseatk": 6,
 		"basespd": 11,
@@ -340,7 +360,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 21,
-		"name": "Marth",
+		"name_en": "Marth",
+		"name": "マルス",
 		"basehp": 19,
 		"baseatk": 7,
 		"basespd": 8,
@@ -357,7 +378,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 22,
-		"name": "Ogma",
+		"name_en": "Ogma",
+		"name": "オグマ",
 		"basehp": 21,
 		"baseatk": 7,
 		"basespd": 10,
@@ -374,7 +396,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 23,
-		"name": "Olivia",
+		"name_en": "Olivia",
+		"name": "オリヴィエ",
 		"basehp": 17,
 		"baseatk": 6,
 		"basespd": 7,
@@ -391,7 +414,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 24,
-		"name": "Palla",
+		"name_en": "Palla",
+		"name": "パオラ",
 		"basehp": 18,
 		"baseatk": 7,
 		"basespd": 9,
@@ -408,7 +432,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 25,
-		"name": "Raigh",
+		"name_en": "Raigh",
+		"name": "レイ",
 		"basehp": 17,
 		"baseatk": 8,
 		"basespd": 7,
@@ -425,7 +450,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 26,
-		"name": "Roy",
+		"name_en": "Roy",
+		"name": "ロイ",
 		"basehp": 20,
 		"baseatk": 8,
 		"basespd": 9,
@@ -442,7 +468,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 27,
-		"name": "Ryoma",
+		"name_en": "Ryoma",
+		"name": "リョウマ",
 		"basehp": 19,
 		"baseatk": 8,
 		"basespd": 11,
@@ -459,7 +486,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 28,
-		"name": "Sanaki",
+		"name_en": "Sanaki",
+		"name": "サナキ",
 		"basehp": 16,
 		"baseatk": 9,
 		"basespd": 7,
@@ -476,7 +504,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 29,
-		"name": "Selena",
+		"name_en": "Selena",
+		"name": "ルーナ",
 		"basehp": 18,
 		"baseatk": 6,
 		"basespd": 9,
@@ -493,7 +522,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 30,
-		"name": "Seliph",
+		"name_en": "Seliph",
+		"name": "セリス",
 		"basehp": 19,
 		"baseatk": 8,
 		"basespd": 7,
@@ -510,7 +540,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 31,
-		"name": "Sophia",
+		"name_en": "Sophia",
+		"name": "ソフィーヤ",
 		"basehp": 18,
 		"baseatk": 9,
 		"basespd": 4,
@@ -527,7 +558,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 32,
-		"name": "Stahl",
+		"name_en": "Stahl",
+		"name": "ソール",
 		"basehp": 19,
 		"baseatk": 7,
 		"basespd": 7,
@@ -544,7 +576,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 33,
-		"name": "Tharja",
+		"name_en": "Tharja",
+		"name": "サーリャ",
 		"basehp": 17,
 		"baseatk": 8,
 		"basespd": 8,
@@ -561,7 +594,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 34,
-		"name": "Tiki (Adult)",
+		"name_en": "Tiki (Adult)",
+		"name": "チキ(大人)",
 		"basehp": 18,
 		"baseatk": 7,
 		"basespd": 6,
@@ -578,7 +612,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 35,
-		"name": "Tiki (Young)",
+		"name_en": "Tiki (Young)",
+		"name": "チキ(子供)",
 		"basehp": 15,
 		"baseatk": 5,
 		"basespd": 4,
@@ -595,7 +630,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 36,
-		"name": "Anna",
+		"name_en": "Anna",
+		"name": "アンナ",
 		"basehp": 19,
 		"baseatk": 7,
 		"basespd": 10,
@@ -612,7 +648,8 @@
 		"minrarity": 2
 	}, {
 		"hero_id": 37,
-		"name": "Arthur",
+		"name_en": "Arthur",
+		"name": "ハロルド",
 		"basehp": 19,
 		"baseatk": 8,
 		"basespd": 7,
@@ -629,7 +666,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 38,
-		"name": "Barst",
+		"name_en": "Barst",
+		"name": "バーツ",
 		"basehp": 20,
 		"baseatk": 9,
 		"basespd": 8,
@@ -646,7 +684,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 39,
-		"name": "Bartre",
+		"name_en": "Bartre",
+		"name": "バアトル",
 		"basehp": 21,
 		"baseatk": 10,
 		"basespd": 6,
@@ -663,7 +702,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 40,
-		"name": "Beruka",
+		"name_en": "Beruka",
+		"name": "ベルカ",
 		"basehp": 20,
 		"baseatk": 7,
 		"basespd": 6,
@@ -680,7 +720,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 41,
-		"name": "Camilla",
+		"name_en": "Camilla",
+		"name": "カミラ",
 		"basehp": 18,
 		"baseatk": 8,
 		"basespd": 8,
@@ -697,7 +738,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 42,
-		"name": "Cecilia",
+		"name_en": "Cecilia",
+		"name": "セシリア",
 		"basehp": 17,
 		"baseatk": 8,
 		"basespd": 6,
@@ -714,7 +756,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 43,
-		"name": "Cherche",
+		"name_en": "Cherche",
+		"name": "セルジュ",
 		"basehp": 20,
 		"baseatk": 10,
 		"basespd": 6,
@@ -731,7 +774,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 44,
-		"name": "Fae",
+		"name_en": "Fae",
+		"name": "ファ",
 		"basehp": 16,
 		"baseatk": 5,
 		"basespd": 4,
@@ -748,7 +792,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 45,
-		"name": "Frederick",
+		"name_en": "Frederick",
+		"name": "フレデリク",
 		"basehp": 19,
 		"baseatk": 9,
 		"basespd": 6,
@@ -765,7 +810,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 46,
-		"name": "Gunter",
+		"name_en": "Gunter",
+		"name": "ギュンター",
 		"basehp": 21,
 		"baseatk": 10,
 		"basespd": 7,
@@ -782,7 +828,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 47,
-		"name": "Hawkeye",
+		"name_en": "Hawkeye",
+		"name": "ホークアイ",
 		"basehp": 21,
 		"baseatk": 9,
 		"basespd": 5,
@@ -799,7 +846,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 48,
-		"name": "Hector",
+		"name_en": "Hector",
+		"name": "ヘクトル",
 		"basehp": 24,
 		"baseatk": 10,
 		"basespd": 5,
@@ -816,7 +864,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 49,
-		"name": "Julia",
+		"name_en": "Julia",
+		"name": "ユリア",
 		"basehp": 16,
 		"baseatk": 9,
 		"basespd": 7,
@@ -833,7 +882,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 50,
-		"name": "Merric",
+		"name_en": "Merric",
+		"name": "マリク",
 		"basehp": 19,
 		"baseatk": 7,
 		"basespd": 8,
@@ -850,7 +900,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 51,
-		"name": "Minerva",
+		"name_en": "Minerva",
+		"name": "ミネルバ",
 		"basehp": 18,
 		"baseatk": 7,
 		"basespd": 9,
@@ -867,7 +918,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 52,
-		"name": "Narcian",
+		"name_en": "Narcian",
+		"name": "ナーシェン",
 		"basehp": 18,
 		"baseatk": 7,
 		"basespd": 7,
@@ -884,7 +936,8 @@
 		"minrarity": 2
 	}, {
 		"hero_id": 53,
-		"name": "Nino",
+		"name_en": "Nino",
+		"name": "ニノ",
 		"basehp": 16,
 		"baseatk": 7,
 		"basespd": 10,
@@ -901,7 +954,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 54,
-		"name": "Raven",
+		"name_en": "Raven",
+		"name": "レイヴァン",
 		"basehp": 19,
 		"baseatk": 8,
 		"basespd": 9,
@@ -918,7 +972,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 55,
-		"name": "Robin (F)",
+		"name_en": "Robin (F)",
+		"name": "ルフレ(女)",
 		"basehp": 18,
 		"baseatk": 7,
 		"basespd": 7,
@@ -935,7 +990,8 @@
 		"minrarity": 2
 	}, {
 		"hero_id": 56,
-		"name": "Sheena",
+		"name_en": "Sheena",
+		"name": "シーマ",
 		"basehp": 21,
 		"baseatk": 8,
 		"basespd": 6,
@@ -952,7 +1008,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 57,
-		"name": "Abel",
+		"name_en": "Abel",
+		"name": "アベル",
 		"basehp": 17,
 		"baseatk": 7,
 		"basespd": 8,
@@ -969,7 +1026,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 58,
-		"name": "Azura",
+		"name_en": "Azura",
+		"name": "アクア",
 		"basehp": 17,
 		"baseatk": 5,
 		"basespd": 7,
@@ -986,7 +1044,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 59,
-		"name": "Catria",
+		"name_en": "Catria",
+		"name": "カチュア",
 		"basehp": 17,
 		"baseatk": 7,
 		"basespd": 10,
@@ -1003,7 +1062,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 60,
-		"name": "Cordelia",
+		"name_en": "Cordelia",
+		"name": "ティアモ",
 		"basehp": 18,
 		"baseatk": 9,
 		"basespd": 9,
@@ -1020,7 +1080,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 61,
-		"name": "Corrin (F)",
+		"name_en": "Corrin (F)",
+		"name": "カムイ(女)",
 		"basehp": 19,
 		"baseatk": 8,
 		"basespd": 6,
@@ -1037,7 +1098,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 62,
-		"name": "Donnel",
+		"name_en": "Donnel",
+		"name": "ドニ",
 		"basehp": 17,
 		"baseatk": 7,
 		"basespd": 5,
@@ -1054,7 +1116,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 63,
-		"name": "Effie",
+		"name_en": "Effie",
+		"name": "エルフィ",
 		"basehp": 22,
 		"baseatk": 12,
 		"basespd": 5,
@@ -1071,7 +1134,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 64,
-		"name": "Ephraim",
+		"name_en": "Ephraim",
+		"name": "エフラム",
 		"basehp": 19,
 		"baseatk": 9,
 		"basespd": 6,
@@ -1088,7 +1152,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 65,
-		"name": "Est",
+		"name_en": "Est",
+		"name": "エスト",
 		"basehp": 17,
 		"baseatk": 9,
 		"basespd": 8,
@@ -1105,7 +1170,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 66,
-		"name": "Florina",
+		"name_en": "Florina",
+		"name": "フロリーナ",
 		"basehp": 18,
 		"baseatk": 7,
 		"basespd": 8,
@@ -1122,7 +1188,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 67,
-		"name": "Gwendolyn",
+		"name_en": "Gwendolyn",
+		"name": "ウェンディ",
 		"basehp": 23,
 		"baseatk": 8,
 		"basespd": 5,
@@ -1139,7 +1206,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 68,
-		"name": "Hinoka",
+		"name_en": "Hinoka",
+		"name": "ヒノカ",
 		"basehp": 19,
 		"baseatk": 7,
 		"basespd": 8,
@@ -1156,7 +1224,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 69,
-		"name": "Jagen",
+		"name_en": "Jagen",
+		"name": "ジェイガン",
 		"basehp": 20,
 		"baseatk": 8,
 		"basespd": 7,
@@ -1173,7 +1242,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 70,
-		"name": "Linde",
+		"name_en": "Linde",
+		"name": "リンダ",
 		"basehp": 16,
 		"baseatk": 9,
 		"basespd": 10,
@@ -1190,7 +1260,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 71,
-		"name": "Ninian",
+		"name_en": "Ninian",
+		"name": "ニニアン",
 		"basehp": 16,
 		"baseatk": 5,
 		"basespd": 7,
@@ -1207,7 +1278,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 72,
-		"name": "Nowi",
+		"name_en": "Nowi",
+		"name": "ノノ",
 		"basehp": 17,
 		"baseatk": 6,
 		"basespd": 5,
@@ -1224,7 +1296,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 73,
-		"name": "Oboro",
+		"name_en": "Oboro",
+		"name": "オボロ",
 		"basehp": 18,
 		"baseatk": 8,
 		"basespd": 7,
@@ -1241,7 +1314,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 74,
-		"name": "Odin",
+		"name_en": "Odin",
+		"name": "オーディン",
 		"basehp": 19,
 		"baseatk": 5,
 		"basespd": 8,
@@ -1258,7 +1332,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 75,
-		"name": "Olwen",
+		"name_en": "Olwen",
+		"name": "オルエン",
 		"basehp": 17,
 		"baseatk": 7,
 		"basespd": 8,
@@ -1275,7 +1350,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 76,
-		"name": "Peri",
+		"name_en": "Peri",
+		"name": "ピエリ",
 		"basehp": 16,
 		"baseatk": 9,
 		"basespd": 9,
@@ -1292,7 +1368,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 77,
-		"name": "Reinhardt",
+		"name_en": "Reinhardt",
+		"name": "ラインハルト",
 		"basehp": 16,
 		"baseatk": 8,
 		"basespd": 6,
@@ -1309,7 +1386,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 78,
-		"name": "Robin (M)",
+		"name_en": "Robin (M)",
+		"name": "ルフレ(男)",
 		"basehp": 18,
 		"baseatk": 7,
 		"basespd": 7,
@@ -1326,7 +1404,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 79,
-		"name": "Shanna",
+		"name_en": "Shanna",
+		"name": "シャニー",
 		"basehp": 17,
 		"baseatk": 8,
 		"basespd": 9,
@@ -1343,7 +1422,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 80,
-		"name": "Sharena",
+		"name_en": "Sharena",
+		"name": "シャロン",
 		"basehp": 19,
 		"baseatk": 8,
 		"basespd": 8,
@@ -1360,7 +1440,8 @@
 		"minrarity": 2
 	}, {
 		"hero_id": 81,
-		"name": "Subaki",
+		"name_en": "Subaki",
+		"name": "ツバキ",
 		"basehp": 18,
 		"baseatk": 6,
 		"basespd": 9,
@@ -1377,7 +1458,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 82,
-		"name": "Sully",
+		"name_en": "Sully",
+		"name": "ソワレ",
 		"basehp": 18,
 		"baseatk": 7,
 		"basespd": 8,
@@ -1394,7 +1476,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 83,
-		"name": "Ursula",
+		"name_en": "Ursula",
+		"name": "ウルスラ",
 		"basehp": 16,
 		"baseatk": 7,
 		"basespd": 8,
@@ -1411,7 +1494,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 84,
-		"name": "Azama",
+		"name_en": "Azama",
+		"name": "アサマ",
 		"basehp": 19,
 		"baseatk": 4,
 		"basespd": 7,
@@ -1428,7 +1512,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 85,
-		"name": "Clarine",
+		"name_en": "Clarine",
+		"name": "クラリーネ",
 		"basehp": 16,
 		"baseatk": 6,
 		"basespd": 9,
@@ -1445,7 +1530,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 86,
-		"name": "Elise",
+		"name_en": "Elise",
+		"name": "エリーゼ",
 		"basehp": 15,
 		"baseatk": 8,
 		"basespd": 8,
@@ -1462,7 +1548,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 87,
-		"name": "Felicia",
+		"name_en": "Felicia",
+		"name": "フェリシア",
 		"basehp": 15,
 		"baseatk": 6,
 		"basespd": 11,
@@ -1479,7 +1566,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 88,
-		"name": "Gaius",
+		"name_en": "Gaius",
+		"name": "ガイア",
 		"basehp": 18,
 		"baseatk": 7,
 		"basespd": 10,
@@ -1496,7 +1584,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 89,
-		"name": "Gordin",
+		"name_en": "Gordin",
+		"name": "ゴードン",
 		"basehp": 19,
 		"baseatk": 7,
 		"basespd": 6,
@@ -1513,7 +1602,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 90,
-		"name": "Jaffar",
+		"name_en": "Jaffar",
+		"name": "ジャファル",
 		"basehp": 17,
 		"baseatk": 7,
 		"basespd": 9,
@@ -1530,7 +1620,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 91,
-		"name": "Jakob",
+		"name_en": "Jakob",
+		"name": "ジョーカー",
 		"basehp": 17,
 		"baseatk": 7,
 		"basespd": 9,
@@ -1547,7 +1638,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 92,
-		"name": "Jeorge",
+		"name_en": "Jeorge",
+		"name": "ジョルジュ",
 		"basehp": 18,
 		"baseatk": 8,
 		"basespd": 8,
@@ -1564,7 +1656,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 93,
-		"name": "Kagero",
+		"name_en": "Kagero",
+		"name": "カゲロウ",
 		"basehp": 16,
 		"baseatk": 9,
 		"basespd": 8,
@@ -1581,7 +1674,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 94,
-		"name": "Klein",
+		"name_en": "Klein",
+		"name": "クレイン",
 		"basehp": 18,
 		"baseatk": 9,
 		"basespd": 7,
@@ -1598,7 +1692,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 95,
-		"name": "Lachesis",
+		"name_en": "Lachesis",
+		"name": "ラケシス",
 		"basehp": 17,
 		"baseatk": 6,
 		"basespd": 8,
@@ -1615,7 +1710,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 96,
-		"name": "Lissa",
+		"name_en": "Lissa",
+		"name": "リズ",
 		"basehp": 17,
 		"baseatk": 7,
 		"basespd": 6,
@@ -1632,7 +1728,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 97,
-		"name": "Lucius",
+		"name_en": "Lucius",
+		"name": "ルセア",
 		"basehp": 18,
 		"baseatk": 6,
 		"basespd": 8,
@@ -1649,7 +1746,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 98,
-		"name": "Maria",
+		"name_en": "Maria",
+		"name": "マリア",
 		"basehp": 17,
 		"baseatk": 5,
 		"basespd": 8,
@@ -1666,7 +1764,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 99,
-		"name": "Matthew",
+		"name_en": "Matthew",
+		"name": "マシュー",
 		"basehp": 17,
 		"baseatk": 6,
 		"basespd": 10,
@@ -1683,7 +1782,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 100,
-		"name": "Niles",
+		"name_en": "Niles",
+		"name": "ゼロ",
 		"basehp": 18,
 		"baseatk": 6,
 		"basespd": 8,
@@ -1700,7 +1800,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 101,
-		"name": "Priscilla",
+		"name_en": "Priscilla",
+		"name": "プリシラ",
 		"basehp": 17,
 		"baseatk": 7,
 		"basespd": 7,
@@ -1717,7 +1818,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 102,
-		"name": "Rebecca",
+		"name_en": "Rebecca",
+		"name": "レベッカ",
 		"basehp": 18,
 		"baseatk": 7,
 		"basespd": 8,
@@ -1734,7 +1836,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 103,
-		"name": "Saizo",
+		"name_en": "Saizo",
+		"name": "サイゾウ",
 		"basehp": 17,
 		"baseatk": 7,
 		"basespd": 8,
@@ -1751,7 +1854,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 104,
-		"name": "Sakura",
+		"name_en": "Sakura",
+		"name": "サクラ",
 		"basehp": 17,
 		"baseatk": 6,
 		"basespd": 8,
@@ -1768,7 +1872,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 105,
-		"name": "Serra",
+		"name_en": "Serra",
+		"name": "セーラ",
 		"basehp": 16,
 		"baseatk": 6,
 		"basespd": 9,
@@ -1785,7 +1890,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 106,
-		"name": "Setsuna",
+		"name_en": "Setsuna",
+		"name": "セツナ",
 		"basehp": 18,
 		"baseatk": 6,
 		"basespd": 9,
@@ -1802,7 +1908,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 107,
-		"name": "Takumi",
+		"name_en": "Takumi",
+		"name": "タクミ",
 		"basehp": 18,
 		"baseatk": 8,
 		"basespd": 7,
@@ -1819,7 +1926,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 108,
-		"name": "Virion",
+		"name_en": "Virion",
+		"name": "ヴィオール",
 		"basehp": 20,
 		"baseatk": 7,
 		"basespd": 7,
@@ -1836,7 +1944,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 109,
-		"name": "Wrys",
+		"name_en": "Wrys",
+		"name": "リフ",
 		"basehp": 18,
 		"baseatk": 5,
 		"basespd": 6,
@@ -1853,7 +1962,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 111,
-		"name": "Michalis",
+		"name_en": "Michalis",
+		"name": "ミシェイル",
 		"basehp": 19,
 		"baseatk": 8,
 		"basespd": 7,
@@ -1870,7 +1980,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 112,
-		"name": "Lucina (Spring Festival)",
+		"name_en": "Lucina (Spring Festival)",
+		"name": "ルキナ(豊穣の春祭り)",
 		"basehp": 16,
 		"baseatk": 7,
 		"basespd": 10,
@@ -1887,7 +1998,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 113,
-		"name": "Camilla (Spring Festival)",
+		"name_en": "Camilla (Spring Festival)",
+		"name": "カミラ(豊穣の春祭り)",
 		"basehp": 17,
 		"baseatk": 9,
 		"basespd": 6,
@@ -1904,7 +2016,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 114,
-		"name": "Xander (Spring Festival)",
+		"name_en": "Xander (Spring Festival)",
+		"name": "マークス(豊穣の春祭り)",
 		"basehp": 18,
 		"baseatk": 6,
 		"basespd": 6,
@@ -1921,7 +2034,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 115,
-		"name": "Chrom (Spring Festival)",
+		"name_en": "Chrom (Spring Festival)",
+		"name": "クロム(豊穣の春祭り)",
 		"basehp": 19,
 		"baseatk": 9,
 		"basespd": 8,
@@ -1938,7 +2052,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 116,
-		"name": "Navarre",
+		"name_en": "Navarre",
+		"name": "ナバール",
 		"basehp": 18,
 		"baseatk": 7,
 		"basespd": 11,
@@ -1955,7 +2070,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 117,
-		"name": "Alm",
+		"name_en": "Alm",
+		"name": "アルム",
 		"basehp": 21,
 		"baseatk": 9,
 		"basespd": 6,
@@ -1972,7 +2088,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 118,
-		"name": "Clair",
+		"name_en": "Clair",
+		"name": "クレア",
 		"basehp": 18,
 		"baseatk": 7,
 		"basespd": 8,
@@ -1989,7 +2106,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 119,
-		"name": "Lukas",
+		"name_en": "Lukas",
+		"name": "ルカ",
 		"basehp": 19,
 		"baseatk": 9,
 		"basespd": 5,
@@ -2006,7 +2124,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 120,
-		"name": "Faye",
+		"name_en": "Faye",
+		"name": "エフィ",
 		"basehp": 16,
 		"baseatk": 6,
 		"basespd": 3,
@@ -2023,7 +2142,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 121,
-		"name": "Zephiel",
+		"name_en": "Zephiel",
+		"name": "ゼフィール",
 		"basehp": 25,
 		"baseatk": 9,
 		"basespd": 3,
@@ -2040,7 +2160,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 123,
-		"name": "Ike",
+		"name_en": "Ike",
+		"name": "アイク",
 		"basehp": 18,
 		"baseatk": 9,
 		"basespd": 7,
@@ -2057,7 +2178,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 124,
-		"name": "Mist",
+		"name_en": "Mist",
+		"name": "ミスト",
 		"basehp": 17,
 		"baseatk": 8,
 		"basespd": 6,
@@ -2074,7 +2196,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 125,
-		"name": "Soren",
+		"name_en": "Soren",
+		"name": "セネリオ",
 		"basehp": 17,
 		"baseatk": 7,
 		"basespd": 9,
@@ -2091,7 +2214,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 126,
-		"name": "Titania",
+		"name_en": "Titania",
+		"name": "ティアマト",
 		"basehp": 18,
 		"baseatk": 6,
 		"basespd": 8,
@@ -2108,7 +2232,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 127,
-		"name": "Xander",
+		"name_en": "Xander",
+		"name": "マークス",
 		"basehp": 20,
 		"baseatk": 8,
 		"basespd": 5,
@@ -2125,7 +2250,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 128,
-		"name": "Boey",
+		"name_en": "Boey",
+		"name": "ボーイ",
 		"basehp": 19,
 		"baseatk": 7,
 		"basespd": 5,
@@ -2142,7 +2268,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 129,
-		"name": "Celica",
+		"name_en": "Celica",
+		"name": "セリカ",
 		"basehp": 17,
 		"baseatk": 8,
 		"basespd": 7,
@@ -2159,7 +2286,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 130,
-		"name": "Genny",
+		"name_en": "Genny",
+		"name": "ジェニー",
 		"basehp": 17,
 		"baseatk": 9,
 		"basespd": 6,
@@ -2176,7 +2304,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 131,
-		"name": "Mae",
+		"name_en": "Mae",
+		"name": "メイ",
 		"basehp": 16,
 		"baseatk": 10,
 		"basespd": 7,
@@ -2193,7 +2322,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 132,
-		"name": "Lloyd",
+		"name_en": "Lloyd",
+		"name": "ロイド",
 		"basehp": 17,
 		"baseatk": 8,
 		"basespd": 9,
@@ -2210,7 +2340,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 133,
-		"name": "Caeda (Bridal Blessings)",
+		"name_en": "Caeda (Bridal Blessings)",
+		"name": "シーダ(花嫁たちに祝福を)",
 		"basehp": 16,
 		"baseatk": 7,
 		"basespd": 9,
@@ -2227,7 +2358,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 134,
-		"name": "Camus",
+		"name_en": "Camus",
+		"name": "カミュ",
 		"basehp": 18,
 		"baseatk": 8,
 		"basespd": 9,
@@ -2244,7 +2376,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 135,
-		"name": "Charlotte (Bridal Blessings)",
+		"name_en": "Charlotte (Bridal Blessings)",
+		"name": "シャーロッテ(花嫁たちに祝福を)",
 		"basehp": 20,
 		"baseatk": 10,
 		"basespd": 8,
@@ -2261,7 +2394,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 136,
-		"name": "Cordelia (Bridal Blessings)",
+		"name_en": "Cordelia (Bridal Blessings)",
+		"name": "ティアモ(花嫁たちに祝福を)",
 		"basehp": 17,
 		"baseatk": 9,
 		"basespd": 9,
@@ -2278,7 +2412,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 137,
-		"name": "Lyn (Bridal Blessings)",
+		"name_en": "Lyn (Bridal Blessings)",
+		"name": "リン(花嫁たちに祝福を)",
 		"basehp": 17,
 		"baseatk": 6,
 		"basespd": 10,
@@ -2295,7 +2430,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 138,
-		"name": "Marth (Masked)",
+		"name_en": "Marth (Masked)",
+		"name": "マルス(仮面)",
 		"basehp": 19,
 		"baseatk": 8,
 		"basespd": 10,
@@ -2312,7 +2448,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 139,
-		"name": "Katarina",
+		"name_en": "Katarina",
+		"name": "カタリナ",
 		"basehp": 17,
 		"baseatk": 6,
 		"basespd": 8,
@@ -2329,7 +2466,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 140,
-		"name": "Athena",
+		"name_en": "Athena",
+		"name": "アテナ",
 		"basehp": 17,
 		"baseatk": 7,
 		"basespd": 10,
@@ -2346,7 +2484,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 141,
-		"name": "Roderick",
+		"name_en": "Roderick",
+		"name": "ロディ",
 		"basehp": 18,
 		"baseatk": 7,
 		"basespd": 8,
@@ -2363,7 +2502,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 142,
-		"name": "Luke",
+		"name_en": "Luke",
+		"name": "ルーク",
 		"basehp": 19,
 		"baseatk": 8,
 		"basespd": 6,
@@ -2380,7 +2520,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 143,
-		"name": "Legion",
+		"name_en": "Legion",
+		"name": "ローロー",
 		"basehp": 20,
 		"baseatk": 10,
 		"basespd": 9,
@@ -2397,7 +2538,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 144,
-		"name": "Clarisse",
+		"name_en": "Clarisse",
+		"name": "クライネ",
 		"basehp": 18,
 		"baseatk": 7,
 		"basespd": 8,
@@ -2414,7 +2556,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 145,
-		"name": "Frederick (Ylissean Summer)",
+		"name_en": "Frederick (Ylissean Summer)",
+		"name": "フレデリク(覚醒の夏)",
 		"basehp": 18,
 		"baseatk": 8,
 		"basespd": 7,
@@ -2431,7 +2574,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 146,
-		"name": "Gaius (Ylissean Summer)",
+		"name_en": "Gaius (Ylissean Summer)",
+		"name": "ガイア(覚醒の夏)",
 		"basehp": 17,
 		"baseatk": 8,
 		"basespd": 9,
@@ -2448,7 +2592,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 147,
-		"name": "Robin (F) (Ylissean Summer)",
+		"name_en": "Robin (F) (Ylissean Summer)",
+		"name": "ルフレ(女)(覚醒の夏)",
 		"basehp": 18,
 		"baseatk": 8,
 		"basespd": 8,
@@ -2465,7 +2610,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 148,
-		"name": "Tiki (Adult) (Ylissean Summer)",
+		"name_en": "Tiki (Adult) (Ylissean Summer)",
+		"name": "チキ(大人)(覚醒の夏)",
 		"basehp": 18,
 		"baseatk": 8,
 		"basespd": 6,
@@ -2482,7 +2628,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 149,
-		"name": "Tobin",
+		"name_en": "Tobin",
+		"name": "ロビン",
 		"basehp": 18,
 		"baseatk": 7,
 		"basespd": 5,
@@ -2499,7 +2646,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 150,
-		"name": "Delthea",
+		"name_en": "Delthea",
+		"name": "デューテ",
 		"basehp": 16,
 		"baseatk": 10,
 		"basespd": 8,
@@ -2516,7 +2664,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 151,
-		"name": "Sonya",
+		"name_en": "Sonya",
+		"name": "ソニア",
 		"basehp": 17,
 		"baseatk": 7,
 		"basespd": 7,
@@ -2533,7 +2682,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 152,
-		"name": "Gray",
+		"name_en": "Gray",
+		"name": "グレイ",
 		"basehp": 17,
 		"baseatk": 7,
 		"basespd": 6,
@@ -2550,7 +2700,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 153,
-		"name": "Leon",
+		"name_en": "Leon",
+		"name": "レオ",
 		"basehp": 17,
 		"baseatk": 8,
 		"basespd": 6,
@@ -2567,7 +2718,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 154,
-		"name": "Saber",
+		"name_en": "Saber",
+		"name": "セーバー",
 		"basehp": 18,
 		"baseatk": 7,
 		"basespd": 9,
@@ -2584,7 +2736,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 155,
-		"name": "Mathilda",
+		"name_en": "Mathilda",
+		"name": "マチルダ",
 		"basehp": 16,
 		"baseatk": 7,
 		"basespd": 8,
@@ -2601,7 +2754,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 156,
-		"name": "Berkut",
+		"name_en": "Berkut",
+		"name": "ベルクト",
 		"basehp": 19,
 		"baseatk": 8,
 		"basespd": 5,
@@ -2618,7 +2772,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 157,
-		"name": "Corrin (F) (Nohrian Summer)",
+		"name_en": "Corrin (F) (Nohrian Summer)",
+		"name": "カムイ(女)(暗夜の夏)",
 		"basehp": 17,
 		"baseatk": 7,
 		"basespd": 8,
@@ -2635,7 +2790,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 158,
-		"name": "Leo (Nohrian Summer)",
+		"name_en": "Leo (Nohrian Summer)",
+		"name": "レオン(暗夜の夏)",
 		"basehp": 18,
 		"baseatk": 8,
 		"basespd": 5,
@@ -2652,7 +2808,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 159,
-		"name": "Xander (Nohrian Summer)",
+		"name_en": "Xander (Nohrian Summer)",
+		"name": "マークス(暗夜の夏)",
 		"basehp": 19,
 		"baseatk": 8,
 		"basespd": 6,
@@ -2669,7 +2826,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 160,
-		"name": "Elise (Nohrian Summer)",
+		"name_en": "Elise (Nohrian Summer)",
+		"name": "エリーゼ(暗夜の夏)",
 		"basehp": 17,
 		"baseatk": 10,
 		"basespd": 8,
@@ -2686,7 +2844,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 161,
-		"name": "Amelia",
+		"name_en": "Amelia",
+		"name": "アメリア",
 		"basehp": 19,
 		"baseatk": 6,
 		"basespd": 8,
@@ -2703,7 +2862,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 162,
-		"name": "Innes",
+		"name_en": "Innes",
+		"name": "ヒーニアス",
 		"basehp": 16,
 		"baseatk": 9,
 		"basespd": 8,
@@ -2720,7 +2880,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 163,
-		"name": "Tana",
+		"name_en": "Tana",
+		"name": "ターナ",
 		"basehp": 17,
 		"baseatk": 8,
 		"basespd": 10,
@@ -2737,7 +2898,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 164,
-		"name": "Seth",
+		"name_en": "Seth",
+		"name": "ゼト",
 		"basehp": 18,
 		"baseatk": 8,
 		"basespd": 7,
@@ -2754,7 +2916,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 165,
-		"name": "Valter",
+		"name_en": "Valter",
+		"name": "ヴァルター",
 		"basehp": 18,
 		"baseatk": 8,
 		"basespd": 9,
@@ -2771,7 +2934,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 166,
-		"name": "Ike (Brave Heroes)",
+		"name_en": "Ike (Brave Heroes)",
+		"name": "アイク(大いなる英雄たち)",
 		"basehp": 17,
 		"baseatk": 10,
 		"basespd": 6,
@@ -2788,7 +2952,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 167,
-		"name": "Lyn (Brave Heroes)",
+		"name_en": "Lyn (Brave Heroes)",
+		"name": "リン(大いなる英雄たち)",
 		"basehp": 16,
 		"baseatk": 7,
 		"basespd": 9,
@@ -2805,7 +2970,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 168,
-		"name": "Lucina (Brave Heroes)",
+		"name_en": "Lucina (Brave Heroes)",
+		"name": "ルキナ(大いなる英雄たち)",
 		"basehp": 17,
 		"baseatk": 8,
 		"basespd": 10,
@@ -2822,7 +2988,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 169,
-		"name": "Roy (Brave Heroes)",
+		"name_en": "Roy (Brave Heroes)",
+		"name": "ロイ(大いなる英雄たち)",
 		"basehp": 16,
 		"baseatk": 8,
 		"basespd": 8,
@@ -2839,7 +3006,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 170,
-		"name": "Clive",
+		"name_en": "Clive",
+		"name": "クレーベ",
 		"basehp": 19,
 		"baseatk": 9,
 		"basespd": 6,
@@ -2856,7 +3024,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 171,
-		"name": "Elincia",
+		"name_en": "Elincia",
+		"name": "エリンシア",
 		"basehp": 16,
 		"baseatk": 8,
 		"basespd": 10,
@@ -2873,7 +3042,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 172,
-		"name": "Nephenee",
+		"name_en": "Nephenee",
+		"name": "ネフェニー",
 		"basehp": 18,
 		"baseatk": 7,
 		"basespd": 9,
@@ -2890,7 +3060,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 173,
-		"name": "Oscar",
+		"name_en": "Oscar",
+		"name": "オスカー",
 		"basehp": 18,
 		"baseatk": 7,
 		"basespd": 8,
@@ -2907,7 +3078,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 174,
-		"name": "Black Knight",
+		"name_en": "Black Knight",
+		"name": "漆黒の騎士",
 		"basehp": 22,
 		"baseatk": 10,
 		"basespd": 8,
@@ -2924,7 +3096,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 175,
-		"name": "Azura (Performing Arts)",
+		"name_en": "Azura (Performing Arts)",
+		"name": "アクア(優雅なる舞踏祭)",
 		"basehp": 16,
 		"baseatk": 6,
 		"basespd": 8,
@@ -2941,7 +3114,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 176,
-		"name": "Inigo (Performing Arts)",
+		"name_en": "Inigo (Performing Arts)",
+		"name": "アズール(優雅なる舞踏祭)",
 		"basehp": 15,
 		"baseatk": 6,
 		"basespd": 7,
@@ -2958,7 +3132,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 177,
-		"name": "Olivia (Performing Arts)",
+		"name_en": "Olivia (Performing Arts)",
+		"name": "オリヴィエ(優雅なる舞踏祭)",
 		"basehp": 15,
 		"baseatk": 6,
 		"basespd": 8,
@@ -2975,7 +3150,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 178,
-		"name": "Shigure (Performing Arts)",
+		"name_en": "Shigure (Performing Arts)",
+		"name": "シグレ(優雅なる舞踏祭)",
 		"basehp": 15,
 		"baseatk": 7,
 		"basespd": 5,
@@ -2992,7 +3168,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 179,
-		"name": "Sigurd",
+		"name_en": "Sigurd",
+		"name": "シグルド",
 		"basehp": 19,
 		"baseatk": 9,
 		"basespd": 8,
@@ -3009,7 +3186,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 180,
-		"name": "Deirdre",
+		"name_en": "Deirdre",
+		"name": "ディアドラ",
 		"basehp": 17,
 		"baseatk": 9,
 		"basespd": 6,
@@ -3026,7 +3204,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 181,
-		"name": "Tailtiu",
+		"name_en": "Tailtiu",
+		"name": "ティルテュ",
 		"basehp": 17,
 		"baseatk": 8,
 		"basespd": 9,
@@ -3043,7 +3222,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 182,
-		"name": "Arden",
+		"name_en": "Arden",
+		"name": "アーダン",
 		"basehp": 25,
 		"baseatk": 10,
 		"basespd": 3,
@@ -3060,7 +3240,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 183,
-		"name": "Arvis",
+		"name_en": "Arvis",
+		"name": "アルヴィス",
 		"basehp": 18,
 		"baseatk": 8,
 		"basespd": 7,
@@ -3077,7 +3258,8 @@
 		"minrarity": 3
 	}, {
 		"hero_id": 184,
-		"name": "Ayra",
+		"name_en": "Ayra",
+		"name": "アイラ",
 		"basehp": 19,
 		"baseatk": 7,
 		"basespd": 11,
@@ -3094,7 +3276,8 @@
 		"minrarity": 4
 	}, {
 		"hero_id": 185,
-		"name": "Henry (Trick or Defeat!)",
+		"name_en": "Henry (Trick or Defeat!)",
+		"name": "ジョーカー(仮装の収穫祭)",
 		"basehp": 17,
 		"baseatk": 9,
 		"basespd": 10,
@@ -3111,7 +3294,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 186,
-		"name": "Jakob (Trick or Defeat!)",
+		"name_en": "Jakob (Trick or Defeat!)",
+		"name": "ヘンリー(仮装の収穫祭)",
 		"basehp": 20,
 		"baseatk": 9,
 		"basespd": 6,
@@ -3128,7 +3312,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 187,
-		"name": "Nowi (Trick or Defeat!)",
+		"name_en": "Nowi (Trick or Defeat!)",
+		"name": "ノノ(仮装の収穫祭)",
 		"basehp": 17,
 		"baseatk": 8,
 		"basespd": 6,
@@ -3145,7 +3330,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 188,
-		"name": "Sakura (Trick or Defeat!)",
+		"name_en": "Sakura (Trick or Defeat!)",
+		"name": "サクラ(仮装の収穫祭)",
 		"basehp": 16,
 		"baseatk": 8,
 		"basespd": 8,
@@ -3162,7 +3348,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 189,
-		"name": "Dorcas",
+		"name_en": "Dorcas",
+		"name": "ドルカス",
 		"basehp": 19,
 		"baseatk": 9,
 		"basespd": 6,
@@ -3179,7 +3366,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 190,
-		"name": "Lute",
+		"name_en": "Lute",
+		"name": "ルーテ",
 		"basehp": 16,
 		"baseatk": 10,
 		"basespd": 8,
@@ -3196,7 +3384,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 191,
-		"name": "Mia",
+		"name_en": "Mia",
+		"name": "ワユ",
 		"basehp": 16,
 		"baseatk": 8,
 		"basespd": 12,
@@ -3213,7 +3402,8 @@
 		"minrarity": 5
 	}, {
 		"hero_id": 192,
-		"name": "Joshua",
+		"name_en": "Joshua",
+		"name": "ヨシュア",
 		"basehp": 18,
 		"baseatk": 7,
 		"basespd": 9,
