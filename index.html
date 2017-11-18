@@ -3,6 +3,7 @@
 
 <head>
 	<title>FEH Mass Simulator JP</title>
+	<meta charset="utf-8">
 	<meta name="description" content="FE ヒーローズの対戦シミュレーターです。英雄を選択すると複数の対戦結果を一度に閲覧可能です。"/>
 	<link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
 	<link rel="shortcut icon" href="favicon.ico" />
@@ -24,8 +25,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="style.css?v=2017110501"/>
-	<script type="text/javascript" src="db.js?v=2017111501"></script>
-	<script type="text/javascript" src="code.js?v=2017111701"></script>
+	<script type="text/javascript" src="code.js?v=2017111501"></script>
 
 </head>
 
@@ -74,12 +74,12 @@
 					</div>
 					<div class="frame_hero_main_bottom">
 						<div class="hero_skills">
-							<div class="skill_row"><img class="skill_picture" id="challenger_weapon_picture" src="skills/weapon.png"/><select class="skill_select" data-var="challenger.weapon" id="challenger_weapon"></select></div>
-							<div class="skill_row"><img class="skill_picture" id="challenger_special_picture" src="skills/special.png"/><select class="skill_select" data-var="challenger.special" id="challenger_special"></select></div>
-							<div class="skill_row"><img class="skill_picture" id="challenger_a_picture" src="skills/noskill.png"/><div class="skill_letter red">A</div><select class="skill_select" data-var="challenger.a" id="challenger_a"></select></div>
-							<div class="skill_row"><img class="skill_picture" id="challenger_b_picture" src="skills/noskill.png"/><div class="skill_letter blue">B</div><select class="skill_select" data-var="challenger.b" id="challenger_b"></select></div>
-							<div class="skill_row"><img class="skill_picture" id="challenger_c_picture" src="skills/noskill.png"/><div class="skill_letter green">C</div><select class="skill_select" data-var="challenger.c" id="challenger_c"></select></div>
-							<div class="skill_row"><img class="skill_picture" id="challenger_s_picture" src="skills/noskill.png"/><div class="skill_letter yellow">S</div><select class="skill_select" data-var="challenger.s" id="challenger_s"></select></div>
+							<div class="skill_row"><img class="skill_picture" id="challenger_weapon_picture" src="skills/weapon.png" onmouseover="showSkillTooltip('challenger', 'weapon');" onmouseout="hideSkillTooltip();"><select class="skill_select" data-var="challenger.weapon" id="challenger_weapon"></select></div>
+							<div class="skill_row"><img class="skill_picture" id="challenger_special_picture" src="skills/special.png" onmouseover="showSkillTooltip('challenger', 'special');" onmouseout="hideSkillTooltip();"><select class="skill_select" data-var="challenger.special" id="challenger_special"></select></div>
+							<div class="skill_row"><img class="skill_picture" id="challenger_a_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('challenger', 'a');" onmouseout="hideSkillTooltip();"><div class="skill_letter red">A</div><select class="skill_select" data-var="challenger.a" id="challenger_a"></select></div>
+							<div class="skill_row"><img class="skill_picture" id="challenger_b_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('challenger', 'b');" onmouseout="hideSkillTooltip();"><div class="skill_letter blue">B</div><select class="skill_select" data-var="challenger.b" id="challenger_b"></select></div>
+							<div class="skill_row"><img class="skill_picture" id="challenger_c_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('challenger', 'c');" onmouseout="hideSkillTooltip();"><div class="skill_letter green">C</div><select class="skill_select" data-var="challenger.c" id="challenger_c"></select></div>
+							<div class="skill_row"><img class="skill_picture" id="challenger_s_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('challenger', 's');" onmouseout="hideSkillTooltip();"><div class="skill_letter yellow">S</div><select class="skill_select" data-var="challenger.s" id="challenger_s"></select></div>
 						</div>
 						<div class="hero_misc">
 							<div class="misc_row">個体値
@@ -324,7 +324,7 @@
 			<div id="winpercentages"><span class="results_stat">勝利 <span id="win_pct">-</span></span><span class="results_stat">敗北 <span id="lose_pct">-</span></span><span class="results_stat">未決着 <span id="inconclusive_pct">-</span></span></div>
 			<div id="results_list"></div>
 		</div>
-		<div id="footer"><a href="https://github.com/Andu2/FEH-Mass-Simulator">本家</a>. Last <a href="changelog.txt">updated</a> 2017-11-17. バグ等については <a href="https://twitter.com/krbysh_x86">@krbysh_x86</a> までご連絡ください。</div>
+		<div id="footer"><a href="https://github.com/Andu2/FEH-Mass-Simulator">本家</a>. Last <a href="changelog.txt">updated</a> 2017-11-18. バグ等については <a href="https://twitter.com/krbysh_x86">@krbysh_x86</a> までご連絡ください。</div>
 	</div>
 	<div id="frame_tooltip"></div>
 	<div id="screen_fade"></div>
