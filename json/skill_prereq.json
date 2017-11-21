@@ -1,4 +1,5 @@
-[{
+[
+	{
 		"skill_id": 2,
 		"required_id": 1
 	}, {
@@ -1768,6 +1769,24 @@
 	}, {
 		"skill_id": 752,
 		"required_id": 538
+	}, {
+		"skill_id": 754,
+		"required_id": 753
+	}, {
+		"skill_id": 755,
+		"required_id": 754
+	}, {
+		"skill_id": 757,
+		"required_id": 756
+	}, {
+		"skill_id": 758,
+		"required_id": 757
+	}, {
+		"skill_id": 760,
+		"required_id": 759
+	}, {
+		"skill_id": 761,
+		"required_id": 760
 	}, {
 		"skill_id": 10002,
 		"required_id": 10001
