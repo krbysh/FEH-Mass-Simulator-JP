@@ -1394,7 +1394,7 @@ function updateHeroUI(hero){
 				if((weaponName.indexOf("ホースキラー") == -1 ) &&
 					(weaponName.indexOf("キラー") != -1 || weaponName.indexOf("キル") != -1 || weaponName.indexOf("鍛") != -1
 					|| weaponName.indexOf("ミストルティン") != -1 || weaponName.indexOf("オートクレール") != -1 || weaponName.indexOf("魔性の槍") != -1
-					|| weaponName.indexOf("ウルヴァン") != -1)){
+					|| weaponName.indexOf("ウルヴァン") != -1　|| weaponName.indexOf("氷剣アウドムラ") != -1)){
 					specialCharge -= 1;
 				}
 				else if(weaponName.indexOf("ラウアブレード") != -1 || weaponName.indexOf("雷のブレス") != -1 || weaponName.indexOf("ブラーブレード") != -1 || weaponName.indexOf("グルンブレード") != -1){
@@ -3362,7 +3362,7 @@ function activeHero(hero){
 				buffVal = this.hasAtIndex("遠距離防御", this.sIndex) * 2;
 				this.combatSpur.def += buffVal;
 				this.combatSpur.res += buffVal;
-				boostText += this.name + " は、" + data.skills[this.aIndex].name + "(聖印) の効果で遠距離から攻撃された場合、守備・魔防 +"+ buffVal + "。<br>";
+				boostText += this.name + " は、" + data.skills[this.sIndex].name + "(聖印) の効果で遠距離から攻撃された場合、守備・魔防 +"+ buffVal + "。<br>";
 			}
 		}
 
@@ -3378,7 +3378,7 @@ function activeHero(hero){
 				buffVal = this.hasAtIndex("近距離防御", this.sIndex) * 2;
 				this.combatSpur.def += buffVal;
 				this.combatSpur.res += buffVal;
-				boostText += this.name + " は、" + data.skills[this.aIndex].name + "(聖印) の効果で遠距離から攻撃された場合、守備・魔防 +"+ buffVal + "。<br>";
+				boostText += this.name + " は、" + data.skills[this.sIndex].name + "(聖印) の効果で遠距離から攻撃された場合、守備・魔防 +"+ buffVal + "。<br>";
 			}
 		}
 
