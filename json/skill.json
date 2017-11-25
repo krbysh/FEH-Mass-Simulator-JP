@@ -11265,7 +11265,7 @@
 	}, {
 		"skill_id": 752,
 		"name": "Audhulma",
-		"name": "氷剣アウドムラ",
+		"name": "アウドムラ",
 		"slot": "weapon",
 		"sp": 400,
 		"description": "Accelerates Special trigger (cooldown count-1). Grants Res+5.",

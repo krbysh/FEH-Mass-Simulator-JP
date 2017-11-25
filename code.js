@@ -95,7 +95,7 @@ data.newHeroesCsvs = [
 	"ルーテ (5★);Weapon: 奇異ルーテの書;A: ＨＰ魔防 2;C: 魔防の謀策 3;",
 	"ワユ (5★);Weapon: 気鋭ワユの剣;Special: 月光;A: 柔剣 3;B: 待ち伏せ 3;",
 	"ドルカス (5★);Weapon: 剛斧トマホーク;Special: 竜裂;A: 鬼神の構え 3;B: 切り返し 3;C: 歩行の鼓動 3;",
-	"ヨシュア (5★);Weapon: 氷剣アウドムラ;Special: 月虹;A: 近距離防御 3;B: 風薙ぎ 3;",
+	"ヨシュア (5★);Weapon: アウドムラ;Special: 月虹;A: 近距離防御 3;B: 風薙ぎ 3;",
 ];
 
 function initOptions(){
@@ -1394,7 +1394,7 @@ function updateHeroUI(hero){
 				if((weaponName.indexOf("ホースキラー") == -1 ) &&
 					(weaponName.indexOf("キラー") != -1 || weaponName.indexOf("キル") != -1 || weaponName.indexOf("鍛") != -1
 					|| weaponName.indexOf("ミストルティン") != -1 || weaponName.indexOf("オートクレール") != -1 || weaponName.indexOf("魔性の槍") != -1
-					|| weaponName.indexOf("ウルヴァン") != -1　|| weaponName.indexOf("氷剣アウドムラ") != -1)){
+					|| weaponName.indexOf("ウルヴァン") != -1　|| weaponName.indexOf("アウドムラ") != -1)){
 					specialCharge -= 1;
 				}
 				else if(weaponName.indexOf("ラウアブレード") != -1 || weaponName.indexOf("雷のブレス") != -1 || weaponName.indexOf("ブラーブレード") != -1 || weaponName.indexOf("グルンブレード") != -1){
@@ -3101,7 +3101,7 @@ function activeHero(hero){
 		if(this.has("キルソード") || this.has("キラーアクス") || this.has("キラーランス") || this.has("キラーボウ")
 			|| this.has("キラーボウ鍛") || this.has("キルソード鍛") || this.has("キラーアクス鍛") || this.has("キラーランス鍛")
 			|| this.has("魔性の槍") || this.has("ミストルティン") || this.has("オートクレール")
-			|| this.has("ウルヴァン") || this.has("氷剣アウドムラ")){
+			|| this.has("ウルヴァン") || this.has("アウドムラ")){
 			this.charge = 1;
 		}
 		else if(this.has("ラウアブレード") || this.has("雷のブレス") || this.has("ブラーブレード") || this.has("グルンブレード")){
