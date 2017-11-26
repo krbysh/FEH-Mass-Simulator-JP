@@ -9451,6 +9451,7 @@
 	}, {
 		"skill_id": 631,
 		"name": "Urdr",
+		"name": "ウルズ",
 		"slot": "weapon",
 		"sp": 400,
 		"description": "If Sing or Dance is used, target also granted Atk\/Spd\/Def\/Res+3.",
