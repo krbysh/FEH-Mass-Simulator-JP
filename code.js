@@ -3368,13 +3368,13 @@ function activeHero(hero){
 				buffVal = this.hasAtIndex("近距離防御", this.aIndex) * 2;
 				this.combatSpur.def += buffVal;
 				this.combatSpur.res += buffVal;
-				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で遠距離から攻撃された場合、守備・魔防 +"+ buffVal + " 。<br>";
+				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で近距離から攻撃された場合、守備・魔防 +"+ buffVal + " 。<br>";
 			}
 			if(this.hasAtIndex("近距離防御", this.sIndex)){
 				buffVal = this.hasAtIndex("近距離防御", this.sIndex) * 2;
 				this.combatSpur.def += buffVal;
 				this.combatSpur.res += buffVal;
-				boostText += this.name + " は、" + data.skills[this.sIndex].name + "(聖印) の効果で遠距離から攻撃された場合、守備・魔防 +"+ buffVal + " 。<br>";
+				boostText += this.name + " は、" + data.skills[this.sIndex].name + "(聖印) の効果で近距離から攻撃された場合、守備・魔防 +"+ buffVal + " 。<br>";
 			}
 		}
 
