@@ -5044,7 +5044,7 @@ function activeHero(hero){
 			roundText += this.name + " は、絶対追撃。<br>";
 		}
 		if(preventThisFollow){
-			roundText += this.name + " には、追撃されない。<br>";
+			roundText += this.name + " は、追撃できない。<br>";
 		}
 
 		if(enemyCanCounter){ //Don't show this text if the enemy can't counter anyway
@@ -5057,7 +5057,7 @@ function activeHero(hero){
 				roundText += enemy.name + " は、絶対追撃。<br>";
 			}
 			if(preventEnemyFollow){
-				roundText += enemy.name + " には、追撃されない。<br>";
+				roundText += enemy.name + " は、追撃できない。<br>";
 			}
 		}
 
