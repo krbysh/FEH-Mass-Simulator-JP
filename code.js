@@ -3410,25 +3410,25 @@ function activeHero(hero){
 				buffVal = this.has("生命の大地") * 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.def += buffVal;
-				boostText += this.name + " は、" + skillName + "の効果でＨＰが " + enemy.name + " のＨＰより 3 以上高いため、守備 +" + buffVal + " 。<br>";
+				boostText += this.name + " は、" + skillName + " の効果でＨＰが " + enemy.name + " のＨＰより 3 以上高いため、守備 +" + buffVal + " 。<br>";
 			}
 			if(this.has("生命の疾風")){
 				buffVal = this.has("生命の疾風") * 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.spd += buffVal;
-				boostText += this.name + " は、" + skillName + "の効果でＨＰが " + enemy.name + " のＨＰより 3 以上高いため、速さ +" + buffVal + " 。<br>";
+				boostText += this.name + " は、" + skillName + " の効果でＨＰが " + enemy.name + " のＨＰより 3 以上高いため、速さ +" + buffVal + " 。<br>";
 			}
 			if(this.has("生命の業火")){
 				buffVal = this.has("生命の業火") * 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.atk += buffVal;
-				boostText += this.name + " は、" + skillName + "の効果でＨＰが " + enemy.name + " のＨＰより 3 以上高いため、攻撃 +" + buffVal + " 。<br>";
+				boostText += this.name + " は、" + skillName + " の効果でＨＰが " + enemy.name + " のＨＰより 3 以上高いため、攻撃 +" + buffVal + " 。<br>";
 			}
 			if(this.has("生命の静水")){
 				buffVal = this.has("生命の静水") * 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.res += buffVal;
-				boostText += this.name + " は、" + skillName + "の効果でＨＰが " + enemy.name + " のＨＰより 3 以上高いため、魔防 +" + buffVal + " 。<br>";
+				boostText += this.name + " は、" + skillName + " の効果でＨＰが " + enemy.name + " のＨＰより 3 以上高いため、魔防 +" + buffVal + " 。<br>";
 			}
 		}
 
