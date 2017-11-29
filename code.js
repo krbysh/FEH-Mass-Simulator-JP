@@ -95,8 +95,8 @@ data.heroBaseSkills = [];
 data.heroMaxSkills = [[],[],[],[],[]]; //2d array; 1st num rarity, 2nd num skillindex
 
 data.skillsThatArePrereq = [];
-//Prereq exceptions are Sol, Luna, Astra, Assault
-data.skillPrereqExceptions = [125,162,168,170];
+//Prereq exceptions are Sol, Luna, Astra, Assault, 聖兜
+data.skillPrereqExceptions = [125,162,168,170,193];
 
 data.enemyPrompts = {
 	//Just for fun, special messages for some of my favorites ;)
@@ -104,10 +104,11 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"ルーテ (5★);Weapon: 奇異ルーテの書;A: ＨＰ魔防 2;C: 魔防の謀策 3;",
-	"ワユ (5★);Weapon: 気鋭ワユの剣;Special: 月光;A: 柔剣 3;B: 待ち伏せ 3;",
-	"ドルカス (5★);Weapon: 剛斧トマホーク;Special: 竜裂;A: 鬼神の構え 3;B: 切り返し 3;C: 歩行の鼓動 3;",
-	"ヨシュア (5★);Weapon: アウドムラ;Special: 月虹;A: 近距離防御 3;B: 風薙ぎ 3;",
+	"フィヨルム (5★);Weapon: レイプト;Special: 氷の聖鏡;A: 攻撃守備の絆 3;B: 盾の鼓動 3;C: 攻撃の大紋章 2;",
+	"シノノメ (5★);Weapon: 白き血の薙刀;A: 金剛の構え 3;C: 守備の指揮 3;",
+	"シャラ (5★);Weapon: グルンウルフ鍛+;A: 遠距離防御 3;C: 死の吐息 3;",
+	"ジークベルト (5★);Weapon: 黒き血の大剣;Special: 竜穿;A: 鬼神の一撃 3;C: 攻撃の指揮 3;",
+	"ソレイユ (5★);Weapon: 火薙ぎの剣+;Special: 烈風;A: 飛燕の一撃 3;C: 魔防の大紋章 2;",
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -3351,38 +3352,6 @@ function activeHero(hero){
 	this.startCombatSpur = function(enemy){
 		var boostText = "";
 
-		if(!this.initiator && enemy.range == "ranged"){
-			var buffVal = 0;
-			if(this.hasAtIndex("遠距離防御", this.aIndex)){
-				buffVal = this.hasAtIndex("遠距離防御", this.aIndex) * 2;
-				this.combatSpur.def += buffVal;
-				this.combatSpur.res += buffVal;
-				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で遠距離から攻撃された場合、守備・魔防 +"+ buffVal + " 。<br>";
-			}
-			if(this.hasAtIndex("遠距離防御", this.sIndex)){
-				buffVal = this.hasAtIndex("遠距離防御", this.sIndex) * 2;
-				this.combatSpur.def += buffVal;
-				this.combatSpur.res += buffVal;
-				boostText += this.name + " は、" + data.skills[this.sIndex].name + "(聖印) の効果で遠距離から攻撃された場合、守備・魔防 +"+ buffVal + " 。<br>";
-			}
-		}
-
-		if(!this.initiator && enemy.range == "melee"){
-			var buffVal = 0;
-			if(this.hasAtIndex("近距離防御", this.aIndex)){
-				buffVal = this.hasAtIndex("近距離防御", this.aIndex) * 2;
-				this.combatSpur.def += buffVal;
-				this.combatSpur.res += buffVal;
-				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で近距離から攻撃された場合、守備・魔防 +"+ buffVal + " 。<br>";
-			}
-			if(this.hasAtIndex("近距離防御", this.sIndex)){
-				buffVal = this.hasAtIndex("近距離防御", this.sIndex) * 2;
-				this.combatSpur.def += buffVal;
-				this.combatSpur.res += buffVal;
-				boostText += this.name + " は、" + data.skills[this.sIndex].name + "(聖印) の効果で近距離から攻撃された場合、守備・魔防 +"+ buffVal + " 。<br>";
-			}
-		}
-
 		if(this.combatStartHp / this.maxHp >= 1){
 			if(this.has("ライナロック")){
 				//Does this take effect when defending? Answer: yes
@@ -3516,7 +3485,7 @@ function activeHero(hero){
 			}
 			if(this.hasExactly("ティルフィング") && this.hp / this.maxHp <= 0.5){
 				this.combatSpur.def += 4;
-				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、ＨＰ 50% 以下のため、守備 +4 。<br>";
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、ＨＰ 50% 以下の時、守備 +4 。<br>";
 			}
 			if(this.hasExactly("パルティア")){
 				this.combatSpur.res += 4;
@@ -3636,19 +3605,49 @@ function activeHero(hero){
 			//Not actually going to limit text from relevantDefType, beccause res/def may always be relevant for special attacks
 			var buffVal = 0;
 
+			////Close/Distant Def
+			if(enemy.range == "ranged"){
+				if(this.hasAtIndex("遠距離防御", this.aIndex)){
+					buffVal = this.hasAtIndex("遠距離防御", this.aIndex) * 2;
+					this.combatSpur.def += buffVal;
+					this.combatSpur.res += buffVal;
+					boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で弓、暗器、魔法、杖の敵から攻撃された場合、守備・魔防 +"+ buffVal + " 。<br>";
+				}
+				if(this.hasAtIndex("遠距離防御", this.sIndex)){
+					buffVal = this.hasAtIndex("遠距離防御", this.sIndex) * 2;
+					this.combatSpur.def += buffVal;
+					this.combatSpur.res += buffVal;
+					boostText += this.name + " は、" + data.skills[this.sIndex].name + "(聖印) の効果で弓、暗器、魔法、杖の敵から攻撃された場合、守備・魔防 +"+ buffVal + " 。<br>";
+				}
+			}
+			if(enemy.range == "melee"){
+				if(this.hasAtIndex("近距離防御", this.aIndex)){
+					buffVal = this.hasAtIndex("近距離防御", this.aIndex) * 2;
+					this.combatSpur.def += buffVal;
+					this.combatSpur.res += buffVal;
+					boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で剣、槍、斧、竜の敵から攻撃された場合、守備・魔防 +"+ buffVal + " 。<br>";
+				}
+				if(this.hasAtIndex("近距離防御", this.sIndex)){
+					buffVal = this.hasAtIndex("近距離防御", this.sIndex) * 2;
+					this.combatSpur.def += buffVal;
+					this.combatSpur.res += buffVal;
+					boostText += this.name + " は、" + data.skills[this.sIndex].name + "(聖印) の効果で剣、槍、斧、竜の敵近距離から攻撃された場合、守備・魔防 +"+ buffVal + " 。<br>";
+				}
+			}
+
 			//weapon
 			if(this.hasExactly("封印の剣") || this.hasExactly("ナーガ")){
 				this.combatSpur.def += 2;
 				this.combatSpur.res += 2;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、守備・魔防 +2 。<br>";
 			}
-			if(this.hasExactly("ヴィドフニル") && (enemy.weaponType == "axe" || enemy.weaponType == "sword" ||enemy.weaponType == "lance" )){
+			if(this.hasExactly("ヴィドフニル") && (enemy.weaponType == "sword" || enemy.weaponType == "axe" ||enemy.weaponType == "lance" )){
 				this.combatSpur.def += 7;
-				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、守備 +7 。<br>";
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、剣、槍、斧の敵から攻撃された時、守備 +7 。<br>";
 			}
 			if(this.hasExactly("ティルフィング") && this.hp / this.maxHp <= 0.5){
 				this.combatSpur.def += 4;
-				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、ＨＰ 50% 以下のため、守備 +4 。<br>";
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、ＨＰ 50% 以下の時、守備 +4 。<br>";
 			}
 			if(this.has("ベルクトの槍")){
 				this.combatSpur.res += 4;
@@ -3658,6 +3657,12 @@ function activeHero(hero){
 				this.combatSpur.atk += 4;
 				this.combatSpur.def += 4;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、攻撃・守備 +4 。<br>";
+			}
+			//***Does magic for Guard Bow include dragons?***
+			if(this.has("遠距離防御の弓") && enemy.range == "ranged"){
+				this.combatSpur.def += 6;
+				this.combatSpur.res += 6;
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、弓、暗器、魔法、杖の敵から敵から攻撃された時、守備・魔防 +6 。<br>";
 			}
 
 			//Skills
@@ -3812,8 +3817,12 @@ function activeHero(hero){
 			sealAtk = -this.has("攻撃封じ") * 2 - 1;
 			skillName = data.skills[this.bIndex].name;
 		}
-		if(this.didAttack && this.has("フィアー") && sealAtk > -6){
+		if(this.didAttack && this.hasExactly("フィアー") && sealAtk > -6){
 			sealAtk = -6;
+			skillName = data.skills[this.weaponIndex].name;
+		}
+		if(this.didAttack && this.hasExactly("フィアー+") && sealAtk > -7){
+			sealAtk = -7;
 			skillName = data.skills[this.weaponIndex].name;
 		}
 		if(sealAtk < enemy.combatDebuffs.atk){
@@ -3831,8 +3840,12 @@ function activeHero(hero){
 			sealSpd = -this.has("攻撃速さ封じ") * 2 - 1;
 			skillName = data.skills[this.bIndex].name;
 		}
-		if(this.didAttack && this.has("スロウ") && sealSpd > -6){
+		if(this.didAttack && this.hasExactly("スロウ") && sealSpd > -6){
 			sealSpd = -6;
+			skillName = data.skills[this.weaponIndex].name;
+		}
+		if(this.didAttack && this.hasExactly("スロウ+") && sealSpd > -7){
+			sealSpd = -7;
 			skillName = data.skills[this.weaponIndex].name;
 		}
 		if(sealSpd < enemy.combatDebuffs.spd){
@@ -4417,7 +4430,9 @@ function activeHero(hero){
 
 			//Check weapon effective against
 			var effectiveBonus = 1;
-			if(enemy.moveType == "armored" && (this.has("ハンマー") || this.has("アーマーキラー") || this.has("貫きの槍"))){
+			if(enemy.moveType == "armored" && (this.has("ハンマー") || this.has("ハンマー鍛")
+				|| this.has("アーマーキラー") || this.has("アーマーキラー鍛")
+				|| this.has("貫きの槍") || this.has("貫きの槍鍛"))){
 				effectiveBonus = (enemy.has("スヴェルの盾")) ? 1 : 1.5;
 			}
 			else if(enemy.moveType == "flying" && (this.hasExactly("エクスカリバー") || this.weaponType=="bow")){
@@ -4426,7 +4441,11 @@ function activeHero(hero){
 			else if(enemy.moveType == "infantry" && (this.has("秘毒の暗器"))){
 				effectiveBonus = 1.5;
 			}
-			else if(enemy.moveType == "cavalry" && (this.has("ラウアウルフ") || this.has("ブラーウルフ") || this.has("グルンウルフ") || this.has("斬馬刀") || this.has("ホースキラー"))){
+			else if(enemy.moveType == "cavalry" && (this.has("斬馬刀")
+				|| this.has("ホースキラー")
+				|| this.has("ラウアウルフ") || this.has("ラウアウルフ鍛")
+				|| this.has("ブラーウルフ") || this.has("ブラーウルフ鍛")
+				|| this.has("グルンウルフ") || this.has("グルンウルフ鍛"))){
 				effectiveBonus = (enemy.has("グラ二の盾")) ? 1 : 1.5;
 			}
 			else if(enemy.weaponType == "dragon" && (this.has("ファルシオン") || this.has("ナーガ"))){
@@ -4681,8 +4700,8 @@ function activeHero(hero){
 				//Reset skillNames
 				skillNames = [];
 
-				if(enemy.has("キャンセル")){
-					if(enemy.combatStartHp / enemy.maxHp >= 1.1 - enemy.has("キャンセル")*0.1){
+				if(enemy.hasAtIndex("キャンセル", enemy.bIndex)){
+					if(enemy.combatStartHp / enemy.maxHp >= 1.1 - enemy.hasAtIndex("キャンセル", enemy.bIndex) * 0.1){
 						loseCharge = Math.max(loseCharge, 1);
 						skillNames.push(data.skills[enemy.bIndex].name);
 					}
@@ -4715,8 +4734,8 @@ function activeHero(hero){
 				//Reset skillNames
 				skillNames = []
 
-				if(this.has("キャンセル")){
-					if(this.combatStartHp / this.maxHp >= 1.1 - this.has("キャンセル")*0.1){
+				if(this.hasAtIndex("キャンセル", this.bIndex)){
+					if(this.combatStartHp / this.maxHp >= 1.1 - this.hasAtIndex("キャンセル", this.bIndex) * 0.1){
 						loseCharge = Math.max(loseCharge, 1);
 						skillNames.push(data.skills[this.bIndex].name);
 					}
@@ -5187,11 +5206,11 @@ function activeHero(hero){
 			roundText += this.postCombatHeal();
 
 			//panic
-			if(this.hasExactly("パニック") || this.has("ローローの斧") || this.has("ゴーストの魔道書") || this.has("怪物の弓")){
+			if(this.has("パニック") || this.has("ローローの斧") || this.has("ゴーストの魔道書") || this.has("怪物の弓")){
 				enemy.panicked = true;
 				roundText += this.name + " panics " + enemy.name + ".<br>";
 			}
-			if(enemy.hasExactly("パニック") || enemy.has("ローローの斧") || this.has("ゴーストの魔道書") || this.has("怪物の弓")){
+			if(enemy.has("パニック") || enemy.has("ローローの斧") || this.has("ゴーストの魔道書") || this.has("怪物の弓")){
 				this.panicked = true;
 				roundText += enemy.name + " は、" + this.name + " に、パニック を付与。<br>";
 			}
