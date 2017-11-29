@@ -3505,6 +3505,30 @@ function activeHero(hero){
 			var skillName = "";
 			var buffVal = 0;
 
+			//Weapons
+			if(this.hasExactly("デュランダル")){
+				this.combatSpur.atk += 4;
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、自分から攻撃時、攻撃 +4 。<br>";
+			}
+			if(this.hasExactly("夜刀神")){
+				this.combatSpur.spd += 4;
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、自分から攻撃時、速さ +4 。<br>";
+			}
+			if(this.hasExactly("ティルフィング") && this.hp / this.maxHp <= 0.5){
+				this.combatSpur.def += 4;
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、ＨＰ 50% 以下のため、守備 +4 。<br>";
+			}
+			if(this.hasExactly("パルティア")){
+				this.combatSpur.res += 4;
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、自分から攻撃時、魔防 +4 。<br>";
+			}
+			if(this.hasExactly("黒き血の大剣")){
+				this.combatSpur.atk += 4;
+				this.combatSpur.spd += 4;
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、自分から攻撃時、攻撃・速さ +4 。<br>"
+			}
+
+			//Skills
 			if(this.has("鬼神飛燕の一撃")){
 				buffVal = this.has("鬼神飛燕の一撃") * 2;
 				skillName = data.skills[this.aIndex].name;
@@ -3529,99 +3553,80 @@ function activeHero(hero){
 				this.combatSpur.atk += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、攻撃 +" + buffVal + " 。<br>";
 			}
-			if(this.hasExactly("デュランダル")){
-				this.combatSpur.atk += 4;
-				boostText += this.name + " は、デュランダル の効果で、自分から攻撃時、攻撃 +4 。<br>";
-			}
 
-			var blowSpd = 0;
 			if(this.has("飛燕金剛の一撃")){
-				blowSpd = this.has("飛燕金剛の一撃") * 2;
+				buffVal = this.has("飛燕金剛の一撃") * 2;
 				skillName = data.skills[this.aIndex].name;
-				this.combatSpur.spd += blowSpd;
-				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、速さ +" + blowSpd + " 。<br>";
+				this.combatSpur.spd += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、速さ +" + buffVal + " 。<br>";
 			}
 			else if(this.has("鬼神飛燕の一撃")){
-				blowSpd = this.has("鬼神飛燕の一撃") * 2;
+				buffVal = this.has("鬼神飛燕の一撃") * 2;
 				skillName = data.skills[this.aIndex].name;
-				this.combatSpur.spd += blowSpd;
-				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、速さ +" + blowSpd + " 。<br>";
+				this.combatSpur.spd += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、速さ +" + buffVal + " 。<br>";
 			}
 			else if(this.has("飛燕明鏡の一撃")){
-				blowSpd = this.has("飛燕明鏡の一撃") * 2;
+				buffVal = this.has("飛燕明鏡の一撃") * 2;
 				skillName = data.skills[this.aIndex].name;
-				this.combatSpur.spd += blowSpd;
-				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、速さ +" + blowSpd + " 。<br>";
+				this.combatSpur.spd += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、速さ +" + buffVal + " 。<br>";
 			}
 			else if(this.has("飛燕の一撃")){
-				blowSpd = this.has("飛燕の一撃") * 2;
+				buffVal = this.has("飛燕の一撃") * 2;
 				skillName = data.skills[this.aIndex].name;
-				this.combatSpur.spd += blowSpd;
-				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、速さ +" + blowSpd + " 。<br>";
-			}
-			if(this.hasExactly("夜刀神")){
-				this.combatSpur.spd += 4;
-				boostText += this.name + " は、夜刀神 の効果で、自分から攻撃時、速さ +4 。<br>";
+				this.combatSpur.spd += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、速さ +" + buffVal + " 。<br>";
 			}
 
-			var blowDef = 0;
 			if(this.has("飛燕金剛の一撃")){
-				blowDef = this.has("飛燕金剛の一撃") * 2;
+				buffVal = this.has("飛燕金剛の一撃") * 2;
 				skillName = data.skills[this.aIndex].name;
-				this.combatSpur.def += blowDef;
-				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、守備 +" + blowDef + " 。<br>";
+				this.combatSpur.def += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、守備 +" + buffVal + " 。<br>";
 			}
 			else if(this.has("鬼神金剛の一撃")){
-				blowDef = this.has("鬼神金剛の一撃") * 2;
+				buffVal = this.has("鬼神金剛の一撃") * 2;
 				skillName = data.skills[this.aIndex].name;
-				this.combatSpur.def += blowDef;
-				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、守備 +" + blowDef + " 。<br>";
+				this.combatSpur.def += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、守備 +" + buffVal + " 。<br>";
 			}
 			else if(this.has("金剛明鏡の一撃")){
-				blowDef = this.has("金剛明鏡の一撃") * 2;
+				buffVal = this.has("金剛明鏡の一撃") * 2;
 				skillName = data.skills[this.aIndex].name;
-				this.combatSpur.def += blowDef;
-				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、守備 +" + blowDef + " 。<br>";
+				this.combatSpur.def += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、守備 +" + buffVal + " 。<br>";
 			}
 			else if(this.has("金剛の一撃")){
-				blowDef = this.has("金剛の一撃") * 2;
+				buffVal = this.has("金剛の一撃") * 2;
 				skillName = data.skills[this.aIndex].name;
-				this.combatSpur.def += blowDef;
-				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、守備 +" + blowDef + " 。<br>";
-			}
-			if(this.hasExactly("ティルフィング") && this.hp / this.maxHp <= 0.5){
-				this.combatSpur.def += 4;
-				boostText += this.name + " は、ティルフィング の効果で、ＨＰ 50% 以下のため、守備 +4 。<br>";
+				this.combatSpur.def += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、守備 +" + buffVal + " 。<br>";
 			}
 
-			var blowRes = 0;
 			if(this.has("鬼神明鏡の一撃")){
-				blowRes = this.has("鬼神明鏡の一撃") * 2;
+				buffVal = this.has("鬼神明鏡の一撃") * 2;
 				skillName = data.skills[this.aIndex].name;
-				this.combatSpur.res += blowRes;
-				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、魔防 +" + blowRes + " 。<br>";
+				this.combatSpur.res += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、魔防 +" + buffVal + " 。<br>";
 			}
 			else if(this.has("飛燕明鏡の一撃")){
-				blowRes = this.has("飛燕明鏡の一撃") * 2;
+				buffVal = this.has("飛燕明鏡の一撃") * 2;
 				skillName = data.skills[this.aIndex].name;
-				this.combatSpur.res += blowRes;
-				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、魔防 +" + blowRes + " 。<br>";
+				this.combatSpur.res += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、魔防 +" + buffVal + " 。<br>";
 			}
 			else if(this.has("金剛明鏡の一撃")){
-				blowRes = this.has("金剛明鏡の一撃") * 2;
+				buffVal = this.has("金剛明鏡の一撃") * 2;
 				skillName = data.skills[this.aIndex].name;
-				this.combatSpur.res += blowRes;
-				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、魔防 +" + blowRes + " 。<br>";
+				this.combatSpur.res += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、魔防 +" + buffVal + " 。<br>";
 			}
 			else if(this.has("明鏡の一撃")){
-				blowRes = this.has("明鏡の一撃") * 2;
+				buffVal = this.has("明鏡の一撃") * 2;
 				skillName = data.skills[this.aIndex].name;
-				this.combatSpur.res += blowRes;
-				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、魔防 +" + blowRes + " 。<br>";
-			}
-			if(this.hasExactly("パルティア")){
-				this.combatSpur.res += 4;
-				boostText += this.name + " は、パルティア の効果で、自分から攻撃時、魔防 +4 。<br>";
+				this.combatSpur.res += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、魔防 +" + buffVal + " 。<br>";
 			}
 			return boostText;
 		}
@@ -3629,6 +3634,7 @@ function activeHero(hero){
 		//this.defendBuff = function(relevantDefType){
 		if(!this.initiator){
 			//Not actually going to limit text from relevantDefType, beccause res/def may always be relevant for special attacks
+			var buffVal = 0;
 
 			//weapon
 			if(this.hasExactly("封印の剣") || this.hasExactly("ナーガ")){
@@ -3642,41 +3648,51 @@ function activeHero(hero){
 			}
 			if(this.hasExactly("ティルフィング") && this.hp / this.maxHp <= 0.5){
 				this.combatSpur.def += 4;
-				boostText += this.name + " は、ティルフィング の効果で、ＨＰ 50% 以下のため、守備 +4 。<br>";
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、ＨＰ 50% 以下のため、守備 +4 。<br>";
 			}
 			if(this.has("ベルクトの槍")){
 				this.combatSpur.res += 4;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、魔防 +4 。<br>";
 			}
-			//Atk passive
-			var stanceAtk = 0;
-			if(this.has("鬼神の構え")){
-				stanceAtk = this.has("鬼神の構え") * 2;
-				skillName = data.skills[this.aIndex].name;
-				this.combatSpur.atk += stanceAtk;
-				boostText += this.name + " は、" + skillName + " の効果で、敵から攻撃された時、攻撃 +" + stanceAtk + " 。<br>";
+			if(this.hasExactly("白き血の薙刀")){
+				this.combatSpur.atk += 4;
+				this.combatSpur.def += 4;
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、攻撃・守備 +4 。<br>";
 			}
 
-			//Def passive
-			var stanceDef = 0;
-			if(this.has("金剛の構え")){
-				stanceDef = this.has("金剛の構え") * 2;
-				skillName = data.skills[this.aIndex].name;
-				this.combatSpur.def += stanceDef;
-				boostText += this.name + " は、" + skillName + "の効果で、敵から攻撃された時、守備 +" + stanceDef + " 。<br>";
-			}
+			//Skills
 			if(this.has("金剛の呼吸")){
 				this.combatSpur.def += 4;
 				boostText += this.name + " は、金剛の呼吸 の効果で、敵から攻撃された時、守備 +4 。<br>";
 			}
 
-			//Res passive
-			var stanceRes = 0;
-			if(this.has("明鏡の構え")){
-				stanceRes = this.has("明鏡の構え") * 2;
+			if(this.has("鬼神の構え")){
+				buffVal = this.has("鬼神の構え") * 2;
 				skillName = data.skills[this.aIndex].name;
-				this.combatSpur.res += stanceRes;
-				boostText += this.name + "は、" + skillName + " の効果で、敵から攻撃された時、魔防 +" + stanceRes + " 。<br>";
+				this.combatSpur.atk += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で、敵から攻撃された時、攻撃 +" + buffVal + " 。<br>";
+			}
+
+			//***Speed Stance not in game - need to rename***
+			if(this.has("Speed Stance")){
+				buffVal = this.has("Speed Stance") * 2;
+				skillName = data.skills[this.aIndex].name;
+				this.combatSpur.spd += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で、敵から攻撃された時、速さ +" + buffVal + " 。<br>";
+			}
+
+			if(this.has("金剛の構え")){
+				buffVal = this.has("金剛の構え") * 2;
+				skillName = data.skills[this.aIndex].name;
+				this.combatSpur.def += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で、敵から攻撃された時、守備 +" + buffVal + " 。<br>";
+			}
+
+			if(this.has("明鏡の構え")){
+				buffVal = this.has("明鏡の構え") * 2;
+				skillName = data.skills[this.aIndex].name;
+				this.combatSpur.res += buffVal;
+				boostText += this.name + "は、" + skillName + " の効果で、敵から攻撃された時、魔防 +" + buffVal + " 。<br>";
 			}
 
 			return boostText;
