@@ -1195,7 +1195,7 @@ body{
 
 /*Tooltip///////////////////////////////////////////////////*/
 #frame_tooltip{
-	width:520px;
+	width:600px;
 	font-size:11px;
 	position:absolute;
 	border:2px solid #eeeeee;
