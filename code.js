@@ -1414,7 +1414,8 @@ function updateHeroUI(hero){
 
 				//If special is defensive
 				if(specialName.indexOf("祈り") != -1 || specialName.indexOf("聖盾") != -1 || specialName.indexOf("小盾") != -1 || specialName.indexOf("長盾") != -1
-					|| specialName.indexOf("聖衣") != -1 || specialName.indexOf("大盾") != -1 || specialName.indexOf("聖兜")!= -1){
+					|| specialName.indexOf("聖衣") != -1 || specialName.indexOf("大盾") != -1 || specialName.indexOf("聖兜")!= -1
+					|| specialName.indexOf("氷の聖鏡") != -1){
 					//Shield Pulse
 					if(bName.indexOf("盾の鼓動 3") != -1){
 						precharge += 2;
@@ -2963,6 +2964,9 @@ function activeHero(hero){
 	this.debuffs = hero.debuffs;
 	this.spur = hero.spur;
 
+	//Charged damage to be released during combat, resets at end of combat
+	this.chargedDamage = 0;
+
 	this.maxHp = hero.hp;
 	this.atk = hero.atk;
 	this.spd = hero.spd;
@@ -3117,7 +3121,8 @@ function activeHero(hero){
 	}
 
 	//Shield Pulse charge at beginning
-	if(this.has("祈り") || this.has("聖盾") || this.has("小盾") || this.has("長盾") || this.has("聖衣") || this.has("大盾") || this.has("聖兜")){
+	if(this.has("祈り") || this.has("聖盾") || this.has("小盾") || this.has("長盾")
+		|| this.has("聖衣") || this.has("大盾") || this.has("聖兜") || this.has("氷の聖鏡")){
 		if(this.has("盾の鼓動 3")){
 			this.charge += 2;
 		} else if(this.has("盾の鼓動 1") || this.has("盾の鼓動 2")){
@@ -4062,7 +4067,7 @@ function activeHero(hero){
 
 		//Specials
 		var offensiveSpecialActivated = false;
-		if(this.specialIndex!=-1&&data.skills[this.specialIndex].charge<=this.charge){
+		if(this.specialIndex != -1 && data.skills[this.specialIndex].charge <= this.charge){
 
 			//Do AOE specials
 			if(AOE){
@@ -4088,13 +4093,15 @@ function activeHero(hero){
 						damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 					}
 					//Wrath damage is checked when special is activated
+					//***Apparently Wrath does not affect AOE skills***
+					/*
 					if(this.has("怒り")){
 						if(this.hp/this.maxHp <= .25 * this.has("怒り")){
 							AOEDamage += 10;
 							damageText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 						}
 					}
-
+					*/
 
 					if(enemy.has("エンブラの加護")){
 						AOEDamage = 0;
@@ -4417,9 +4424,24 @@ function activeHero(hero){
 				damageText += this.name + "の攻撃は、武器の特効の効果で、" + (effectiveBonus * 100 - 100) + "% 上昇。<br>";
 			}
 
-			//Check damage reducing specials
+			//Weapon mod for healers
+			var weaponModifier = 1;
+			if(this.weaponType == "staff"){
+				//poor healers
+				weaponModifier = 0.5;
+
+				//But wait!
+				if(this.has("神罰の杖")){
+					if(this.combatStartHp / this.maxHp >= 1.5 + this.has("神罰の杖") * -0.5){
+						weaponModifier = 1;
+					}
+				}
+			}
+
+			//Check damage reducing specials and effects
 			var defensiveSpecialActivated = false;
 			var dmgReduction = 1.0;
+			var dmgReductionFlat = 0;
 			var miracle = false;
 
 			//First Attack
@@ -4475,12 +4497,13 @@ function activeHero(hero){
 				}
 			}
 
-			if(enemy.specialIndex!=-1&&data.skills[enemy.specialIndex].charge<=enemy.charge){
+			if(enemy.specialIndex != -1 && data.skills[enemy.specialIndex].charge <= enemy.charge){
 				//gotta check range
 				var anyRangeCounter = false;
 				if(this.has("近距離反撃") || this.has("遠距離反撃") || this.has("雷のブレス")
 				|| this.has("雷神刀") || this.has("ジークフリート") || this.has("ラグネル")
-				|| this.has("グラディウス") || this.has("エタルド") || this.has("剛斧トマホーク")){
+				|| this.has("グラディウス") || this.has("エタルド") || this.has("剛斧トマホーク")
+				|| this.has("レイプト")){
 					anyRangeCounter = true;
 				}
 
@@ -4497,7 +4520,7 @@ function activeHero(hero){
 					}
 				}
 				else if(this.range == "ranged" || (!this.initiator && enemy.range == "ranged" && anyRangeCounter)){
-					if(enemy.has("聖衣") || enemy.has("聖兜")){
+					if(enemy.has("聖衣") || enemy.has("聖兜") || enemy.has("氷の聖鏡")){
 						dmgReduction *= 0.7;
 						defensiveSpecialActivated = true;
 						damageText += enemy.name + " は、" + data.skills[enemy.specialIndex].name + " を発動し、" + this.name + " のダメージを 30% 軽減。<br>";
@@ -4515,32 +4538,25 @@ function activeHero(hero){
 			}
 
 			if(defensiveSpecialActivated){
+			//Before damage defensive special effects
 				if(dmgReduction < 1){
-					//damageText += data.skills[enemy.specialIndex].name + " reduces " + this.name + "'s damage by " + ((1 - dmgReduction) * 100 | 0) + "%.<br>"
-
 					if (enemy.has("盾の鼓動 2") || enemy.has("盾の鼓動 3")){
-						damageText += enemy.name + " は、盾の鼓動 を発動し、" + this.name + " のダメージをさらに、5 軽減。<br>";
-					}
-				}
-				enemy.resetCharge();
-			}
-
-			//Weapon mod for healers
-			var weaponModifier = 1;
-			if(this.weaponType == "staff"){
-				//poor healers
-				weaponModifier = 0.5;
-
-				//But wait!
-				if(this.has("神罰の杖")){
-					if(this.combatStartHp / this.maxHp >= 1.5 + this.has("神罰の杖") * -0.5){
-						weaponModifier = 1;
+						dmgReductionFlat += 5;
+						damageText += enemy.name + " は、盾の鼓動 の効果で、" + this.name + " のダメージをさらに、5 軽減。<br>";
 					}
 				}
 			}
 
+			//Absorb check
 			if(this.has("アブゾーブ")){
 				absorbPct = 0.5;
+			}
+
+			//Release charged damage
+			if (this.chargedDamage > 0){
+				dmgBoost += this.chargedDamage;
+				damageText += this.name + " は、蓄積したダメージを開放し、追加で +" + this.chargedDamage + " ダメージ。<br>";
+				this.chargedDamage = 0;
 			}
 
 			//Damage calculation from http://feheroes.wiki/Damage_Calculation
@@ -4551,18 +4567,32 @@ function activeHero(hero){
 			var dmg = (rawDmg - reduceDmg) * weaponModifier | 0;
 			dmg = dmg * dmgMultiplier | 0;
 			dmg -= dmg * (1 - dmgReduction) | 0;
-
-			//Pushing Shield check
-			if (defensiveSpecialActivated && (enemy.has("盾の鼓動 2") || enemy.has("盾の鼓動 3"))){
-				dmg -= 5;
-			}
+			dmg -= dmgReductionFlat | 0;
 
 			//Final damage calculations
 			dmg = Math.max(dmg,0);
 			if(enemy.has("エンブラの加護")){
 				dmg = 0;
 			}
+
 			damageText += this.name + " は、" + enemy.name + " に対して <span class=\"highlight\">" + dmg + "</span> ダメージ。<br>";
+
+			//After damage defensive special effects
+			//***Does this count weapon triangle reductions? Reduction value > damage dealt?***
+			if(defensiveSpecialActivated){
+				//Ice Mirror damage charge up check
+				if (enemy.has("氷の聖鏡")){
+					var iceMirrorDamage = ((rawDmg - reduceDmg) * weaponModifier | 0) - dmg;
+					if (iceMirrorDamage > 0){
+						enemy.chargedDamage += iceMirrorDamage;
+						damageText += enemy.name + " の 氷の聖鏡 の効果で、次の攻撃時に " + iceMirrorDamage + " ダメージ蓄積。<br>";
+					}
+				}
+				//Reset enemy charge after special activation
+				enemy.resetCharge();
+			}
+
+			//Miracle survival check
 			if(dmg >= enemy.hp){
 				if(miracle){
 					dmg = enemy.hp - 1;
@@ -4708,13 +4738,14 @@ function activeHero(hero){
 	//represents a full round of combat
 	this.attack = function(enemy,round,renew,galeforce){
 
-		//Initialize last attacker
-		lastAttacker = "none";
-
+		//Initialize round
 		var roundText = "";//Common theme: text is returned by helper functions, so the functions are called by adding them to roundText
 		this.initiator = true;
 		enemy.initiator = false;
 		enemy.didAttack = false;
+		lastAttacker = "none";
+		this.chargedDamage = 0;
+		enemy.chargedDamage = 0;
 
 		//Get relevant defense for simplified text output
 		var relevantDefType = (enemy.attackType == "magical") ? "res" : "def";
@@ -4788,7 +4819,9 @@ function activeHero(hero){
 		//check for any-distance counterattack
 		var anyRangeCounter = false;
 		if(enemy.has("近距離反撃") || enemy.has("遠距離反撃") || enemy.has("雷のブレス")
-			|| enemy.has("雷神刀") || enemy.has("ラグネル") || enemy.has("ジークフリート") || enemy.has("グラディウス") || enemy.has("エタルド") || enemy.has("剛斧トマホーク")){
+			|| enemy.has("雷神刀") || enemy.has("ラグネル") || enemy.has("ジークフリート")
+			|| enemy.has("グラディウス") || enemy.has("エタルド") || enemy.has("剛斧トマホーク")
+			|| enemy.has("レイプト")){
 			anyRangeCounter = true;
 		}
 

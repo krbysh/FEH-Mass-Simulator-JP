@@ -11746,7 +11746,7 @@
 	}, {
 		"skill_id": 784,
 		"name": "Candlelight+",
-		"name": "	キャンドル+",
+		"name": "キャンドル+",
 		"slot": "weapon",
 		"sp": 300,
 		"description": "After combat, foe and foes within 2 spaces of target inflicted with status preventing counterattack through their next actions.",
@@ -11938,7 +11938,7 @@
 		"charge": 0,
 		"inheritrule": "",
 		"affectsduel": 1
-		}, {
+	}, {
 		"skill_id": 10002,
 		"name": "Squad Ace A 2",
 		"name": "第１迷宮の覇者 2",
@@ -11953,7 +11953,7 @@
 		"charge": 0,
 		"inheritrule": "",
 		"affectsduel": 1
-		}, {
+	}, {
 		"skill_id": 10003,
 		"name": "Squad Ace A 3",
 		"name": "第１迷宮の覇者 3",
@@ -11968,7 +11968,7 @@
 		"charge": 0,
 		"inheritrule": "",
 		"affectsduel": 1
-		}, {
+	}, {
 		"skill_id": 10004,
 		"name": "Squad Ace B 1",
 		"name": "第２迷宮の覇者 1",
@@ -11983,7 +11983,7 @@
 		"charge": 0,
 		"inheritrule": "",
 		"affectsduel": 1
-		}, {
+	}, {
 		"skill_id": 10005,
 		"name": "Squad Ace B 2",
 		"name": "第２迷宮の覇者 2",
@@ -11998,7 +11998,7 @@
 		"charge": 0,
 		"inheritrule": "",
 		"affectsduel": 1
-		}, {
+	}, {
 		"skill_id": 10006,
 		"name": "Squad Ace B 3",
 		"name": "第２迷宮の覇者 3",
@@ -12013,7 +12013,7 @@
 		"charge": 0,
 		"inheritrule": "",
 		"affectsduel": 1
-		}, {
+	}, {
 		"skill_id": 10007,
 		"name": "Squad Ace C 1",
 		"name": "第３迷宮の覇者 1",
@@ -12028,7 +12028,7 @@
 		"charge": 0,
 		"inheritrule": "",
 		"affectsduel": 1
-		}, {
+	}, {
 		"skill_id": 10008,
 		"name": "Squad Ace C 2",
 		"name": "第３迷宮の覇者 2",
@@ -12043,7 +12043,7 @@
 		"charge": 0,
 		"inheritrule": "",
 		"affectsduel": 1
-		}, {
+	}, {
 		"skill_id": 10009,
 		"name": "Squad Ace C 3",
 		"name": "第３迷宮の覇者 3",
@@ -12058,7 +12058,7 @@
 		"charge": 0,
 		"inheritrule": "",
 		"affectsduel": 1
-		}, {
+	}, {
 		"skill_id": 10010,
 		"name": "Squad Ace D 1",
 		"name": "第４迷宮の覇者 1",
@@ -12073,7 +12073,7 @@
 		"charge": 0,
 		"inheritrule": "",
 		"affectsduel": 1
-		}, {
+	}, {
 		"skill_id": 10011,
 		"name": "Squad Ace D 2",
 		"name": "第４迷宮の覇者 2",
@@ -12088,7 +12088,7 @@
 		"charge": 0,
 		"inheritrule": "",
 		"affectsduel": 1
-		}, {
+	}, {
 		"skill_id": 10012,
 		"name": "Squad Ace D 3",
 		"name": "第４迷宮の覇者 3",
@@ -12103,7 +12103,7 @@
 		"charge": 0,
 		"inheritrule": "",
 		"affectsduel": 1
-		}, {
+	}, {
 		"skill_id": 10013,
 		"name": "Squad Ace E 1",
 		"name": "第５迷宮の覇者 1",
@@ -12118,7 +12118,7 @@
 		"charge": 0,
 		"inheritrule": "",
 		"affectsduel": 1
-		}, {
+	}, {
 		"skill_id": 10014,
 		"name": "Squad Ace E 2",
 		"name": "第５迷宮の覇者 2",
@@ -12133,7 +12133,7 @@
 		"charge": 0,
 		"inheritrule": "",
 		"affectsduel": 1
-		}, {
+	}, {
 		"skill_id": 10015,
 		"name": "Squad Ace E 3",
 		"name": "第５迷宮の覇者 3",
