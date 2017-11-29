@@ -9258,7 +9258,7 @@
 		"name": "Slaying Lance+",
 		"name": "キラーランス鍛+",
 		"slot": "weapon",
-		"sp": 400,
+		"sp": 300,
 		"description": "Accelerates Special trigger (cooldown count-1).",
 		"hp": 0,
 		"atk": 14,
