@@ -1370,7 +1370,7 @@ function setSkillOptions(hero){
 
 function updateRefineUI(hero){
 	var htmlPrefix = "challenger_";
-	var slotHTML = "<option value=-1>No refine</option>";
+	var slotHTML = "<option value=-1>錬成なし</option>";
 	var validSkills = hero["valid" + capitalize("refine") + "Skills"];
 
 	//Set htmlPrefix
@@ -2625,7 +2625,7 @@ function fight(enemyIndex,resultIndex){
 		weaponName = data.skills[ahEnemy.weaponIndex].name;
 	}
 	if(ahEnemy.refineIndex != -1){
-		refineName = data.refine[ahEnemy.refineIndex].name;
+		refineName = data.refine[ahEnemy.refineIndex].name_en;
 	}
 	if(ahEnemy.specialIndex != -1){
 		specialName = data.skills[ahEnemy.specialIndex].name;
