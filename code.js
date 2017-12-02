@@ -613,6 +613,7 @@ function initHero(hero, alreadyHasSkills){
 				hero.rarity = 5;
 			}
 			data.skillSlots.forEach(function(slot){
+				//console.log(data.heroes[hero.index].name + " valid" + capitalize(slot) + "Skills");
 				if(hero["valid" + capitalize(slot) + "Skills"].indexOf(hero[slot]) == -1){
 					hero[slot] = -1;
 				}
@@ -2625,7 +2626,7 @@ function fight(enemyIndex,resultIndex){
 		weaponName = data.skills[ahEnemy.weaponIndex].name;
 	}
 	if(ahEnemy.refineIndex != -1){
-		refineName = data.refine[ahEnemy.refineIndex].name_en;
+		refineName = data.refine[ahEnemy.refineIndex].name_en.replace(/\s/g,"_");
 	}
 	if(ahEnemy.specialIndex != -1){
 		specialName = data.skills[ahEnemy.specialIndex].name;
@@ -5463,18 +5464,22 @@ function activeHero(hero){
 		this.panicked = false;
 		this.lit = false;
 
-		//Do stuff if both aren't dead
+		//Post-Combat Buffs
+		//Rogue dagger works on enemy turn, but buffs are reset at beginning of player turn,
+		//so it only matters if a rogue gets attacked twice in one turn, which is possible with Galeforce
+		if (this.hp > 0){
+			roundText += this.postCombatBuff();
+			roundText += this.postCombatHeal();
+		}
+		if (enemy.hp > 0){
+			roundText += enemy.postCombatBuff();
+			roundText += enemy.postCombatHeal();
+		}
+
 		if(this.hp > 0 && enemy.hp > 0){
 			//Apply post-combat debuffs (seal)
 			roundText += this.seal(enemy);
 			roundText += enemy.seal(this);
-
-			//Post-combat buffs
-			//Rogue dagger works on enemy turn, but buffs are reset at beginning of player turn, so it only matters if a rogue gets attacked twice in one turn, which is possible with Galeforce
-			roundText += this.postCombatBuff();
-			roundText += enemy.postCombatBuff();
-			roundText += this.postCombatHeal();
-			roundText += enemy.postCombatHeal();
 
 			//panic
 			if(this.has("パニック") || this.has("ローローの斧")
