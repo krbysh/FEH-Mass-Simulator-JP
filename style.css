@@ -433,7 +433,6 @@ body{
 	left:177px;
 	top:7px;
 	border-radius: 4px;
-	font-size:11px;
 }
 
 .skill_overwrite_tabbed{
@@ -441,7 +440,6 @@ body{
 	left:147px;
 	top:7px;
 	border-radius: 4px;
-	font-size:11px;
 }
 
 .hero_misc{
@@ -482,7 +480,6 @@ body{
 	top:2px;
 	width:55px;
 	border-radius: 4px;
-	font-size: 11px;
 }
 
 .misc_input_left{
@@ -491,7 +488,6 @@ body{
 	top:2px;
 	width:55px;
 	border-radius: 4px;
-	font-size: 11px;
 }
 
 .misc_separator{
@@ -528,7 +524,6 @@ body{
 	position: relative;
 	top:2px;
 	border-radius: 4px;
-	font-size:11px;
 }
 
 .button{
