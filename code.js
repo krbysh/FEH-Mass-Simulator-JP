@@ -2593,19 +2593,19 @@ function fight(enemyIndex,resultIndex){
 	var outcome = "";
 	var resultText = "";
 	if(ahChallenger.hp<=0){
-		outcome = "loss";
+		outcome = "敗北";
 		resultText += "<span class=\"red\">敗北</span>, " + rounds;
 	}
 	else if(ahEnemy.hp<=0){
-		outcome = "win";
+		outcome = "勝利";
 		resultText += "<span class=\"blue\">勝利</span>, " + rounds;
 	}
 	else{
-		outcome = "inconclusive";
+		outcome = "未決着";
 		resultText += "未決着";
 	}
 
-	if(outcome != "inconclusive"){
+	if(outcome != "未決着"){
 		if(rounds==1){
 			resultText += " ラウンド";
 		}
@@ -2614,7 +2614,7 @@ function fight(enemyIndex,resultIndex){
 		}
 	}
 
-	if(outcome == "win" || outcome == "loss"){
+	if(outcome == "勝利" || outcome == "敗北"){
 		if(ahEnemy.overkill){
 			resultText += ", <span class=\"purple\">" + ahEnemy.overkill + "</span> オーバーキル";
 		}
@@ -2666,33 +2666,33 @@ function fight(enemyIndex,resultIndex){
 
 	if(enemyList[enemyIndex].lastFightResult){
 		var prevResult = "";
-		if(enemyList[enemyIndex].lastFightResult.indexOf("win") > -1){
-			prevResult = "win";
+		if(enemyList[enemyIndex].lastFightResult.indexOf("勝利") > -1){
+			prevResult = "勝利";
 		}
-		else if(enemyList[enemyIndex].lastFightResult.indexOf("loss") > -1){
-			prevResult = "loss";
+		else if(enemyList[enemyIndex].lastFightResult.indexOf("敗北") > -1){
+			prevResult = "敗北";
 		}
-		else if(enemyList[enemyIndex].lastFightResult.indexOf("inconclusive") > -1){
-			prevResult = "inconclusive";
+		else if(enemyList[enemyIndex].lastFightResult.indexOf("未決着") > -1){
+			prevResult = "未決着";
 		}
 
 		if(outcome != prevResult){
 			passFilters.push("changeVictor");
 		}
 
-		var prevRoundsMatch = enemyList[enemyIndex].lastFightResult.match(/([1-4]) rounds?/);
+		var prevRoundsMatch = enemyList[enemyIndex].lastFightResult.match(/([1-4]) ラウンド?/);
 		var prevRounds = 0;
 		if(prevRoundsMatch){
 			prevRounds = prevRoundsMatch[1];
 		}
 
-		if(rounds != prevRounds && outcome == prevResult && outcome != "inconclusive"){
+		if(rounds != prevRounds && outcome == prevResult && outcome != "未決着"){
 			//changeRounds means rounds changed but not result
 			passFilters.push("changeRounds");
 		}
 
 		var prevHealthMatch = enemyList[enemyIndex].lastFightResult.match(/([0-9]+)<\/span> &ndash; <span class="red">([0-9]+)/);
-		var prevOverkillMatch = enemyList[enemyIndex].lastFightResult.match(/([0-9]+)<\/span> overkill/);
+		var prevOverkillMatch = enemyList[enemyIndex].lastFightResult.match(/([0-9]+)<\/span> オーバーキル/);
 		var prevChallengerEndHealth;
 		var prevEnemyEndHealth;
 		var prevOverkill;
@@ -2818,10 +2818,10 @@ function calculate(manual){
 
 			for(var i = 0; i < fightResults.length;i++){
 
-				if(fightResults[i].outcome=="loss"){
+				if(fightResults[i].outcome=="敗北"){
 					losses++;
 				}
-				else if(fightResults[i].outcome=="win"){
+				else if(fightResults[i].outcome=="勝利"){
 					wins++;
 				}
 				else{
@@ -3082,14 +3082,14 @@ function exportCalc(){
 					csvString += ",";
 				}
 			}
-			var outcome = "Inconclusive";
+			var outcome = "未決着";
 			var overkill = 0;
 			if(result.challenger.hp==0){
-				outcome = "Loss";
+				outcome = "敗北";
 				overkill = result.challenger.overkill;
 			}
 			else if(result.enemy.hp==0){
-				outcome = "Win";
+				outcome = "勝利";
 				overkill = result.enemy.overkill;
 			}
 			csvString += outcome + ",";
