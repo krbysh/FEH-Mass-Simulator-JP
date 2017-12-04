@@ -5163,9 +5163,9 @@ function activeHero(hero){
 		if(enemy.has("アルマーズ") && enemy.hp/enemy.maxHp >= .8){
 			quickRiposte = true;
 		}
-		if (enemy.hasAtRefineIndex("追撃", enemy.refineIndex) && enemy.combatStartHp / enemy.maxHp >= 0.9){
-			quickRiposte = true;
-		}
+//		if (enemy.hasAtRefineIndex("追撃", enemy.refineIndex) && enemy.combatStartHp / enemy.maxHp >= 0.9){
+//			quickRiposte = true;
+//		}
 		if(enemy.hasExactly("追撃リング") && enemy.hp/enemy.maxHp >= .5){
 			quickRiposte = true;
 		}
@@ -5373,7 +5373,7 @@ function activeHero(hero){
 		if (this.has("ソール・カティ") && this.hp/this.maxHp <= .75 && this.hasAtRefineIndex("差し違え", this.refineIndex) && (this.range == enemy.range || anyRangeCounter) && enemyCanCounter){
 			thisAutoFollow = true;
 		}
-		if (this.hasAtRefineIndex("追撃", this.refineIndex) && (this.combatStartHp / this.maxHp >= 0.9) && (this.range == enemy.range || anyRangeCounter) && enemyCanCounter){
+		if (this.hasAtRefineIndex("追撃", this.refineIndex) && (this.combatStartHp / this.maxHp >= 0.9)){
 			thisAutoFollow = true;
 		}
 		if(this.hasExactly("追撃リング") && (this.combatStartHp / this.maxHp >= 0.5)){

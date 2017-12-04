@@ -3278,7 +3278,7 @@
 	}, {
 		"hero_id": 185,
 		"name_en": "Henry (Trick or Defeat!)",
-		"name": "ジョーカー(仮装の収穫祭)",
+		"name": "ヘンリー(仮装の収穫祭)",
 		"basehp": 17,
 		"baseatk": 9,
 		"basespd": 10,
@@ -3296,7 +3296,7 @@
 	}, {
 		"hero_id": 186,
 		"name_en": "Jakob (Trick or Defeat!)",
-		"name": "ヘンリー(仮装の収穫祭)",
+		"name": "ジョーカー(仮装の収穫祭)",
 		"basehp": 20,
 		"baseatk": 9,
 		"basespd": 6,
