@@ -1183,7 +1183,7 @@ function addClEnemy(index){
 
 	enemies.cl.list.push({
 		"index":index,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
-		"buffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "spur": {"atk":0,"spd":0,"def":0,"res":0},
+		"buffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "spur": {"hp":0,"atk":0,"spd":0,"def":0,"res":0},
 		"boon": "none", "bane": "none", "summoner": "none", "ally": "none", "merge":0, "rarity": 5, "precharge":0, "adjacent":1, "damage": 0
 	});
 	options.customEnemySelected = newCustomEnemyId;
@@ -1432,7 +1432,7 @@ function updateHeroUI(hero){
 		//Make a dummy hero
 		hero = {
 			"index":-1,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
-			"buffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "spur": {"atk":0,"spd":0,"def":0,"res":0},
+			"buffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "spur": {"hp":0,"atk":0,"spd":0,"def":0,"res":0},
 			"boon": "none", "bane": "none", "summoner": "none", "ally": "none", "merge":0, "rarity": 5, "precharge":0, "adjacent":1, "damage": 0
 		}
 	}
@@ -1754,7 +1754,7 @@ function copyChallenger(){
 		//Generate a new hero
 		enemies.cl.list.push({
 			"index":-1,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
-			"buffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "spur": {"atk":0,"spd":0,"def":0,"res":0},
+			"buffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "spur": {"hp":0,"atk":0,"spd":0,"def":0,"res":0},
 			"boon": "none", "bane": "none", "summoner": "none", "ally": "none", "merge":0, "rarity": 5, "precharge":0, "adjacent":1, "damage": 0
 		});
 		hero = enemies.cl.list[enemies.cl.list.length - 1];
@@ -1914,7 +1914,7 @@ function importText(side,csvtext){
 		else{
 			enemies.cl.list.push({
 				"index":-1,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
-				"buffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "spur": {"atk":0,"spd":0,"def":0,"res":0},
+				"buffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "spur": {"hp":0,"atk":0,"spd":0,"def":0,"res":0},
 				"boon": "none", "bane": "none", "summoner": "none", "ally": "none", "merge":0, "rarity": 5, "precharge":0, "adjacent":1, "damage": 0
 			});
 			hero = enemies.cl.list[enemies.cl.list.length-1];
@@ -2158,7 +2158,6 @@ function importText(side,csvtext){
 			skillName = false;
 		}
 
-		//TODO: Fix HP buff import/export
 		if(buffObject){
 			var value = {"hp":0,"atk":0,"spd":0,"def":0,"res":0};
 			var splitBuffs = trySplit(keyValue[1],[","]);
@@ -2326,7 +2325,6 @@ function getExportText(side){
 			}
 		});
 
-		//TODO: Fix HP export
 		var statusText = "";
 		data.buffTypes.forEach(function(buffType){
 			var notZero = [];
@@ -3412,7 +3410,7 @@ function activeHero(hero){
 		}
 		if(this.has("フェンサリル")){
 			threatDebuffs.atk = Math.min(threatDebuffs.atk,-4);
-			skillNames.push("フェンサリル");
+			skillNames.push(data.skills[this.weaponIndex].name);
 		}
 
 		if(this.has("速さの威嚇")){
@@ -3426,7 +3424,7 @@ function activeHero(hero){
 		}
 		if(this.has("エッケザックス")){
 			threatDebuffs.def = Math.min(threatDebuffs.def,-4);
-			skillNames.push("エッケザックス");
+			skillNames.push(data.skills[this.weaponIndex].name);
 		}
 
 		if(this.has("魔防の威嚇")){
@@ -3436,10 +3434,17 @@ function activeHero(hero){
 
 		if(skillNames.length > 0){
 			var statChanges = [];
+			var statJp;
+
 			for(var stat in threatDebuffs){
 				if(threatDebuffs[stat] < Math.min(enemy.debuffs[stat], enemy.combatDebuffs[stat])){
+					if(stat == "atk")	statJp = "攻撃";
+					if(stat == "spd")	statJp = "速さ";
+					if(stat == "def")	statJp = "守備";
+					if(stat == "res")	statJp = "魔防";
 					enemy.combatDebuffs[stat] = threatDebuffs[stat];
-					statChanges.push(stat + " " + threatDebuffs[stat]);
+//					statChanges.push(stat + " " + threatDebuffs[stat]);
+					statChanges.push(statJp + " " + threatDebuffs[stat]);
 				}
 			}
 
@@ -3576,7 +3581,7 @@ function activeHero(hero){
 				//Does this take effect when defending? Answer: yes
 				this.combatSpur.atk += 5;
 				this.combatSpur.spd += 5;
-				boostText += this.name + " は、ライナロック の効果で ＨＰ が 100% のため、攻撃・速さ +5 。<br>";
+				boostText += this.name + " は、ライナロック の効果で ＨＰ が 100% のため、攻撃、速さ +5 。<br>";
 			}
 
 			if(this.has("貝殻") || this.has("氷菓子の弓") || this.has("魚を突いた銛") || this.has("スイカ割りの棍棒")){
@@ -3584,7 +3589,7 @@ function activeHero(hero){
 				this.combatSpur.spd += 2;
 				this.combatSpur.def += 2;
 				this.combatSpur.res += 2;
-				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果でＨＰが 100% のため、攻撃・速さ・守備・魔防 +2 。<br>";
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果でＨＰが 100% のため、攻撃、速さ、守備、魔防 +2 。<br>";
 			}
 		}
 
@@ -3592,7 +3597,7 @@ function activeHero(hero){
 			if(this.has("リガルブレイド")){
 				this.combatSpur.atk += 2;
 				this.combatSpur.spd += 2;
-				boostText += this.name + " は、リガルブレイド の効果で、" + enemy.name + " のＨＰが 100% のため、攻撃・速さ +2 。<br>";
+				boostText += this.name + " は、リガルブレイド の効果で、" + enemy.name + " のＨＰが 100% のため、攻撃、速さ +2 。<br>";
 			}
 		}
 
@@ -3638,7 +3643,7 @@ function activeHero(hero){
 				this.combatSpur.spd += buffVal;
 				this.combatSpur.def += buffVal;
 				this.combatSpur.res += buffVal;
-				boostText += this.name + " は、" + skillName + " の効果で " + this.adjacent + " 人の味方と隣接しているため、攻撃・速さ・守備・魔防 +" + buffVal + " 。<br>";
+				boostText += this.name + " は、" + skillName + " の効果で " + this.adjacent + " 人の味方と隣接しているため、攻撃、速さ、守備、魔防 +" + buffVal + " 。<br>";
 			}
 
 			//Bond skills
@@ -3647,14 +3652,14 @@ function activeHero(hero){
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.atk += buffVal;
 				this.combatSpur.spd += buffVal;
-				boostText += this.name + " は、" + skillName + " の効果で味方と隣接しているため、攻撃・速さ +" + buffVal + " 。<br>";
+				boostText += this.name + " は、" + skillName + " の効果で味方と隣接しているため、攻撃、速さ +" + buffVal + " 。<br>";
 			}
 			if (this.has("攻撃守備の絆")){
 				buffVal = this.has("攻撃守備の絆") + 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.atk += buffVal;
 				this.combatSpur.def += buffVal;
-				boostText += this.name + " は、" + skillName + " の効果で味方と隣接しているため、攻撃・守備 +" + buffVal + " 。<br>";
+				boostText += this.name + " は、" + skillName + " の効果で味方と隣接しているため、攻撃、守備 +" + buffVal + " 。<br>";
 			}
 
 			if (this.has("攻撃魔防の絆")){
@@ -3662,7 +3667,7 @@ function activeHero(hero){
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.atk += buffVal;
 				this.combatSpur.res += buffVal;
-				boostText += this.name + " は、" + skillName + " の効果で、味方と隣接している時、攻撃・魔防 +" + buffVal + " 。<br>";
+				boostText += this.name + " は、" + skillName + " の効果で、味方と隣接している時、攻撃、魔防 +" + buffVal + " 。<br>";
 			}
 
 			if (this.has("速さ守備の絆")){
@@ -3670,21 +3675,21 @@ function activeHero(hero){
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.spd += buffVal;
 				this.combatSpur.def += buffVal;
-				boostText += this.name + " は、" + skillName + " の効果で、味方と隣接している時、速さ・守備 +" + buffVal + " 。<br>";
+				boostText += this.name + " は、" + skillName + " の効果で、味方と隣接している時、速さ、守備 +" + buffVal + " 。<br>";
 			}
 			if (this.has("速さ魔防の絆")){
 				buffVal = this.has("速さ魔防の絆") + 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.spd += buffVal;
 				this.combatSpur.res += buffVal;
-				boostText += this.name + " は、" + skillName + " の効果で、味方と隣接している時、速さ・魔防 +" + buffVal +  "。<br>";
+				boostText += this.name + " は、" + skillName + " の効果で、味方と隣接している時、速さ、魔防 +" + buffVal +  "。<br>";
 			}
 			if (this.has("守備魔防の絆")){
 				buffVal = this.has("守備魔防の絆") + 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.def += buffVal;
 				this.combatSpur.res += buffVal;
-				boostText += this.name + " は、" + skillName + " の効果で、味方と隣接している時、守備・魔防 +" + buffVal + " 。<br>";
+				boostText += this.name + " は、" + skillName + " の効果で、味方と隣接している時、守備、魔防 +" + buffVal + " 。<br>";
 			}
 		}
 
@@ -3713,7 +3718,7 @@ function activeHero(hero){
 			if(this.hasExactly("黒き血の大剣")){
 				this.combatSpur.atk += 4;
 				this.combatSpur.spd += 4;
-				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、自分から攻撃時、攻撃・速さ +4 。<br>"
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、自分から攻撃時、攻撃、速さ +4 。<br>"
 			}
 
 			//Skills
@@ -3830,13 +3835,13 @@ function activeHero(hero){
 					buffVal = this.hasAtIndex("遠距離防御", this.aIndex) * 2;
 					this.combatSpur.def += buffVal;
 					this.combatSpur.res += buffVal;
-					boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で弓、暗器、魔法、杖の敵から攻撃された場合、守備・魔防 +"+ buffVal + " 。<br>";
+					boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で弓、暗器、魔法、杖の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
 				}
 				if(this.hasAtIndex("遠距離防御", this.sIndex)){
 					buffVal = this.hasAtIndex("遠距離防御", this.sIndex) * 2;
 					this.combatSpur.def += buffVal;
 					this.combatSpur.res += buffVal;
-					boostText += this.name + " は、" + data.skills[this.sIndex].name + "(聖印) の効果で弓、暗器、魔法、杖の敵から攻撃された場合、守備・魔防 +"+ buffVal + " 。<br>";
+					boostText += this.name + " は、" + data.skills[this.sIndex].name + "(聖印) の効果で弓、暗器、魔法、杖の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
 				}
 			}
 			if(enemy.range == "melee"){
@@ -3844,13 +3849,13 @@ function activeHero(hero){
 					buffVal = this.hasAtIndex("近距離防御", this.aIndex) * 2;
 					this.combatSpur.def += buffVal;
 					this.combatSpur.res += buffVal;
-					boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で剣、槍、斧、竜の敵から攻撃された場合、守備・魔防 +"+ buffVal + " 。<br>";
+					boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で剣、槍、斧、竜の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
 				}
 				if(this.hasAtIndex("近距離防御", this.sIndex)){
 					buffVal = this.hasAtIndex("近距離防御", this.sIndex) * 2;
 					this.combatSpur.def += buffVal;
 					this.combatSpur.res += buffVal;
-					boostText += this.name + " は、" + data.skills[this.sIndex].name + "(聖印) の効果で剣、槍、斧、竜の敵近距離から攻撃された場合、守備・魔防 +"+ buffVal + " 。<br>";
+					boostText += this.name + " は、" + data.skills[this.sIndex].name + "(聖印) の効果で剣、槍、斧、竜の敵近距離から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
 				}
 			}
 
@@ -3858,7 +3863,7 @@ function activeHero(hero){
 			if(this.hasExactly("封印の剣") || this.hasExactly("ナーガ")){
 				this.combatSpur.def += 2;
 				this.combatSpur.res += 2;
-				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、守備・魔防 +2 。<br>";
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、守備、魔防 +2 。<br>";
 			}
 			if(this.hasExactly("ヴィドフニル") && (enemy.weaponType == "sword" || enemy.weaponType == "axe" ||enemy.weaponType == "lance" )){
 				this.combatSpur.def += 7;
@@ -3881,13 +3886,13 @@ function activeHero(hero){
 			if(this.hasExactly("白き血の薙刀")){
 				this.combatSpur.atk += 4;
 				this.combatSpur.def += 4;
-				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、攻撃・守備 +4 。<br>";
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、攻撃、守備 +4 。<br>";
 			}
 			//***Does magic for Guard Bow include dragons?***
 			if(this.has("遠距離防御の弓") && enemy.range == "ranged"){
 				this.combatSpur.def += 6;
 				this.combatSpur.res += 6;
-				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、弓、暗器、魔法、杖の敵から敵から攻撃された時、守備・魔防 +6 。<br>";
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、弓、暗器、魔法、杖の敵から敵から攻撃された時、守備、魔防 +6 。<br>";
 			}
 
 			//Skills
@@ -4040,20 +4045,23 @@ function activeHero(hero){
 		return damageText;
 	}
 
-	//***This was messy and hard to read =( ***
+	//After combat debuffs
 	this.seal = function(enemy){
 		var sealText = "";
-		var skillName = "";
 		var sealValue = {"atk":0,"spd":0,"def":0,"res":0};
+		var sealValueJp = {"攻撃":0,"速さ":0,"守備":0,"魔防":0};
+		var skillNames = [];
 
 		//Seals stats for skill, can calculate up to two tiers
-		function sealStats(skill, statTypes, tierValue){
+		function sealStats(skillName, statTypes, tierValue){
 			//Check for second value
-			if (tierValue.length == 2 && skill.charAt(skill.length - 1) == "+"){
+			if (tierValue.length == 2 && skillName.charAt(skillName.length - 1) == "+"){
 				for (var i = 0; i < statTypes.length; i++){
 					if (sealValue[statTypes[i]] > tierValue[1]){
 						sealValue[statTypes[i]] = tierValue[1];
-						skillName = skill;
+						if (!skillNames.includes(skillName)){
+							skillNames.push(skillName);
+						}
 					}
 				}
 			//Otherwise just check for first value
@@ -4061,7 +4069,9 @@ function activeHero(hero){
 				for (var i = 0; i < statTypes.length; i++){
 					if (sealValue[statTypes[i]] > tierValue[0]){
 						sealValue[statTypes[i]] = tierValue[0];
-						skillName = skill;
+						if (!skillNames.includes(skillName)){
+							skillNames.push(skillName);
+						}
 					}
 				}
 			}
@@ -4070,29 +4080,29 @@ function activeHero(hero){
 		//Seals
 		if(this.has("攻撃封じ")){
 			sealValue.atk = -this.has("攻撃封じ") * 2 - 1;
-			skillName = data.skills[this.bIndex].name;
-		}
-		if(this.has("速さ封じ")){ //Will count for seal atk speed as well
-			sealValue.spd = -this.has("速さ封じ") * 2 - 1;
-			skillName = data.skills[this.bIndex].name;
+			skillNames.push(data.skills[this.bIndex].name);
 		}
 		if(this.has("攻撃速さ封じ")){
 //			sealValue.spd = -this.has("攻撃速さ封じ") * 2 - 1;
 			sealValue.atk = -this.has("攻撃速さ封じ") * 2 - 1;
-			skillName = data.skills[this.bIndex].name;
-		}
-		if(this.has("守備封じ")){ //Will count for seal atk def as well
-			sealValue.def = -this.has("守備封じ") * 2 - 1;
-			skillName = data.skills[this.bIndex].name;
+			skillNames.push(data.skills[this.bIndex].name);
 		}
 		if(this.has("攻撃守備封じ")){
 //			sealValue.def = -this.has("攻撃守備封じ") * 2 - 1;
 			sealValue.atk = -this.has("攻撃守備封じ") * 2 - 1;
-			skillName = data.skills[this.bIndex].name;
+			skillNames.push(data.skills[this.bIndex].name);
+		}
+		if(this.has("速さ封じ")){ //Will count for seal atk speed as well
+			sealValue.spd = -this.has("速さ封じ") * 2 - 1;
+			skillNames.push(data.skills[this.bIndex].name);
+		}
+		if(this.has("守備封じ")){ //Will count for seal atk def as well
+			sealValue.def = -this.has("守備封じ") * 2 - 1;
+			skillNames.push(data.skills[this.bIndex].name);
 		}
 		if(this.has("魔防封じ")){
 			sealValue.res = -this.has("魔防封じ") * 2 - 1;
-			skillName = data.skills[this.bIndex].name;
+			skillNames.push(data.skills[this.bIndex].name);
 		}
 
 		//These only take effect if the unit performed an attack
@@ -4140,86 +4150,91 @@ function activeHero(hero){
 			}
 		}
 
-		//Set seal values
-		//TODO: Less text -_-'''
-		if(sealValue.atk < enemy.combatDebuffs.atk){
-			enemy.combatDebuffs.atk = sealValue.atk;
-			sealText += this.name + " は、" + skillName + " の効果で、戦闘後、" + enemy.name + "の攻撃 -" + (-sealValue.atk) + " 。<br>";
+		//Set debuff values
+		var statChanges = [];
+		var statJp;
+
+		for(var stat in sealValue){
+			if(stat == "atk")	statJp = "攻撃";
+			if(stat == "spd")	statJp = "速さ";
+			if(stat == "def")	statJp = "守備";
+			if(stat == "res")	statJp = "魔防";
+			if(sealValue[stat] < enemy.combatDebuffs[stat]){
+				enemy.combatDebuffs[stat] = sealValue[stat];
+//				statChanges.push(enemy.combatDebuffs[stat] + " " + stat);
+				statChanges.push(statJp + " " + enemy.combatDebuffs[stat]);
+			}
 		}
-		if(sealValue.spd < enemy.combatDebuffs.spd){
-			enemy.combatDebuffs.spd = sealValue.spd;
-			sealText += this.name + " は、" + skillName + " の効果で、戦闘後、" + enemy.name + "の速さ -" + (-sealValue.spd) + " 。<br>";
-		}
-		if(sealValue.def < enemy.combatDebuffs.def){
-			enemy.combatDebuffs.def = sealValue.def;
-			sealText += this.name + " は、" + skillName + " の効果で、戦闘後、" + enemy.name + "の守備 -" + (-sealValue.def) + " 。<br>";
-		}
-		if(sealValue.res < enemy.combatDebuffs.res){
-			enemy.combatDebuffs.res = sealValue.res;
-			sealText += this.name + " は、" + skillName + " の効果で、戦闘後、" + enemy.name + "の魔防 -" + (-sealValue.res) + " 。<br>";
+
+		if(skillNames.length > 0){
+			if(statChanges.length > 0){
+				sealText += this.name + " は、" + skillNames.join("、") + " の効果で、" + enemy.name + " に " + statChanges.join("、") + "。<br>";
+			}
 		}
 
 		return sealText;
 	}
 
+	//After combat buffs
 	this.postCombatBuff = function(){
 		var postCombatBuffText = "";
+		var buffValue = {"atk":0,"spd":0,"def":0,"res":0};
+		var skillNames = [];
 
-		//Daggers only take effect if the unit performed an attack
-		if(this.didAttack){
-			var skillName = "";
-
-			//Will need to split these up if there comes another thing which boosts def or res after combat
-			var buffAtk = 0;
-			var buffSpd = 0;
-			var buffDef = 0;
-			var buffRes = 0;
-
-			if(this.hasExactly("盗賊の暗器+")){
-				buffDef = 5;
-				buffRes = 5;
-				skillName = data.skills[this.weaponIndex].name;
-			}
-			else if(this.hasExactly("盗賊の暗器")){
-				buffDef = 3;
-				buffRes = 3;
-				skillName = data.skills[this.weaponIndex].name;
-			}
-
-			if((this.hasExactly("ファーストバイト+") || this.hasExactly("キューピッドの矢+") || this.hasExactly("聖なるブーケ+")) && this.refineIndex != -1){
-				buffDef = 5;
-				buffRes = 5;
-				skillName = data.skills[this.weaponIndex].name + "(錬成)";
-			}
-
-			if((this.hasExactly("光のブレス+")) && this.refineIndex != -1){
-				buffAtk = 5;
-				buffSpd = 5;
-				buffDef = 5;
-				buffRes = 5;
-				skillName = data.skills[this.weaponIndex].name + "(錬成)";
-			}
-
-			if(buffAtk > this.combatBuffs.atk){
-				this.combatBuffs.atk = buffAtk;
-				postCombatBuffTex += this.name + " は、" + skillName + " の効果で、戦闘後、攻撃 +" + buffAtk + " 。<br>";
-
-			}
-			if(buffSpd > this.combatBuffs.spd){
-				this.combatBuffs.spd = buffSpd;
-				postCombatBuffTex += this.name + " は、" + skillName + " の効果で、戦闘後、速さ +" + buffSpd + " 。<br>";
-			}
-
-			if(buffDef > this.combatBuffs.def){
-				this.combatBuffs.def = buffDef;
-				postCombatBuffText += this.name + " は、" + skillName + " の効果で、戦闘後、守備 +" + buffDef + " 。<br>";
-			}
-			if(buffRes > this.combatBuffs.res){
-				this.combatBuffs.res = buffRes;
-				postCombatBuffText += this.name + " は、" + skillName + " の効果で、戦闘後、魔防 +" + buffRes + " 。<br>";
+		//Check and set highest buff value
+		function buffStat(skillName, statTypes, value){
+			for (var i = 0; i < statTypes.length; i++){
+				if (buffValue[statTypes[i]] < value){
+					buffValue[statTypes[i]] = value;
+					if (!skillNames.includes(skillName)){
+						skillNames.push(skillName);
+					}
+				}
 			}
 		}
 
+		//Daggers only take effect if the unit performed an attack
+		if(this.didAttack){
+			if(this.hasExactly("盗賊の暗器+")){
+				buffStat(data.skills[this.weaponIndex].name, ["def", "res"], 5);
+			}
+			else if(this.hasExactly("盗賊の暗器")){
+				buffStat(data.skills[this.weaponIndex].name, ["def", "res"], 3);
+			}
+
+			if((this.hasExactly("ファーストバイト+") || this.hasExactly("キューピッドの矢+") || this.hasExactly("聖なるブーケ+")) && this.refineIndex != -1){
+				buffStat(data.skills[this.weaponIndex].name + "(錬成)", ["def", "res"], 5);
+			}
+
+			if((this.hasExactly("光のブレス+")) && this.refineIndex != -1){
+				buffStat(data.skills[this.weaponIndex].name + "(錬成)", ["atk", "spd", "def", "res"], 5);
+			}
+		}
+
+		//Set buff values
+		var statChanges = [];
+		var statJp;
+
+		for(var stat in buffValue){
+			if(buffValue[stat] > this.combatBuffs[stat]){
+				if(stat == "atk")	statJp = "攻撃";
+				if(stat == "spd")	statJp = "速さ";
+				if(stat == "def")	statJp = "守備";
+				if(stat == "res")	statJp = "魔防";
+				this.combatBuffs[stat] = buffValue[stat];
+//				statChanges.push("+" + this.combatBuffs[stat] + " " + stat);
+				statChanges.push(statJp + " " + "+" + this.combatBuffs[stat]);
+			}
+		}
+
+		if(skillNames.length > 0){
+			if(statChanges.length > 0){
+				postCombatBuffText += this.name + " は、" + skillNames.join("、") + " の効果で、戦闘後、" + statChanges.join("、") + "。<br>";
+			}
+		}
+
+
+//				postCombatBuffTex += this.name + " は、" + skillName + " の効果で、戦闘後、攻撃 +" + buffAtk + " 。<br>";
 		return postCombatBuffText;
 	}
 
@@ -4246,6 +4261,30 @@ function activeHero(hero){
 
 	this.takeDamage = function(dmg){
 		//TODO ?
+	}
+
+	//Checks if hero's buffs are cancelled by opponent
+	function isBuffCancelled(hero, opponent){
+		//Weapon
+		if (opponent.hasExactly("聖書ナーガ")){
+			return true;
+		}
+		//Refinement
+		if (opponent.hasExactly("重装無効化") && hero.moveType == "armored"){
+			return true;
+		}
+		if (opponent.hasExactly("騎馬無効化") && hero.moveType == "cavalry"){
+			return true;
+		}
+		//Skill
+		if (opponent.has("ベオクの加護") && (hero.moveType == "cavalry" || hero.moveType == "flying")){
+			return true;
+		}
+		if (opponent.has("ミュルグレ") && (hero.weaponType == "redtome" || hero.weaponType == "bluetome" || hero.weaponType == "greentome")){
+			return true;
+		}
+		//Not cancelled
+		return false
 	}
 
 	//represents one attack of combat
@@ -4285,11 +4324,7 @@ function activeHero(hero){
 			thisEffRes = this.res - Math.max(this.buffs.res,this.combatBuffs.res) + Math.min(this.debuffs.res,this.combatDebuffs.res) + this.spur.res + this.combatSpur.res;
 			if(!AOE){damageText += this.name + " の強化は + ではなく - となる。<br>";}
 		//Buff cancellation
-		} else if(enemy.hasExactly("聖書ナーガ")
-			|| (enemy.has("ベオクの加護") && (this.moveType == "cavalry" || this.moveType == "flying"))
-			|| (enemy.has("ミュルグレ") && (this.weaponType == "redtome" || this.weaponType == "bluetome" || this.weaponType == "greentome"))
-			|| (enemy.hasExactly("重装無効化") && this.moveType == "armored")
-			|| (enemy.hasExactly("騎馬無効化") && this.moveType == "cavalry")){
+	} else if(isBuffCancelled(this, enemy)){
 			thisEffAtk = this.atk + Math.min(this.debuffs.atk,this.combatDebuffs.atk) + this.spur.atk + this.combatSpur.atk;
 			thisEffSpd = this.spd + Math.min(this.debuffs.spd,this.combatDebuffs.spd) + this.spur.spd + this.combatSpur.spd;
 			thisEffDef = this.def + Math.min(this.debuffs.def,this.combatDebuffs.def) + this.spur.def + this.combatSpur.def;
@@ -4332,7 +4367,7 @@ function activeHero(hero){
 		//Relavant defense stat
 		var relevantDef = (this.attackType == "magical") ? enemyEffRes : enemyEffDef;
 
-		//Refined Dragonstone
+		//Refined Dragonstones
 		if (this.weaponType == "dragon" && this.refineIndex != -1 && enemy.range == "ranged"){
 			relevantDef = (enemyEffDef > enemyEffRes) ? enemyEffRes : enemyEffDef;
 			if (!AOE) {damageText += this.name + " は、" + data.skills[hero.weapon].name + "(錬成) の効果で"+ ((enemyEffDef > enemyEffRes) ? "魔防" : "守備" ) + "で計算。";}
@@ -5011,7 +5046,6 @@ function activeHero(hero){
 				damageText += enemy.name + " <span class=\"blue\">" + enemy.hp + "</span> : " + this.name + " <span class=\"red\">" + this.hp + "</span><br>";
 			}
 
-
 			//do damage again if brave weapon
 			if(brave && enemy.hp > 0){
 				damageText += this.name + " は、" + data.skills[this.weaponIndex].name + " により再度攻撃。<br>";
@@ -5058,10 +5092,10 @@ function activeHero(hero){
 
 			//防御地形
 			if(this.dTile != 0){
-				roundText += this.name + " は防御地形の効果で、守備・魔防が 30% 上昇。<br>";
+				roundText += this.name + " は防御地形の効果で、守備、魔防が 30% 上昇。<br>";
 			}
 			if(enemy.dTile != 0){
-				roundText += enemy.name + " は防御地形の効果で、守備・魔防が 30% 上昇。<br>";
+				roundText += enemy.name + " は防御地形の効果で、守備、魔防が 30% 上昇。<br>";
 			}
 
 			//Check for charge effects
@@ -5089,21 +5123,12 @@ function activeHero(hero){
 		//***May require change depending on order of application between Panic and null skills***
 		if(this.panicked){
 			thisEffSpd = this.spd - Math.max(this.buffs.spd,this.combatBuffs.spd) + Math.min(this.debuffs.spd,this.combatDebuffs.spd) + this.spur.spd + this.combatSpur.spd;
-		} else if(enemy.hasExactly("聖書ナーガ")
-			|| (enemy.has("ベオクの加護") && (this.moveType == "cavalry" || this.moveType == "flying"))
-			|| (enemy.has("ミュルグレ") && (this.weaponType == "redtome" || this.weaponType == "bluetome" || this.weaponType == "greentome"))
-			|| (enemy.hasExactly("重装無効化") && this.moveType == "armored")
-			|| (enemy.hasExactly("騎馬無効化") && this.moveType == "cavalry")){
+		} else if(isBuffCancelled(this, enemy)){
 			thisEffSpd = this.spd + Math.min(this.debuffs.spd,this.combatDebuffs.spd) + this.spur.spd + this.combatSpur.spd;
 		}
-
 		if(enemy.panicked){
 			enemyEffSpd = enemy.spd - Math.max(enemy.buffs.spd,enemy.combatBuffs.spd) + Math.min(enemy.debuffs.spd,enemy.combatDebuffs.spd) + enemy.spur.spd + enemy.combatSpur.spd;
-		} else if(this.hasExactly("聖書ナーガ")
-			|| (this.has("ベオクの加護") && (enemy.moveType == "cavalry" || enemy.moveType == "flying"))
-			|| (this.has("ミュルグレ") && (enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" || enemy.weaponType == "greentome"))
-			|| (enemy.hasExactly("重装無効化") && this.moveType == "armored")
-			|| (enemy.hasExactly("騎馬無効化") && this.moveType == "cavalry")){
+		} else if(isBuffCancelled(enemy, this)){
 			enemyEffSpd = enemy.spd + Math.min(enemy.debuffs.spd,enemy.combatDebuffs.spd) + enemy.spur.spd + enemy.combatSpur.spd;
 		}
 
