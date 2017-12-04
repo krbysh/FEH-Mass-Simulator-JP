@@ -940,10 +940,11 @@ function setStats(hero){
 		hero.def += mergeBoost.def;
 		hero.res += mergeBoost.res;
 
-		//Add hero hp changes
-		hero.hp += mergeBoost.hp + hero.buffs.hp + hero.debuffs.hp;
+		//Add hero hp changes - from blessings
+		hero.hp += hero.buffs.hp + hero.debuffs.hp;
 
 		//Calculate hero bst after IV, merge, and rarity
+		//TODO: Include blessing stat changes
 		hero.bst = hero.hp + hero.atk + hero.spd + hero.def + hero.res;
 
 		//Add stats based on skills
@@ -1067,6 +1068,7 @@ function updateSpt(hero){
 	hero.spt += (hero.a != -1 ? data.skills[hero.a].sp : 0);
 	hero.spt += (hero.b != -1 ? data.skills[hero.b].sp : 0);
 	hero.spt += (hero.c != -1 ? data.skills[hero.c].sp : 0);
+	hero.spt += (hero.s != -1 ? data.skills[hero.s].sp : 0);
 }
 
 function setSkills(hero){
@@ -1494,6 +1496,7 @@ function updateHeroUI(hero){
 		$("#" + htmlPrefix + "def").html(hero.def);
 		$("#" + htmlPrefix + "res").html(hero.res);
 		$("#" + htmlPrefix + "bst").html(hero.bst + " / " + hero.spt);
+		$("#" + htmlPrefix + "asc").html(Math.round(100*(588.5 + 4*((hero.bst / 8) + (hero.spt / 240) + hero.merge + 5*(hero.rarity - 5)))) * 0.01);
 		if(data.heroes[hero.index].weapontype != "dragon"){
 			$("#" + htmlPrefix + "weapon_icon").attr("src","weapons/" + data.heroes[hero.index].weapontype + ".png");
 		}
