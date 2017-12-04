@@ -1327,8 +1327,19 @@ a:hover{
 	line-height:34px;
 	position:absolute;
 	top:0;
-	left:0;right:0;
+	left:0;
+	right:0;
 	text-align:center;
+}
+
+#import_select{
+	font-size:22px;
+	height:34px;
+	line-height:30px;
+	position:absolute;
+	top:0;
+	left:10px;
+	right:0;
 }
 
 #import_exit{
@@ -1382,6 +1393,15 @@ a:hover{
 	line-height:40px;
 }
 
+#import_clear{
+	position:absolute;
+	height:40px;
+	bottom:0;
+	right:70px;
+	line-height:40px;
+	margin:auto 0;
+}
+
 #button_import{
 	position:absolute;
 	left:0;
@@ -1389,6 +1409,20 @@ a:hover{
 	right:0;
 	width:200px;
 	height:30px;
+	line-height:30px;
+	margin:auto;
+	text-align:center;
+	border-radius:4px;
+}
+
+#button_clear{
+	position:absolute;
+	left:0;
+	top:0;
+	right:0;
+	width:60px;
+	height:30px;
+	font-size:14px;
 	line-height:30px;
 	margin:auto;
 	text-align:center;
@@ -1403,8 +1437,8 @@ a:hover{
 #export_collapse_label{
 	position:absolute;
 	bottom:16px;
-	right:10px;
-	padding-right:22px;
+	right:86px;
+	padding-right:32px;
 	width:60px;
 	display:none;
 }
@@ -1424,6 +1458,26 @@ a:hover{
 }
 
 .enemiesimport #button_import:hover{
+	background-color: #ffffff;
+	color:#d82a3e;
+	font-weight:bold;
+}
+
+.challengerimport #button_clear{
+	background-color: #4a6de2;
+}
+
+.challengerimport #button_clear:hover{
+	background-color: #ffffff;
+	color:#4a6de2;
+	font-weight:bold;
+}
+
+.enemiesimport #button_clear{
+	background-color: #d82a3e;
+}
+
+.enemiesimport #button_clear:hover{
 	background-color: #ffffff;
 	color:#d82a3e;
 	font-weight:bold;
