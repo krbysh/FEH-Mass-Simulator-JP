@@ -30,8 +30,8 @@
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="style.css?v=2017120201"/>
-	<script type="text/javascript" src="code.js?v=2017120201"></script>
+	<link rel="stylesheet" type="text/css" href="style.css?v=2017120401"/>
+	<script type="text/javascript" src="code.js?v=2017120401"></script>
 
 </head>
 
@@ -48,7 +48,7 @@
 				<button class="button button_newheroes" id="4"><img class="newheroes_picture" src="heroes/Soleil.png"/></button>
 			</div>
 		</div>
-		<div id="frame_updatenotice" data-update="2017120101">武器錬成に対応しました。神器の武器進化に対応しました。
+		<div id="frame_updatenotice" data-update="2017120104">闘技場の査定(推定)スコアを追加しました。
 			<div id="update_icon">!</div>
 			<div class="button" id="button_closeupdatenotice" onclick="hideUpdateNotice();">x</div>
 		</div>
@@ -330,7 +330,7 @@
 								<div class="misc_row">総合値 / 総ＳＰ
 									<span id="cl_enemy_bst" class="misc_number">-</span>
 								</div>
-								<div class="misc_row">査定 
+								<div class="misc_row">査定
 									<span id="cl_enemy_asc" class="misc_number">-</span>
 								</div>
 							</div>
@@ -379,7 +379,7 @@
 		<div id="frame_results">
 			<div id="results_bar_top">
 				<div class="button" id="button_calculate" onclick="calculate();">計算</div> <input type="checkbox" data-var="options.autoCalculate" id="autocalculate" checked="checked"/>自動計算
-				<div id="results_bar_right"><span class="bar_label">ビュー </span><select id="view_results" data-var="options.viewFilter" class="duelrule_select"><option value="all" >全対戦</option><option value="changeVictor" >勝者が変更された</option><option value="changeRounds" >ラウンドが変更された</option><option value="changeDamage" >ダメージが変更された</option><option value="win" >勝利</option><option value="loss" >敗北</option><option value="inconclusive" >未決着</option></select><span class="bar_label">並び替え</span><select id="sort_results" data-var="options.sortOrder" class="duelrule_select"><option value=1 >ベスト</option><option value=-1 >ワースト</option></select><div class="button" id="button_exportcalc" onclick="exportCalc();">結果出力</div></div>
+				<div id="results_bar_right"><span class="bar_label">ビュー </span><select id="view_results" data-var="options.viewFilter" class="duelrule_select"><option value="all" >全対戦</option><option value="changeVictor" >勝者が変更された</option><option value="changeRounds" >ラウンドが変更された</option><option value="changeDamage" >ダメージが変更された</option><option value="勝利" >勝利</option><option value="敗北" >敗北</option><option value="未決着" >未決着</option></select><span class="bar_label">並び替え</span><select id="sort_results" data-var="options.sortOrder" class="duelrule_select"><option value=1 >ベスト</option><option value=-1 >ワースト</option></select><div class="button" id="button_exportcalc" onclick="exportCalc();">結果出力</div></div>
 			</div>
 			<div id="results_graph_back">
 				<div id="results_graph_wins"></div>
@@ -388,7 +388,7 @@
 			<div id="winpercentages"><span class="results_stat">勝利 <span id="win_pct">-</span></span><span class="results_stat">敗北 <span id="lose_pct">-</span></span><span class="results_stat">未決着 <span id="inconclusive_pct">-</span></span></div>
 			<div id="results_list"></div>
 		</div>
-		<div id="footer"><a href="https://github.com/Andu2/FEH-Mass-Simulator">本家</a>. Last <a href="changelog.txt">updated</a> 2017-12-02. バグ等については <a href="https://twitter.com/krbysh_x86">@krbysh_x86</a> までご連絡ください。</div>
+		<div id="footer"><a href="https://github.com/Andu2/FEH-Mass-Simulator">本家</a>. Last <a href="changelog.txt">updated</a> 2017-12-04. バグ等については <a href="https://twitter.com/krbysh_x86">@krbysh_x86</a> までご連絡ください。</div>
 	</div>
 	<div id="frame_tooltip"></div>
 	<div id="screen_fade"></div>
