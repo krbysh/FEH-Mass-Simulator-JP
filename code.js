@@ -1850,7 +1850,7 @@ function importText(side, customList){
 //function importText(side, csvlist, customList){
 	var errorMsg = "";
 	this.list = side
-	this.customList = customList;
+	this.customList = customList || {};;
 	this.google = this.customList.google
 	this.csvlist = this.customList.csvlist
 
