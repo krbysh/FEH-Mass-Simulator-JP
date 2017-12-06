@@ -149,10 +149,12 @@ function initOptions(){
 	options.ployBehavior = "斜め";
 	options.showOnlyMaxSkills = true;
 	options.hideUnaffectingSkills = true;
+	options.colorFilter = "all";
+	options.rangeFilter = "all";
 	options.viewFilter = "all";
 	options.customEnemyList = 0;
 	options.customEnemySelected = -1;
-	options.sortOrder = 1;
+	options.sortOrder = -1;
 	options.roundInitiators = ["自軍 攻撃","敵 攻撃"];
 
 	//Holder for challenger options and pre-calculated stats
@@ -801,6 +803,52 @@ function getHeroSkills(heroIndex){
 	return skillset;
 }
 
+//Return cooldown changes of skill
+function getCDChange(skill, slot){
+
+	//If skill slot is empty, return 0
+	if (skill == undefined){
+		return 0;
+	}
+
+	var skillName = skill.name;
+
+	//Weapon
+	if (slot == "weapon"){
+		//Cooldown decrease
+		if (skillName.indexOf("キルソードe") != -1 	|| skillName.indexOf("キラーアクス") != -1	|| skillName.indexOf("キラーランス") != -1
+			|| skillName.indexOf("キラーボウ") != -1	|| skillName.indexOf("キラーボウ鍛") != -1 	|| skillName.indexOf("キルソード鍛") != -1
+			|| skillName.indexOf("キラーアクス鍛") != -1	|| skillName.indexOf("キラーランス鍛") != -1	|| skillName.indexOf("魔性の槍") != -1
+			|| skillName.indexOf("ミストルティン") != -1	|| skillName.indexOf("オートクレール") != -1	|| skillName.indexOf("ウルヴァン") != -1
+			|| skillName.indexOf("アウドムラ") != -1
+			){
+				return -1;
+		}
+		//Cooldown increase
+		if (skillName.indexOf("ラウアブレード") != -1 	|| skillName.indexOf("ブラーブレード") != -1 || skillName.indexOf("グルンブレード") != -1
+			|| skillName.indexOf("雷のブレス") != -1
+			){
+				return 1;
+		}
+	}
+
+	//Refine
+	if	(slot == "refine"){
+		//Refinement changes to cooldown go here
+	}
+
+	//Seal
+	if (slot == "s"){
+		//Precharge Increase
+		if(skillName.indexOf("奥義の鼓動") != -1){
+			return 1;
+		}
+	}
+
+	//No Change
+	return 0;
+}
+
 function getMaxSkills(skillset,rarity){
 	//Finds max skills based on rarity
 	//Gets one with highest sp cost
@@ -820,6 +868,33 @@ function getMaxSkills(skillset,rarity){
 		}
 	}
 	return maxSkillset;
+}
+
+//Return type of special skill
+function getSpecialType(skill){
+
+	//If skill slot is empty, return undefined
+	if (skill == undefined){
+		return "undefined";
+	}
+
+	var skillName = skill.name;
+
+	//If special is defensive
+	if (skillName.indexOf("祈り") != -1 	|| skillName.indexOf("聖盾") != -1 	|| skillName.indexOf("小盾") != -1
+		|| skillName.indexOf("長盾") != -1	|| skillName.indexOf("聖衣") != -1 	|| skillName.indexOf("大盾") != -1
+		|| skillName.indexOf("聖兜")!= -1		|| skillName.indexOf("氷の聖鏡")!= -1
+		){
+		return "defensive";
+	//Else if special is supportive
+	}else if (skillName.indexOf("天照") != -1 	|| skillName.indexOf("治癒") != -1 	|| skillName.indexOf("業火の祝福") != -1
+		|| skillName.indexOf("大地の祝福") != -1 	|| skillName.indexOf("静水の祝福") != -1 	|| skillName.indexOf("疾風の祝福") != -1
+		){
+		return "supportive";
+	//Else if special is offensive
+	}else{
+		return "offensive";
+	}
 }
 
 function setStats(hero){
@@ -874,6 +949,9 @@ function setStats(hero){
 		hero.spd = base.spd + data.growths[hero.rarity-1][data.heroes[hero.index].spdgrowth + growthValMod.spd];
 		hero.def = base.def + data.growths[hero.rarity-1][data.heroes[hero.index].defgrowth + growthValMod.def];
 		hero.res = base.res + data.growths[hero.rarity-1][data.heroes[hero.index].resgrowth + growthValMod.res];
+
+		//Calculate hero BST after IV before merge stat bonuses
+		hero.bst = hero.hp + hero.atk + hero.spd + hero.def + hero.res;
 
 		//Add merge bonuses
 		var mergeBoost = {"hp":0,"atk":0,"spd":0,"def":0,"res":0};
@@ -955,9 +1033,9 @@ function setStats(hero){
 		//Add hero hp changes - from blessings
 		hero.hp += hero.buffs.hp + hero.debuffs.hp;
 
-		//Calculate hero bst after IV, merge, and rarity
-		//TODO: Include blessing stat changes
-		hero.bst = hero.hp + hero.atk + hero.spd + hero.def + hero.res;
+		//Blessing bonuses are included in BST
+		//TODO: Include blessing stat changes into BST
+		hero.bst += hero.buffs.hp + hero.debuffs.hp;
 
 		//Add stats based on skills
 		if(hero.weapon != -1){
@@ -1524,54 +1602,29 @@ function updateHeroUI(hero){
 
 			//Weapon Skill
 			if(hero.weapon != -1){
-				var weaponName = data.skills[hero.weapon].name;
-
-				if((weaponName.indexOf("ホースキラー") == -1 ) &&
-					(weaponName.indexOf("キラー") != -1 || weaponName.indexOf("キル") != -1 || weaponName.indexOf("鍛") != -1
-					|| weaponName.indexOf("ミストルティン") != -1 || weaponName.indexOf("オートクレール") != -1 || weaponName.indexOf("魔性の槍") != -1
-					|| weaponName.indexOf("ウルヴァン") != -1　|| weaponName.indexOf("アウドムラ") != -1)){
-					specialCharge -= 1;
-				}
-				else if(weaponName.indexOf("ラウアブレード") != -1 || weaponName.indexOf("雷のブレス") != -1 || weaponName.indexOf("ブラーブレード") != -1 || weaponName.indexOf("グルンブレード") != -1){
-					specialCharge += 1;
-				}
+				specialCharge += getCDChange(data.skills[hero.weapon], "weapon");
 			}
 
 			//Refine bonus
 			if(hero.refine != -1){
+				specialCharge += getCDChange(data.refine[hero.refine], "refine");
 			}
 
 			//Special Item
 			if(hero.s != -1){
-				var sName = data.skills[hero.s].name;
-
-				//Quicken Pulse
-				if(sName.indexOf("奥義の鼓動") != -1){
-					precharge += 1;
-				}
+				precharge += getCDChange(data.skills[hero.s], "s")
 			}
 
 			//B Skill
 			if(hero.b != -1){
 				var bName = data.skills[hero.b].name;
-
-				//If special is defensive
-				if(specialName.indexOf("祈り") != -1 || specialName.indexOf("聖盾") != -1 || specialName.indexOf("小盾") != -1 || specialName.indexOf("長盾") != -1
-					|| specialName.indexOf("聖衣") != -1 || specialName.indexOf("大盾") != -1 || specialName.indexOf("聖兜")!= -1
-					|| specialName.indexOf("氷の聖鏡") != -1){
-					//Shield Pulse
+				//Shield Pulse
+				if (getSpecialType(data.skills[hero.special]) == "defensive"){
 					if(bName.indexOf("盾の鼓動 3") != -1){
 						precharge += 2;
 					} else if(bName.indexOf("盾の鼓動 1") != -1 || bName.indexOf("盾の鼓動 2") != -1){
 						precharge += 1;
 					}
-				//Else if special is supportive
-				}else if(specialName.indexOf("天照") != -1 || specialName.indexOf("治癒") != -1 || specialName.indexOf("業火の祝福") != -1
-					|| specialName.indexOf("大地の祝福") != -1 || specialName.indexOf("静水の祝福") != -1 || specialName.indexOf("疾風の祝福") != -1){
-
-				//Else if special is offensive
-				}else{
-
 				}
 			}
 
@@ -2683,9 +2736,10 @@ function fight(enemyIndex,resultIndex){
 		}
 	}
 
-	var weaponName = "None";
+	//Set icon names
+	var weaponName = "なし";
 	var refineName = "norefine";
-	var specialName = "None";
+	var specialName = "なし";
 	var aName = "noskill";
 	var bName = "noskill";
 	var cName = "noskill";
@@ -2712,6 +2766,7 @@ function fight(enemyIndex,resultIndex){
 		sName = data.skills[ahEnemy.sIndex].name.replace(/\s/g,"_");
 	}
 
+	//Set weapon icon name for dragon
 	var weaponTypeName = ahEnemy.weaponType;
 	if(weaponTypeName == "dragon"){
 		weaponTypeName = ahEnemy.color + "dragon";
@@ -2723,6 +2778,23 @@ function fight(enemyIndex,resultIndex){
 
 	var passFilters = ["all"];
 	passFilters.push(outcome);
+
+	//Filter Color
+	if (weaponTypeName == "sword" || weaponTypeName == "redtome" || weaponTypeName == "reddragon"){
+		passFilters.push("red");
+	}else if (weaponTypeName == "lance" || weaponTypeName == "bluetome" || weaponTypeName == "bluedragon"){
+		passFilters.push("blue");
+	}else if (weaponTypeName == "axe" || weaponTypeName == "greentome" || weaponTypeName == "greendragon"){
+		passFilters.push("green");
+	}else{
+		passFilters.push("gray");
+	}
+	//Filter Range
+	if (data.rangedWeapons.indexOf(weaponTypeName) > -1){
+		passFilters.push("ranged");
+	}else{
+		passFilters.push("melee");
+	}
 
 	if(enemyList[enemyIndex].lastFightResult){
 		var prevResult = "";
@@ -2968,9 +3040,26 @@ function outputResults(){
 //Helper function for filtering
 //Will return true if include or false if not
 function filterResult(i){
+	//console.log(options.viewFilter);
 	//console.log(resultHTML[i].passFilters.indexOf(options.viewFilter));
 	//console.log(resultHTML[i].passFilters);
-	return resultHTML[i].passFilters.indexOf(options.viewFilter) > -1;
+	//return resultHTML[i].passFilters.indexOf(options.viewFilter) > -1;
+
+	//Color Filter
+	if (resultHTML[i].passFilters.indexOf(options.colorFilter) == -1){
+		return false
+	}
+	//Range Filter
+	if (resultHTML[i].passFilters.indexOf(options.rangeFilter) == -1){
+		return false
+	}
+	//View Filter
+	if (resultHTML[i].passFilters.indexOf(options.viewFilter) == -1){
+		return false
+	}
+
+	//Return true if all filter passes
+	return true;
 }
 
 function exportCalc(){
@@ -3379,18 +3468,8 @@ function activeHero(hero){
 
 	this.resetCharge = function(){
 		//resets charge based on weapon
-		if(this.has("キルソード") || this.has("キラーアクス") || this.has("キラーランス") || this.has("キラーボウ")
-			|| this.has("キラーボウ鍛") || this.has("キルソード鍛") || this.has("キラーアクス鍛") || this.has("キラーランス鍛")
-			|| this.has("魔性の槍") || this.has("ミストルティン") || this.has("オートクレール")
-			|| this.has("ウルヴァン") || this.has("アウドムラ")){
-			this.charge = 1;
-		}
-		else if(this.has("ラウアブレード") || this.has("雷のブレス") || this.has("ブラーブレード") || this.has("グルンブレード")){
-			this.charge = -1;
-		}
-		else{
-			this.charge = 0;
-		}
+		//For weapons that would reduce charge, you gain a charge instead, and vice versa
+		this.charge = -1 * getCDChange(data.skills[this.weaponIndex], "weapon");
 	}
 
 	//Set charge at beginning
@@ -3402,12 +3481,11 @@ function activeHero(hero){
 	}
 
 	//Shield Pulse charge at beginning
-	if(this.has("祈り") || this.has("聖盾") || this.has("小盾") || this.has("長盾")
-		|| this.has("聖衣") || this.has("大盾") || this.has("聖兜") || this.has("氷の聖鏡")){
+	if (getSpecialType(data.skills[this.specialIndex]) == "defensive"){
 		if(this.has("盾の鼓動 3")){
 			this.charge += 2;
 		} else if(this.has("盾の鼓動 1") || this.has("盾の鼓動 2")){
-			this.charge++;
+			this.charge += 1;
 		}
 	}
 
@@ -3558,20 +3636,11 @@ function activeHero(hero){
 	this.charging = function(){
 		var chargingText = "";
 
-		//If special is defensive
-		if(this.has("祈り") || this.has("聖盾") || this.has("小盾") || this.has("長盾")
-			|| this.has("聖衣") || this.has("大盾") || this.has("聖兜")){
-		//Else if special is supportive
-		}else if(this.has("天照") || this.has("治癒") || this.has("業火の祝福")
-			|| this.has("大地の祝福") || this.has("静水の祝福") || this.has("疾風の祝福")){
-		//Else if special is offensive
-		}else{
-			//Wrath
-			if(this.has("怒り")){
-				if(this.hp/this.maxHp <= .25 * this.has("怒り")){
-					this.charge++;
-					chargingText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で、奥義カウント -1 。<br>";
-				}
+		//Wrath
+		if(this.has("怒り") && getSpecialType(data.skills[this.specialIndex]) == "offensive"){
+			if(this.hp/this.maxHp <= .25 * this.has("怒り")){
+				this.charge++;
+				chargingText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で、奥義カウント -1 。<br>";
 			}
 		}
 
@@ -4359,6 +4428,7 @@ function activeHero(hero){
 		var effectiveBonus = 1.0;
 		var dmgMultiplier = 1.0;
 		var dmgBoost = 0;
+		var dmgBoostFlat = 0;
 		var absorbPct = 0;
 
 		var damageText = "";
@@ -4512,7 +4582,7 @@ function activeHero(hero){
 					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("蛍火") || this.hasExactly("緋炎")){
-					dmgBoost += thisEffDef/2;
+					dmgBoost += thisEffDef / 2;
 					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("華炎")){
@@ -4540,23 +4610,23 @@ function activeHero(hero){
 					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("氷点") || this.hasExactly("氷蒼")){
-					dmgBoost += thisEffRes/2;
+					dmgBoost += thisEffRes / 2;
 					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("氷華")){
-					dmgBoost += thisEffRes*0.8;
+					dmgBoost += thisEffRes * 0.8;
 					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("剣姫の流星")){
-					dmgBoost += thisEffSpd*0.4;
+					dmgBoost += thisEffSpd * 0.4;
 					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("雪辱") || this.hasExactly("血讐")){
-					dmgBoost += (this.maxHp-this.hp)*0.3;
+					dmgBoost += (this.maxHp-this.hp) * 0.3;
 					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("復讐")){
-					dmgBoost += (this.maxHp-this.hp)*0.5;
+					dmgBoost += (this.maxHp-this.hp) * 0.5;
 					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("天空")){
@@ -4571,14 +4641,14 @@ function activeHero(hero){
 				damageText += this.name + " は、" + data.skills[this.specialIndex].name + " を発動。<br>";
 
 				if(this.has("倭刀") || this.hasExactly("共鳴エクスカリバー") || this.hasExactly("気鋭ワユの剣") || this.hasExactly("奥義ダメージ")){
-					dmgBoost += 10;
+					dmgBoostFlat += 10;
 					damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 				}
 				//Wrath damage is checked when special is activated
 				if(this.has("怒り")){
 					if(this.hp/this.maxHp <= .25 * this.has("怒り")){
-						dmgBoost += 10;
-						damageText += this.name + " は、" + data.skills[this.bIndex].name + "の効果で、奥義発動時 +10 ダメージ。<br>";
+						dmgBoostFlat += 10;
+						damageText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 					}
 				}
 			}
@@ -4772,7 +4842,7 @@ function activeHero(hero){
 					damageText += this.name + "の三竦み " + ((weaponAdvantage == 1) ? "有利" : "不利") + " は 相性相殺 によって無効化。<br>";
 				}
 				else{
-					damageText += this.name + " の攻撃は、三竦み " + ((weaponAdvantage == 1) ? "有利" : "不利") + " のため、" + Math.round((1+weaponAdvantageBonus)*10)/10 + " 倍。<br>";
+					damageText += this.name + " の攻撃は、三竦み " + ((weaponAdvantage == 1) ? "有利" : "不利") + " のため、" + Math.round((1 + weaponAdvantageBonus)*10)/10 + " 倍。<br>";
 				}
 			}
 
@@ -4807,8 +4877,9 @@ function activeHero(hero){
 				damageText += this.name + "の攻撃は、武器の特効の効果で、" + (effectiveBonus * 100 - 100) + "% 上昇。<br>";
 			}
 
-			//Weapon modifier for healers
+			//Class modifier
 			var weaponModifier = 1;
+			//Healers
 			if(this.weaponType == "staff"){
 				weaponModifier = 0.5;
 
@@ -4939,7 +5010,7 @@ function activeHero(hero){
 
 			//Release charged damage
 			if (this.chargedDamage > 0){
-				dmgBoost += this.chargedDamage;
+				dmgBoostFlat += this.chargedDamage;
 				damageText += this.name + " は、蓄積したダメージを開放し、追加で +" + this.chargedDamage + " ダメージ。<br>";
 				this.chargedDamage = 0;
 			}
@@ -4947,15 +5018,34 @@ function activeHero(hero){
 			//Damage calculation from http://feheroes.wiki/Damage_Calculation
 			//use bitwise or to truncate properly
 			//Doing calculation in steps to see the formula more clearly
+
+			var rawDmg = (thisEffAtk * effectiveBonus | 0);
+			var advBoost = ((thisEffAtk * effectiveBonus | 0) * weaponAdvantageBonus | 0);
+			var statBoost = dmgBoost;
+			var reduceDmg = relevantDef + (relevantDef * enemyDefModifier | 0) + relevantTileDef;;
+
+			//Total damage dealth = base damage + weapon advantage boost + stat-reliant special boost - mitigation with relevant defense
+			var totalDmg = (rawDmg + advBoost + statBoost - reduceDmg);
+			//Total damage is modified by weapon modifier (ie. healer staff reduction)
+			totalDmg = (totalDmg * weaponModifier | 0);
+			//Total damage is modified by damage multiplier from specials + flat damage bonus
+			totalDmg = (totalDmg * dmgMultiplier | 0) + dmgBoostFlat;
+			//Final damage is total damage - damage reduction from specials - flat damage reduction
+			var dmg = totalDmg - (totalDmg * (1 - dmgReduction) | 0) - dmgReductionFlat;
+
+			/*	Old damage formula
+
 			var rawDmg = (thisEffAtk * effectiveBonus | 0) + ((thisEffAtk * effectiveBonus | 0) * weaponAdvantageBonus | 0) + (dmgBoost | 0);
 			var reduceDmg = relevantDef + (relevantDef * enemyDefModifier | 0) + relevantTileDef;
 			var dmg = (rawDmg - reduceDmg) * weaponModifier | 0;
 			dmg = dmg * dmgMultiplier | 0;
 			dmg -= dmg * (1 - dmgReduction) | 0;
 			dmg -= dmgReductionFlat | 0;
+			*/
 
 			//Final damage calculations
 			dmg = Math.max(dmg,0);
+
 			if(enemy.has("エンブラの加護")){
 				dmg = 0;
 			}
@@ -4967,7 +5057,7 @@ function activeHero(hero){
 			if(defensiveSpecialActivated){
 				//Ice Mirror damage charge up check
 				if (enemy.has("氷の聖鏡")){
-					var iceMirrorDamage = ((rawDmg - reduceDmg) * weaponModifier | 0) - dmg;
+					var iceMirrorDamage = totalDmg - dmg;
 					if (iceMirrorDamage > 0){
 						enemy.chargedDamage += iceMirrorDamage;
 						damageText += enemy.name + " の 氷の聖鏡 の効果で、次の攻撃時に " + iceMirrorDamage + " ダメージ蓄積。<br>";
