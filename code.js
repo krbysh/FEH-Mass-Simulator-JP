@@ -151,6 +151,7 @@ function initOptions(){
 	options.hideUnaffectingSkills = true;
 	options.colorFilter = "all";
 	options.rangeFilter = "all";
+	options.moveFilter = "all";
 	options.viewFilter = "all";
 	options.customEnemyList = 0;
 	options.customEnemySelected = -1;
@@ -2772,6 +2773,8 @@ function fight(enemyIndex,resultIndex){
 		weaponTypeName = ahEnemy.color + "dragon";
 	}
 
+	var moveTypeName = ahEnemy.moveType;
+
 	if(typeof enemyList[enemyIndex].lastFightResult == "undefined"){
 		enemyList[enemyIndex].lastFightResult = "";
 	}
@@ -2794,6 +2797,17 @@ function fight(enemyIndex,resultIndex){
 		passFilters.push("ranged");
 	}else{
 		passFilters.push("melee");
+	}
+
+	//Filter Move
+	if (moveTypeName == "infantry"){
+		passFilters.push("infantry");
+	}else if (moveTypeName == "cavalry"){
+		passFilters.push("cavalry");
+	}else if (moveTypeName == "flying"){
+		passFilters.push("flying");
+	}else{
+		passFilters.push("armored");
 	}
 
 	if(enemyList[enemyIndex].lastFightResult){
@@ -3051,6 +3065,10 @@ function filterResult(i){
 	}
 	//Range Filter
 	if (resultHTML[i].passFilters.indexOf(options.rangeFilter) == -1){
+		return false
+	}
+	//Move Filter
+	if (resultHTML[i].passFilters.indexOf(options.moveFilter) == -1){
 		return false
 	}
 	//View Filter
