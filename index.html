@@ -21,8 +21,8 @@
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="style.css?v=2017120602"/>
-	<script type="text/javascript" src="code.js?v=2017120602"></script>
+	<link rel="stylesheet" type="text/css" href="style.css?v=2017121201"/>
+	<script type="text/javascript" src="code.js?v=2017121201"></script>
 
 </head>
 
@@ -42,7 +42,7 @@
 				<button class="button button_newheroes" id="4"><img class="newheroes_picture" src="heroes/Soleil.png"/></button>
 			</div>
 		</div>
-		<div id="frame_updatenotice" data-update="2017120601">フィルターを追加しました。
+		<div id="frame_updatenotice" data-update="2017121201">オプションの拡張を行いました。
 			<div id="update_icon">!</div>
 			<div class="button" id="button_closeupdatenotice" onclick="hideUpdateNotice();">x</div>
 		</div>
@@ -154,6 +154,148 @@
 								<span id="challenger_asc" class="misc_number">-</span>
 							</div>
 						</div>
+					</div>
+				</div>
+			</div>
+			<div id="frame_adj">
+				<div id="rules_bar_top">
+					オプション
+				</div>
+				<div id="adj_title">ステータス</div>
+				<div class="adj_status">
+					<div class="status_challenger"><input type="checkbox" data-var="options.defensive_challenger" id="defensive_challenger"/></div>
+					<div class="status_title">防御地形</div>
+					<div class="status_enemy"><input type="checkbox" data-var="options.defensive_enemy" id="defensive_enemy"/></div>
+				</div>
+				<div class="adj_status">
+					<div class="status_challenger"><input type="checkbox" data-var="options.panic_challenger" id="panic_challenger"/></div>
+					<div class="status_title">パニック</div>
+					<div class="status_enemy"><input type="checkbox" data-var="options.panic_enemy" id="panic_enemy"/></div>
+				</div>
+				<div class="adj_status">
+					<div class="status_challenger"><input type="checkbox" data-var="options.candlelight_challenger" id="candlelight_challenger"/></div>
+					<div class="status_title">キャンドル</div>
+					<div class="status_enemy"><input type="checkbox" data-var="options.candlelight_enemy" id="candlelight_enemy"/></div>
+				</div>
+				<div style="line-height: 10%;"><br></div>
+				<div id="adj_title">特殊</div>
+				<div class="adj_status">
+					<div class="status_challenger"><input type="checkbox" data-var="options.threaten_challenger" id="threaten_challenger"/></div>
+					<div class="status_title">威嚇・謀策 を反映</div>
+					<div class="status_enemy"><input type="checkbox" data-var="options.threaten_enemy" id="threaten_enemy"/></div>
+				</div>
+				<div class="adj_status">
+					<div class="status_challenger"><input type="checkbox" data-var="options.galeforce_challenger" id="galeforce_challenger" checked/></div>
+					<div class="status_title">疾風迅雷、再度攻撃</div>
+					<div class="status_enemy"><input type="checkbox" data-var="options.galeforce_enemy" id="galeforce_enemy" checked/></div>
+				</div>
+				<div style="line-height: 10%;"><br></div>
+				<div id="adj_title">カスタムリストの調整</div>
+				<div class="adj_status">
+					<div class="status_desc">被ダメージ</div>
+					<div class="status_select">
+						<input class="adj_input smallnuminput" id="enemies_cl_damage" data-var="enemies.cl.damage" type="number" value=0 min=0 max=99 />
+					</div>
+					<div class="button adj_apply_button" id="apply_damage_taken">適用</div>
+				</div>
+				<div class="adj_status">
+					<div class="status_desc">ＨＰ</div>
+					<div class="status_select">
+						<select class="adj_select_long" data-var="enemies.cl.HpPercent" id="enemies_cl_HpPercent">
+							<option value="4" selected>100%</option>
+							<option value="3">75%</option>
+							<option value="2">50%</option>
+							<option value="1">25%</option>
+						</select>
+					</div>
+					<div class="button adj_apply_button" id="apply_total_health">適用</div>
+				</div>
+				<div class="adj_status">
+					<div class="button adj_reset_button" id="reset_health">初期化</div>
+				</div>
+				<div class="adj_status">
+					<div class="status_desc_short">強化</div>
+					<div class="status_select_mid">
+						<select class="adj_select_left" data-var="enemies.cl.status" id="enemies_cl_status">
+							<option value="hp" selected>ＨＰ</option>
+							<option value="atk">攻撃</option>
+							<option value="spd">速さ</option>
+							<option value="def">守備</option>
+							<option value="res">魔防</option>
+						</select>
+					</div>
+					<div class="status_select">
+						<select class="adj_select" data-var="enemies.cl.statusbuff" id="enemies_cl_statusbuff">
+							<option value="3">+3</option>
+							<option value="4" selected>+4</option>
+							<option value="6">+6</option>
+							<option value="-3">-3</option>
+							<option value="-4">-5</option>
+							<option value="-7">-7</option>
+						</select>
+					</div>
+					<div class="button adj_apply_button" id="apply_status_buff">適用</div>
+				</div>
+				<div class="adj_status">
+					<div class="status_desc_short">兵種強化</div>
+					<div class="status_select_mid">
+						<select class="adj_select_left" data-var="enemies.cl.movement" id="enemies_cl_movement">
+							<option value="all" selected>全て</option>
+							<option value="infantry">歩兵</option>
+							<option value="cavalry">騎馬</option>
+							<option value="flying">飛行</option>
+							<option value="armored">重装</option>
+							<option value="dragon">竜</option>
+						</select>
+					</div>
+					<div class="status_select">
+						<select class="adj_select" data-var="enemies.cl.movementbuff" id="enemies_cl_movementbuff">
+							<option value="hone" selected>刃鼓舞</option>
+							<option value="fortify">盾鼓舞</option>
+							<option value="goad">刃紋章</option>
+							<option value="goad x2">刃紋章 x2</option>
+							<option value="ward">盾紋章</option>
+							<option value="ward x2">盾紋章 x2</option>
+						</select>
+					</div>
+					<div class="button adj_apply_button" id="apply_movement_buff">適用</div>
+				</div>
+				<div class="adj_status">
+					<div class="button adj_reset_button" id="reset_buff">初期化</div>
+				</div>
+				<div style="line-height: 10%;"><br></div>
+				<div id="adj_title">シミュレーター</div>
+				<div class="adj_status">
+					<div class="status_desc_long">回復 のターン</div>
+					<div class="status_select">
+						<input class="adj_input smallnuminput" type="number" data-var="options.startTurn" min=1 max=5 id="rules_renewal" value=1 />
+					</div>
+				</div>
+				<div class="adj_status">
+					<div class="status_desc_long">遠隔の攻撃の向き</div>
+					<div class="status_select">
+						<select class="adj_select_long" id="rules_ploy" data-var="options.ployBehavior">
+							<option>十字</option>
+							<option>斜め</option>
+						</select>
+					</div>
+				</div>
+				<div class="adj_status">
+					<div class="status_desc_long">最大スキルレベルのみ表示</div>
+					<div class="status_select_long">
+						<input class="status_select" type="checkbox" data-var="options.showOnlyMaxSkills" id="rules_prereqs" checked="checked" />
+					</div>
+				</div>
+				<div class="adj_status">
+					<div class="status_desc_long">無影響なスキルを非表示</div>
+					<div class="status_select_long">
+						<input class="status_select" type="checkbox" data-var="options.hideUnaffectingSkills" id="rules_hideunaffecting" checked="checked" />
+					</div>
+				</div>
+				<div class="adj_status">
+					<div class="status_desc_long">自動計算</div>
+					<div class="status_select_long">
+						<input class="status_select" type="checkbox" data-var="options.autoCalculate" id="autocalculate" checked="checked"/>
 					</div>
 				</div>
 			</div>
@@ -335,39 +477,59 @@
 		</div>
 		<div id="frame_rules">
 			<div id="rules_bar_top">
-				Duel Rules
+				ラウンド順
+				<div class="bar_top_title_right">
+					<div class="button button_options" id="set_options">オプション非表示</div>
+				</div>
 			</div>
 			<div id="rules_turnorder">
 				<div id="turnorder_left">
-					<div id="turnorder_label">ラウンド順</div>
-					<div class="turnorder_button_row"><div class="button turnorder_button" id="add_turn_challenger_reset">自軍</div><div class="button turnorder_button_add" id="add_turn_challenger">+</div></div>
-					<div class="turnorder_button_row"><div class="button turnorder_button" id="add_turn_enemy_reset">敵</div><div class="button turnorder_button_add" id="add_turn_enemy">+</div></div>
+					<div id="turnorder_label">攻撃側</div>
+					<div class="turnorder_button_row"><div class="button turnorder_button" id="add_turn_challenger_reset">自軍</div></div>
+					<div class="turnorder_button_row"><div class="button turnorder_button" id="add_turn_enemy_reset">敵</div></div>
 				</div>
 				<div id="turnorder_right">
-					<div class="turn_label" id="turn_0"><span id="turn_text_0">自軍 攻撃</span><div class="button turn_delete" id="turn_delete_0" onclick="deleteTurn(0);">x</div></div>
-					<div class="turn_label" id="turn_1"><span id="turn_text_1">敵 攻撃</span><div class="button turn_delete" id="turn_delete_1" onclick="deleteTurn(1);">x</div></div>
-					<div class="turn_label" id="turn_2" style="display:none;"><span id="turn_text_2"></span><div class="button turn_delete" id="turn_delete_2" onclick="deleteTurn(2);">x</div></div>
-					<div class="turn_label" id="turn_3" style="display:none;"><span id="turn_text_3"></span><div class="button turn_delete" id="turn_delete_3" onclick="deleteTurn(3);">x</div></div>
+					<div id="turnorder_label">追加</div>
+					<div class="button turnorder_button" id="add_turn_challenger">自軍</div>
+					<div class="button turnorder_button" id="add_turn_enemy">敵</div>
 				</div>
 			</div>
-			<div id="rules_other">
-				<div id="rules_inputs">
-					<div class="rules_inputs_line">
-						最初のターンに 威嚇・謀策 を反映 <div class="rules_inputs_lineright"><select id="rules_threaten" data-var="options.threatenRule" class="duelrule_select"><option>両者</option><option>自軍</option><option>敵</option><option selected>なし</option></select></div>
-					</div>
-					<div class="rules_inputs_line">
-						防御地形 <div class="rules_inputs_lineright"><select id="defense_tile" data-var="options.defenseTile" class="duelrule_select"><option>両者</option><option>自軍</option><option>敵</option><option selected>なし</option></select></div>
-					</div>
-					<div class="rules_inputs_line">
-						遠隔の攻撃の向き(謀策用) <div class="rules_inputs_lineright"><select id="rules_ploy" data-var="options.ployBehavior" class="duelrule_select"><option>斜め</option><option>十字</option></select></div>
-					</div>
-					<div class="rules_inputs_line">
-						回復 の効果がはじまるターン <div class="rules_inputs_lineright"><input type="number" data-var="options.startTurn" min=1 max=5 id="rules_renewal" class="duelrule_smallnuminput" value=1 /></div>
+			<div id="turn_order">
+				<div id="turn_first">
+					<div class="turn_block">1</div>
+					<div class="turn_label" id="turn_0">
+						<span id="turn_text_0">自軍</span>
+						<div class="button turn_delete" id="turn_delete_0" onclick="deleteTurn(0);"></div>
+						<img id="turn_image_0" src="weapons/challenger_sprite.png" height="62" width="62">
 					</div>
 				</div>
-				<div id="rules_checks">
-					<span class="checkrule"><label><input type="checkbox" data-var="options.showOnlyMaxSkills" id="rules_prereqs" checked="checked" /> 最大スキルレベルのみ</label></span><span class="checkrule"><label><span class="checkrule"><input type="checkbox" id="rules_hideunaffecting" data-var="options.hideUnaffectingSkills" checked="checked" /> 対戦に影響しないスキルを非表示</label></span><span class="checkrule"><label><input type="checkbox" data-var="options.useGaleforce" id="rules_galeforce" checked="checked" /> 疾風迅雷 発動時に再度攻撃</label></span>
+				<div id="turn_second">
+					<div class="turn_block">2</div>
+					<div class="turn_label" id="turn_1">
+						<span id="turn_text_1">敵</span>
+						<div class="button turn_delete" id="turn_delete_1" onclick="deleteTurn(1);"></div>
+						<img id="turn_image_1" src="weapons/enemy_sprite.png" height="62" width="62">
+					</div>
 				</div>
+
+				<div id="turn_third">
+					<div class="turn_block">3</div>
+					<div class="turn_label" id="turn_2" style="display:none;">
+						<span id="turn_text_2"></span>
+						<div class="button turn_delete" id="turn_delete_2" onclick="deleteTurn(2);"></div>
+						<img id="turn_image_2" src="weapons/challenger_sprite.png" height="62" width="62">
+					</div>
+				</div>
+				<div id="turn_fourth">
+					<div class="turn_block">4</div>
+					<div class="turn_label" id="turn_3" style="display:none;">
+						<span id="turn_text_3"></span>
+						<div class="button turn_delete" id="turn_delete_3" onclick="deleteTurn(3);"></div>
+						<img id="turn_image_3" src="weapons/challenger_sprite.png" height="62" width="62">
+					</div>
+				</div>
+			</div>
+			<div id="turn_order_split">
 			</div>
 		</div>
 		<div id="frame_results">
@@ -376,9 +538,7 @@
 				<div class="button" id="button_calculate" onclick="calculate();">計算</div> <input type="checkbox" data-var="options.autoCalculate" id="autocalculate" checked="checked"/>自動計算
 				<div id="results_bar_right"><span class="bar_label">ビュー </span><select id="view_results" data-var="options.viewFilter" class="duelrule_select"><option value="all" >全対戦</option><option value="changeVictor" >勝者が変更された</option><option value="changeRounds" >ラウンドが変更された</option><option value="changeDamage" >ダメージが変更された</option><option value="勝利" >勝利</option><option value="敗北" >敗北</option><option value="未決着" >未決着</option></select><span class="bar_label">並び替え</span><select id="sort_results" data-var="options.sortOrder" class="duelrule_select"><option value=1 >ベスト</option><option value=-1 >ワースト</option></select><div class="button" id="button_exportcalc" onclick="exportCalc();">結果出力</div></div>
 				-->
-				<div class="button" id="button_calculate" onclick="calculate();">計算</div>
-				<input type="checkbox" data-var="options.autoCalculate" id="autocalculate" checked="checked"/>
-				自動計算
+				<div class="button" id="button_calculate" onclick="calculate(true);">計算</div>
 				<div id="results_bar_right">
 					<span class="bar_label">色</span>
 					<select id="color_results" data-var="options.colorFilter">
@@ -395,7 +555,7 @@
 						<option value="ranged" >遠隔</option>
 					</select>
 					<span class="bar_label">兵種</span>
-					<select id="move_results" data-var="options.moveFilter">
+					<select id="move_results" data-var="options.typeFilter">
 						<option value="all" >全て</option>
 						<option value="infantry" >歩兵</option>
 						<option value="cavalry" >騎馬</option>
@@ -428,7 +588,7 @@
 			<div id="winpercentages"><span class="results_stat">勝利 <span id="win_pct">-</span></span><span class="results_stat">敗北 <span id="lose_pct">-</span></span><span class="results_stat">未決着 <span id="inconclusive_pct">-</span></span></div>
 			<div id="results_list"></div>
 		</div>
-		<div id="footer"><a href="https://github.com/Andu2/FEH-Mass-Simulator">本家</a>. Last <a href="changelog.txt">updated</a> 2017-12-06. バグ等については <a href="https://twitter.com/krbysh_x86">@krbysh_x86</a> までご連絡ください。</div>
+		<div id="footer"><a href="https://github.com/Andu2/FEH-Mass-Simulator">本家</a>. Last <a href="changelog.txt">updated</a> 2017-12-12. バグ等については <a href="https://twitter.com/krbysh_x86">@krbysh_x86</a> までご連絡ください。</div>
 	</div>
 	<div id="frame_tooltip"></div>
 	<div id="screen_fade"></div>

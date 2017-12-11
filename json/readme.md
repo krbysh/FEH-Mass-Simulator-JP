@@ -1,9 +1,9 @@
 # JSON Data
 
-If using a SQL export to JSON, use 'find all and replace' and replace String numbers to Int: 
+If using a SQL export to JSON, use 'find all and replace' and replace String numbers to Int:
 
 	Expression: "(\-{0,1}[0-9]+(\.[0-9]+){0,1})"
-	
+
 	Replace: \1
 
 ## HEROES TABLE - hero.json
@@ -54,7 +54,7 @@ Contain keys to public Google Sheet feeds.
 
 Allows modifiers to specify range to read.
 
-The Google Sheet MUST be public and shared on the web.
+The Google Sheet MUST be public and published on the web.
 
 The KEY is aquired from the URL of the Google Sheet. (For example, https://docs.google.com/spreadsheets/d/1vwymjyksChc84apCilDJtU2oit2xh--tcx9neeziF1M/)
 
