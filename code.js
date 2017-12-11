@@ -898,6 +898,17 @@ function getSpecialType(skill){
 	}
 }
 
+//Return true if hero can counter any range
+function canCounterAnyRange(hero){
+	if(hero.has("近距離反撃") || hero.has("遠距離反撃") || hero.has("雷のブレス")
+		|| hero.has("雷神刀") || hero.has("ジークフリート") || hero.has("ラグネル")
+		|| hero.has("グラディウス") || hero.has("エタルド") || hero.has("剛斧トマホーク")
+		|| hero.has("レイプト")){
+		return true;
+	}
+	return false;
+}
+
 function setStats(hero){
 	if(hero.isFl){
 		enemies.fl.avgHp = 0;
@@ -4973,13 +4984,7 @@ function activeHero(hero){
 
 			if(enemy.specialIndex != -1 && data.skills[enemy.specialIndex].charge <= enemy.charge){
 				//gotta check range
-				var anyRangeCounter = false;
-				if(this.has("近距離反撃") || this.has("遠距離反撃") || this.has("雷のブレス")
-				|| this.has("雷神刀") || this.has("ジークフリート") || this.has("ラグネル")
-				|| this.has("グラディウス") || this.has("エタルド") || this.has("剛斧トマホーク")
-				|| this.has("レイプト")){
-					anyRangeCounter = true;
-				}
+				var anyRangeCounter = canCounterAnyRange(this);
 
 				if(this.range == "melee" || (!this.initiator && enemy.range == "melee" && anyRangeCounter)){
 					if(enemy.has("小盾") || enemy.has("長盾")){
@@ -5042,7 +5047,7 @@ function activeHero(hero){
 			var statBoost = dmgBoost;
 			var reduceDmg = relevantDef + (relevantDef * enemyDefModifier | 0) + relevantTileDef;;
 
-			//Total damage dealth = base damage + weapon advantage boost + stat-reliant special boost - mitigation with relevant defense
+			//Total damage = base damage + weapon advantage boost + stat-reliant special boost - relevant defense mitigation
 			var totalDmg = (rawDmg + advBoost + statBoost - reduceDmg);
 			//Total damage is modified by weapon modifier (ie. healer staff reduction)
 			totalDmg = (totalDmg * weaponModifier | 0);
@@ -5304,13 +5309,7 @@ function activeHero(hero){
 		}
 
 		//check for any-distance counterattack
-		var anyRangeCounter = false;
-		if(enemy.has("近距離反撃") || enemy.has("遠距離反撃") || enemy.has("雷のブレス")
-			|| enemy.has("雷神刀") || enemy.has("ラグネル") || enemy.has("ジークフリート")
-			|| enemy.has("グラディウス") || enemy.has("エタルド") || enemy.has("剛斧トマホーク")
-			|| enemy.has("レイプト")){
-			anyRangeCounter = true;
-		}
+		var anyRangeCounter = canCounterAnyRange(enemy);
 
 		//Check for AOE special activation
 		roundText += this.doDamage(enemy,false,true);
@@ -5359,9 +5358,6 @@ function activeHero(hero){
 		if(enemy.has("アルマーズ") && enemy.hp/enemy.maxHp >= .8){
 			quickRiposte = true;
 		}
-//		if (enemy.hasAtRefineIndex("追撃", enemy.refineIndex) && enemy.combatStartHp / enemy.maxHp >= 0.9){
-//			quickRiposte = true;
-//		}
 		if(enemy.hasExactly("追撃リング") && enemy.hp/enemy.maxHp >= .5){
 			quickRiposte = true;
 		}
