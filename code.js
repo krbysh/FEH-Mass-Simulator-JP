@@ -77,7 +77,7 @@ data.physicalWeapons = ["sword","lance","axe","bow","dagger"];
 data.magicalWeapons = ["redtome","bluetome","greentome","dragon","staff"];
 data.moveTypes = ["infantry","armored","flying","cavalry","mounted"];
 data.colors = ["red","blue","green","gray"];
-data.skillSlots = ["weapon","refine","special","a","b","c","s"];
+data.skillSlots = ["weapon","refine","assist","special","a","b","c","s"];
 data.buffTypes = ["buffs","debuffs","spur"];
 data.buffStats = ["hp","atk","spd","def","res"];
 data.stats = ["hp","atk","spd","def","res"];
@@ -194,6 +194,7 @@ function initOptions(){
 	challenger.naturalSkills = []; //Skills the hero has without having to inherit
 	challenger.validWeaponSkills = [];
 	challenger.validRefineSkills = [];
+	challenger.validAssistSkills = [];
 	challenger.validSpecialSkills = [];
 	challenger.validASkills = [];
 	challenger.validBSkills = [];
@@ -201,6 +202,7 @@ function initOptions(){
 
 	challenger.weapon = -1;
 	challenger.refine = -1;
+	challenger.assist = -1;
 	challenger.special = -1;
 	challenger.a = -1;
 	challenger.b = -1;
@@ -243,6 +245,7 @@ function initOptions(){
 	enemies.fl.naturalSkills = [];
 	enemies.fl.validWeaponSkills = getValidSkills(enemies.fl,"weapon");
 	enemies.fl.validRefineSkills = getValidSkills(enemies.fl,"refine");
+	enemies.fl.validAssistSkills = getValidSkills(enemies.fl,"assist");
 	enemies.fl.validSpecialSkills = getValidSkills(enemies.fl,"special");
 	enemies.fl.validASkills = getValidSkills(enemies.fl,"a");
 	enemies.fl.validBSkills = getValidSkills(enemies.fl,"b");
@@ -257,6 +260,7 @@ function initOptions(){
 
 	enemies.fl.weapon = -1;
 	enemies.fl.refine = -1;
+	enemies.fl.assist = -1;
 	enemies.fl.special = -1;
 	enemies.fl.a = -1;
 	enemies.fl.b = -1;
@@ -264,6 +268,7 @@ function initOptions(){
 	enemies.fl.s = -1;
 	enemies.fl.replaceWeapon = 0;
 	enemies.fl.replaceRefine = 0;
+	enemies.fl.replaceAssist = 0;
 	enemies.fl.replaceSpecial = 0;
 	enemies.fl.replaceA = 0;
 	enemies.fl.replaceB = 0;
@@ -343,6 +348,7 @@ $(document).ready(function(){
 	$("#challenger_name, #cl_enemy_name").html(heroHTML).select2({dropdownAutoWidth : true});
 	$("#challenger_weapon, #enemies_weapon, #cl_enemy_weapon").html(heroHTML).select2({dropdownAutoWidth : true});
 	$("#challenger_refine, #enemies_refine, #cl_enemy_refine").html(heroHTML).select2({dropdownAutoWidth : true});
+	$("#challenger_assist, #enemies_assist, #cl_enemy_assist").html(heroHTML).select2({dropdownAutoWidth : true});
 	$("#challenger_special, #enemies_special, #cl_enemy_special").html(heroHTML).select2({dropdownAutoWidth : true});
 	$("#challenger_a, #enemies_a, #cl_enemy_a").html(heroHTML).select2({dropdownAutoWidth : true});
 	$("#challenger_b, #enemies_b, #cl_enemy_b").html(heroHTML).select2({dropdownAutoWidth : true});
@@ -372,8 +378,8 @@ $(document).ready(function(){
 				".buffs.hp",".debuffs.hp",".rarity",".merge",".boon",".bane",".summoner",".ally",".weapon",".refine",".a",".s",".replaceWeapon",".replaceRefine",".replaceA"
 			];
 			var varsThatChangeSkills = [
-				".rarity",".replaceWeapon",".replaceRefine",".replaceSpecial",".replaceA",".replaceB",".replaceC","enemies.fl.weapon","enemies.fl.refine",
-				"enemies.fl.special","enemies.fl.a","enemies.fl.b","enemies.fl.c","enemies.fl.s"
+				".rarity",".replaceWeapon",".replaceRefine",".replaceAssist",".replaceSpecial",".replaceA",".replaceB",".replaceC","enemies.fl.weapon","enemies.fl.refine",
+				"enemies.fl.assist","enemies.fl.special","enemies.fl.a","enemies.fl.b","enemies.fl.c","enemies.fl.s"
 			];
 			var varsThatUpdateFl = [
 				".boon",".bane",".summoner",".ally",".precharge",".adjacent",".damage",".rarity",".merge"
@@ -422,7 +428,7 @@ $(document).ready(function(){
 			changeDataVar(dataVar,newVal);
 
 			//Stuff specific to changing skill
-			if(endsWith(dataVar,".weapon") || endsWith(dataVar,".special") || endsWith(dataVar,".a") || endsWith(dataVar,".b") || endsWith(dataVar,".c") || endsWith(dataVar,".s")){
+			if(endsWith(dataVar,".weapon") || endsWith(dataVar,".assist")|| endsWith(dataVar,".special") || endsWith(dataVar,".a") || endsWith(dataVar,".b") || endsWith(dataVar,".c") || endsWith(dataVar,".s")){
 				if(newVal != -1){
 					//***This does nothing?***
 					var dataToPass = data.skills[newVal].name;
@@ -673,6 +679,7 @@ function initHero(hero, alreadyHasSkills){
 		if (hero.weapon != -1 || undefined){
 			hero.validRefineSkills = getValidRefineSkills(hero,"refine");
 		}
+		hero.validAssistSkills = getValidSkills(hero,"assist");
 		hero.validSpecialSkills = getValidSkills(hero,"special");
 		hero.validASkills = getValidSkills(hero,"a");
 		hero.validBSkills = getValidSkills(hero,"b");
@@ -725,8 +732,8 @@ function getValidSkills(hero,slot){
 					var inheritRuleMatches = 0;
 					for(var ruleNum = 0; ruleNum < inheritRules.length; ruleNum++){
 						//console.log("Trying " + slot + ": " + data.skills[i].name);
+						//can only use if hero starts with it
 						if(inheritRules[ruleNum] == "unique"){
-							//can only use if hero starts with it
 							if(hero.naturalSkills){
 								for(var j = 0; j < hero.naturalSkills.length; j++){
 									if(hero.naturalSkills[j][0] == data.skills[i].skill_id){
@@ -735,18 +742,18 @@ function getValidSkills(hero,slot){
 								}
 							}
 						}
+						//inherit if weapon is right attacking type
 						else if(attackType == inheritRules[ruleNum]){
-							//inherit if weapon is right attacking type
 							inheritRuleMatches++;
 						}
+						//inherit if weapon is right
 						else if(data.weaponTypes.indexOf(inheritRules[ruleNum])!=-1){
-							//inherit if weapon is right
 							if(data.heroes[hero.index].weapontype==inheritRules[ruleNum]){
 								inheritRuleMatches++;
 							}
 						}
+						//inherit if movetype is right
 						else if(data.moveTypes.indexOf(inheritRules[ruleNum])!=-1){
-							//inherit if movetype is right
 							if(inheritRules[ruleNum] === "mounted"){
 								if(data.heroes[hero.index].movetype == "cavalry" || data.heroes[hero.index].movetype == "flying"){
 									inheritRuleMatches++;
@@ -758,14 +765,14 @@ function getValidSkills(hero,slot){
 								}
 							}
 						}
+						//inherit if not a certain weapon
 						else if(data.weaponTypes.indexOf(inheritRules[ruleNum].replace("non",""))!=-1){
-							//inherit if not a certain weapon
 							if(data.heroes[hero.index].weapontype!=inheritRules[ruleNum].replace("non","")){
 								inheritRuleMatches++;
 							}
 						}
+						//inherit if not a certain movement type
 						else if(data.moveTypes.indexOf(inheritRules[ruleNum].replace("non",""))!=-1){
-							//inherit if not a certain movement type
 							if(inheritRules[ruleNum] === "nonmounted"){
 								if(data.heroes[hero.index].movetype != "cavalry" && data.heroes[hero.index].movetype != "flying"){
 									inheritRuleMatches++;
@@ -777,31 +784,31 @@ function getValidSkills(hero,slot){
 								}
 							}
 						}
+						//inherit if not a certain color
 						else if(data.colors.indexOf(inheritRules[ruleNum].replace("non",""))!=-1){
-							//inherit if not a certain color
 							if(data.heroes[hero.index].color!=inheritRules[ruleNum].replace("non","")){
 								inheritRuleMatches++;
 							}
 						}
+						//inherit if weapon type in ranged group
 						else if(inheritRules[ruleNum]=="ranged"){
-							//inherit if weapon type in ranged group
 							if(data.rangedWeapons.indexOf(data.heroes[hero.index].weapontype) != -1){
 								inheritRuleMatches++;
 							}
 						}
+						//inherit if weapon type in melee group
 						else if(inheritRules[ruleNum]=="melee"){
-							//inherit if weapon type in melee group
 							if(data.meleeWeapons.indexOf(data.heroes[hero.index].weapontype) != -1){
 								inheritRuleMatches++;
 							}
 						}
+						//everyone can inherit!
 						else if(inheritRules[ruleNum]==""){
-							//everyone can inherit!
 							inheritRuleMatches++;
 						}
 						else{
 							//shouldn't get here
-							//console.log("Issue finding logic for inheritrule " + inheritRules[ruleNum]);
+							console.log("Issue finding logic for inheritrule " + inheritRules[ruleNum]);
 						}
 						if(inheritRuleMatches == inheritRules.length){
 							validSkills.push(i);
@@ -897,6 +904,14 @@ function getCDChange(skill, slot){
 		//Refinement changes to cooldown go here
 	}
 
+	//Assist
+	if (slot == "assist"){
+		//Cooldown increase
+		if (skillName.indexOf("セインツ") != -1			|| skillName.indexOf("リバース") != -1	|| skillName.indexOf("リカバー") != -1){
+				return 1;
+		}
+	}
+
 	//Seal
 	if (slot == "s"){
 		//Precharge Increase
@@ -912,11 +927,12 @@ function getCDChange(skill, slot){
 function getMaxSkills(skillset,rarity){
 	//Finds max skills based on rarity
 	//Gets one with highest sp cost
-	var maxSkillset = {"weapon":-1,"special":-1,"a":-1,"b":-1,"c":-1};
+	var maxSkillset = {"weapon":-1,"assist":-1,"special":-1,"a":-1,"b":-1,"c":-1};
 	for(var i = 0; i < skillset.length;i++){
 		var skillIndex = getSkillIndexFromId(skillset[i][0]);
 		var skill = data.skills[skillIndex];
-		if((skill.slot != "s" && skill.slot != "assist") && skillset[i][1] <= rarity + 1){
+		//TODO: Check what this does for assist
+		if((skill.slot != "s") && skillset[i][1] <= rarity + 1){
 			if(maxSkillset[skill.slot]==-1){
 				maxSkillset[skill.slot] = skillIndex;
 			}
@@ -1225,6 +1241,7 @@ function updateSpt(hero){
 	hero.spt = 0;
 	hero.spt += (hero.weapon != -1 ? data.skills[hero.weapon].sp : 0);
 	hero.spt += (hero.refine != -1 ? (data.refine[hero.refine].sp - data.skills[hero.weapon].sp) : 0);
+	hero.spt += (hero.assist != -1 ? data.skills[hero.assist].sp : 0);
 	hero.spt += (hero.special != -1 ? data.skills[hero.special].sp : 0);
 	hero.spt += (hero.a != -1 ? data.skills[hero.a].sp : 0);
 	hero.spt += (hero.b != -1 ? data.skills[hero.b].sp : 0);
@@ -1408,6 +1425,7 @@ function setSkills(hero){
 	else if(typeof hero.index != "undefined" && hero.index != -1){
 		hero.weapon = data.heroMaxSkills[hero.rarity-1][hero.index].weapon;
 		hero.refine = -1;
+		hero.assist = data.heroMaxSkills[hero.rarity-1][hero.index].assist;
 		hero.special = data.heroMaxSkills[hero.rarity-1][hero.index].special;
 		hero.a = data.heroMaxSkills[hero.rarity-1][hero.index].a;
 		hero.b = data.heroMaxSkills[hero.rarity-1][hero.index].b;
@@ -1427,6 +1445,7 @@ function cloneHero(clone, target){
 		clone.ally = target.ally;
 		clone.weapon = target.weapon;
 		clone.refine = target.refine;
+		clone.assist = target.assist;
 		clone.special = target.special;
 		clone.a = target.a;
 		clone.b = target.b;
@@ -1467,6 +1486,7 @@ function resetHero(hero,blockInit){//also resets fl, despite singular name - pas
 		if(options.customEnemyList == 0){
 			hero.weapon = -1;
 			hero.refine = -1;
+			hero.assist = -1;
 			hero.special = -1;
 			hero.a = -1;
 			hero.b = -1;
@@ -1474,6 +1494,7 @@ function resetHero(hero,blockInit){//also resets fl, despite singular name - pas
 			hero.s = -1;
 			hero.replaceWeapon = 0;
 			hero.replaceRefine = 0;
+			hero.replaceAssist = 0;
 			hero.replaceSpecial = 0;
 			hero.replaceA = 0;
 			hero.replaceB = 0;
@@ -1501,7 +1522,7 @@ function addClEnemy(index){
 	var newCustomEnemyId = enemies.cl.list.length;
 
 	enemies.cl.list.push({
-		"index":index,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
+		"index":index,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"assist":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
 		"buffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "spur": {"hp":0,"atk":0,"spd":0,"def":0,"res":0},
 		"boon": "none", "bane": "none", "summoner": "none", "ally": "none", "merge":0, "rarity": 5, "precharge":0, "adjacent":1, "damage": 0
 	});
@@ -1548,7 +1569,7 @@ function setFlEnemies(){
 
 	for(var i = 0; i < data.heroes.length;i++){
 		if(enemies.fl.list.length-1 < i){
-			enemies.fl.list.push({"index":i,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
+			enemies.fl.list.push({"index":i,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"assist":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
 				"buffs": enemies.fl.buffs, "debuffs": enemies.fl.debuffs, "spur": enemies.fl.spur,
 				"boon": enemies.fl.boon, "bane": enemies.fl.bane, "summoner": enemies.fl.summoner, "ally": enemies.fl.ally,
 				"merge": enemies.fl.merge, "rarity": enemies.fl.rarity, "precharge": enemies.fl.precharge, "adjacent": enemies.fl.adjacent, "damage": enemies.fl.damage
@@ -1671,7 +1692,7 @@ function setSkillOptions(hero){
 	//set html for character skill select based on valid skills
 
 	var htmlPrefix = "challenger_";
-	var maxSkills = {"weapon":-1,"refine":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1};
+	var maxSkills = {"weapon":-1,"refine":-1,"assist":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1};
 	if(typeof hero.index != "undefined" && hero.index != -1){
 		maxSkills = data.heroMaxSkills[hero.rarity-1][hero.index];
 	}
@@ -1698,8 +1719,15 @@ function setSkillOptions(hero){
 				updateRefineUI(hero, htmlPrefix);
 			}else{
 				for(var i = 0; i < validSkills.length; i++){
-					if(((!options.showOnlyMaxSkills || data.skillsThatArePrereq.indexOf(data.skills[validSkills[i]].skill_id)==-1) && (!options.hideUnaffectingSkills || data.skills[validSkills[i]].affectsduel))
-					 || validSkills[i] == maxSkills[slot] || validSkills[i] == hero[slot]){
+					//Show the following skills for hero:
+					//	Option: Non-max skills || Skills that are not prereqs
+					//	Option: Non-duel skills || Skills that affect duels || Assist skills || Special skills
+					//	Skill can be learned on hero (?)
+					//	Skill is learned on hero
+					if(((!options.showOnlyMaxSkills || data.skillsThatArePrereq.indexOf(data.skills[validSkills[i]].skill_id)==-1)
+							&& (!options.hideUnaffectingSkills || data.skills[validSkills[i]].affectsduel || data.skills[validSkills[i]].slot == "assist" || data.skills[validSkills[i]].slot == "special"))
+					 		|| validSkills[i] == maxSkills[slot]
+							|| validSkills[i] == hero[slot]){
 						slotHTML += "<option value=" + validSkills[i] + ">" + data.skills[validSkills[i]].name + "</option>";
 					}
 				}
@@ -1771,7 +1799,7 @@ function updateHeroUI(hero){
 	if(!hero){
 		//Make a dummy hero
 		hero = {
-			"index":-1,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
+			"index":-1,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"assist":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
 			"buffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "spur": {"hp":0,"atk":0,"spd":0,"def":0,"res":0},
 			"boon": "none", "bane": "none", "summoner": "none", "ally": "none", "merge":0, "rarity": 5, "precharge":0, "adjacent":1, "damage": 0
 		}
@@ -1789,6 +1817,7 @@ function updateHeroUI(hero){
 	setSkillOptions(hero);
 	$("#" + htmlPrefix + "weapon").val(hero.weapon);
 	$("#" + htmlPrefix + "refine").val(hero.refine);
+	$("#" + htmlPrefix + "assist").val(hero.assist);
 	$("#" + htmlPrefix + "special").val(hero.special);
 	$("#" + htmlPrefix + "a").val(hero.a);
 	$("#" + htmlPrefix + "b").val(hero.b);
@@ -1843,6 +1872,7 @@ function updateHeroUI(hero){
 		}
 		$("#" + htmlPrefix + "movement_icon").attr("src","weapons/" + data.heroes[hero.index].movetype + ".png");
 
+		//Update Charge UI
 		if(hero.special != -1){
 			var specialCharge = data.skills[hero.special].charge;
 			var specialName = data.skills[hero.special].name;
@@ -1856,6 +1886,11 @@ function updateHeroUI(hero){
 			//Refine bonus
 			if(hero.refine != -1){
 				specialCharge += getCDChange(data.refine[hero.refine], "refine");
+			}
+
+			//Assist Skill
+			if(hero.assist != -1){
+				specialCharge += getCDChange(data.skills[hero.assist], "assist");
 			}
 
 			//Special Item
@@ -1893,6 +1928,7 @@ function updateHeroUI(hero){
 			$("#" + htmlPrefix + "weapon_overwrite").val(hero.replaceWeapon);
 			//TODO: complete replace refine checks for Full List
 			$("#" + htmlPrefix + "refine_overwrite").val(hero.replaceRefine);
+			$("#" + htmlPrefix + "assist_overwrite").val(hero.replaceAssist);
 			$("#" + htmlPrefix + "special_overwrite").val(hero.replaceSpecial);
 			$("#" + htmlPrefix + "a_overwrite").val(hero.replaceA);
 			$("#" + htmlPrefix + "b_overwrite").val(hero.replaceB);
@@ -1979,6 +2015,9 @@ function showSkillTooltip(heroType, skillType){
 			case "refine":
 				skillID = hero.refine;
 				break;
+			case "assist":
+				skillID = hero.assist;
+				break;
 			case "special":
 				skillID = hero.special;
 				break;
@@ -2017,6 +2056,7 @@ function showSkillTooltip(heroType, skillType){
 		else{
 			tooltipText = "<span class=\"bold\">" + data.skills[skillID].name + "</span>";
 			tooltipText += (skillType == "weapon") ? " Mt: <font color=\"#fefec8\">" + data.skills[skillID].atk + "</font>" : "";
+			tooltipText += (skillType == "special") ? " CD: <font color=\"#fefec8\">" + data.skills[skillID].charge + "</font>" : "";
 			tooltipText += " SP: <font color=\"#fefec8\">" + data.skills[skillID].sp + "</font><br>";
 			tooltipText += data.skills[skillID].description;
 		}
@@ -2074,7 +2114,7 @@ function copyChallenger(){
 		var hero;
 		//Generate a new hero
 		enemies.cl.list.push({
-			"index":-1,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
+			"index":-1,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"assist":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
 			"buffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "spur": {"hp":0,"atk":0,"spd":0,"def":0,"res":0},
 			"boon": "none", "bane": "none", "summoner": "none", "ally": "none", "merge":0, "rarity": 5, "precharge":0, "adjacent":1, "damage": 0
 		});
@@ -2242,7 +2282,7 @@ function importText(side, customList){
 		}
 		else{
 			enemies.cl.list.push({
-				"index":-1,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
+				"index":-1,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"assist":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
 				"buffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "spur": {"hp":0,"atk":0,"spd":0,"def":0,"res":0},
 				"boon": "none", "bane": "none", "summoner": "none", "ally": "none", "merge":0, "rarity": 5, "precharge":0, "adjacent":1, "damage": 0
 			});
@@ -2277,6 +2317,7 @@ function importText(side, customList){
 		//Reset skills - they won't be reset with setSkills
 		hero.weapon = -1;
 		hero.refine = -1;
+		hero.assist = -1;
 		hero.special = -1;
 		hero.a = -1;
 		hero.b = -1;
@@ -2460,6 +2501,10 @@ function importText(side, customList){
 		}
 		else if(includesLike(keyValue[0],"refine")){
 			key = "refine";
+		}
+		else if(includesLike(keyValue[0],"assist")){
+			key = "assist";
+			skillName = true;
 		}
 		else if(includesLike(keyValue[0],"special")){
 			key = "special";
@@ -2984,6 +3029,7 @@ function fight(enemyIndex,resultIndex){
 	//Set icon names
 	var weaponName = "なし";
 	var refineName = "norefine";
+	var assistName = "なし";
 	var specialName = "なし";
 	var aName = "noskill";
 	var bName = "noskill";
@@ -2994,6 +3040,9 @@ function fight(enemyIndex,resultIndex){
 	}
 	if(ahEnemy.refineIndex != -1){
 		refineName = data.refine[ahEnemy.refineIndex].name_en.replace(/\s/g,"_");
+	}
+	if(ahEnemy.assistIndex != -1){
+		assistName = data.skills[ahEnemy.assistIndex].name;
 	}
 	if(ahEnemy.specialIndex != -1){
 		specialName = data.skills[ahEnemy.specialIndex].name;
@@ -3331,8 +3380,8 @@ function exportCalc(){
 
 		//Column headers
 		//Should take out buffs and stuff that aren't used to minimize columns?
-		csvString += "Challenger,cColor,cMovetype,cWeapontype,cRarity,cMerge,cBoon,cBane,cMaxHP,cStartHP,cAtk,cSpd,cDef,cRes,cWeapon,cRefine,cSpecial,cPrecharge,cAdjacent,cA,cB,cC,cS,cBuffAtk,cBuffSpd,cBuffDef,cBuffRes,cDebuffAtk,cDebuffSpd,cDebuffDef,cDebuffRes,cSpurAtk,cSpurSpd,cSpurDef,cSpurRes,";
-		csvString += "Enemy,eColor,eMovetype,eWeapontype,eRarity,eMerge,eBoon,eBane,eMaxHP,eStartHP,eAtk,eSpd,eDef,eRes,eWeapon,eRefine,eSpecial,ePrecharge,eAdjacent,eA,eB,eC,eS,eBuffAtk,eBuffSpd,eBuffDef,eBuffRes,eDebuffAtk,eDebuffSpd,eDebuffDef,eDebuffRes,eSpurAtk,eSpurSpd,eSpurDef,eSpurRes,";
+		csvString += "Challenger,cColor,cMovetype,cWeapontype,cRarity,cMerge,cBoon,cBane,cMaxHP,cStartHP,cAtk,cSpd,cDef,cRes,cWeapon,cRefine,cAssist,cSpecial,cPrecharge,cAdjacent,cA,cB,cC,cS,cBuffAtk,cBuffSpd,cBuffDef,cBuffRes,cDebuffAtk,cDebuffSpd,cDebuffDef,cDebuffRes,cSpurAtk,cSpurSpd,cSpurDef,cSpurRes,";
+		csvString += "Enemy,eColor,eMovetype,eWeapontype,eRarity,eMerge,eBoon,eBane,eMaxHP,eStartHP,eAtk,eSpd,eDef,eRes,eWeapon,eRefine,eAssist,eSpecial,ePrecharge,eAdjacent,eA,eB,eC,eS,eBuffAtk,eBuffSpd,eBuffDef,eBuffRes,eDebuffAtk,eDebuffSpd,eDebuffDef,eDebuffRes,eSpurAtk,eSpurSpd,eSpurDef,eSpurRes,";
 		csvString += "InitialThreatenChallenger,InitialThreatenEnemy,StartTurn,GaleforceChallenger,GaleforceEnemy,Initiator1,Initiator2,Initiator3,Initiator4,Outcome,cEndHP,eEndHP,Rounds,Overkill,BattleLog\n";
 
 		fightResults.forEach(function(result){
@@ -3358,6 +3407,12 @@ function exportCalc(){
 			}
 			if(challenger.refine != -1){
 				csvString += data.refine[challenger.refine].name + ",";
+			}
+			else{
+				csvString += ",";
+			}
+			if(challenger.assist != -1){
+				csvString += data.skills[challenger.assist].name + ",";
 			}
 			else{
 				csvString += ",";
@@ -3430,6 +3485,12 @@ function exportCalc(){
 			}
 			if(enemy.refineIndex != -1){
 				csvString += data.skills[enemy.refineIndex].name + ",";
+			}
+			else{
+				csvString += ",";
+			}
+			if(enemy.assistIndex != -1){
+				csvString += data.skills[enemy.assistIndex].name + ",";
 			}
 			else{
 				csvString += ",";
@@ -3562,6 +3623,7 @@ function activeHero(hero){
 
 	this.weaponIndex = hero.weapon;
 	this.refineIndex = hero.refine;
+	this.assistIndex = hero.assist;
 	this.specialIndex = hero.special;
 	this.aIndex = hero.a;
 	this.bIndex = hero.b;
@@ -3601,6 +3663,9 @@ function activeHero(hero){
 	}
 	if(this.refineIndex != -1){
 		this.skillNames.push(data.refine[this.refineIndex].name);
+	}
+	if(this.assistIndex != -1){
+		this.skillNames.push(data.skills[this.assistIndex].name);
 	}
 	if(this.specialIndex != -1){
 		this.skillNames.push(data.skills[this.specialIndex].name);

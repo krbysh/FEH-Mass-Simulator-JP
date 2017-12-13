@@ -6,7 +6,7 @@
 	<meta charset="utf-8">
 	<meta name="description" content="FE ヒーローズの対戦シミュレーターです。英雄を選択すると複数の対戦結果を一度に閲覧可能です。"/>
 	<link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
-	<link rel="shortcut icon" href="favicon.ico" />
+	<link rel="shortcut icon" href="ui/favicon.ico" />
 
 	<!-- Google Tag Manager -->
 	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -32,7 +32,7 @@
 	<!-- End Google Tag Manager (noscript) -->
 	<div id="frame_main">
 		<div id="header">
-			<img src="logo.png" style="margin-right:20px;"/>
+			<img src="ui/logo.png" style="margin-right:20px;"/>
 			<div id="maintitle" style="display:inline-block;">FEH Mass Simulator JP</div>
 			<div id="subtitle">
 				<button class="button button_newheroes" id="0"><img class="newheroes_picture" src="heroes/Fjorm.png"/></button>
@@ -85,6 +85,10 @@
 								<select class="skill_select_short" data-var="challenger.refine" id="challenger_refine"></select>
 							</div>
 							<div class="skill_row">
+								<img class="skill_picture" id="challenger_assist_picture" src="skills/assist.png" onmouseover="showSkillTooltip('challenger', 'assist');" onmouseout="hideSkillTooltip();">
+								<select class="skill_select" data-var="challenger.assist" id="challenger_assist"></select>
+							</div>
+							<div class="skill_row">
 								<img class="skill_picture" id="challenger_special_picture" src="skills/special.png" onmouseover="showSkillTooltip('challenger', 'special');" onmouseout="hideSkillTooltip();">
 								<select class="skill_select" data-var="challenger.special" id="challenger_special"></select>
 							</div>
@@ -132,6 +136,22 @@
 									<option value="b">B</option><option value="b-">B-</option><option value="c">C</option><option value="c-">C-</option>
 								</select>
 							</div>
+							<div class="misc_row">祝福
+									<select class="misc_input_left" data-var="challenger.blessing" id="challenger_blessing">
+										<option value="blessing" disabled>祝福</option>
+										<option value="water">水</option>
+										<option value="fire">火</option>
+										<option value="wind">風</option>
+										<option value="earth">地</option>
+									</select>
+									<select class="misc_input" data-var="challenger.blessingStack" id="challenger_blessingStack">
+										<option value="stack" disabled>数</option>
+										<option value="0">x0</option>
+										<option value="1">x1</option>
+										<option value="2">x2</option>
+										<option value="3">x3</option>
+									</select>
+								</div>
 							<div class="misc_row">隣接の味方
 								<input type="number" id="challenger_adjacent" data-var="challenger.adjacent" class="misc_input smallnuminput" value=1 min=0 max=4 />
 							</div>
