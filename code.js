@@ -2061,6 +2061,7 @@ function deleteTurn(initTurn){
 	options.roundInitiators.splice(initTurn,1);
 	for(var i = 0; i < options.roundInitiators.length; i++){
 		$("#turn_text_" + i).html(options.roundInitiators[i]);
+		$("#turn_image_" + i).attr("src", "weapons/" + ((options.roundInitiators[i] == "自軍") ? "challenger" : "enemy") + "_sprite.png");
 	}
 	calculate();
 }
