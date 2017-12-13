@@ -1623,6 +1623,7 @@ function updateFlEnemies(){
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 function showOptions(show){
+	var originBarWidth = $("#results_graph_back").width();
 	if (show){
 		$("#frame_main").width(1125);
 		$("#frame_adj").show();
@@ -1638,6 +1639,8 @@ function showOptions(show){
 		localStorage["hideOptions"] = "true";
 	}
 	$("#results_graph_back").width($("#frame_main").width() - 4);
+	$("#results_graph_wins").width($("#results_graph_wins").width() * $("#results_graph_back").width() / originBarWidth);
+	$("#results_graph_losses").width($("#results_graph_losses").width() * $("#results_graph_back").width() / originBarWidth);
 }
 
 function changeSkillPic(hero, slot){
@@ -1695,7 +1698,8 @@ function setSkillOptions(hero){
 				updateRefineUI(hero, htmlPrefix);
 			}else{
 				for(var i = 0; i < validSkills.length; i++){
-					if(((!options.showOnlyMaxSkills || data.skillsThatArePrereq.indexOf(data.skills[validSkills[i]].skill_id)==-1) && (!options.hideUnaffectingSkills || data.skills[validSkills[i]].affectsduel)) || validSkills[i] == maxSkills[slot] || validSkills[i] == hero[slot]){
+					if(((!options.showOnlyMaxSkills || data.skillsThatArePrereq.indexOf(data.skills[validSkills[i]].skill_id)==-1) && (!options.hideUnaffectingSkills || data.skills[validSkills[i]].affectsduel))
+					 || validSkills[i] == maxSkills[slot] || validSkills[i] == hero[slot]){
 						slotHTML += "<option value=" + validSkills[i] + ">" + data.skills[validSkills[i]].name + "</option>";
 					}
 				}
