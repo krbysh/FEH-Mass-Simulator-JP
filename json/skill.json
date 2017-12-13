@@ -7262,6 +7262,7 @@
 	}, {
 		"skill_id": 485,
 		"name": "Rally Defense Resistance",
+		"name": "守備魔防の応援",
 		"slot": "assist",
 		"sp": 300,
 		"description": "Grants Def\/Res+3 to an adjacent ally until the end of the turn.",
