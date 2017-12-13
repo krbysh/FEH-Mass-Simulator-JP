@@ -1,6 +1,17 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+//Load resource from Google
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+google.charts.load('current', {'packages':['corechart']});
+google.charts.load('current', {packages: ['corechart', 'bar']});
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 //Load from browser cache
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -178,6 +189,39 @@ function initOptions(){
 	options.threaten_enemy = false;
 	options.galeforce_challenger = true;
 	options.galeforce_enemy = true;
+
+	//Holder for statistic values;
+	options.chartType = "enemies by color";
+	statistics = {};
+	statistics.challenger = {};
+	statistics.enemies = {};
+	statistics.challenger.res_hp_max = -1;
+	statistics.challenger.res_hp_min = -1;
+	statistics.challenger.res_hp_avg = -1;
+	statistics.enemies.res_hp_max = -1;
+	statistics.enemies.res_hp_min = -1;
+	statistics.enemies.res_hp_avg = -1;
+	statistics.enemies.list = [];
+	statistics.enemies.red = 0;
+	statistics.enemies.red_outcome = [0,0,0];
+	statistics.enemies.blue = 0;
+	statistics.enemies.blue_outcome = [0,0,0];
+	statistics.enemies.green = 0;
+	statistics.enemies.green_outcome = [0,0,0];
+	statistics.enemies.gray = 0;
+	statistics.enemies.gray_outcome = [0,0,0];
+	statistics.enemies.infantry = 0;
+	statistics.enemies.infantry_outcome = [0,0,0];
+	statistics.enemies.armored = 0;
+	statistics.enemies.armored_outcome = [0,0,0];
+	statistics.enemies.flying = 0;
+	statistics.enemies.flying_outcome = [0,0,0];
+	statistics.enemies.cavalry = 0;
+	statistics.enemies.cavalry_outcome = [0,0,0];
+	statistics.enemies.melee = 0;
+	statistics.enemies.melee_outcome = [0,0,0];
+	statistics.enemies.ranged = 0;
+	statistics.enemies.ranged_outcome = [0,0,0];
 
 	//Holder for challenger options and pre-calculated stats
 	challenger = {};
@@ -453,6 +497,11 @@ $(document).ready(function(){
 				hero.refine = -1;
 			}
 
+			//Stuff specific to changing chart type
+			if(endsWith(dataVar,".chartType")){
+				drawChart();
+			}
+
 			//Stuff specific to changing hero
 			if(endsWith(dataVar,".index")){
 				if(newVal != -1){
@@ -603,7 +652,15 @@ $(document).ready(function(){
 
 	//Show Options Buttons
 	$(".button_options").click(function(){
-		showOptions(hideOptions == "true");
+		if (this.id == "toggle_options"){
+			showOptions(hideOptions == "true");
+		}
+	})
+	//Show Options Buttons
+	$(".misc_button").click(function(){
+		if (this.id == "toggle_stat"){
+			toggleStat();
+		}
 	})
 
 	//Import/Export Buttons
@@ -1696,21 +1753,79 @@ function updateFlEnemies(){
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
+//TODO: Clean all these mid UI functions up
 function showOptions(show){
 	var originBarWidth = $("#results_graph_back").width();
 	if (show){
-		$("#frame_main").width(1125);
+		setWideUI(true);
+		toggleMidUI("options");
+	}
+	else{
+		if (!$("#frame_stat").is(':hidden') && $("#toggle_options").text() == "オプション表示"){
+			toggleMidUI("stat_close");
+		}else{
+			$("#frame_adj").hide();
+			$("#toggle_options").text("オプション表示");
+			hideOptions = "true";
+			localStorage["hideOptions"] = "true";
+			setWideUI(false);
+
+		}
+	}
+}
+
+function toggleStat(){
+	if ($("#frame_stat").is(':hidden')){
+		setWideUI(true);
+		toggleMidUI("stat");
+	}else{
+		toggleMidUI("stat_close");
+		setWideUI(false);
+	}
+}
+
+function toggleMidUI(ui){
+	if (ui == "options"){
 		$("#frame_adj").show();
-		$("#set_options").text("オプション非表示");
+		$("#toggle_options").text("オプション非表示");
 		hideOptions = "false";
 		localStorage["hideOptions"] = "false";
+		$("#frame_stat").hide();
+		$("#toggle_stat").text("統計表示");
+	}
+	if (ui == "stat"){
+		//Change options to show
+		$("#toggle_options").text("オプション表示");
+		//Show statistics UI
+		$("#frame_stat").show();
+		$("#toggle_stat").text("統計非表示");
+		drawChart();
+	}
+	if (ui == "stat_close"){
+		//If options UI is open, change button to hide
+		if (!$("#frame_adj").is(':hidden')){
+			$("#toggle_options").text("オプション非表示");
+		}
+		//Hide statistics UI
+		$("#frame_stat").hide();
+		$("#toggle_stat").text("統計表示");
+	}
+}
+
+function setWideUI(setWide){
+	//If another mid UI is open, do not change width
+	if (!setWide){
+		if (!$("#frame_stat").is(':hidden') || !$("#frame_adj").is(':hidden')){
+			return;
+		}
+	}
+
+	var originBarWidth = $("#results_graph_back").width();
+	if (setWide){
+		$("#frame_main").width(1125);
 	}
 	else{
 		$("#frame_main").width(910);
-		$("#frame_adj").hide();
-		$("#set_options").text("オプション表示");
-		hideOptions = "true";
-		localStorage["hideOptions"] = "true";
 	}
 	$("#results_graph_back").width($("#frame_main").width() - 4);
 	$("#results_graph_wins").width($("#results_graph_wins").width() * $("#results_graph_back").width() / originBarWidth);
@@ -2252,13 +2367,13 @@ function importText(side, customList){
 	var errorMsg = "";
 	this.list = side
 	this.customList = customList || {};;
-	this.google = this.customList.google
+	this.ggl = this.customList.ggl
 	this.csvlist = this.customList.csvlist
 
 	if(this.csvlist){
 		var text = this.csvlist;
 	} else {
-		var text = (this.google) ? this.google : $("#importinput").val();
+		var text = (this.ggl) ? this.ggl : $("#importinput").val();
 		//console.log(((this.google) ? "I" : "Not i") + "mporting custom list from db.");
 		text = removeDiacritics(text); //Fuckin rauðrblade
 	}
@@ -3254,7 +3369,10 @@ function fight(enemyIndex,resultIndex){
 			passFilters.push("changeDamage");
 		}
 	}
+	//Do statistic collection here
+	collectStatistics(ahChallenger, ahEnemy, outcome);
 
+	//Generate fight HTML
 	fightHTML = ["<div class=\"results_entry\" id=\"result_" + resultIndex + "\" onmouseover=\"showResultsTooltip(event,this);\" onmouseout=\"hideResultsTooltip();\">",
 		"<div class=\"results_hpbox\">",
 			"<div class=\"results_hplabel\">HP</div>",
@@ -3321,6 +3439,10 @@ function calculate(manual){
 	//manual = true if button was clicked
 	//calculates results and also adds them to page
 	if(options.autoCalculate || manual){
+		//Reset statistics
+		resetStatistics();
+
+		//Do calculations
 		if(challenger.index!=-1 && options.roundInitiators.length > 0 && enemies.fl.list.length > 0){
 			var wins = 0;
 			var losses = 0;
@@ -3340,6 +3462,9 @@ function calculate(manual){
 			}
 			for(var i = 0;i<enemyList.length;i++){
 				if(enemyList[i].index >= 0 && !mustConfirm || enemyList[i].included){
+					//Push valid enemy into statistics enemies list
+					statistics.enemies.list.push(enemyList[i]);
+					//Do fight and push into results
 					fightResults.push(fight(i,fightResults.length));
 				}
 			}
@@ -3369,6 +3494,9 @@ function calculate(manual){
 					return (a.sortWeight < b.sortWeight)*2-1;
 				}
 			});
+
+			//Update statistics
+			updateStatisticsUI();
 
 			outputResults();
 
@@ -3677,6 +3805,342 @@ function exportCalc(){
 	else{
 		alert("No results!");
 	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//Statistics
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function resetStatistics(){
+	statistics.challenger.res_hp_max = -1;
+	statistics.challenger.res_hp_min = -1;
+	statistics.challenger.res_hp_avg = -1;
+	statistics.enemies.res_hp_max = -1;
+	statistics.enemies.res_hp_min = -1;
+	statistics.enemies.res_hp_avg = -1;
+	statistics.enemies.list = [];
+	statistics.enemies.red = 0;
+	statistics.enemies.red_outcome = [0,0,0];
+	statistics.enemies.blue = 0;
+	statistics.enemies.blue_outcome = [0,0,0];
+	statistics.enemies.green = 0;
+	statistics.enemies.green_outcome = [0,0,0];
+	statistics.enemies.gray = 0;
+	statistics.enemies.gray_outcome = [0,0,0];
+	statistics.enemies.infantry = 0;
+	statistics.enemies.infantry_outcome = [0,0,0];
+	statistics.enemies.armored = 0;
+	statistics.enemies.armored_outcome = [0,0,0];
+	statistics.enemies.flying = 0;
+	statistics.enemies.flying_outcome = [0,0,0];
+	statistics.enemies.cavalry = 0;
+	statistics.enemies.cavalry_outcome = [0,0,0];
+	statistics.enemies.melee = 0;
+	statistics.enemies.melee_outcome = [0,0,0];
+	statistics.enemies.ranged = 0;
+	statistics.enemies.ranged_outcome = [0,0,0];
+}
+
+function collectStatistics(challenger, enemy, outcome){
+	//Challenger
+	if (statistics.challenger.res_hp_max == -1){
+		statistics.challenger.res_hp_max = challenger.hp;
+	}else if (statistics.challenger.res_hp_max < challenger.hp){
+		statistics.challenger.res_hp_max = challenger.hp;
+	}
+	if (statistics.challenger.res_hp_min == -1){
+		statistics.challenger.res_hp_min = challenger.hp;
+	}else if (statistics.challenger.res_hp_min > challenger.hp){
+		statistics.challenger.res_hp_min = challenger.hp;
+	}
+	if (statistics.challenger.res_hp_avg == -1){
+		statistics.challenger.res_hp_avg = challenger.hp;
+	}else{
+		statistics.challenger.res_hp_avg += challenger.hp;
+	}
+
+	//Enemies
+	if (statistics.enemies.res_hp_max == -1){
+		statistics.enemies.res_hp_max = enemy.hp;
+	}else if (statistics.enemies.res_hp_max < enemy.hp){
+		statistics.enemies.res_hp_max = enemy.hp;
+	}
+	if (statistics.enemies.res_hp_min == -1){
+		statistics.enemies.res_hp_min = enemy.hp;
+	}else if (statistics.enemies.res_hp_min > enemy.hp){
+		statistics.enemies.res_hp_min = enemy.hp;
+	}
+	if (statistics.enemies.res_hp_avg == -1){
+		statistics.enemies.res_hp_avg = enemy.hp;
+	}else{
+		statistics.enemies.res_hp_avg += enemy.hp;
+	}
+	//Outcome [win, loss, inconclusive]
+	//Tally Color
+	if (enemy.color == "red"){
+		statistics.enemies.red++;
+		if (outcome == "勝利"){ statistics.enemies.red_outcome[0]++; }
+		else if (outcome == "敗北"){ statistics.enemies.red_outcome[1]++; }
+		else if (outcome == "未決着"){ statistics.enemies.red_outcome[2]++; }
+	}else if (enemy.color == "blue"){
+		statistics.enemies.blue++;
+		if (outcome == "勝利"){ statistics.enemies.blue_outcome[0]++; }
+		else if (outcome == "敗北"){ statistics.enemies.blue_outcome[1]++; }
+		else if (outcome == "未決着"){ statistics.enemies.blue_outcome[2]++; }
+	}else if (enemy.color == "green"){
+		statistics.enemies.green++;
+		if (outcome == "勝利"){ statistics.enemies.green_outcome[0]++; }
+		else if (outcome == "敗北"){ statistics.enemies.green_outcome[1]++; }
+		else if (outcome == "未決着"){ statistics.enemies.green_outcome[2]++; }
+	}else{
+		statistics.enemies.gray++;
+		if (outcome == "勝利"){ statistics.enemies.gray_outcome[0]++; }
+		else if (outcome == "敗北"){ statistics.enemies.gray_outcome[1]++; }
+		else if (outcome == "未決着"){ statistics.enemies.gray_outcome[2]++; }
+	}
+	//Tally Range
+	if (enemy.range == "melee"){
+		statistics.enemies.melee++;
+		if (outcome == "勝利"){ statistics.enemies.melee_outcome[0]++; }
+		else if (outcome == "敗北"){ statistics.enemies.melee_outcome[1]++; }
+		else if (outcome == "未決着"){ statistics.enemies.melee_outcome[2]++; }
+	}else{
+		statistics.enemies.ranged++;
+		if (outcome == "勝利"){ statistics.enemies.ranged_outcome[0]++; }
+		else if (outcome == "敗北"){ statistics.enemies.ranged_outcome[1]++; }
+		else if (outcome == "未決着"){ statistics.enemies.ranged_outcome[2]++; }
+	}
+	//Tally  Type
+	if (enemy.moveType == "infantry"){
+		statistics.enemies.infantry++;
+		if (outcome == "勝利"){ statistics.enemies.infantry_outcome[0]++; }
+		else if (outcome == "敗北"){ statistics.enemies.infantry_outcome[1]++; }
+		else if (outcome == "未決着"){ statistics.enemies.infantry_outcome[2]++; }
+	}else if (enemy.moveType == "armored"){
+		statistics.enemies.armored++;
+		if (outcome == "勝利"){ statistics.enemies.armored_outcome[0]++; }
+		else if (outcome == "敗北"){ statistics.enemies.armored_outcome[1]++; }
+		else if (outcome == "未決着"){ statistics.enemies.armored_outcome[2]++; }
+	}else if (enemy.moveType == "flying"){
+		statistics.enemies.flying++;
+		if (outcome == "勝利"){ statistics.enemies.flying_outcome[0]++; }
+		else if (outcome == "敗北"){ statistics.enemies.flying_outcome[1]++; }
+		else if (outcome == "未決着"){ statistics.enemies.flying_outcome[2]++; }
+	}else if (enemy.moveType == "cavalry"){
+		statistics.enemies.cavalry++;
+		if (outcome == "勝利"){ statistics.enemies.cavalry_outcome[0]++; }
+		else if (outcome == "敗北"){ statistics.enemies.cavalry_outcome[1]++; }
+		else if (outcome == "未決着"){ statistics.enemies.cavalry_outcome[2]++; }
+	}
+}
+
+function calculateStatistics(){
+	//console.log(statistics.enemies.list);
+	statistics.challenger.res_hp_avg = Math.round(statistics.challenger.res_hp_avg / statistics.enemies.list.length);
+	statistics.enemies.res_hp_avg = Math.round(statistics.enemies.res_hp_avg / statistics.enemies.list.length);
+}
+
+function updateStatisticsUI(){
+	//Do calculations first
+	calculateStatistics();
+
+	//Update UI
+	$("#challenger_res_hp_max").html(statistics.challenger.res_hp_max);
+	$("#challenger_res_hp_min").html(statistics.challenger.res_hp_min);
+	$("#challenger_res_hp_avg").html(statistics.challenger.res_hp_avg);
+
+	$("#enemies_res_hp_max").html(statistics.enemies.res_hp_max);
+	$("#enemies_res_hp_min").html(statistics.enemies.res_hp_min);
+	$("#enemies_res_hp_avg").html(statistics.enemies.res_hp_avg);
+
+	//Draw Chart
+	drawChart();
+}
+
+function drawChart() {
+	var data;
+	var option;
+	var chart;
+
+	switch (options.chartType){
+		case "enemies by color":
+			//Data
+			data = google.visualization.arrayToDataTable([
+				['色',	'英雄数'],
+				['赤',	statistics.enemies.red],
+				['青',	statistics.enemies.blue],
+				['緑',	statistics.enemies.green],
+				['白',	statistics.enemies.gray]
+			]);
+			//Options
+			option = {
+				backgroundColor: 'transparent',
+				width: 200,
+				legend: {
+					position: 'top',
+					textStyle: {color: 'white', fontSize: 10},
+					maxLines: 2
+				},
+				slices: {
+					0: { color: '#cd6155' },
+					1: { color: '#5dade2' },
+					2: { color: '#58d68d' },
+					3: { color: '#99a3a4' }
+				},
+				pieSliceText: 'value'
+			};
+			//Chart Type
+			chart = new google.visualization.PieChart(document.getElementById('stat_chart'));
+			break;
+		case "enemies by range":
+			//Data
+			data = google.visualization.arrayToDataTable([
+				['射程',	'英雄数'],
+				['近接',	statistics.enemies.melee],
+				['遠隔',	statistics.enemies.ranged]
+			]);
+			//Options
+			option = {
+				backgroundColor: 'transparent',
+				width: 200,
+				legend: {
+					position: 'top',
+					textStyle: {color: 'white', fontSize: 10},
+					maxLines: 2
+				},
+				slices: {
+					0: { color: '#ca925b' },
+					1: { color: '#a1c4d0' },
+				},
+				pieSliceText: 'value'
+			};
+			//Chart Type
+			chart = new google.visualization.PieChart(document.getElementById('stat_chart'));
+			break;
+		case "enemies by movement":
+			//Data
+			data = google.visualization.arrayToDataTable([
+				['兵種',	'英雄数'],
+				['歩兵',	statistics.enemies.infantry],
+				['重装',		statistics.enemies.armored],
+				['飛行',		statistics.enemies.flying],
+				['騎馬',		statistics.enemies.cavalry]
+			]);
+			//Options
+			option = {
+				backgroundColor: 'transparent',
+				width: 200,
+				legend: {
+					position: 'top',
+					textStyle: {color: 'white', fontSize: 10},
+					maxLines: 2
+				},
+				slices: {
+					0: { color: '#b4b7b8' },
+					1: { color: '#9e87cb' },
+					2: { color: '#60c2ce' },
+					3: { color: '#db8f3f' }
+				},
+				pieSliceText: 'value'
+			};
+			//Chart Type
+			chart = new google.visualization.PieChart(document.getElementById('stat_chart'));
+			break;
+		case "outcomes by color":
+			//Data
+			data = google.visualization.arrayToDataTable([
+				['色', '勝利', '未決着', '敗北', { role: 'annotation' } ],
+				['赤', statistics.enemies.red_outcome[0], statistics.enemies.red_outcome[2], statistics.enemies.red_outcome[1], ""],
+				['青', statistics.enemies.blue_outcome[0], statistics.enemies.blue_outcome[2], statistics.enemies.blue_outcome[1], ""],
+				['緑', statistics.enemies.green_outcome[0], statistics.enemies.green_outcome[2], statistics.enemies.green_outcome[1], ""],
+				['白', statistics.enemies.gray_outcome[0], statistics.enemies.gray_outcome[2], statistics.enemies.gray_outcome[1], ""]
+			]);
+			//Options
+			option = {
+				backgroundColor: 'transparent',
+				width: 200,
+				legend: 'none',
+				hAxis: {
+					textStyle: {color: 'white', fontSize: 8}
+				},
+				vAxis: {
+					minValue: 0,
+					ticks: [0, .25, .5, .75, 1],
+					textStyle: {color: 'white', fontSize: 8}
+				},
+				bar: { groupWidth: '75%' },
+				colors: ['#7797ff', '#cccccc', '#ff5165'],
+				isStacked: 'percent'
+			};
+			//Chart Type
+			chart = new google.visualization.ColumnChart(document.getElementById('stat_chart'));
+			break;
+		case "outcomes by range":
+			//Data
+			data = google.visualization.arrayToDataTable([
+				['射程', '勝利', '未決着', '敗北', { role: 'annotation' } ],
+				['近接', statistics.enemies.melee_outcome[0], statistics.enemies.melee_outcome[2], statistics.enemies.melee_outcome[1], ""],
+				['遠隔', statistics.enemies.ranged_outcome[0], statistics.enemies.ranged_outcome[2], statistics.enemies.ranged_outcome[1], ""]
+			]);
+			//Options
+			option = {
+				backgroundColor: 'transparent',
+				width: 200,
+				legend: 'none',
+				hAxis: {
+					textStyle: {color: 'white', fontSize: 8}
+				},
+				vAxis: {
+					minValue: 0,
+					ticks: [0, .25, .5, .75, 1],
+					textStyle: {color: 'white', fontSize: 8}
+				},
+				bar: { groupWidth: '75%' },
+				colors: ['#7797ff', '#cccccc', '#ff5165'],
+				isStacked: 'percent'
+			};
+			//Chart Type
+			chart = new google.visualization.ColumnChart(document.getElementById('stat_chart'));
+			break;
+		case "outcomes by movement":
+			//Data
+			data = google.visualization.arrayToDataTable([
+				['色', '勝利', '未決着', '敗北', { role: 'annotation' } ],
+				['歩兵', statistics.enemies.infantry_outcome[0], statistics.enemies.infantry_outcome[2], statistics.enemies.infantry_outcome[1], ""],
+				['重装', statistics.enemies.armored_outcome[0], statistics.enemies.armored_outcome[2], statistics.enemies.armored_outcome[1], ""],
+				['飛行', statistics.enemies.flying_outcome[0], statistics.enemies.flying_outcome[2], statistics.enemies.flying_outcome[1], ""],
+				['騎馬', statistics.enemies.cavalry_outcome[0], statistics.enemies.cavalry_outcome[2], statistics.enemies.cavalry_outcome[1], ""]
+			]);
+			//Options
+			option = {
+				backgroundColor: 'transparent',
+				width: 200,
+				legend: 'none',
+				hAxis: {
+					textStyle: {color: 'white', fontSize: 8}
+				},
+				vAxis: {
+					minValue: 0,
+					ticks: [0, .25, .5, .75, 1],
+					textStyle: {color: 'white', fontSize: 8}
+				},
+				bar: { groupWidth: '75%' },
+				colors: ['#7797ff', '#cccccc', '#ff5165'],
+				isStacked: 'percent'
+			};
+			//Chart Type
+			chart = new google.visualization.ColumnChart(document.getElementById('stat_chart'));
+			break;
+		default:
+			console.log("Invalid chart type.");
+	}
+
+	//Draw chart
+	chart.draw(data, option);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -18,6 +18,8 @@
 	<!--<script src="https://unpkg.com/react@15/dist/react.js"></script>
 	<script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>-->
 
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 
@@ -171,6 +173,9 @@
 							<div class="misc_row">総合値 / 総ＳＰ
 								<span id="challenger_bst" class="misc_number">-</span>
 							</div>
+							<div class="misc_row">
+								<div class="button misc_button" id="toggle_stat">統計表示</div>
+							</div>
 							<!--
 							<div class="misc_row">査定
 								<span id="challenger_asc" class="misc_number">-</span>
@@ -200,7 +205,7 @@
 					<div class="status_title">キャンドル</div>
 					<div class="status_enemy"><input type="checkbox" data-var="options.candlelight_enemy" id="candlelight_enemy"/></div>
 				</div>
-				<div style="line-height: 10%;"><br></div>
+				<div style="line-height: 20%;"><br></div>
 				<div id="adj_title">特殊</div>
 				<div class="adj_status">
 					<div class="status_challenger"><input type="checkbox" data-var="options.threaten_challenger" id="threaten_challenger"/></div>
@@ -212,7 +217,7 @@
 					<div class="status_title">疾風迅雷、再度攻撃</div>
 					<div class="status_enemy"><input type="checkbox" data-var="options.galeforce_enemy" id="galeforce_enemy" checked/></div>
 				</div>
-				<div style="line-height: 10%;"><br></div>
+				<div style="line-height: 20%;"><br></div>
 				<div id="adj_title">カスタムリストの調整</div>
 				<div class="adj_status">
 					<div class="status_desc">限界突破</div>
@@ -248,7 +253,7 @@
 					<div class="status_select_mid">
 						<select class="adj_select_left" data-var="enemies.cl.status" id="enemies_cl_status">
 							<option value="hp">ＨＰ</option>
-							<option value="all" selected>All</option>
+							<option value="all" selected>全て</option>
 							<option value="atk">攻撃</option>
 							<option value="spd">速さ</option>
 							<option value="def">守備</option>
@@ -294,7 +299,7 @@
 				<div class="adj_status">
 					<div class="button adj_reset_button" id="reset_buff">初期化</div>
 				</div>
-				<div style="line-height: 10%;"><br></div>
+				<div style="line-height: 20%;"><br></div>
 				<div id="adj_title">シミュレーター</div>
 				<div class="adj_status">
 					<div class="status_desc_long">回復 のターン</div>
@@ -328,6 +333,53 @@
 					<div class="status_select_long">
 						<input class="status_select" type="checkbox" data-var="options.autoCalculate" id="autocalculate" checked="checked"/>
 					</div>
+				</div>
+			</div>
+			<div id="frame_stat" style="display: none;">
+				<div id="rules_bar_top">
+					統計
+				</div>
+				<div id="adj_title">自軍</div>
+				<div class="adj_status">
+					<div class="stat_desc">残ＨＰ: 最大</div>
+					<div class="stat_value" id="challenger_res_hp_max">-</div>
+				</div>
+				<div class="adj_status">
+					<div class="stat_desc">残ＨＰ: 最小</div>
+					<div class="stat_value" id="challenger_res_hp_min">-</div>
+				</div>
+				<div class="adj_status">
+					<div class="stat_desc">残ＨＰ: 平均</div>
+					<div class="stat_value" id="challenger_res_hp_avg">-</div>
+				</div>
+				<div style="line-height:20%;"><br></div>
+				<div id="adj_title">敵</div>
+				<div class="adj_status">
+					<div class="stat_desc">残ＨＰ: 最大</div>
+					<div class="stat_value" id="enemies_res_hp_max">-</div>
+				</div>
+				<div class="adj_status">
+					<div class="stat_desc">残ＨＰ: 最小</div>
+					<div class="stat_value" id="enemies_res_hp_min">-</div>
+				</div>
+				<div class="adj_status">
+					<div class="stat_desc">残ＨＰ: 平均</div>
+					<div class="stat_value" id="enemies_res_hp_avg">-</div>
+				</div>
+				<div style="line-height:20%;"><br></div>
+				<div id="adj_title">チャート</div>
+				<div class="adj_status">
+					<select class="stat_select" id="chart_type" data-var="options.chartType">
+						<option value="enemies by color">色比率</option>
+						<option value="enemies by range">射程比率</option>
+						<option value="enemies by movement">兵種比率</option>
+						<option value="outcomes by color">色別結果</option>
+						<option value="outcomes by range">射程別結果</option>
+						<option value="outcomes by movement">兵種別結果</option>
+					</select>
+				</div>
+				<div class="adj_status">
+					<div id="stat_chart" style="width: 200px; height: 200px;"></div>
 				</div>
 			</div>
 			<div id="frame_enemies">
@@ -549,7 +601,7 @@
 			<div id="rules_bar_top">
 				ラウンド順
 				<div class="bar_top_title_right">
-					<div class="button button_options" id="set_options">オプション非表示</div>
+					<div class="button button_options" id="toggle_options">オプション非表示</div>
 				</div>
 			</div>
 			<div id="rules_turnorder">

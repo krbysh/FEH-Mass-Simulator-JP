@@ -25,6 +25,8 @@ sup {
     font-size: 12px;
 }
 
+svg > g > g:last-child { pointer-events: none }
+
 #frame_main{
 	width:1125px;
 	margin: 0 auto;
@@ -479,6 +481,23 @@ sup {
 	position: relative;
 }
 
+.misc_button{
+	display:inline-block;
+	font-size:14px;
+	line-height:24px;
+	border-radius:2px;
+	width:100%;
+	height:24px;
+	text-align:center;
+	background-color: #333333;
+}
+
+.misc_button:hover{
+	background-color: #ffffff;
+	color:#888888;
+	font-weight:bold;
+}
+
 .misc_input{
 	position: absolute;
 	right:0;
@@ -776,6 +795,42 @@ sup {
 	color:#d82a3e;
 }
 
+/*Statistics///////////////////////////////////////*/
+#frame_stat{
+	border-radius:4px;
+	border:2px solid #ffffff;
+	background-color: #222222;
+	position:absolute;
+	margin-left:10px;
+	margin-right:10px;
+	left:385px;
+	right:0;
+	top:0;
+	bottom:0;
+	width:200px;
+}
+
+.stat_desc {
+	width: 80%;
+	text-align:left;
+	margin-left:5px;
+}
+
+.stat_value {
+	width: 20%;
+	text-align:right;
+	margin-right:5px;
+}
+
+.stat_select {
+	width: 100%;
+	text-align:left;
+	margin-top:5px;
+	margin-bottom:5px;
+	margin-left:5px;
+	margin-right:5px;
+}
+
 /*Adjustments///////////////////////////////////////*/
 #frame_adj{
 	border-radius:4px;
@@ -789,6 +844,7 @@ sup {
 	top:0;
 	bottom:0;
 	width:200px;
+	overflow:auto;
 }
 
 #adj_title{
@@ -1131,6 +1187,26 @@ sup {
 	border-left:2px solid #000000;
 }
 
+.button_options{
+	display:inline-block;
+	font-size:14px;
+	line-height:24px;
+	border-radius:2px;
+	padding: 0 6px;
+	width:120px;
+	height:24px;
+	margin-top:6px;
+	margin-right:4px;
+	text-align:center;
+	background-color: #333333;
+}
+
+.button_options:hover{
+	background-color: #ffffff;
+	color:#888888;
+	font-weight:bold;
+}
+
 /*Results/////////////////////////////////////////////*/
 #frame_results{
 	border:2px solid #ffffff;
@@ -1192,7 +1268,6 @@ sup {
 
 #button_calculate{
 	font-size:16px;
-//	font-family:"Merriweather",serif;
 	display:inline-block;
 	position:relative;
 	top:1px;
