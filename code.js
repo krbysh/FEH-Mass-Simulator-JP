@@ -2837,7 +2837,7 @@ function loadCustomList(index){
 	}
 
 	//console.log(listText);
-	importText("enemies", {google:listText});
+	importText("enemies", {ggl:listText});
 }
 
 //Search for refine index by name and category
