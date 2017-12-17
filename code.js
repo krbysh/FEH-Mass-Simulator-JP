@@ -639,6 +639,7 @@ $(document).ready(function(){
 			}else if (this.id == "apply_movement_buff"){
 				adjustCustomListBuff(false);
 			}
+			calculate();
 		}
 	})
 	//Custom List Reset Buttons
@@ -648,6 +649,7 @@ $(document).ready(function(){
 		}else if (this.id == "reset_buff"){
 			resetCustomListBuffs();
 		}
+		calculate();
 	})
 
 	//Show Options Buttons
@@ -655,9 +657,6 @@ $(document).ready(function(){
 		if (this.id == "toggle_options"){
 			showOptions(hideOptions == "true");
 		}
-	})
-	//Show Options Buttons
-	$(".misc_button").click(function(){
 		if (this.id == "toggle_stat"){
 			toggleStat();
 		}
@@ -1102,22 +1101,6 @@ function setStats(hero){
 		hero.def = base.def + data.growths[hero.rarity-1][data.heroes[hero.index].defgrowth + growthValMod.def];
 		hero.res = base.res + data.growths[hero.rarity-1][data.heroes[hero.index].resgrowth + growthValMod.res];
 
-		//Confer Blessing
-		switch (hero.bless){
-			case "fire":
-				break;
-			case "water":
-				hero.hp += 3 * hero.blessStack;
-				hero.spd += 3 * hero.blessStack;
-				break;
-			case "wind":
-				break;
-			case "earth":
-				break;
-			default:
-				break;
-		}
-
 		//Calculate hero BST after IV before merge stat bonuses
 		hero.bst = hero.hp + hero.atk + hero.spd + hero.def + hero.res;
 
@@ -1198,12 +1181,27 @@ function setStats(hero){
 		hero.def += mergeBoost.def;
 		hero.res += mergeBoost.res;
 
-		//Add hero hp changes - from blessings
+		//Add hero hp changes
 		hero.hp += hero.buffs.hp + hero.debuffs.hp;
 
-		//Blessing bonuses are included in BST
-		//TODO: Include blessing stat changes into BST
-		hero.bst += hero.buffs.hp + hero.debuffs.hp;
+		//Blessing bonuses are not(?) included in BST
+		//hero.bst += hero.buffs.hp + hero.debuffs.hp;
+
+		//Confer Blessing
+		switch (hero.bless){
+			case "fire":
+				break;
+			case "water":
+				hero.hp += 3 * hero.blessStack;
+				hero.spd += 3 * hero.blessStack;
+				break;
+			case "wind":
+				break;
+			case "earth":
+				break;
+			default:
+				break;
+		}
 
 		//Add stats based on skills
 		if(hero.weapon != -1){
@@ -1386,7 +1384,9 @@ function adjustCustomListBuff(isStat){
 		if (enemies.cl.status == "all"){
 			enemies.cl.list.forEach(function(hero){
 				data.stats.forEach(function(stat){
-					if (stat != "hp"){hero.buffs[stat] = enemies.cl.statusbuff;}
+					if (stat != "hp"){
+						(enemies.cl.statusbuff > 0) ? hero.buffs[stat] = enemies.cl.statusbuff : hero.debuffs[stat] = enemies.cl.statusbuff;
+					}
 				});
 			});
 		}
@@ -1800,6 +1800,7 @@ function toggleMidUI(ui){
 		$("#frame_stat").show();
 		$("#toggle_stat").text("統計非表示");
 		drawChart();
+		blockCalculate = true;
 	}
 	if (ui == "stat_close"){
 		//If options UI is open, change button to hide
@@ -3369,6 +3370,23 @@ function fight(enemyIndex,resultIndex){
 			passFilters.push("changeDamage");
 		}
 	}
+
+	//Do Buff and Debuff UI here
+	var statChange = {"hp":0,"atk":0,"spd":0,"def":0,"res":0};
+	data.stats.forEach(function(stat){
+		statChange[stat] = ahEnemy.buffs[stat] + ahEnemy.debuffs[stat] + ahEnemy.spur[stat];
+	});
+	var statChangeText = {"hp":"","atk":"","spd":"","def":"","res":""};
+	data.stats.forEach(function(stat){
+		if (statChange[stat] != 0){
+			if (statChange[stat] > 0){
+				statChangeText[stat] = "<font color=\"99C68E\"> (+" + statChange[stat] + ")</font>";
+			}else{
+				statChangeText[stat] = "<font color=\"FAAFBE\"> (" + statChange[stat] + ")</font>";
+			}
+		}
+	});
+
 	//Do statistic collection here
 	collectStatistics(ahChallenger, ahEnemy, outcome);
 
@@ -3388,10 +3406,10 @@ function fight(enemyIndex,resultIndex){
 		"<div class=\"results_bottomline\">",
 //			"<span class=\"results_stat\">HP: " + ahEnemy.maxHp + "</span><span class=\"results_stat\">Atk: " + ahEnemy.atk + "</span><span class=\"results_stat\">Spd: " + ahEnemy.spd + "</span><span class=\"results_stat\">Def: " + ahEnemy.def + "</span><span class=\"results_stat\">Res: " + ahEnemy.res + "</span><div class=\"results_skills\"><span class=\"results_stat\"><img class=\"skill_picture\" src=\"skills/weapon.png\"/>" + weaponName + "</span><span class=\"results_stat\"><img class=\"skill_picture\" src=\"skills/special.png\"/>" + specialName + "</span><span class=\"results_stat\"><img class=\"skill_picture\" src=\"skills/" + aName + ".png\"/><img class=\"skill_picture\" src=\"skills/" + bName + ".png\"/><img class=\"skill_picture\" src=\"skills/" + cName + ".png\"/><img class=\"skill_picture\" src=\"skills/" + sName + ".png\"/></span></div>",
 			"<span class=\"results_stat\">HP: " + ahEnemy.maxHp + "</span>",
-			"<span class=\"results_stat\">Atk: " + ahEnemy.atk + "</span>",
-			"<span class=\"results_stat\">Spd: " + ahEnemy.spd + "</span>",
-			"<span class=\"results_stat\">Def: " + ahEnemy.def + "</span>",
-			"<span class=\"results_stat\">Res: " + ahEnemy.res + "</span>",
+			"<span class=\"results_stat\">Atk: " + ahEnemy.atk + statChangeText.atk + "</span>",
+			"<span class=\"results_stat\">Spd: " + ahEnemy.spd + statChangeText.spd + "</span>",
+			"<span class=\"results_stat\">Def: " + ahEnemy.def + statChangeText.def + "</span>",
+			"<span class=\"results_stat\">Res: " + ahEnemy.res + statChangeText.res + "</span>",
 			"<div class=\"results_skills\">",
 				"<span class=\"results_stat\"><img class=\"skill_picture\" src=\"skills/weapon.png\"/><img class=\"skill_picture\" src=\"weapons/" + refineName + ".png\"/>" + weaponName + "</span>",
 				//"<span class=\"results_stat\"><img class=\"skill_picture\" src=\"skills/assist.png\"/>" + assistName + "</span>",
