@@ -133,11 +133,10 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"フィヨルム (5★);Weapon: レイプト;Special: 氷の聖鏡;A: 攻撃守備の絆 3;B: 盾の鼓動 3;C: 攻撃の大紋章 2;",
-	"シノノメ (5★);Weapon: 白き血の薙刀;A: 金剛の構え 3;C: 守備の指揮 3;",
-	"シャラ (5★);Weapon: グルンウルフ鍛+;A: 遠距離防御 3;C: 死の吐息 3;",
-	"ジークベルト (5★);Weapon: 黒き血の大剣;Special: 竜穿;A: 鬼神の一撃 3;C: 攻撃の指揮 3;",
-	"ソレイユ (5★);Weapon: 火薙ぎの剣+;Special: 烈風;A: 飛燕の一撃 3;C: 魔防の大紋章 2;",
+	"クロム(冬祭りの使者) (5★);Weapon: プレゼント袋+;Assist: 回り込み;A: 攻撃守備の大覚醒 3;B: 守備隊形 3;",
+	"リズ(冬祭りの使者) (5★);Weapon: ハンドベル+;Special: 緋炎;B: 攻撃隊形 3;C: 重盾の鼓舞;",
+	"ルフレ(男)(冬祭りの使者) (5★);Weapon: 聖樹+;Assist: 相互援助;A: 攻撃速さの大覚醒 3;C: 重装の行軍 3;",
+	"サーリャ(冬祭りの使者) (5★);Weapon: 燭台+;Special: 氷蒼;A: 近距離反撃;B: 迎撃隊形 3;C: 赤魔の技量 3;",
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -4551,10 +4550,11 @@ function activeHero(hero){
 
 	this.defiant = function(){
 		var defiantText = "";
+		var skillName = "";
+		var statBonus = 0;
 
 		//All defiant sklls trigger at or below 50% HP
 		if(this.hp / this.maxHp <= 0.5){
-			var skillName = "";
 
 			var defiantAtk = 0;
 			if(this.has("攻撃の覚醒")){
@@ -4610,6 +4610,24 @@ function activeHero(hero){
 	this.startCombatSpur = function(enemy){
 		var boostText = "";
 
+		//Brazen skills
+		if(this.combatStartHp / this.maxHp <= 0.8){
+			if(this.has("攻撃守備の大覚醒")){
+				statBonus = 1 + 2 * this.has("攻撃守備の大覚醒");
+				this.combatSpur.atk += statBonus;
+				this.combatSpur.def += statBonus;
+				skillName = data.skills[this.aIndex].name;
+				boostText += this.name + " は、" + skillName + " の効果で、攻撃、守備 +" + statBonus + " 。<br>";
+			}
+			if(this.has("攻撃速さの大覚醒")){
+				statBonus = 1 + 2 * this.has("攻撃速さの大覚醒");
+				this.combatSpur.atk += statBonus;
+				this.combatSpur.spd += statBonus;
+				skillName = data.skills[this.aIndex].name;
+				boostText += this.name + " は、" + skillName + " の効果で、攻撃、速さ +" + statBonus + " 。<br>";
+			}
+		}
+
 		if(this.combatStartHp / this.maxHp >= 1){
 			if(this.has("ライナロック")){
 				//Does this take effect when defending? Answer: yes
@@ -4633,6 +4651,14 @@ function activeHero(hero){
 				this.combatSpur.spd += 2;
 				boostText += this.name + " は、リガルブレイド の効果で、" + enemy.name + " のＨＰが 100% のため、攻撃、速さ +2 。<br>";
 			}
+		}
+
+		if(this.has("プレゼント袋") || this.has("ハンドベル") || this.has("聖樹") || this.has("燭台")){
+			this.combatSpur.atk += 2;
+			this.combatSpur.spd += 2;
+			this.combatSpur.def += 2;
+			this.combatSpur.res += 2;
+			boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、攻撃された時、攻撃、速さ、守備、魔防 +2 。<br>";
 		}
 
 		if(this.hp >= enemy.hp + 3){
@@ -5998,6 +6024,11 @@ function activeHero(hero){
 					gainCharge = Math.max(gainCharge, 1);
 					skillNames.push(data.skills[this.aIndex].name);
 				}
+				//TODO: Check if Bold Fighter and Vengeful Fighter grant special charge if HP threshold is not met.
+				if(this.has("攻撃隊形") || this.has("迎撃隊形")){
+					gainCharge = Math.max(gainCharge, 1);
+					skillNames.push(data.skills[this.bIndex].name);
+				}
 				if(this.has("剛剣")){
 					if(thisEffAtk - enemyEffAtk >= 7 - (this.has("剛剣") * 2)){
 						gainCharge = Math.max(gainCharge, 1);
@@ -6239,14 +6270,19 @@ function activeHero(hero){
 		//Check for 切り返し
 		var quickRiposte = false;
 		if(enemy.has("切り返し")){
-			if(enemy.hp/enemy.maxHp >= 1 - 0.1 * enemy.has("切り返し")){
+			if(enemy.combatStartHp/enemy.maxHp >= 1 - 0.1 * enemy.has("Quick Riposte")){
 				quickRiposte = true;
 			}
 		}
-		if(enemy.has("アルマーズ") && enemy.hp/enemy.maxHp >= .8){
+		if (enemy.hasAtIndex("迎撃隊形", enemy.bIndex)){
+			if (enemy.combatStartHp / enemy.maxHp >= (1.0 - (enemy.hasAtIndex("迎撃隊形", enemy.bIndex) * 0.1) - ((enemy.hasAtIndex("迎撃隊形", enemy.bIndex) - 1) * 0.1))){
+				quickRiposte = true;
+			}
+		}
+		if(enemy.has("アルマーズ") && enemy.combatStartHp/enemy.maxHp >= .8){
 			quickRiposte = true;
 		}
-		if(enemy.hasExactly("追撃リング") && enemy.hp/enemy.maxHp >= .5){
+		if(enemy.hasExactly("追撃リング") && enemy.combatStartHp/enemy.maxHp >= .5){
 			quickRiposte = true;
 		}
 
@@ -6453,6 +6489,13 @@ function activeHero(hero){
 		if (this.has("ソール・カティ") && this.hp/this.maxHp <= .75 && this.hasAtRefineIndex("差し違え", this.refineIndex) && (this.range == enemy.range || anyRangeCounter) && enemyCanCounter){
 			thisAutoFollow = true;
 		}
+		if (this.hasAtIndex("攻撃隊形", this.bIndex)){
+			if (this.hasAtIndex("攻撃隊形", this.bIndex) == 3){
+				thisAutoFollow = true;
+			}else if(this.combatStartHp / this.maxHp >= 1.0 / this.hasAtIndex("攻撃隊形", this.bIndex)){
+				thisAutoFollow = true;
+			}
+		}
 		if (this.hasAtRefineIndex("追撃", this.refineIndex) && (this.combatStartHp / this.maxHp >= 0.9)){
 			thisAutoFollow = true;
 		}
@@ -6461,6 +6504,7 @@ function activeHero(hero){
 		}
 
 		//Cancel things out
+		//TODO: Add skill name into round text for follow-up triggers
 		if(preventThisFollow && thisAutoFollow){
 			preventThisFollow = false;
 			thisAutoFollow = false;
