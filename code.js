@@ -6024,10 +6024,17 @@ function activeHero(hero){
 					gainCharge = Math.max(gainCharge, 1);
 					skillNames.push(data.skills[this.aIndex].name);
 				}
-				//TODO: Check if Bold Fighter and Vengeful Fighter grant special charge if HP threshold is not met.
-				if(this.has("攻撃隊形") || this.has("迎撃隊形")){
-					gainCharge = Math.max(gainCharge, 1);
-					skillNames.push(data.skills[this.bIndex].name);
+				if(this.initiator && this.has("攻撃隊形")){
+					if (this.hasAtIndex("攻撃隊形", this.bIndex) == 3 || this.combatStartHp / this.maxHp >= 1.0 / this.hasAtIndex("攻撃隊形", this.bIndex)){
+						gainCharge = Math.max(gainCharge, 1);
+						skillNames.push(data.skills[this.bIndex].name);
+					}
+				}
+				if(!this.initiator && this.has("迎撃隊形")){
+					if (this.combatStartHp / this.maxHp >= (1.0 - (this.hasAtIndex("迎撃隊形", this.bIndex) * 0.1) - ((this.hasAtIndex("迎撃隊形", this.bIndex) - 1) * 0.1))){
+						gainCharge = Math.max(gainCharge, 1);
+						skillNames.push(data.skills[this.bIndex].name);
+					}
 				}
 				if(this.has("剛剣")){
 					if(thisEffAtk - enemyEffAtk >= 7 - (this.has("剛剣") * 2)){
@@ -6490,9 +6497,7 @@ function activeHero(hero){
 			thisAutoFollow = true;
 		}
 		if (this.hasAtIndex("攻撃隊形", this.bIndex)){
-			if (this.hasAtIndex("攻撃隊形", this.bIndex) == 3){
-				thisAutoFollow = true;
-			}else if(this.combatStartHp / this.maxHp >= 1.0 / this.hasAtIndex("攻撃隊形", this.bIndex)){
+			if (this.hasAtIndex("攻撃隊形", this.bIndex) == 3 || this.combatStartHp / this.maxHp >= 1.0 / this.hasAtIndex("攻撃隊形", this.bIndex)){
 				thisAutoFollow = true;
 			}
 		}
