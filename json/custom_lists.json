@@ -1,7 +1,19 @@
 [
 	{
-		"name": "@@sample",
+		"name": "＠ナーシェン",
 		"key": "1oOAWUWC1AGZpSaJ6S3qZ4j_H4QLf7mAZK8tuiEegw_0",
+		"range": "&max-col=1"
+	},{
+		"name": "＠ルフレ(女)",
+		"key": "1lP4npnuBTW6Z8lr0bNZWKatj_4JbA8t2LTPgV3fQaTQ",
+		"range": "&max-col=1"
+	},{
+		"name": "＠ウルスラ",
+		"key": "1xREhjUEYD4y1vgI2uY_1aPJr0tqJ2MfnPQ2owZQcdLU",
+		"range": "&max-col=1"
+	},{
+		"name": "＠ミシェイル",
+		"key": "1041HxNv1XgPHSSoktC3n1OomZAA64jLrL44KiqBoEtI",
 		"range": "&max-col=1"
 	}
 ]
