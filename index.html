@@ -1,4 +1,5 @@
 <!doctype html>
+<meta charset="utf-8"/>
 <html>
 
 <head>
@@ -20,8 +21,8 @@
 
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+	<script src="select2/select2.min.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="style.css?v=2017121801"/>
 	<script type="text/javascript" src="code.js?v=2017121801"></script>
@@ -260,6 +261,7 @@
 						<select class="adj_select" data-var="enemies.cl.statusbuff" id="enemies_cl_statusbuff">
 							<option value="3">+3</option>
 							<option value="4" selected>+4</option>
+							<option value="5">+5</option>
 							<option value="6">+6</option>
 							<option value="-3">-3</option>
 							<option value="-4">-5</option>
@@ -412,27 +414,31 @@
 					<div class="frame_hero_main_bottom">
 						<div class="hero_skills">
 							<div class="skill_row">
-								<img class="skill_picture" id="enemies_weapon_picture" src="skills/weapon.png" onmouseover="showSkillTooltip('list', 'weapon');" onmouseout="hideSkillTooltip();">
-								<select class="skill_select" data-var="enemies.fl.weapon" id="enemies_weapon"></select>
+								<img class="skill_picture" id="enemies_weapon_picture" src="skills/weapon.png" onmouseover="showSkillTooltip('list', 'weapon');" onmouseout="hideSkillTooltip();"><select class="skill_select" data-var="enemies.fl.weapon" id="enemies_weapon"></select>
 								<select class="skill_overwrite" data-var="enemies.fl.replaceWeapon" id="enemies_weapon_overwrite">
 									<option value=0>空の場合</option>
 									<option value=1>上書き</option>
 								</select>
 							</div>
 							<div class="skill_tabbed_row">
-								<img class="skill_picture" id="enemies_refine_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('list', 'refine');" onmouseout="hideSkillTooltip();">
-								<img class="skill_letter" id="enemies_refine_weapon_picture" src="skills/weapon.png">
-								<select class="skill_select_short" data-var="enemies.fl.refine" id="enemies_refine"></select>
-								<select class="skill_overwrite_tabbed" data-var="enemies.fl.replaceRefine" id="enemies_refine_overwrite">
-									<option value=0>空の場合</option>
-									<option value=1>上書き</option>
-								</select>
+								<img class="skill_picture" id="enemies_refine_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('list', 'refine');" onmouseout="hideSkillTooltip();"><img class="skill_letter" id="enemies_refine_weapon_picture" src="skills/weapon.png"><select class="skill_select_short" data-var="enemies.fl.refine" id="enemies_refine"></select>
 							</div>
-							<div class="skill_row"><img class="skill_picture" id="enemies_assist_picture" src="skills/assist.png"  onmouseover="showSkillTooltip('list', 'assist');" onmouseout="hideSkillTooltip();"><select class="skill_select" data-var="enemies.fl.assist" id="enemies_assist"></select><select class="skill_overwrite" data-var="enemies.fl.replaceAssist" id="enemies_assist_overwrite"><option value=0>空の場合</option><option value=1>上書き</option></select></div>
-							<div class="skill_row"><img class="skill_picture" id="enemies_special_picture" src="skills/special.png" onmouseover="showSkillTooltip('list', 'special');" onmouseout="hideSkillTooltip();"><select class="skill_select" data-var="enemies.fl.special" id="enemies_special"></select><select class="skill_overwrite" data-var="enemies.fl.replaceSpecial" id="enemies_special_overwrite"><option value=0>空の場合</option><option value=1>上書き</option></select></div>
-							<div class="skill_row"><img class="skill_picture" id="enemies_a_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('list', 'a');" onmouseout="hideSkillTooltip();"><div class="skill_letter red">A</div><select class="skill_select" data-var="enemies.fl.a" id="enemies_a"></select><select class="skill_overwrite" data-var="enemies.fl.replaceA" id="enemies_a_overwrite"><option value=0>空の場合</option><option value=1>上書き</option></select></div>
-							<div class="skill_row"><img class="skill_picture" id="enemies_b_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('list', 'b');" onmouseout="hideSkillTooltip();"><div class="skill_letter blue">B</div><select class="skill_select" data-var="enemies.fl.b" id="enemies_b"></select><select class="skill_overwrite" data-var="enemies.fl.replaceB" id="enemies_b_overwrite"><option value=0>空の場合</option><option value=1>上書き</option></select></div>
-							<div class="skill_row"><img class="skill_picture" id="enemies_c_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('list', 'c');" onmouseout="hideSkillTooltip();"><div class="skill_letter green">C</div><select class="skill_select" data-var="enemies.fl.c" id="enemies_c"></select><select class="skill_overwrite" data-var="enemies.fl.replaceC" id="enemies_c_overwrite"><option value=0>空の場合</option><option value=1>上書き</option></select></div>
+							<div class="skill_row">
+								<img class="skill_picture" id="enemies_assist_picture" src="skills/assist.png"  onmouseover="showSkillTooltip('list', 'assist');" onmouseout="hideSkillTooltip();"><select class="skill_select" data-var="enemies.fl.assist" id="enemies_assist"></select>
+								<select class="skill_overwrite" data-var="enemies.fl.replaceAssist" id="enemies_assist_overwrite"><option value=0>空の場合</option><option value=1>上書き</option></select>
+							</div>
+							<div class="skill_row"><img class="skill_picture" id="enemies_special_picture" src="skills/special.png"  onmouseover="showSkillTooltip('list', 'special');" onmouseout="hideSkillTooltip();"><select class="skill_select" data-var="enemies.fl.special" id="enemies_special"></select>
+								<select class="skill_overwrite" data-var="enemies.fl.replaceSpecial" id="enemies_special_overwrite"><option value=0>空の場合</option><option value=1>上書き</option></select>
+							</div>
+							<div class="skill_row"><img class="skill_picture" id="enemies_a_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('list', 'a');" onmouseout="hideSkillTooltip();"><div class="skill_letter red">A</div><select class="skill_select" data-var="enemies.fl.a" id="enemies_a"></select>
+								<select class="skill_overwrite" data-var="enemies.fl.replaceA" id="enemies_a_overwrite"><option value=0>空の場合</option><option value=1>上書き</option></select>
+							</div>
+							<div class="skill_row"><img class="skill_picture" id="enemies_b_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('list', 'b');" onmouseout="hideSkillTooltip();"><div class="skill_letter blue">B</div><select class="skill_select" data-var="enemies.fl.b" id="enemies_b"></select>
+								<select class="skill_overwrite" data-var="enemies.fl.replaceB" id="enemies_b_overwrite"><option value=0>空の場合</option><option value=1>上書き</option></select>
+							</div>
+							<div class="skill_row"><img class="skill_picture" id="enemies_c_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('list', 'c');" onmouseout="hideSkillTooltip();"><div class="skill_letter green">C</div><select class="skill_select" data-var="enemies.fl.c" id="enemies_c"></select>
+								<select class="skill_overwrite" data-var="enemies.fl.replaceC" id="enemies_c_overwrite"><option value=0>空の場合</option><option value=1>上書き</option></select>
+							</div>
 							<div class="skill_row"><img class="skill_picture" id="enemies_s_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('list', 's');" onmouseout="hideSkillTooltip();"><div class="skill_letter yellow">S</div><select class="skill_select" data-var="enemies.fl.s" id="enemies_s"></select></div>
 						</div>
 						<div class="hero_misc">
@@ -509,20 +515,17 @@
 						<div class="frame_hero_main_bottom">
 							<div class="hero_skills">
 								<div class="skill_row">
-									<img class="skill_picture" id="cl_enemy_weapon_picture" src="skills/weapon.png" onmouseover="showSkillTooltip('custom', 'weapon');" onmouseout="hideSkillTooltip();">
-									<select class="skill_select" data-var="enemies.cl.list.weapon" id="cl_enemy_weapon"></select>
+									<img class="skill_picture" id="cl_enemy_weapon_picture" src="skills/weapon.png" onmouseover="showSkillTooltip('custom', 'weapon');" onmouseout="hideSkillTooltip();"><select class="skill_select" data-var="enemies.cl.list.weapon" id="cl_enemy_weapon"></select>
 								</div>
 								<div class="skill_tabbed_row">
-									<img class="skill_picture" id="cl_enemy_refine_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('custom', 'refine');" onmouseout="hideSkillTooltip();">
-									<img class="skill_letter" id="cl_enemy_refine_weapon_picture" src="skills/weapon.png">
-									<select class="skill_select_short" data-var="enemies.cl.list.refine" id="cl_enemy_refine"></select>
+									<img class="skill_picture" id="cl_enemy_refine_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('custom', 'refine');" onmouseout="hideSkillTooltip();"><img class="skill_letter" id="cl_enemy_refine_weapon_picture" src="skills/weapon.png"><select class="skill_select_short" data-var="enemies.cl.list.refine" id="cl_enemy_refine"></select>
 								</div>
 								<div class="skill_row"><img class="skill_picture" id="cl_enemy_assist_picture" src="skills/assist.png" onmouseover="showSkillTooltip('custom', 'assist');" onmouseout="hideSkillTooltip();"><select class="skill_select" data-var="enemies.cl.list.assist" id="cl_enemy_assist"></select></div>
-								<div class="skill_row"><img class="skill_picture" id="cl_enemy_special_picture" src="skills/special.png"/><select class="skill_select" data-var="enemies.cl.list.special" id="cl_enemy_special"></select></div>
-								<div class="skill_row"><img class="skill_picture" id="cl_enemy_a_picture" src="skills/noskill.png"/><div class="skill_letter red">A</div><select class="skill_select" data-var="enemies.cl.list.a" id="cl_enemy_a"></select></div>
-								<div class="skill_row"><img class="skill_picture" id="cl_enemy_b_picture" src="skills/noskill.png"/><div class="skill_letter blue">B</div><select class="skill_select" data-var="enemies.cl.list.b" id="cl_enemy_b"></select></div>
-								<div class="skill_row"><img class="skill_picture" id="cl_enemy_c_picture" src="skills/noskill.png"/><div class="skill_letter green">C</div><select class="skill_select" data-var="enemies.cl.list.c" id="cl_enemy_c"></select></div>
-								<div class="skill_row"><img class="skill_picture" id="cl_enemy_s_picture" src="skills/noskill.png"/><div class="skill_letter yellow">S</div><select class="skill_select" data-var="enemies.cl.list.s" id="cl_enemy_s"></select></div>
+								<div class="skill_row"><img class="skill_picture" id="cl_enemy_special_picture" src="skills/special.png" onmouseover="showSkillTooltip('custom', 'special');" onmouseout="hideSkillTooltip();"><select class="skill_select" data-var="enemies.cl.list.special" id="cl_enemy_special"></select></div>
+								<div class="skill_row"><img class="skill_picture" id="cl_enemy_a_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('custom', 'a');" onmouseout="hideSkillTooltip();"><div class="skill_letter red">A</div><select class="skill_select" data-var="enemies.cl.list.a" id="cl_enemy_a"></select></div>
+								<div class="skill_row"><img class="skill_picture" id="cl_enemy_b_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('custom', 'b');" onmouseout="hideSkillTooltip();"><div class="skill_letter blue">B</div><select class="skill_select" data-var="enemies.cl.list.b" id="cl_enemy_b"></select></div>
+								<div class="skill_row"><img class="skill_picture" id="cl_enemy_c_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('custom', 'c');" onmouseout="hideSkillTooltip();"><div class="skill_letter green">C</div><select class="skill_select" data-var="enemies.cl.list.c" id="cl_enemy_c"></select></div>
+								<div class="skill_row"><img class="skill_picture" id="cl_enemy_s_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('custom', 's');" onmouseout="hideSkillTooltip();"><div class="skill_letter yellow">S</div><select class="skill_select" data-var="enemies.cl.list.s" id="cl_enemy_s"></select></div>
 							</div>
 							<div class="hero_misc">
 								<div class="misc_row">個体値

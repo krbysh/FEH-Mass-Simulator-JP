@@ -394,15 +394,15 @@ $(document).ready(function(){
 	for(var i = 0; i < data.heroes.length; i++){
 		heroHTML += "<option value=" + i + " class=\"hero_option\">" + data.heroes[i].name + "</option>";
 	}
-	$("#challenger_name, #cl_enemy_name").html(heroHTML).select2({dropdownAutoWidth : true});
-	$("#challenger_weapon, #enemies_weapon, #cl_enemy_weapon").html(heroHTML).select2({dropdownAutoWidth : true});
-	$("#challenger_refine, #enemies_refine, #cl_enemy_refine").html(heroHTML).select2({dropdownAutoWidth : true});
-	$("#challenger_assist, #enemies_assist, #cl_enemy_assist").html(heroHTML).select2({dropdownAutoWidth : true});
-	$("#challenger_special, #enemies_special, #cl_enemy_special").html(heroHTML).select2({dropdownAutoWidth : true});
-	$("#challenger_a, #enemies_a, #cl_enemy_a").html(heroHTML).select2({dropdownAutoWidth : true});
-	$("#challenger_b, #enemies_b, #cl_enemy_b").html(heroHTML).select2({dropdownAutoWidth : true});
-	$("#challenger_c, #enemies_c, #cl_enemy_c").html(heroHTML).select2({dropdownAutoWidth : true});
-	$("#challenger_s, #enemies_s, #cl_enemy_s").html(heroHTML).select2({dropdownAutoWidth : true});
+
+	$("#challenger_name, #cl_enemy_name").html(heroHTML).select2({selectOnClose: true, dropdownAutoWidth : true, matcher: matchStart});
+
+	//Inject select2 UI
+	$("#challenger_weapon, #challenger_refine, #challenger_assist, #challenger_special, #challenger_a, #challenger_b, #challenger_c, #challenger_s").select2({selectOnClose: true, dropdownAutoWidth : true, matcher: matchStart});
+	$("#enemies_weapon, #enemies_refine, #enemies_assist, #enemies_special, #enemies_a, #enemies_b, #enemies_c, #enemies_s").select2({selectOnClose: true, dropdownAutoWidth : true, matcher: matchStart});
+	$("#cl_enemy_weapon, #cl_enemy_refine, #cl_enemy_assist, #cl_enemy_special, #cl_enemy_a, #cl_enemy_b, #cl_enemy_c, #cl_enemy_s").select2({selectOnClose: true, dropdownAutoWidth : true, matcher: matchStart});
+	$("#enemies_weapon, #enemies_refine, #enemies_assist, #enemies_special, #enemies_a, #enemies_b, #enemies_c, #enemies_s").select2({selectOnClose: true, dropdownAutoWidth : true, matcher: matchStart});
+	$("#enemies_weapon_overwrite, #enemies_assist_overwrite, #enemies_special_overwrite, #enemies_a_overwrite, #enemies_b_overwrite, #enemies_c_overwrite").select2({selectOnClose: true, dropdownAutoWidth : true, minimumResultsForSearch: -1});
 
 	//Load Custom Lists
 	listHTML = "<option value=0>フィルター</option>";
@@ -739,9 +739,7 @@ function initHero(hero, alreadyHasSkills){
 		hero.naturalSkills = data.heroBaseSkills[hero.index];
 
 		hero.validWeaponSkills = getValidSkills(hero,"weapon");
-		if (hero.weapon != -1 || undefined){
-			hero.validRefineSkills = getValidRefineSkills(hero,"refine");
-		}
+		hero.validRefineSkills = getValidRefineSkills(hero,"refine");
 		hero.validAssistSkills = getValidSkills(hero,"assist");
 		hero.validSpecialSkills = getValidSkills(hero,"special");
 		hero.validASkills = getValidSkills(hero,"a");
@@ -781,108 +779,107 @@ function getValidSkills(hero,slot){
 	//if not given slot, gives all
 	var validSkills = [];
 
-	//Get valid refines
+	//If slot is refine, get valid refine skills
 	if (slot == "refine"){
-		//TODO: Get initial valid refine options from initial weapon for Full List
+		return getValidRefineSkills(hero);
 	}
-	//Otherwise, get skills
-	else{
-		for(var i = 0; i < data.skills.length; i++){
-			var inheritRules = data.skills[i].inheritrule.split(","); //Thanks Galeforce (melee,physical)
-			if(!slot || data.skills[i].slot == slot){
-				if(hero.index != undefined){
-					var attackType = getAttackTypeFromWeapon(data.heroes[hero.index].weapontype);
-					var inheritRuleMatches = 0;
-					for(var ruleNum = 0; ruleNum < inheritRules.length; ruleNum++){
-						//console.log("Trying " + slot + ": " + data.skills[i].name);
-						//can only use if hero starts with it
-						if(inheritRules[ruleNum] == "unique"){
-							if(hero.naturalSkills){
-								for(var j = 0; j < hero.naturalSkills.length; j++){
-									if(hero.naturalSkills[j][0] == data.skills[i].skill_id){
-										inheritRuleMatches++;
-									}
+	//Otherwise, get other skills
+	for(var i = 0; i < data.skills.length; i++){
+		var inheritRules = data.skills[i].inheritrule.split(","); //Thanks Galeforce (melee,physical)
+		if(!slot || data.skills[i].slot == slot){
+			if(hero.index != undefined){
+				var attackType = getAttackTypeFromWeapon(data.heroes[hero.index].weapontype);
+				var inheritRuleMatches = 0;
+				for(var ruleNum = 0; ruleNum < inheritRules.length; ruleNum++){
+					//console.log("Trying " + slot + ": " + data.skills[i].name);
+					//can only use if hero starts with it
+					if(inheritRules[ruleNum] == "unique"){
+						if(hero.naturalSkills){
+							for(var j = 0; j < hero.naturalSkills.length; j++){
+								if(hero.naturalSkills[j][0] == data.skills[i].skill_id){
+									inheritRuleMatches++;
 								}
 							}
 						}
-						//inherit if weapon is right attacking type
-						else if(attackType == inheritRules[ruleNum]){
+					}
+					//inherit if weapon is right attacking type
+					else if(attackType == inheritRules[ruleNum]){
+						inheritRuleMatches++;
+					}
+					//inherit if weapon is right
+					else if(data.weaponTypes.indexOf(inheritRules[ruleNum])!=-1){
+						if(data.heroes[hero.index].weapontype==inheritRules[ruleNum]){
 							inheritRuleMatches++;
 						}
-						//inherit if weapon is right
-						else if(data.weaponTypes.indexOf(inheritRules[ruleNum])!=-1){
-							if(data.heroes[hero.index].weapontype==inheritRules[ruleNum]){
+					}
+					//inherit if movetype is right
+					else if(data.moveTypes.indexOf(inheritRules[ruleNum])!=-1){
+						if(inheritRules[ruleNum] === "mounted"){
+							if(data.heroes[hero.index].movetype == "cavalry" || data.heroes[hero.index].movetype == "flying"){
 								inheritRuleMatches++;
 							}
-						}
-						//inherit if movetype is right
-						else if(data.moveTypes.indexOf(inheritRules[ruleNum])!=-1){
-							if(inheritRules[ruleNum] === "mounted"){
-								if(data.heroes[hero.index].movetype == "cavalry" || data.heroes[hero.index].movetype == "flying"){
-									inheritRuleMatches++;
-								}
-							}
-							else{
-								if(data.heroes[hero.index].movetype==inheritRules[ruleNum]){
-									inheritRuleMatches++;
-								}
-							}
-						}
-						//inherit if not a certain weapon
-						else if(data.weaponTypes.indexOf(inheritRules[ruleNum].replace("non",""))!=-1){
-							if(data.heroes[hero.index].weapontype!=inheritRules[ruleNum].replace("non","")){
-								inheritRuleMatches++;
-							}
-						}
-						//inherit if not a certain movement type
-						else if(data.moveTypes.indexOf(inheritRules[ruleNum].replace("non",""))!=-1){
-							if(inheritRules[ruleNum] === "nonmounted"){
-								if(data.heroes[hero.index].movetype != "cavalry" && data.heroes[hero.index].movetype != "flying"){
-									inheritRuleMatches++;
-								}
-							}
-							else{
-								if(data.heroes[hero.index].movetype!=inheritRules[ruleNum].replace("non","")){
-									inheritRuleMatches++;
-								}
-							}
-						}
-						//inherit if not a certain color
-						else if(data.colors.indexOf(inheritRules[ruleNum].replace("non",""))!=-1){
-							if(data.heroes[hero.index].color!=inheritRules[ruleNum].replace("non","")){
-								inheritRuleMatches++;
-							}
-						}
-						//inherit if weapon type in ranged group
-						else if(inheritRules[ruleNum]=="ranged"){
-							if(data.rangedWeapons.indexOf(data.heroes[hero.index].weapontype) != -1){
-								inheritRuleMatches++;
-							}
-						}
-						//inherit if weapon type in melee group
-						else if(inheritRules[ruleNum]=="melee"){
-							if(data.meleeWeapons.indexOf(data.heroes[hero.index].weapontype) != -1){
-								inheritRuleMatches++;
-							}
-						}
-						//everyone can inherit!
-						else if(inheritRules[ruleNum]==""){
-							inheritRuleMatches++;
 						}
 						else{
-							//shouldn't get here
-							//console.log("Issue finding logic for inheritrule " + inheritRules[ruleNum]);
-						}
-						if(inheritRuleMatches == inheritRules.length){
-							validSkills.push(i);
+							if(data.heroes[hero.index].movetype==inheritRules[ruleNum]){
+								inheritRuleMatches++;
+							}
 						}
 					}
-				}
-				else{
-					//It's the right slot, not given hero.index, so it's valid unless unique
-					if(inheritRules[0] != "unique"){
+					//inherit if not a certain weapon
+					else if(data.weaponTypes.indexOf(inheritRules[ruleNum].replace("non",""))!=-1){
+						if(data.heroes[hero.index].weapontype!=inheritRules[ruleNum].replace("non","")){
+							inheritRuleMatches++;
+						}
+					}
+					//inherit if not a certain movement type
+					else if(data.moveTypes.indexOf(inheritRules[ruleNum].replace("non",""))!=-1){
+						if(inheritRules[ruleNum] === "nonmounted"){
+							if(data.heroes[hero.index].movetype != "cavalry" && data.heroes[hero.index].movetype != "flying"){
+								inheritRuleMatches++;
+							}
+						}
+						else{
+							if(data.heroes[hero.index].movetype!=inheritRules[ruleNum].replace("non","")){
+								inheritRuleMatches++;
+							}
+						}
+					}
+					//inherit if not a certain color
+					else if(data.colors.indexOf(inheritRules[ruleNum].replace("non",""))!=-1){
+						if(data.heroes[hero.index].color!=inheritRules[ruleNum].replace("non","")){
+							inheritRuleMatches++;
+						}
+					}
+					//inherit if weapon type in ranged group
+					else if(inheritRules[ruleNum]=="ranged"){
+						if(data.rangedWeapons.indexOf(data.heroes[hero.index].weapontype) != -1){
+							inheritRuleMatches++;
+						}
+					}
+					//inherit if weapon type in melee group
+					else if(inheritRules[ruleNum]=="melee"){
+						if(data.meleeWeapons.indexOf(data.heroes[hero.index].weapontype) != -1){
+							inheritRuleMatches++;
+						}
+					}
+					//everyone can inherit!
+					else if(inheritRules[ruleNum]==""){
+						inheritRuleMatches++;
+					}
+					else{
+						//shouldn't get here
+						//console.log("Issue finding logic for inheritrule " + inheritRules[ruleNum]);
+					}
+
+					if(inheritRuleMatches == inheritRules.length){
 						validSkills.push(i);
 					}
+				}
+			}
+			else{
+				//It's the right slot, not given hero.index, so it's valid unless unique
+				if(inheritRules[0] != "unique"){
+					validSkills.push(i);
 				}
 			}
 		}
@@ -896,7 +893,7 @@ function getValidRefineSkills(hero){
 	var validSkills = [];
 
 	//Return nothing if hero index is undefined
-	if (hero.index == undefined || hero.weapon == undefined || hero.weapon == -1){
+	if (hero.weapon == undefined || hero.weapon == -1){
 		return validSkills;
 	}
 
@@ -931,6 +928,28 @@ function getHeroSkills(heroIndex){
 		}
 	}
 	return skillset;
+}
+
+function getMaxSkills(skillset,rarity){
+	//Finds max skills based on rarity
+	//Gets one with highest sp cost
+	var maxSkillset = {"weapon":-1,"assist":-1,"special":-1,"a":-1,"b":-1,"c":-1};
+	for(var i = 0; i < skillset.length;i++){
+		var skillIndex = getSkillIndexFromId(skillset[i][0]);
+		var skill = data.skills[skillIndex];
+		//TODO: Check what this does for assist
+		if((skill.slot != "s") && skillset[i][1] <= rarity + 1){
+			if(maxSkillset[skill.slot]==-1){
+				maxSkillset[skill.slot] = skillIndex;
+			}
+			else{
+				if(data.skills[maxSkillset[skill.slot]].sp < skill.sp){
+					maxSkillset[skill.slot] = skillIndex;
+				}
+			}
+		}
+	}
+	return maxSkillset;
 }
 
 //Return cooldown changes of skill
@@ -985,28 +1004,6 @@ function getCDChange(skill, slot){
 
 	//No Change
 	return 0;
-}
-
-function getMaxSkills(skillset,rarity){
-	//Finds max skills based on rarity
-	//Gets one with highest sp cost
-	var maxSkillset = {"weapon":-1,"assist":-1,"special":-1,"a":-1,"b":-1,"c":-1};
-	for(var i = 0; i < skillset.length;i++){
-		var skillIndex = getSkillIndexFromId(skillset[i][0]);
-		var skill = data.skills[skillIndex];
-		//TODO: Check what this does for assist
-		if((skill.slot != "s") && skillset[i][1] <= rarity + 1){
-			if(maxSkillset[skill.slot]==-1){
-				maxSkillset[skill.slot] = skillIndex;
-			}
-			else{
-				if(data.skills[maxSkillset[skill.slot]].sp < skill.sp){
-					maxSkillset[skill.slot] = skillIndex;
-				}
-			}
-		}
-	}
-	return maxSkillset;
 }
 
 //Return type of special skill
@@ -1315,6 +1312,7 @@ function updateHealth(value, hero){
 	}
 }
 
+//Calculate total SP cost for hero
 function updateSpt(hero){
 	hero.spt = 0;
 	hero.spt += (hero.weapon != -1 ? data.skills[hero.weapon].sp : 0);
@@ -1516,8 +1514,12 @@ function setSkills(hero){
 
 			//Find if skill needs replacement based on inputs
 			data.skillSlots.forEach(function(slot){
-				if(enemies.fl[slot] != -1 && (enemies.fl["replace" + capitalize(slot)] == 1 || enemies.fl.list[i][slot] == -1)){
-					//TODO: Make refine options work in Full List Comparisons
+				//For refine slot: Check if enemy weapon matches selected weapon filter
+				if (slot == "refine" && hero.refine != undefined && hero.refine != -1){
+					if (data.skills[enemies.fl.list[i].weapon].name == data.skills[enemies.fl.weapon].name){
+						enemies.fl.list[i].refine = enemies.fl.refine;
+					}
+				}else if(enemies.fl[slot] != -1 && (enemies.fl["replace" + capitalize(slot)] == 1 || enemies.fl.list[i][slot] == -1)){
 					if(data.heroPossibleSkills[enemies.fl.list[i].index].indexOf(enemies.fl[slot]) != -1){
 						enemies.fl.list[i][slot] = enemies.fl[slot];
 					}
@@ -1832,6 +1834,27 @@ function setWideUI(setWide){
 	$("#results_graph_losses").width($("#results_graph_losses").width() * $("#results_graph_back").width() / originBarWidth);
 }
 
+//Select2 match function for matching starting characters
+function matchStart(params, data) {
+	//If there are no search terms, return all of the data
+    if ($.trim(params.term) === '') {
+		return data;
+    }
+
+    //Do not display the item if there is no 'text' property
+    if (typeof data.text === 'undefined') {
+		return null;
+    }
+
+	//If search term appears in the beginning of data's text
+	if (data.text.toUpperCase().indexOf(params.term.toUpperCase()) == 0) {
+		return data;
+	}
+
+    //Return `null` if the term should not be displayed
+    return null;
+}
+
 function changeSkillPic(hero, slot){
 	var htmlPrefix = getHtmlPrefix(hero);
 	if(data.skills[hero[slot]]){
@@ -1924,7 +1947,7 @@ function updateRefineUI(hero){
 	}
 
 	//If hero exists, find their refine options
-	if (hero.index != undefined && hero.index != -1){
+	if ((hero.index != undefined && hero.index != -1 )|| hero.isFl){
 		validSkills = getValidRefineSkills(hero);
 	}
 
@@ -2096,7 +2119,6 @@ function updateHeroUI(hero){
 		if(hero.isFl){
 			//Do fl-specific stuff here (no heroIndex)
 			$("#" + htmlPrefix + "weapon_overwrite").val(hero.replaceWeapon);
-			//TODO: complete replace refine checks for Full List
 			$("#" + htmlPrefix + "refine_overwrite").val(hero.replaceRefine);
 			$("#" + htmlPrefix + "assist_overwrite").val(hero.replaceAssist);
 			$("#" + htmlPrefix + "special_overwrite").val(hero.replaceSpecial);
@@ -2286,7 +2308,7 @@ function copyChallenger(){
 		enemies.cl.list.push({
 			"index":-1,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"assist":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
 			"buffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "spur": {"hp":0,"atk":0,"spd":0,"def":0,"res":0},
-			"boon": "none", "bane": "none", "bane":"none", "summoner":"none", "ally":"none", "bless":"none", "blessStack":0, "merge":0, "rarity":5, "precharge":0, "adjacent":1, "damage":0
+			"boon": "none", "bane": "none", "summoner":"none", "ally":"none", "bless":"none", "blessStack":0, "merge":0, "rarity":5, "precharge":0, "adjacent":1, "damage":0
 		});
 		hero = enemies.cl.list[enemies.cl.list.length - 1];
 		//Copy challenger attributes
@@ -3403,7 +3425,6 @@ function fight(enemyIndex,resultIndex){
 			"<div class=\"results_previousresult\">" + enemyList[enemyIndex].lastFightResult + "</div>",
 		"</div>",
 		"<div class=\"results_bottomline\">",
-//			"<span class=\"results_stat\">HP: " + ahEnemy.maxHp + "</span><span class=\"results_stat\">Atk: " + ahEnemy.atk + "</span><span class=\"results_stat\">Spd: " + ahEnemy.spd + "</span><span class=\"results_stat\">Def: " + ahEnemy.def + "</span><span class=\"results_stat\">Res: " + ahEnemy.res + "</span><div class=\"results_skills\"><span class=\"results_stat\"><img class=\"skill_picture\" src=\"skills/weapon.png\"/>" + weaponName + "</span><span class=\"results_stat\"><img class=\"skill_picture\" src=\"skills/special.png\"/>" + specialName + "</span><span class=\"results_stat\"><img class=\"skill_picture\" src=\"skills/" + aName + ".png\"/><img class=\"skill_picture\" src=\"skills/" + bName + ".png\"/><img class=\"skill_picture\" src=\"skills/" + cName + ".png\"/><img class=\"skill_picture\" src=\"skills/" + sName + ".png\"/></span></div>",
 			"<span class=\"results_stat\">HP: " + ahEnemy.maxHp + "</span>",
 			"<span class=\"results_stat\">Atk: " + ahEnemy.atk + statChangeText.atk + "</span>",
 			"<span class=\"results_stat\">Spd: " + ahEnemy.spd + statChangeText.spd + "</span>",
