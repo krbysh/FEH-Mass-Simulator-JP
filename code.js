@@ -499,6 +499,7 @@ $(document).ready(function(){
 			//Stuff specific to changing chart type
 			if(endsWith(dataVar,".chartType")){
 				drawChart();
+				blockCalculate = true;
 			}
 
 			//Stuff specific to changing hero
@@ -739,7 +740,7 @@ function initHero(hero, alreadyHasSkills){
 		hero.naturalSkills = data.heroBaseSkills[hero.index];
 
 		hero.validWeaponSkills = getValidSkills(hero,"weapon");
-		hero.validRefineSkills = getValidRefineSkills(hero,"refine");
+		hero.validRefineSkills = getValidSkills(hero,"refine");
 		hero.validAssistSkills = getValidSkills(hero,"assist");
 		hero.validSpecialSkills = getValidSkills(hero,"special");
 		hero.validASkills = getValidSkills(hero,"a");
@@ -1511,7 +1512,6 @@ function setSkills(hero){
 		for(var i = 0; i < enemies.fl.list.length;i++){
 			//Set default skills
 			setSkills(enemies.fl.list[i]);
-
 			//Find if skill needs replacement based on inputs
 			data.skillSlots.forEach(function(slot){
 				//For refine slot: Check if enemy weapon matches selected weapon filter
@@ -1756,7 +1756,6 @@ function updateFlEnemies(){
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //TODO: Clean all these mid UI functions up
 function showOptions(show){
-	var originBarWidth = $("#results_graph_back").width();
 	if (show){
 		setWideUI(true);
 		toggleMidUI("options");
@@ -1801,7 +1800,6 @@ function toggleMidUI(ui){
 		$("#frame_stat").show();
 		$("#toggle_stat").text("統計非表示");
 		drawChart();
-		blockCalculate = true;
 	}
 	if (ui == "stat_close"){
 		//If options UI is open, change button to hide
@@ -4385,7 +4383,7 @@ function activeHero(hero){
 	}
 
 	this.resetCharge = function(){
-		//resets charge based on weapon
+		//Reset charge based on weapon
 		//For weapons that would reduce charge, you gain a charge instead, and vice versa
 		//***Important: Append a slot whenever a new slot gains a skill that affects CD***
 		this.charge = 0;
@@ -4674,14 +4672,6 @@ function activeHero(hero){
 			}
 		}
 
-		if(this.has("プレゼント袋") || this.has("ハンドベル") || this.has("聖樹") || this.has("燭台")){
-			this.combatSpur.atk += 2;
-			this.combatSpur.spd += 2;
-			this.combatSpur.def += 2;
-			this.combatSpur.res += 2;
-			boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、攻撃された時、攻撃、速さ、守備、魔防 +2 。<br>";
-		}
-
 		if(this.hp >= enemy.hp + 3){
 			var skillName = "";
 			var buffVal = 0;
@@ -4946,6 +4936,13 @@ function activeHero(hero){
 				this.combatSpur.res += 2;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、守備、魔防 +2 。<br>";
 			}
+			if(this.has("プレゼント袋") || this.has("ハンドベル") || this.has("聖樹") || this.has("燭台")){
+				this.combatSpur.atk += 2;
+				this.combatSpur.spd += 2;
+				this.combatSpur.def += 2;
+				this.combatSpur.res += 2;
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、攻撃された時、攻撃、速さ、守備、魔防 +2 。<br>";
+			}
 			if(this.hasExactly("ヴィドフニル") && (enemy.weaponType == "sword" || enemy.weaponType == "axe" ||enemy.weaponType == "lance" )){
 				this.combatSpur.def += 7;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、剣、槍、斧の敵から攻撃された時、守備 +7 。<br>";
@@ -5055,13 +5052,13 @@ function activeHero(hero){
 		if(!enemy.has("エンブラの加護") && this.didAttack){
 			//Pain only takes place when the unit performs an attack in the round
 			var painDmg = 0;
-			if(this.has("ペイン") || (this.has("死神の暗器") && this.refineIndex != -1)){
+			if(this.has("ペイン") || (this.has("死神の暗器") && this.refineIndex != -1)
+				){
 				painDmg = 10;
 				if(enemy.hp - painDmg <= 0){
 					painDmg = enemy.hp - 1;
 				}
 				enemy.hp -= painDmg;
-				painEnemyText += enemy.name + " は、戦闘後、" + painDmg + " ダメージ。<br>";
 				painEnemyText += enemy.name + " は、戦闘後、" + data.skills[this.weaponIndex].name + (this.refineIndex != -1 ? "(錬成)" : "") + " により" + painDmg + " ダメージ。<br>";
 			}
 		}
@@ -5319,6 +5316,7 @@ function activeHero(hero){
 		return postCombatBuffText;
 	}
 
+	//After combat heals
 	this.postCombatHeal = function(){
 		var postCombatHealText = "";
 		var skillname = "";
@@ -5422,14 +5420,9 @@ function activeHero(hero){
 			enemyEffSpd = enemy.spd - Math.max(enemy.buffs.spd,enemy.combatBuffs.spd) + Math.min(enemy.debuffs.spd,enemy.combatDebuffs.spd) + enemy.spur.spd + enemy.combatSpur.spd;
 			enemyEffDef = enemy.def - Math.max(enemy.buffs.def,enemy.combatBuffs.def) + Math.min(enemy.debuffs.def,enemy.combatDebuffs.def) + enemy.spur.def + enemy.combatSpur.def;
 			enemyEffRes = enemy.res - Math.max(enemy.buffs.res,enemy.combatBuffs.res) + Math.min(enemy.debuffs.res,enemy.combatDebuffs.res) + enemy.spur.res + enemy.combatSpur.res;
-
 			if(!AOE){damageText += enemy.name + " の強化は + ではなく - となる。<br>";}
 		//Buff cancellation
-		} else if(this.hasExactly("聖書ナーガ")
-			|| (this.has("ベオクの加護") && (enemy.moveType == "cavalry" || enemy.moveType == "flying"))
-			|| (enemy.has("ミュルグレ") && (this.weaponType == "redtome" || this.weaponType == "bluetome" || this.weaponType == "greentome"))
-			|| (enemy.hasExactly("重装無効化") && this.moveType == "armored")
-			|| (enemy.hasExactly("騎馬無効化") && this.moveType == "cavalry")){
+		} else if(isBuffCancelled(enemy, this)){
 			enemyEffAtk = enemy.atk + Math.min(enemy.debuffs.atk,enemy.combatDebuffs.atk) + enemy.spur.atk + enemy.combatSpur.atk;
 			enemyEffSpd = enemy.spd + Math.min(enemy.debuffs.spd,enemy.combatDebuffs.spd) + enemy.spur.spd + enemy.combatSpur.spd;
 			enemyEffDef = enemy.def + Math.min(enemy.debuffs.def,enemy.combatDebuffs.def) + enemy.spur.def + enemy.combatSpur.def;
@@ -5594,7 +5587,6 @@ function activeHero(hero){
 
 		//Don't do anything else if it's just an AOE attack
 		if(!AOE){
-
 			//Check weapon advantage
 			//0 is no advantage, 1 is attacker advantage, -1 is defender advantage
 			var weaponAdvantage = 0;
@@ -5972,7 +5964,6 @@ function activeHero(hero){
 			var dmg = totalDmg - (totalDmg * (1 - dmgReduction) | 0) - dmgReductionFlat;
 
 			/*	Old damage formula
-
 			var rawDmg = (thisEffAtk * effectiveBonus | 0) + ((thisEffAtk * effectiveBonus | 0) * weaponAdvantageBonus | 0) + (dmgBoost | 0);
 			var reduceDmg = relevantDef + (relevantDef * enemyDefModifier | 0);
 			var dmg = (rawDmg - reduceDmg) * weaponModifier | 0;
@@ -6241,7 +6232,6 @@ function activeHero(hero){
 		//***Speed currently calculated twice, once here and once in doDamage, should merge together***
 		var thisEffSpd = this.spd + Math.max(this.buffs.spd,this.combatBuffs.spd) + Math.min(this.debuffs.spd,this.combatDebuffs.spd) + this.spur.spd + this.combatSpur.spd;
 		var enemyEffSpd = enemy.spd + Math.max(enemy.buffs.spd,enemy.combatBuffs.spd) + Math.min(enemy.debuffs.spd,enemy.combatDebuffs.spd) + enemy.spur.spd + enemy.combatSpur.spd;
-
 		//Buff cancellation and reversion - Spd calculations
 		//***May require change depending on order of application between Panic and null skills***
 		if(this.panicked){
@@ -6259,7 +6249,7 @@ function activeHero(hero){
 		var anyRangeCounter = canCounterAnyRange(enemy);
 
 		//Check for AOE special activation
-		roundText += this.doDamage(enemy,false,true);
+		roundText += this.doDamage(enemy, false, true, false);
 
 		//check for vantage before beginning combat
 		var vantage = false;
@@ -6402,7 +6392,7 @@ function activeHero(hero){
 			enemyBreakLevel = 0;
 		}
 
-		if(enemy.hp / this.maxHp >= thisBreakLevel){
+		if(enemy.hp / enemy.maxHp >= thisBreakLevel){
 			thisBroken = true;
 		}
 		if(this.hp / this.maxHp >= enemyBreakLevel){
