@@ -4450,7 +4450,7 @@ function activeHero(hero){
 				//Seals
 				if(this.hasAtIndex("攻撃の謀策", this.sIndex)){
 					threatDebuffs.atk = Math.min(threatDebuffs.atk,-this.hasAtIndex("攻撃の謀策", this.sIndex)-2);
-					skillNames.push(data.skills[this.sIndex].name);
+					skillNames.push(data.skills[this.sIndex].name + " (聖印)");
 				}
 			}
 			//恐慌の奇策
@@ -4461,36 +4461,53 @@ function activeHero(hero){
 			//恐慌の奇策 Seal
 			if(this.hasAtIndex("恐慌の奇策", this.sIndex) && this.hp > enemy.hp + 6 - this.hasAtIndex("恐慌の奇策", this.sIndex) * 2){
 				enemy.panicked = true;
-				threatenText += this.name + " は、" + data.skills[this.sIndex].name + " を発動、" + enemy.name + "に、パニック の効果を付与。<br>";
+				threatenText += this.name + " は、" + data.skills[this.sIndex].name + " (聖印) を発動、" + enemy.name + "に、パニック の効果を付与。<br>";
 			}
 		}
 
-		if(this.has("攻撃の威嚇")){
-			threatDebuffs.atk = Math.min(threatDebuffs.atk,-this.has("攻撃の威嚇")-2);
+
+		//Skills
+		if(this.hasAtIndex("攻撃の威嚇", this.cIndex)){
+			threatDebuffs.atk = Math.min(threatDebuffs.atk,-this.hasAtIndex("攻撃の威嚇", this.cIndex)-2);
 			skillNames.push(data.skills[this.cIndex].name);
 		}
+		if(this.hasAtIndex("攻撃の威嚇", this.sIndex)){
+			threatDebuffs.atk = Math.min(threatDebuffs.atk,-this.hasAtIndex("攻撃の威嚇", this.sIndex)-2);
+			skillNames.push(data.skills[this.sIndex].name + " (聖印)");
+		}
+		if(this.hasAtIndex("速さの威嚇", this.cIndex)){
+			threatDebuffs.spd = Math.min(threatDebuffs.spd,-this.hasAtIndex("速さの威嚇", this.cIndex)-2);
+			skillNames.push(data.skills[this.cIndex].name);
+		}
+		if(this.hasAtIndex("速さの威嚇", this.sIndex)){
+			threatDebuffs.spd = Math.min(threatDebuffs.spd,-this.hasAtIndex("速さの威嚇", this.sIndex)-2);
+			skillNames.push(data.skills[this.sIndex].name + " (聖印)");
+		}
+		if(this.hasAtIndex("守備の威嚇", this.cIndex)){
+			threatDebuffs.def = Math.min(threatDebuffs.def,-this.hasAtIndex("守備の威嚇", this.cIndex)-2);
+			skillNames.push(data.skills[this.cIndex].name);
+		}
+		if(this.hasAtIndex("守備の威嚇", this.sIndex)){
+			threatDebuffs.def = Math.min(threatDebuffs.def,-this.hasAtIndex("守備の威嚇", this.sIndex)-2);
+			skillNames.push(data.skills[this.sIndex].name + " (聖印)");
+		}
+		if(this.hasAtIndex("魔防の威嚇", this.cIndex)){
+			threatDebuffs.res = Math.min(threatDebuffs.res,-this.hasAtIndex("魔防の威嚇", this.cIndex)-2);
+			skillNames.push(data.skills[this.cIndex].name);
+		}
+		if(this.hasAtIndex("魔防の威嚇", this.sIndex)){
+			threatDebuffs.res = Math.min(threatDebuffs.res,-this.hasAtIndex("魔防の威嚇", this.sIndex)-2);
+			skillNames.push(data.skills[this.sIndex].name + " (聖印)");
+		}
+
+		//Weapons
 		if(this.has("フェンサリル")){
 			threatDebuffs.atk = Math.min(threatDebuffs.atk,-4);
 			skillNames.push(data.skills[this.weaponIndex].name);
 		}
-
-		if(this.has("速さの威嚇")){
-			threatDebuffs.spd = Math.min(threatDebuffs.spd,-this.has("速さの威嚇")-2);
-			skillNames.push(data.skills[this.cIndex].name);
-		}
-
-		if(this.has("守備の威嚇")){
-			threatDebuffs.def = Math.min(threatDebuffs.def,-this.has("守備の威嚇")-2);
-			skillNames.push(data.skills[this.cIndex].name);
-		}
 		if(this.has("エッケザックス")){
 			threatDebuffs.def = Math.min(threatDebuffs.def,-4);
 			skillNames.push(data.skills[this.weaponIndex].name);
-		}
-
-		if(this.has("魔防の威嚇")){
-			threatDebuffs.res = Math.min(threatDebuffs.res,-this.has("魔防の威嚇")-2);
-			skillNames.push(data.skills[this.cIndex].name);
 		}
 
 		if(skillNames.length > 0){
@@ -4912,7 +4929,7 @@ function activeHero(hero){
 					buffVal = this.hasAtIndex("遠距離防御", this.sIndex) * 2;
 					this.combatSpur.def += buffVal;
 					this.combatSpur.res += buffVal;
-					boostText += this.name + " は、" + data.skills[this.sIndex].name + "(聖印) の効果で弓、暗器、魔法、杖の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
+					boostText += this.name + " は、" + data.skills[this.sIndex].name + " (聖印) の効果で弓、暗器、魔法、杖の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
 				}
 			}
 			if(enemy.range == "melee"){
@@ -4926,7 +4943,7 @@ function activeHero(hero){
 					buffVal = this.hasAtIndex("近距離防御", this.sIndex) * 2;
 					this.combatSpur.def += buffVal;
 					this.combatSpur.res += buffVal;
-					boostText += this.name + " は、" + data.skills[this.sIndex].name + "(聖印) の効果で剣、槍、斧、竜の敵近距離から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
+					boostText += this.name + " は、" + data.skills[this.sIndex].name + " (聖印) の効果で剣、槍、斧、竜の敵近距離から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
 				}
 			}
 
@@ -6048,10 +6065,16 @@ function activeHero(hero){
 						skillNames.push(data.skills[this.bIndex].name);
 					}
 				}
-				if(this.has("剛剣")){
-					if(thisEffAtk - enemyEffAtk >= 7 - (this.has("剛剣") * 2)){
+				if(this.hasAtIndex("剛剣", this.aIndex)){
+					if(thisEffAtk - enemyEffAtk >= 7 - (this.hasAtIndex("剛剣", this.aIndex) * 2)){
 						gainCharge = Math.max(gainCharge, 1);
 						skillNames.push(data.skills[this.aIndex].name);
+					}
+				}
+				if(this.hasAtIndex("剛剣", this.sIndex)){
+					if(thisEffAtk - enemyEffAtk >= 7 - (this.hasAtIndex("剛剣", this.sIndex) * 2)){
+						gainCharge = Math.max(gainCharge, 1);
+						skillNames.push(data.skills[this.sIndex].name + " (聖印)");
 					}
 				}
 				if(this.hasExactly("烈剣デュランダル")){
