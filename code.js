@@ -134,10 +134,10 @@ data.enemyPrompts = {
 
 data.newHeroesCsvs = [
 	"スリーズ (5★);Weapon: ブリザード;Special: 氷華;A: 魔防の城塞 3;B: 氷の封印;C: 魔防の謀策 3;",
-	"アクア(謹賀新年(仮)) (5★);Weapon: 羽子板+;Assist: 歌う;B: 大地の舞い 3;C: 飛刃の鼓舞;",
-	"カミラ(謹賀新年(仮)) (5★);Weapon: 門松+;Refine: 速さ - Advanced Melee;Special: 竜裂;A: 速さ守備の絆 3;C: 飛盾の紋章;",
-	"カムイ(男)(謹賀新年(仮)) (5★);Weapon: 破魔矢+;Assist: 守備魔防の応援;A: 攻撃守備 2;C: 守備魔防の紋章 2;",
-	"タクミ(謹賀新年(仮)) (5★);Weapon: 鏡餅+;Special: 月虹;A: 攻撃魔防の絆 3;B: 弓殺し 3;"
+	"アクア(白夜のお正月) (5★);Weapon: 羽子板+;Assist: 歌う;B: 大地の舞い 3;C: 飛刃の鼓舞;",
+	"カミラ(白夜のお正月) (5★);Weapon: 門松+;Refine: 速さ - Advanced Melee;Special: 竜裂;A: 速さ守備の絆 3;C: 飛盾の紋章;",
+	"カムイ(男)(xxx) (5★);Weapon: 破魔矢+;Assist: 守備魔防の応援;A: 攻撃守備 2;C: 守備魔防の紋章 2;",
+	"タクミ(白夜のお正月) (5★);Weapon: 鏡餅+;Special: 月虹;A: 攻撃魔防の絆 3;B: 弓殺し 3;"
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
