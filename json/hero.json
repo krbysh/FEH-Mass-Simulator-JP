@@ -3602,7 +3602,7 @@
 	}, {
 		"hero_id": 203,
 		"name_en": "Azura (Happy New Year!)",
-		"name": "アクア(謹賀新年(仮))",
+		"name": "アクア(白夜のお正月)",
 		"basehp": 15,
 		"baseatk": 6,
 		"basespd": 9,
@@ -3620,7 +3620,7 @@
 	}, {
 		"hero_id": 204,
 		"name_en": "Camilla (Happy New Year!)",
-		"name": "カミラ(謹賀新年(仮))",
+		"name": "カミラ(白夜のお正月)",
 		"basehp": 18,
 		"baseatk": 9,
 		"basespd": 9,
@@ -3638,7 +3638,7 @@
 	}, {
 		"hero_id": 205,
 		"name_en": "Corrin (M) (Happy New Year!)",
-		"name": "カムイ(男)(謹賀新年(仮))",
+		"name": "カムイ(男)(xxx)",
 		"basehp": 18,
 		"baseatk": 8,
 		"basespd": 8,
@@ -3656,7 +3656,7 @@
 	}, {
 		"hero_id": 206,
 		"name_en": "Takumi (Happy New Year!)",
-		"name": "タクミ(謹賀新年(仮))",
+		"name": "タクミ(白夜のお正月)",
 		"basehp": 18,
 		"baseatk": 8,
 		"basespd": 10,
