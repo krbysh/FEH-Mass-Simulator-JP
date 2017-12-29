@@ -967,11 +967,11 @@ function getCDChange(skill, slot){
 	//Weapon
 	if (slot == "weapon"){
 		//Cooldown decrease
-		if (skillName.indexOf("キルソードe") != -1 	|| skillName.indexOf("キラーアクス") != -1	|| skillName.indexOf("キラーランス") != -1
+		if (skillName.indexOf("キルソード") != -1 	|| skillName.indexOf("キラーアクス") != -1	|| skillName.indexOf("キラーランス") != -1
 			|| skillName.indexOf("キラーボウ") != -1	|| skillName.indexOf("キラーボウ鍛") != -1 	|| skillName.indexOf("キルソード鍛") != -1
 			|| skillName.indexOf("キラーアクス鍛") != -1	|| skillName.indexOf("キラーランス鍛") != -1	|| skillName.indexOf("魔性の槍") != -1
 			|| skillName.indexOf("ミストルティン") != -1	|| skillName.indexOf("オートクレール") != -1	|| skillName.indexOf("ウルヴァン") != -1
-			|| skillName.indexOf("アウドムラ") != -1
+			|| skillName.indexOf("アウドムラ") != -1 || skillName.indexOf("鏡餅") != -1
 			){
 				return -1;
 		}
