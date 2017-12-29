@@ -166,7 +166,7 @@ function initOptions(){
 	options.autoCalculate = true;
 	options.startTurn = 1;
 	//options.threatenRule = "なし";
-	options.ployBehavior = "斜め";
+	options.ployBehavior = "十字";
 	options.showOnlyMaxSkills = true;
 	options.hideUnaffectingSkills = true;
 	options.colorFilter = "all";
@@ -4384,7 +4384,7 @@ function activeHero(hero){
 					skillNames.push(data.skills[this.weaponIndex].name);
 				}
 				if(this.hasExactly("奇異ルーテの書")){
-					threatDebuffs.spd = Math.min(threatDebuffs.spd, -4);
+					threatDebuffs.spd = Math.min(threatDebuffs.spd, -5);
 					skillNames.push(data.skills[this.weaponIndex].name);
 				}
 				//Passive C Skills
