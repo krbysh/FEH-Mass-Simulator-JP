@@ -133,10 +133,11 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"クロム(冬祭りの使者) (5★);Weapon: プレゼント袋+;Assist: 回り込み;A: 攻撃守備の大覚醒 3;B: 守備隊形 3;",
-	"リズ(冬祭りの使者) (5★);Weapon: ハンドベル+;Special: 緋炎;B: 攻撃隊形 3;C: 重盾の鼓舞;",
-	"ルフレ(男)(冬祭りの使者) (5★);Weapon: 聖樹+;Assist: 相互援助;A: 攻撃速さの大覚醒 3;C: 重装の行軍 3;",
-	"サーリャ(冬祭りの使者) (5★);Weapon: 燭台+;Special: 氷蒼;A: 近距離反撃;B: 迎撃隊形 3;C: 赤魔の技量 3;",
+	"スリーズ (5★);Weapon: ブリザード;Special: 氷華;A: 魔防の城塞 3;B: 氷の封印;C: 魔防の謀策 3;",
+	"アクア(謹賀新年(仮)) (5★);Weapon: 羽子板+;Assist: 歌う;B: 大地の舞い 3;C: 飛刃の鼓舞;",
+	"カミラ(謹賀新年(仮)) (5★);Weapon: 門松+;Refine: 速さ - Advanced Melee;Special: 竜裂;A: 速さ守備の絆 3;C: 飛盾の紋章;",
+	"カムイ(男)(謹賀新年(仮)) (5★);Weapon: 破魔矢+;Assist: 守備魔防の応援;A: 攻撃守備 2;C: 守備魔防の紋章 2;",
+	"タクミ(謹賀新年(仮)) (5★);Weapon: 鏡餅+;Special: 月虹;A: 攻撃魔防の絆 3;B: 弓殺し 3;"
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -1257,57 +1258,13 @@ function setStats(hero){
 			default:
 				break;
 		}
-
-		//Ally Support
-		switch (hero.ally){
-			case "s":
-				hero.atk += 2;
-				hero.spd += 2;
-				hero.def += 2;
-				hero.res += 2;
-				break;
-			case "s-":
-				hero.atk += 1;
-				hero.spd += 1;
-				hero.def += 1;
-				hero.res += 1;
-				break;
-			case "a":
-				hero.spd += 2;
-				hero.def += 2;
-				hero.res += 2;
-				break;
-			case "a-":
-				hero.spd += 1;
-				hero.def += 1;
-				hero.res += 1;
-				break;
-			case "b":
-				hero.def += 2;
-				hero.res += 2;
-				break;
-			case "b-":
-				hero.def += 1;
-				hero.res += 1;
-				break;
-			case "c":
-				hero.res += 2;
-				break;
-			case "c-":
-				hero.res += 1;
-				break;
-			default:
-				break;
-		}
 	}
 }
 
 //Calculate damage from current HP
 function updateHealth(value, hero){
-	if (value > hero.hp){
+	if (value > hero.hp || value <= 0){
 		hero.damage = 0;
-	}else if (value <= 0){
-		hero.damage = hero.hp - 1;
 	}else{
 		hero.damage = hero.hp - hero.currenthp;
 	}
@@ -4646,6 +4603,56 @@ function activeHero(hero){
 	this.startCombatSpur = function(enemy){
 		var boostText = "";
 
+		//Ally Support
+		switch (this.ally){
+			case "s":
+				this.combatSpur.atk += 2;
+				this.combatSpur.spd += 2;
+				this.combatSpur.def += 2;
+				this.combatSpur.res += 2;
+				boostText += this.name + " は、支援の効果で、攻撃、速さ、守備、魔防 +2 。<br>";
+				break;
+			case "s-":
+				this.combatSpur.atk += 1;
+				this.combatSpur.spd += 1;
+				this.combatSpur.def += 1;
+				this.combatSpur.res += 1;
+				boostText += this.name + " は、支援の効果で、攻撃、速さ、守備、魔防 +1 。<br>";
+				break;
+			case "a":
+				this.combatSpur.spd += 2;
+				this.combatSpur.def += 2;
+				this.combatSpur.res += 2;
+				boostText += this.name + " は、支援の効果で、速さ、守備、魔防 +2 。<br>";
+				break;
+			case "a-":
+				this.combatSpur.spd += 1;
+				this.combatSpur.def += 1;
+				this.combatSpur.res += 1;
+				boostText += this.name + " は、支援の効果で、速さ、守備、魔防 +1 。<br>";
+				break;
+			case "b":
+				this.combatSpur.def += 2;
+				this.combatSpur.res += 2;
+				boostText += this.name + " は、支援の効果で、守備、魔防 +2 。<br>";
+				break;
+			case "b-":
+				this.combatSpur.def += 1;
+				this.combatSpur.res += 1;
+				boostText += this.name + " は、支援の効果で、守備、魔防 +1 。<br>";
+				break;
+			case "c":
+				this.combatSpur.res += 2;
+				boostText += this.name + " は、支援により、魔防 +2 。<br>";
+				break;
+			case "c-":
+				this.combatSpur.res += 1;
+				boostText += this.name + " は、支援の効果で、魔防 +1 。<br>";
+				break;
+			default:
+				break;
+		}
+
 		//Brazen skills
 		if(this.combatStartHp / this.maxHp <= 0.8){
 			if(this.has("攻撃守備の大覚醒")){
@@ -5337,11 +5344,12 @@ function activeHero(hero){
 	this.postCombatHeal = function(){
 		var postCombatHealText = "";
 		var skillname = "";
+		var healAmount = 0;
 
 		if(this.has("青の卵") || this.has("緑の卵") || this.has("ニンジンの斧") || this.has("ニンジンの槍")){
-			if(this.initiator || this.refineIndex != -1){
+			if(this.initiator || (this.refineIndex != -1 && this.didAttack)){
 				skillName = data.skills[this.weaponIndex].name;
-				var healAmount = 4;
+				healAmount = 4;
 				if(this.maxHp - this.hp < healAmount){
 					healAmount = this.maxHp - this.hp;
 				}
@@ -5427,7 +5435,7 @@ function activeHero(hero){
 		} else if(this.has("ラウアブレード") || this.has("ブラーブレード") || this.has("グルンブレード")){
 			var bladebonus = Math.max(this.buffs.atk,this.combatBuffs.atk) + Math.max(this.buffs.spd,this.combatBuffs.spd) + Math.max(this.buffs.def,this.combatBuffs.def) + Math.max(this.buffs.res,this.combatBuffs.res);
 			thisEffAtk += bladebonus;
-			if(!AOE && bladebonus != 0){damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、ダメージ +" + bladebonus + " 。<br>";}
+			if(!AOE && bladebonus != 0){damageText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、ダメージ +" + bladebonus + " 。<br>";}
 		}
 
 		//Defender relevant stats
@@ -5449,6 +5457,27 @@ function activeHero(hero){
 		} else if(enemy.has("ラウアブレード") || enemy.has("ブラーブレード") || enemy.has("グルンブレード")){
 			var bladebonus = Math.max(this.buffs.atk,this.combatBuffs.atk) + Math.max(this.buffs.spd,this.combatBuffs.spd) + Math.max(this.buffs.def,this.combatBuffs.def) + Math.max(this.buffs.res,this.combatBuffs.res);
 			enemyEffAtk += bladebonus;
+			//if(!AOE && bladebonus != 0){damageText += enemy.name + " は、" + data.skills[enemy.weaponIndex].name + " の効果で、ダメージ +" + bladebonus + " 。<br>";}
+		}
+
+		//Blizzard bonus
+		//TODO: Check panic debuff interaction
+		if(this.has("ブリザード")){
+			var atkbonus = -1 * (Math.min(enemy.debuffs.atk,enemy.combatDebuffs.atk) + Math.min(enemy.debuffs.spd,enemy.combatDebuffs.spd) + Math.min(enemy.debuffs.def,enemy.combatDebuffs.def) + Math.min(enemy.debuffs.res,enemy.combatDebuffs.res));
+			if (enemy.panicked){
+				atkbonus += Math.max(enemy.buffs.atk,enemy.combatBuffs.atk) + Math.max(enemy.buffs.spd,enemy.combatBuffs.spd) + Math.max(enemy.buffs.def,enemy.combatBuffs.def) + Math.max(enemy.buffs.res,enemy.combatBuffs.res);
+			}
+			//console.log(atkbonus);
+			thisEffAtk += atkbonus;
+			if(!AOE && atkbonus != 0){damageText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、攻撃 +" + atkbonus + " 。<br>";}
+		}
+		if(enemy.has("ブリザード")){
+			var atkbonus = -1 * (Math.min(this.debuffs.atk,this.combatDebuffs.atk) + Math.min(this.debuffs.spd,this.combatDebuffs.spd) + Math.min(this.debuffs.def,this.combatDebuffs.def) + Math.min(this.debuffs.res,this.combatDebuffs.res));
+			if (this.panicked){
+				atkbonus += Math.max(this.buffs.atk,this.combatBuffs.atk) + Math.max(this.buffs.spd,this.combatBuffs.spd) + Math.max(this.buffs.def,this.combatBuffs.def) + Math.max(this.buffs.res,this.combatBuffs.res);
+			}
+			enemyEffAtk += atkbonus;
+			if(!AOE && atkbonus != 0){damageText += enemy.name + " は、" + data.skills[enemy.weaponIndex].name + " の効果で、攻撃 +" + atkbonus + " 。<br>";}
 		}
 
 		//Relavant defense stat
@@ -5674,7 +5703,7 @@ function activeHero(hero){
 
 			var extraWeaponAdvantage = 0;
 
-			//If weapon advantage is not netural, and Attacker and Defender do not both have Cancel Affinity
+			//If weapon advantage is not neutral, and Attacker and Defender do not both have Cancel Affinity
 			if (weaponAdvantage !=0 && !(this.has("相性相殺") && enemy.has("相性相殺"))){
 
 				//Calculate base weapon advantage bonus
@@ -5856,7 +5885,7 @@ function activeHero(hero){
 				}
 			}
 
-			//Consequtive Attack
+			//Consecutive Attack
 			if (lastAttacker == this.name){
 				//Weapon
 				if (enemy.hasExactly("ウルヴァン")){
@@ -6674,7 +6703,7 @@ function activeHero(hero){
 			}
 
 			//Finally, Galeforce!
-			if(this.has("疾風迅雷") && data.skills[this.specialIndex].charge <= this.charge && (this.challenger ? options.galeforce_challenger : options.galeforce_enemy)){
+			if(!galeforce && this.has("疾風迅雷") && data.skills[this.specialIndex].charge <= this.charge && (this.challenger ? options.galeforce_challenger : options.galeforce_enemy)){
 				roundText += this.name + " は、疾風迅雷 の効果で、再度攻撃。<br>";
 				this.resetCharge();
 				roundText += this.attack(enemy,round,false,true);
@@ -6818,7 +6847,7 @@ function getAttackTypeFromWeapon(weaponType){
 }
 
 function verifyNumberInput(element,min,max){
-	//contrains number between two values and returns it
+	//contains number between two values and returns it
 	newVal = parseInt($(element).val());
 	if(!newVal){
 		//If input is blank, make it 0

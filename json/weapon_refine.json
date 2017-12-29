@@ -277,7 +277,7 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floaie+",
-		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+"
+		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+"
 	},	{
 		"category": "Advanced Melee",
 		"name_en": "Spd Bonus",
@@ -290,7 +290,7 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floaie+",
-		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+"
+		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+"
 	},	{
 		"category": "Advanced Melee",
 		"name_en": "Def Bonus",
@@ -303,7 +303,7 @@
 		"def": 4,
 		"res": 0,
 		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floaie+",
-		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+"
+		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+"
 	},	{
 		"category": "Advanced Melee",
 		"name_en": "Res Bonus",
@@ -316,7 +316,7 @@
 		"def": 0,
 		"res": 4,
 		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floaie+",
-		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+"
+		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+"
 	},	{
 		"category": "Wedding Melee",
 		"name_en": "Atk Bonus",
@@ -496,7 +496,7 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Slaying Bow+,Refreshing Bolt+,Tomato Tome+,Sealife Tome+,Hibiscus Tome+,Dancer's Score+,Dancer's Ring+,Gaurd Bow+",
-		"prereq": "キラーボウ鍛+,氷菓子の弓+,トマトの本+,熱帯魚の本+,ハイビスカスの本+,舞踏祭の楽譜+,舞踏祭の輪+,遠距離防御の弓+,燭台+"
+		"prereq": "キラーボウ鍛+,氷菓子の弓+,トマトの本+,熱帯魚の本+,ハイビスカスの本+,舞踏祭の楽譜+,舞踏祭の輪+,遠距離防御の弓+,燭台+,破魔矢+,鏡餅+"
 	},	{
 		"category": "Advanced Ranged",
 		"name_en": "Spd Bonus",
@@ -509,7 +509,7 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Slaying Bow+,Refreshing Bolt+,Tomato Tome+,Sealife Tome+,Hibiscus Tome+,Dancer's Score+,Dancer's Ring+,Gaurd Bow+",
-		"prereq": "キラーボウ鍛+,氷菓子の弓+,トマトの本+,熱帯魚の本+,ハイビスカスの本+,舞踏祭の楽譜+,舞踏祭の輪+,遠距離防御の弓+,燭台+"
+		"prereq": "キラーボウ鍛+,氷菓子の弓+,トマトの本+,熱帯魚の本+,ハイビスカスの本+,舞踏祭の楽譜+,舞踏祭の輪+,遠距離防御の弓+,燭台+,破魔矢+,鏡餅+"
 	},	{
 		"category": "Advanced Ranged",
 		"name_en": "Def Bonus",
@@ -522,7 +522,7 @@
 		"def": 3,
 		"res": 0,
 		"prereq": "Slaying Bow+,Refreshing Bolt+,Tomato Tome+,Sealife Tome+,Hibiscus Tome+,Dancer's Score+,Dancer's Ring+,Gaurd Bow+",
-		"prereq": "キラーボウ鍛+,氷菓子の弓+,トマトの本+,熱帯魚の本+,ハイビスカスの本+,舞踏祭の楽譜+,舞踏祭の輪+,遠距離防御の弓+,燭台+"
+		"prereq": "キラーボウ鍛+,氷菓子の弓+,トマトの本+,熱帯魚の本+,ハイビスカスの本+,舞踏祭の楽譜+,舞踏祭の輪+,遠距離防御の弓+,燭台+,破魔矢+,鏡餅+"
 	},	{
 		"category": "Advanced Ranged",
 		"name_en": "Res Bonus",
@@ -535,7 +535,7 @@
 		"def": 0,
 		"res": 3,
 		"prereq": "Slaying Bow+,Refreshing Bolt+,Tomato Tome+,Sealife Tome+,Hibiscus Tome+,Dancer's Score+,Dancer's Ring+,Gaurd Bow+",
-		"prereq": "キラーボウ鍛+,氷菓子の弓+,トマトの本+,熱帯魚の本+,ハイビスカスの本+,舞踏祭の楽譜+,舞踏祭の輪+,遠距離防御の弓+,燭台+"
+		"prereq": "キラーボウ鍛+,氷菓子の弓+,トマトの本+,熱帯魚の本+,ハイビスカスの本+,舞踏祭の楽譜+,舞踏祭の輪+,遠距離防御の弓+,燭台+,破魔矢+,鏡餅+"
 	},	{
 		"category": "Dark Ranged",
 		"name_en": "Atk Bonus",
