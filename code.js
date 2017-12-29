@@ -5221,7 +5221,7 @@ function activeHero(hero){
 			if (this.hasExactly("死神の暗器")){
 				sealStats(data.skills[this.weaponIndex].name, ["def","res"], [-7]);
 			}
-			if (this.has("銀の暗器") || this.has("貝殻") || this.has("舞踏祭の扇子")){
+			if (this.has("銀の暗器") || this.has("貝殻") || this.has("舞踏祭の扇子") || this.has("鏡餅")){
 				sealStats(data.skills[this.weaponIndex].name, ["def","res"], [-5, -7]);
 			}
 			if (this.has("猫の暗器") && (enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" || enemy.weaponType == "greentome")){
