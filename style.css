@@ -105,7 +105,7 @@ svg > g > g:last-child { pointer-events: none }
 
 #frame_options{
 	position: relative;
-	height:466px;
+	height:444px;
 }
 
 #frame_results{
@@ -282,7 +282,7 @@ svg > g > g:last-child { pointer-events: none }
 }
 
 * + .bar_label{
-	margin-left:8px;
+	margin-left:5px;
 }
 
 #frame_challenger .bar_top_options{
@@ -356,7 +356,7 @@ svg > g > g:last-child { pointer-events: none }
 .debufflabel{
 	font-size:11px;
 	position:absolute;
-	right:60px;
+	right:54px;
 	top:-3px;
 }
 
@@ -442,8 +442,7 @@ svg > g > g:last-child { pointer-events: none }
 .skill_overwrite{
 	position: absolute;
 	left:177px;
-	top:7px;
-	border-radius: 4px;
+	top:4px;
 }
 
 .hero_misc{
@@ -486,7 +485,7 @@ svg > g > g:last-child { pointer-events: none }
 	width:100%;
 	height:24px;
 	text-align:center;
-	background-color: #333333;
+	background-color: #444444;
 }
 
 .misc_button:hover{
@@ -534,19 +533,6 @@ svg > g > g:last-child { pointer-events: none }
 .smallnuminput{
 	width:36px;
 	border-radius: 3px;
-}
-
-.duelrule_smallnuminput{
-	position: relative;
-	top:2px;
-	width:36px;
-	border-radius: 4px;
-}
-
-.duelrule_select{
-	position: relative;
-	top:2px;
-	border-radius: 4px;
 }
 
 .button{
@@ -795,7 +781,7 @@ svg > g > g:last-child { pointer-events: none }
 }
 
 /*Statistics///////////////////////////////////////*/
-#frame_stat{
+#frame_statistics{
 	border-radius:4px;
 	border:2px solid #ffffff;
 	background-color: #222222;
@@ -831,8 +817,23 @@ svg > g > g:last-child { pointer-events: none }
 	border-radius:3px;
 }
 
+/*Options///////////////////////////////////////*/
+#frame_settings{
+	border-radius:4px;
+	border:2px solid #ffffff;
+	background-color: #222222;
+	position:absolute;
+	margin-left:10px;
+	margin-right:10px;
+	left:385px;
+	right:0;
+	top:0;
+	bottom:0;
+	width:200px;
+	overflow:auto;
+}
 /*Adjustments///////////////////////////////////////*/
-#frame_adj{
+#frame_adjustments{
 	border-radius:4px;
 	border:2px solid #ffffff;
 	background-color: #222222;
@@ -850,7 +851,7 @@ svg > g > g:last-child { pointer-events: none }
 #adj_title{
 	background-color: #333333;
 	text-align:center;
-	font-size:14px;
+	font-size:12px;
 	margin-bottom:2px;
 }
 
@@ -956,41 +957,75 @@ svg > g > g:last-child { pointer-events: none }
 }
 
 .adj_input{
-	font-size:8px;
-	width:54px;
-	height:8px;
+	font-size:12px;
+	width:52px;
+	height:12px;
 }
 
 .adj_select{
-	font-size:8px;
+	font-size:10.5px;
 	width:50px;
-	height:14px;
+	height:18px;
 	border-radius:3px;
 }
 
 .adj_select_left{
-	font-size:8px;
+	font-size:10.5px;
 	width:50px;
-	height:14px;
+	height:18px;
 	border-radius:3px;
 }
 
 .adj_select_long{
-	font-size:8px;
+	font-size:10.5px;
 	width:58px;
-	height:14px;
+	height:18px;
 	border-radius:3px;
 }
 
 /*Rules/////////////////////////////////////////////*/
 #frame_rules{
-	border-radius:4px;
-	border:2px solid #ffffff;
-	background-color: #222222;
+	display:flex;
 	margin-top:10px;
 	text-align:left;
 	height:128px;
 	position:relative;
+	width:100%;
+}
+
+.frame_turns{
+	border-radius:4px;
+	border:2px solid #ffffff;
+	background-color: #222222;
+	width:536px;
+	height:128px;
+}
+
+.frame_options{
+	flex-grow:1;
+	border-radius:4px;
+	border:2px solid #ffffff;
+	background-color: #222222;
+	margin-left:10px;
+	height:128px;
+}
+
+.menu_options{
+	display:flex;
+	justify-content: center;
+	font-size:15px;
+}
+
+.menu_filler{
+	border-right:2px solid #000000;
+}
+
+.menu_radio{
+	padding-top:2px;
+	padding-left:30px;
+	padding-right:10px;
+	min-width:120px;
+	min-height:92px;
 }
 
 #rules_bar_top{
@@ -1114,6 +1149,7 @@ svg > g > g:last-child { pointer-events: none }
 	left:208px;
 	right:0;
 	border-left:2px solid #000000;
+	width:320px;
 }
 
 #turn_first{
@@ -1195,17 +1231,13 @@ svg > g > g:last-child { pointer-events: none }
 	font-size:12px;
 	line-height:24px;
 	border-radius:2px;
-	padding: 0 4px;
-	width:105px;
+	padding: 0 6px;
+	width:100px;
 	height:24px;
 	margin-top:6px;
 	margin-right:4px;
 	text-align:center;
 	background-color: #333333;
-}
-
-#toggle_stat{
-	margin-right:120px;
 }
 
 .button_options:hover{
@@ -1289,6 +1321,25 @@ svg > g > g:last-child { pointer-events: none }
 
 #button_calculate:hover{
 	background-color: #444444;
+}
+
+#button_resetFilter{
+	display:inline-block;
+	position:relative;
+	border-radius:2px;
+	font-size:12px;
+	width:66px;
+	text-align:center;
+	line-height:20px;
+	margin-left:4px;
+	margin-right:4px;
+	background-color: #888888;
+	color:#ffffff;
+}
+
+#button_resetFilter:hover{
+	background-color: #444444;
+	font-weight:bold;
 }
 
 #button_exportcalc{
@@ -1483,15 +1534,62 @@ svg > g > g:last-child { pointer-events: none }
 	color:#fefec8;
 }
 
+/*Display///////////////////////////////////////////////////*/
+
+#turn_order_split{
+	position:absolute;
+	top:30px;
+	bottom:0;
+	font-size:13px;
+	line-height:22px;
+	left:536px;
+	right:0;
+	border-left:2px solid #000000;
+}
+
+#display_left{
+	position: relative;
+
+	margin-left:10px;
+}
+
+#toggle_stat{
+	font-size: 14px;
+	background-color: #444444;
+	width: 120px;
+	text-align: center;
+	height: 20px;
+	line-height: 18px;
+	margin-top: 4px;
+	border-radius: 4px;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #333333;
+}
+
+#toggle_options{
+	font-size: 14px;
+	background-color: #444444;
+	width: 120px;
+	text-align: center;
+	height: 20px;
+	line-height: 18px;
+	margin-top: 4px;
+	border-radius: 4px;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #333333;
+}
+
 /*Tooltip///////////////////////////////////////////////////*/
 #frame_tooltip{
-	width:600px;
-	font-size:11px;
+	width:500px;
+	font-size:13px;
 	position:absolute;
-	border:2px solid #eeeeee;
-	border-radius:4px;
+	border:3px solid #eeeeee;
+	border-radius:6px;
 	background-color: #000000;
-	padding:6px 6px;
+	padding:10px 10px;
 	display:none;
 }
 

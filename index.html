@@ -24,8 +24,8 @@
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 	<script src="select2/select2.min.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="style.css?v=2017121801"/>
-	<script type="text/javascript" src="code.js?v=2017122904"></script>
+	<link rel="stylesheet" type="text/css" href="style.css?v=2018011401"/>
+	<script type="text/javascript" src="code.js?v=2018011401"></script>
 
 </head>
 
@@ -38,11 +38,11 @@
 			<img src="ui/logo.png" style="margin-right:20px;"/>
 			<div id="maintitle" style="display:inline-block;">FEH Mass Simulator JP</div>
 			<div id="subtitle">
-				<button class="button button_newheroes" id="0"><img class="newheroes_picture" src="heroes/Gunnthra.png"/></button>
-				<button class="button button_newheroes" id="1"><img class="newheroes_picture" src="heroes/Azura (Happy New Year!).png"/></button>
-				<button class="button button_newheroes" id="2"><img class="newheroes_picture" src="heroes/Camilla (Happy New Year!).png"/></button>
-				<button class="button button_newheroes" id="3"><img class="newheroes_picture" src="heroes/Corrin (M) (Happy New Year!).png"/></button>
-				<button class="button button_newheroes" id="4"><img class="newheroes_picture" src="heroes/Takumi (Happy New Year!).png"/></button>
+				<button class="button button_newheroes" id="0"><img class="newheroes_picture" src="heroes/Corrin (M) (Happy New Year!).png"/></button>
+				<button class="button button_newheroes" id="1"><img class="newheroes_picture" src="heroes/Micaiah.png"/></button>
+				<button class="button button_newheroes" id="2"><img class="newheroes_picture" src="heroes/Sothe.png"/></button>
+				<button class="button button_newheroes" id="3"><img class="newheroes_picture" src="heroes/Zelgius.png"/></button>
+				<button class="button button_newheroes" id="4"><img class="newheroes_picture" src="heroes/Oliver.png"/></button>
 			</div>
 		</div>
 		<div id="frame_updatenotice" data-update="2017122901">スリーズ、超英雄「白夜のお正月」に対応しました。
@@ -66,7 +66,7 @@
 						<div class="bar_top_options_right"><span class="bar_label">★</span><input id="challenger_rarity" data-var="challenger.rarity" type="number" class="rarityinput smallnuminput" value=5 min=1 max=5 /><span class="bar_label">Lvl 40+</span><input id="challenger_merge" data-var="challenger.merge" class="smallnuminput" type="number" value=0 min=0 max=10 /><div class="button reset_button" id="reset_challenger">初期化</div></div>
 					</div>
 					<div class="frame_hero_main_top">
-						<div class="frame_hero_picture"><img class="hero_picture" id="challenger_picture" src="heroes/nohero.png"/><img id="challenger_weapon_icon" class="weaponIcon" src="weapons/noweapon.png"/><img id="challenger_movement_icon" class="movementIcon" src="weapons/noweapon.png"/></div>
+						<div class="frame_hero_picture"><img class="hero_picture" id="challenger_picture" src="heroes/nohero.png" onmouseover="showHeroTooltip('challenger');" onmouseout="hideTooltip();" /><img id="challenger_weapon_icon" class="weaponIcon" src="weapons/noweapon.png"/><img id="challenger_movement_icon" class="movementIcon" src="weapons/noweapon.png"/></div>
 						<div class="frame_stats">
 							<div class="bufflabel">強化</div><div class="debufflabel">弱体</div><div class="spurlabel">紋章</div>
 							<div class="stat_row">ＨＰ <span class="stat_number" id="challenger_hp">-</span><input id="challenger_hp_buff" data-var="challenger.buffs.hp" class="buff_input smallnuminput" type="number" value=0 min=0 max=99 /><input id="challenger_hp_debuff" data-var="challenger.debuffs.hp" class="debuff_input smallnuminput" type="number" value=0 min=-99 max=0 /></div>
@@ -79,39 +79,39 @@
 					<div class="frame_hero_main_bottom">
 						<div class="hero_skills">
 							<div class="skill_row">
-								<img class="skill_picture" id="challenger_weapon_picture" src="skills/weapon.png" onmouseover="showSkillTooltip('challenger', 'weapon');" onmouseout="hideSkillTooltip();">
+								<img class="skill_picture" id="challenger_weapon_picture" src="skills/weapon.png" onmouseover="showSkillTooltip('challenger', 'weapon');" onmouseout="hideTooltip();">
 								<select class="skill_select" data-var="challenger.weapon" id="challenger_weapon"></select>
 							</div>
 							<div class="skill_tabbed_row">
-								<img class="skill_picture" id="challenger_refine_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('challenger', 'refine');" onmouseout="hideSkillTooltip();">
+								<img class="skill_picture" id="challenger_refine_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('challenger', 'refine');" onmouseout="hideTooltip();">
 								<img class="skill_letter" id="challenger_refine_weapon_picture" src="skills/weapon.png">
 								<select class="skill_select_short" data-var="challenger.refine" id="challenger_refine"></select>
 							</div>
 							<div class="skill_row">
-								<img class="skill_picture" id="challenger_assist_picture" src="skills/assist.png" onmouseover="showSkillTooltip('challenger', 'assist');" onmouseout="hideSkillTooltip();">
+								<img class="skill_picture" id="challenger_assist_picture" src="skills/assist.png" onmouseover="showSkillTooltip('challenger', 'assist');" onmouseout="hideTooltip();">
 								<select class="skill_select" data-var="challenger.assist" id="challenger_assist"></select>
 							</div>
 							<div class="skill_row">
-								<img class="skill_picture" id="challenger_special_picture" src="skills/special.png" onmouseover="showSkillTooltip('challenger', 'special');" onmouseout="hideSkillTooltip();">
+								<img class="skill_picture" id="challenger_special_picture" src="skills/special.png" onmouseover="showSkillTooltip('challenger', 'special');" onmouseout="hideTooltip();">
 								<select class="skill_select" data-var="challenger.special" id="challenger_special"></select>
 							</div>
 							<div class="skill_row">
-								<img class="skill_picture" id="challenger_a_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('challenger', 'a');" onmouseout="hideSkillTooltip();">
+								<img class="skill_picture" id="challenger_a_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('challenger', 'a');" onmouseout="hideTooltip();">
 								<div class="skill_letter red">A</div>
 								<select class="skill_select" data-var="challenger.a" id="challenger_a"></select>
 								</div>
 							<div class="skill_row">
-								<img class="skill_picture" id="challenger_b_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('challenger', 'b');" onmouseout="hideSkillTooltip();">
+								<img class="skill_picture" id="challenger_b_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('challenger', 'b');" onmouseout="hideTooltip();">
 								<div class="skill_letter blue">B</div>
 								<select class="skill_select" data-var="challenger.b" id="challenger_b"></select>
 							</div>
 							<div class="skill_row">
-								<img class="skill_picture" id="challenger_c_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('challenger', 'c');" onmouseout="hideSkillTooltip();">
+								<img class="skill_picture" id="challenger_c_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('challenger', 'c');" onmouseout="hideTooltip();">
 								<div class="skill_letter green">C</div>
 								<select class="skill_select" data-var="challenger.c" id="challenger_c"></select>
 							</div>
 							<div class="skill_row">
-								<img class="skill_picture" id="challenger_s_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('challenger', 's');" onmouseout="hideSkillTooltip();">
+								<img class="skill_picture" id="challenger_s_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('challenger', 's');" onmouseout="hideTooltip();">
 								<div class="skill_letter yellow">S</div>
 								<select class="skill_select" data-var="challenger.s" id="challenger_s"></select>
 							</div>
@@ -183,9 +183,9 @@
 					</div>
 				</div>
 			</div>
-			<div id="frame_adj">
+			<div id="frame_settings">
 				<div id="rules_bar_top">
-					オプション
+					設定
 				</div>
 				<div id="adj_title">ステータス</div>
 				<div class="adj_status">
@@ -194,16 +194,26 @@
 					<div class="status_enemy"><input type="checkbox" data-var="options.defensive_enemy" id="defensive_enemy"/></div>
 				</div>
 				<div class="adj_status">
+					<div class="status_challenger"><input type="checkbox" data-var="options.candlelight_challenger" id="candlelight_challenger"/></div>
+					<div class="status_title">キャンドル</div>
+					<div class="status_enemy"><input type="checkbox" data-var="options.candlelight_enemy" id="candlelight_enemy"/></div>
+				</div>
+				<div class="adj_status">
 					<div class="status_challenger"><input type="checkbox" data-var="options.panic_challenger" id="panic_challenger"/></div>
 					<div class="status_title">パニック</div>
 					<div class="status_enemy"><input type="checkbox" data-var="options.panic_enemy" id="panic_enemy"/></div>
 				</div>
 				<div class="adj_status">
-					<div class="status_challenger"><input type="checkbox" data-var="options.candlelight_challenger" id="candlelight_challenger"/></div>
-					<div class="status_title">キャンドル</div>
-					<div class="status_enemy"><input type="checkbox" data-var="options.candlelight_enemy" id="candlelight_enemy"/></div>
+					<div class="status_challenger"><input type="checkbox" data-var="options.chilled_challenger" id="chilled_challenger"/></div>
+					<div class="status_title">氷の封印</div>
+					<div class="status_enemy"><input type="checkbox" data-var="options.chilled_enemy" id="chilled_enemy"/></div>
 				</div>
-				<div style="line-height: 20%;"><br></div>
+				<div class="adj_status">
+					<div class="status_challenger"><input type="checkbox" data-var="options.harsh_command_challenger" id="harsh_command_challenger"/></div>
+					<div class="status_title">一喝 (未実装)</div>
+					<div class="status_enemy"><input type="checkbox" data-var="options.harsh_command_enemy" id="harsh_command_enemy"/></div>
+				</div>
+				<div style="line-height:20%;"><br></div>
 				<div id="adj_title">特殊</div>
 				<div class="adj_status">
 					<div class="status_challenger"><input type="checkbox" data-var="options.threaten_challenger" id="threaten_challenger"/></div>
@@ -215,8 +225,53 @@
 					<div class="status_title">疾風迅雷、再度攻撃</div>
 					<div class="status_enemy"><input type="checkbox" data-var="options.galeforce_enemy" id="galeforce_enemy" checked/></div>
 				</div>
-				<div style="line-height: 20%;"><br></div>
-				<div id="adj_title">カスタムリストの調整</div>
+				<div style="line-height:20%;"><br></div>
+				<div id="adj_title">シミュ―レーター</div>
+				<div class="adj_status">
+					<div class="status_desc_long">回復 の開始ターン</div>
+					<div class="status_select">
+						<input class="adj_input smallnuminput" type="number" data-var="options.startTurn" min=1 max=5 id="rules_renewal" value=1 />
+					</div>
+				</div>
+				<div class="adj_status">
+					<div class="status_desc_long">遠隔の攻撃の向き</div>
+					<div class="status_select">
+						<select class="adj_select_long" id="rules_ploy" data-var="options.ployBehavior">
+							<option>十字</option>
+							<option>斜め</option>
+						</select>
+					</div>
+				</div>
+				<div class="adj_status">
+					<div class="status_desc_long">最大レベルのみ表示</div>
+					<div class="status_select_long">
+						<input class="status_select" type="checkbox" data-var="options.showOnlyMaxSkills" id="rules_prereqs" checked="checked" />
+					</div>
+				</div>
+				<div class="adj_status">
+					<div class="status_desc_long">無影響なスキルを非表示</div>
+					<div class="status_select_long">
+						<input class="status_select" type="checkbox" data-var="options.hideUnaffectingSkills" id="rules_hideunaffecting" checked="checked" />
+					</div>
+				</div>
+				<div class="adj_status">
+					<div class="status_desc_long">自動計算</div>
+					<div class="status_select_long">
+						<input class="status_select" type="checkbox" data-var="options.autoCalculate" id="autocalculate" checked="checked"/>
+					</div>
+				</div>
+				<div class="adj_status">
+					<div class="status_desc_long">設定保存</div>
+					<div class="status_select_long">
+						<input class="status_select" type="checkbox" data-var="options.saveSettings" id="saveSettings" checked="checked"/>
+					</div>
+				</div>
+			</div>
+			<div id="frame_adjustments" style="display: none;">
+				<div id="rules_bar_top">
+					調整
+				</div>
+				<div id="adj_title">カスタムリスト</div>
 				<div class="adj_status">
 					<div class="status_desc">限界突破</div>
 					<div class="status_select">
@@ -277,9 +332,9 @@
 						<select class="adj_select_left" data-var="enemies.cl.movement" id="enemies_cl_movement">
 							<option value="all" selected>全て</option>
 							<option value="infantry">歩兵</option>
-							<option value="cavalry">騎馬</option>
-							<option value="flying">飛行</option>
 							<option value="armored">重装</option>
+							<option value="flying">飛行</option>
+							<option value="cavalry">騎馬</option>
 							<option value="dragon">竜</option>
 						</select>
 					</div>
@@ -298,43 +353,47 @@
 				<div class="adj_status">
 					<div class="button adj_reset_button" id="reset_buff">初期化</div>
 				</div>
+
+			<!-- Work In Progress
 				<div style="line-height: 20%;"><br></div>
-				<div id="adj_title">シミュレーター</div>
+				<div id="adj_title">自軍</div>
 				<div class="adj_status">
-					<div class="status_desc_long">回復 のターン</div>
+					<div class="status_desc">ＨＰ</div>
 					<div class="status_select">
-						<input class="adj_input smallnuminput" type="number" data-var="options.startTurn" min=1 max=5 id="rules_renewal" value=1 />
-					</div>
-				</div>
-				<div class="adj_status">
-					<div class="status_desc_long">遠隔の攻撃の向き</div>
-					<div class="status_select">
-						<select class="adj_select_long" id="rules_ploy" data-var="options.ployBehavior">
-							<option>十字</option>
-							<option>斜め</option>
+						<select class="adj_select_long" data-var="challenger.HpPercent" id="challenger_HpPercent">
+							<option value="4" selected>100%</option>
+							<option value="3">75%</option>
+							<option value="2">50%</option>
+							<option value="1">25%</option>
 						</select>
 					</div>
+					<div class="button adj_apply_button" id="apply_total_health">適用</div>
 				</div>
 				<div class="adj_status">
-					<div class="status_desc_long">最大スキルレベルのみ表示</div>
-					<div class="status_select_long">
-						<input class="status_select" type="checkbox" data-var="options.showOnlyMaxSkills" id="rules_prereqs" checked="checked" />
-					</div>
+					<div class="button adj_reset_button" id="reset_health">初期化</div>
 				</div>
 				<div class="adj_status">
-					<div class="status_desc_long">無影響なスキルを非表示</div>
-					<div class="status_select_long">
-						<input class="status_select" type="checkbox" data-var="options.hideUnaffectingSkills" id="rules_hideunaffecting" checked="checked" />
+					<div class="status_desc">兵種強化</div>
+					<div class="status_select">
+						<select class="adj_select_long" data-var="challenger.movementbuff" id="challenger_movementbuff">
+							<option value="hone" selected>刃鼓舞</option>
+							<option value="fortify">盾鼓舞</option>
+							<option value="goad">刃紋章</option>
+							<option value="goad x2">刃紋章 x2</option>
+							<option value="ward">盾紋章</option>
+							<option value="ward x2">盾紋章 x2</option>
+						</select>
 					</div>
+					<div class="button adj_apply_button" id="apply_total_health">適用</div>
 				</div>
 				<div class="adj_status">
-					<div class="status_desc_long">自動計算</div>
-					<div class="status_select_long">
-						<input class="status_select" type="checkbox" data-var="options.autoCalculate" id="autocalculate" checked="checked"/>
-					</div>
+					<div class="button adj_reset_button" id="reset_buff">初期化</div>
 				</div>
+				<div style="line-height:20%;"><br></div>
+			-->
+
 			</div>
-			<div id="frame_stat" style="display: none;">
+			<div id="frame_statistics" style="display: none;">
 				<div id="rules_bar_top">
 					統計
 				</div>
@@ -415,32 +474,32 @@
 					<div class="frame_hero_main_bottom">
 						<div class="hero_skills">
 							<div class="skill_row">
-								<img class="skill_picture" id="enemies_weapon_picture" src="skills/weapon.png" onmouseover="showSkillTooltip('list', 'weapon');" onmouseout="hideSkillTooltip();"><select class="skill_select" data-var="enemies.fl.weapon" id="enemies_weapon"></select>
+								<img class="skill_picture" id="enemies_weapon_picture" src="skills/weapon.png" onmouseover="showSkillTooltip('list', 'weapon');" onmouseout="hideTooltip();"><select class="skill_select" data-var="enemies.fl.weapon" id="enemies_weapon"></select>
 								<select class="skill_overwrite" data-var="enemies.fl.replaceWeapon" id="enemies_weapon_overwrite">
 									<option value=0>空の場合</option>
 									<option value=1>上書き</option>
 								</select>
 							</div>
 							<div class="skill_tabbed_row">
-								<img class="skill_picture" id="enemies_refine_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('list', 'refine');" onmouseout="hideSkillTooltip();"><img class="skill_letter" id="enemies_refine_weapon_picture" src="skills/weapon.png"><select class="skill_select_short" data-var="enemies.fl.refine" id="enemies_refine"></select>
+								<img class="skill_picture" id="enemies_refine_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('list', 'refine');" onmouseout="hideTooltip();"><img class="skill_letter" id="enemies_refine_weapon_picture" src="skills/weapon.png"><select class="skill_select_short" data-var="enemies.fl.refine" id="enemies_refine"></select>
 							</div>
 							<div class="skill_row">
-								<img class="skill_picture" id="enemies_assist_picture" src="skills/assist.png"  onmouseover="showSkillTooltip('list', 'assist');" onmouseout="hideSkillTooltip();"><select class="skill_select" data-var="enemies.fl.assist" id="enemies_assist"></select>
+								<img class="skill_picture" id="enemies_assist_picture" src="skills/assist.png"	onmouseover="showSkillTooltip('list', 'assist');" onmouseout="hideTooltip();"><select class="skill_select" data-var="enemies.fl.assist" id="enemies_assist"></select>
 								<select class="skill_overwrite" data-var="enemies.fl.replaceAssist" id="enemies_assist_overwrite"><option value=0>空の場合</option><option value=1>上書き</option></select>
 							</div>
-							<div class="skill_row"><img class="skill_picture" id="enemies_special_picture" src="skills/special.png"  onmouseover="showSkillTooltip('list', 'special');" onmouseout="hideSkillTooltip();"><select class="skill_select" data-var="enemies.fl.special" id="enemies_special"></select>
+							<div class="skill_row"><img class="skill_picture" id="enemies_special_picture" src="skills/special.png"	onmouseover="showSkillTooltip('list', 'special');" onmouseout="hideTooltip();"><select class="skill_select" data-var="enemies.fl.special" id="enemies_special"></select>
 								<select class="skill_overwrite" data-var="enemies.fl.replaceSpecial" id="enemies_special_overwrite"><option value=0>空の場合</option><option value=1>上書き</option></select>
 							</div>
-							<div class="skill_row"><img class="skill_picture" id="enemies_a_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('list', 'a');" onmouseout="hideSkillTooltip();"><div class="skill_letter red">A</div><select class="skill_select" data-var="enemies.fl.a" id="enemies_a"></select>
+							<div class="skill_row"><img class="skill_picture" id="enemies_a_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('list', 'a');" onmouseout="hideTooltip();"><div class="skill_letter red">A</div><select class="skill_select" data-var="enemies.fl.a" id="enemies_a"></select>
 								<select class="skill_overwrite" data-var="enemies.fl.replaceA" id="enemies_a_overwrite"><option value=0>空の場合</option><option value=1>上書き</option></select>
 							</div>
-							<div class="skill_row"><img class="skill_picture" id="enemies_b_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('list', 'b');" onmouseout="hideSkillTooltip();"><div class="skill_letter blue">B</div><select class="skill_select" data-var="enemies.fl.b" id="enemies_b"></select>
+							<div class="skill_row"><img class="skill_picture" id="enemies_b_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('list', 'b');" onmouseout="hideTooltip();"><div class="skill_letter blue">B</div><select class="skill_select" data-var="enemies.fl.b" id="enemies_b"></select>
 								<select class="skill_overwrite" data-var="enemies.fl.replaceB" id="enemies_b_overwrite"><option value=0>空の場合</option><option value=1>上書き</option></select>
 							</div>
-							<div class="skill_row"><img class="skill_picture" id="enemies_c_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('list', 'c');" onmouseout="hideSkillTooltip();"><div class="skill_letter green">C</div><select class="skill_select" data-var="enemies.fl.c" id="enemies_c"></select>
+							<div class="skill_row"><img class="skill_picture" id="enemies_c_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('list', 'c');" onmouseout="hideTooltip();"><div class="skill_letter green">C</div><select class="skill_select" data-var="enemies.fl.c" id="enemies_c"></select>
 								<select class="skill_overwrite" data-var="enemies.fl.replaceC" id="enemies_c_overwrite"><option value=0>空の場合</option><option value=1>上書き</option></select>
 							</div>
-							<div class="skill_row"><img class="skill_picture" id="enemies_s_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('list', 's');" onmouseout="hideSkillTooltip();"><div class="skill_letter yellow">S</div><select class="skill_select" data-var="enemies.fl.s" id="enemies_s"></select></div>
+							<div class="skill_row"><img class="skill_picture" id="enemies_s_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('list', 's');" onmouseout="hideTooltip();"><div class="skill_letter yellow">S</div><select class="skill_select" data-var="enemies.fl.s" id="enemies_s"></select></div>
 						</div>
 						<div class="hero_misc">
 							<div class="misc_row">個体値
@@ -500,7 +559,7 @@
 						<div class="bar_top_options"><select id="cl_enemy_name" data-var="enemies.cl.list.index"></select><div class="bar_top_options_right"><span class="bar_label">★</span><input id="cl_enemy_rarity" data-var="enemies.cl.list.rarity" type="number" class="rarityinput smallnuminput" value=5 min=1 max=5 /><span class="bar_label">Lvl 40+</span><input id="cl_enemy_merge" data-var="enemies.cl.list.merge" class="smallnuminput" type="number" value=0 min=0 max=10 /><div class="button reset_button reset_enemies" id="reset_cl_enemy">初期化</div></div></div>
 						<div class="frame_hero_main_top">
 							<div class="frame_hero_picture">
-								<img class="hero_picture" id="cl_enemy_picture" src="heroes/nohero.png"/>
+								<img class="hero_picture" id="cl_enemy_picture" src="heroes/nohero.png" onmouseover="showHeroTooltip('custom');" onmouseout="hideTooltip();"/>
 								<img id="cl_enemy_weapon_icon" class="weaponIcon" src="weapons/noweapon.png"/>
 								<img id="cl_enemy_movement_icon" class="movementIcon" src="weapons/noweapon.png"/>
 							</div>
@@ -516,17 +575,17 @@
 						<div class="frame_hero_main_bottom">
 							<div class="hero_skills">
 								<div class="skill_row">
-									<img class="skill_picture" id="cl_enemy_weapon_picture" src="skills/weapon.png" onmouseover="showSkillTooltip('custom', 'weapon');" onmouseout="hideSkillTooltip();"><select class="skill_select" data-var="enemies.cl.list.weapon" id="cl_enemy_weapon"></select>
+									<img class="skill_picture" id="cl_enemy_weapon_picture" src="skills/weapon.png" onmouseover="showSkillTooltip('custom', 'weapon');" onmouseout="hideTooltip();"><select class="skill_select" data-var="enemies.cl.list.weapon" id="cl_enemy_weapon"></select>
 								</div>
 								<div class="skill_tabbed_row">
-									<img class="skill_picture" id="cl_enemy_refine_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('custom', 'refine');" onmouseout="hideSkillTooltip();"><img class="skill_letter" id="cl_enemy_refine_weapon_picture" src="skills/weapon.png"><select class="skill_select_short" data-var="enemies.cl.list.refine" id="cl_enemy_refine"></select>
+									<img class="skill_picture" id="cl_enemy_refine_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('custom', 'refine');" onmouseout="hideTooltip();"><img class="skill_letter" id="cl_enemy_refine_weapon_picture" src="skills/weapon.png"><select class="skill_select_short" data-var="enemies.cl.list.refine" id="cl_enemy_refine"></select>
 								</div>
-								<div class="skill_row"><img class="skill_picture" id="cl_enemy_assist_picture" src="skills/assist.png" onmouseover="showSkillTooltip('custom', 'assist');" onmouseout="hideSkillTooltip();"><select class="skill_select" data-var="enemies.cl.list.assist" id="cl_enemy_assist"></select></div>
-								<div class="skill_row"><img class="skill_picture" id="cl_enemy_special_picture" src="skills/special.png" onmouseover="showSkillTooltip('custom', 'special');" onmouseout="hideSkillTooltip();"><select class="skill_select" data-var="enemies.cl.list.special" id="cl_enemy_special"></select></div>
-								<div class="skill_row"><img class="skill_picture" id="cl_enemy_a_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('custom', 'a');" onmouseout="hideSkillTooltip();"><div class="skill_letter red">A</div><select class="skill_select" data-var="enemies.cl.list.a" id="cl_enemy_a"></select></div>
-								<div class="skill_row"><img class="skill_picture" id="cl_enemy_b_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('custom', 'b');" onmouseout="hideSkillTooltip();"><div class="skill_letter blue">B</div><select class="skill_select" data-var="enemies.cl.list.b" id="cl_enemy_b"></select></div>
-								<div class="skill_row"><img class="skill_picture" id="cl_enemy_c_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('custom', 'c');" onmouseout="hideSkillTooltip();"><div class="skill_letter green">C</div><select class="skill_select" data-var="enemies.cl.list.c" id="cl_enemy_c"></select></div>
-								<div class="skill_row"><img class="skill_picture" id="cl_enemy_s_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('custom', 's');" onmouseout="hideSkillTooltip();"><div class="skill_letter yellow">S</div><select class="skill_select" data-var="enemies.cl.list.s" id="cl_enemy_s"></select></div>
+								<div class="skill_row"><img class="skill_picture" id="cl_enemy_assist_picture" src="skills/assist.png" onmouseover="showSkillTooltip('custom', 'assist');" onmouseout="hideTooltip();"><select class="skill_select" data-var="enemies.cl.list.assist" id="cl_enemy_assist"></select></div>
+								<div class="skill_row"><img class="skill_picture" id="cl_enemy_special_picture" src="skills/special.png" onmouseover="showSkillTooltip('custom', 'special');" onmouseout="hideTooltip();"><select class="skill_select" data-var="enemies.cl.list.special" id="cl_enemy_special"></select></div>
+								<div class="skill_row"><img class="skill_picture" id="cl_enemy_a_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('custom', 'a');" onmouseout="hideTooltip();"><div class="skill_letter red">A</div><select class="skill_select" data-var="enemies.cl.list.a" id="cl_enemy_a"></select></div>
+								<div class="skill_row"><img class="skill_picture" id="cl_enemy_b_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('custom', 'b');" onmouseout="hideTooltip();"><div class="skill_letter blue">B</div><select class="skill_select" data-var="enemies.cl.list.b" id="cl_enemy_b"></select></div>
+								<div class="skill_row"><img class="skill_picture" id="cl_enemy_c_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('custom', 'c');" onmouseout="hideTooltip();"><div class="skill_letter green">C</div><select class="skill_select" data-var="enemies.cl.list.c" id="cl_enemy_c"></select></div>
+								<div class="skill_row"><img class="skill_picture" id="cl_enemy_s_picture" src="skills/noskill.png" onmouseover="showSkillTooltip('custom', 's');" onmouseout="hideTooltip();"><div class="skill_letter yellow">S</div><select class="skill_select" data-var="enemies.cl.list.s" id="cl_enemy_s"></select></div>
 							</div>
 							<div class="hero_misc">
 								<div class="misc_row">個体値
@@ -598,71 +657,84 @@
 			</div>
 		</div>
 		<div id="frame_rules">
-			<div id="rules_bar_top">
-				ラウンド順
-				<div class="bar_top_title_right">
-					<div class="button button_options" id="toggle_stat">統計表示</div>
+			<div class="frame_turns">
+				<div id="rules_bar_top">
+					ラウンド順
 				</div>
-				<div class="bar_top_title_right">
-					<div class="button button_options" id="toggle_options">オプション非表示</div>
-				</div>
-			</div>
-			<div id="rules_turnorder">
-				<div id="turnorder_left">
-					<div id="turnorder_label">攻撃側</div>
-					<div class="turnorder_button_row"><div class="button turnorder_button" id="add_turn_challenger_reset">自軍</div></div>
-					<div class="turnorder_button_row"><div class="button turnorder_button" id="add_turn_enemy_reset">敵</div></div>
-				</div>
-				<div id="turnorder_right">
-					<div id="turnorder_label">追加</div>
-					<div class="button turnorder_button" id="add_turn_challenger">自軍</div>
-					<div class="button turnorder_button" id="add_turn_enemy">敵</div>
-				</div>
-			</div>
-			<div id="turn_order">
-				<div id="turn_first">
-					<div class="turn_block">1</div>
-					<div class="turn_label" id="turn_0">
-						<span id="turn_text_0">自軍</span>
-						<div class="button turn_delete" id="turn_delete_0" onclick="deleteTurn(0);"></div>
-						<img id="turn_image_0" src="ui/challenger_sprite.png" height="62" width="62">
+				<div id="rules_turnorder">
+					<div id="turnorder_left">
+						<div id="turnorder_label">攻撃側</div>
+						<div class="turnorder_button_row"><div class="button turnorder_button" id="add_turn_challenger_reset">自軍</div></div>
+						<div class="turnorder_button_row"><div class="button turnorder_button" id="add_turn_enemy_reset">敵</div></div>
+					</div>
+					<div id="turnorder_right">
+						<div id="turnorder_label">追加</div>
+						<div class="button turnorder_button" id="add_turn_challenger">自軍</div>
+						<div class="button turnorder_button" id="add_turn_enemy">敵</div>
 					</div>
 				</div>
-				<div id="turn_second">
-					<div class="turn_block">2</div>
-					<div class="turn_label" id="turn_1">
-						<span id="turn_text_1">敵</span>
-						<div class="button turn_delete" id="turn_delete_1" onclick="deleteTurn(1);"></div>
-						<img id="turn_image_1" src="ui/enemy_sprite.png" height="62" width="62">
+				<div id="turn_order">
+					<div id="turn_first">
+						<div class="turn_block">1</div>
+						<div class="turn_label" id="turn_0">
+							<span id="turn_text_0">自軍</span>
+							<div class="button turn_delete" id="turn_delete_0" onclick="deleteTurn(0);"></div>
+							<img id="turn_image_0" src="ui/challenger_sprite.png" height="62" width="62">
+						</div>
 					</div>
-				</div>
+					<div id="turn_second">
+						<div class="turn_block">2</div>
+						<div class="turn_label" id="turn_1">
+							<span id="turn_text_1">敵</span>
+							<div class="button turn_delete" id="turn_delete_1" onclick="deleteTurn(1);"></div>
+							<img id="turn_image_1" src="ui/enemy_sprite.png" height="62" width="62">
+						</div>
+					</div>
 
-				<div id="turn_third">
-					<div class="turn_block">3</div>
-					<div class="turn_label" id="turn_2" style="display:none;">
-						<span id="turn_text_2"></span>
-						<div class="button turn_delete" id="turn_delete_2" onclick="deleteTurn(2);"></div>
-						<img id="turn_image_2" src="ui/challenger_sprite.png" height="62" width="62">
+					<div id="turn_third">
+						<div class="turn_block">3</div>
+						<div class="turn_label" id="turn_2" style="display:none;">
+							<span id="turn_text_2"></span>
+							<div class="button turn_delete" id="turn_delete_2" onclick="deleteTurn(2);"></div>
+							<img id="turn_image_2" src="ui/challenger_sprite.png" height="62" width="62">
+						</div>
 					</div>
-				</div>
-				<div id="turn_fourth">
-					<div class="turn_block">4</div>
-					<div class="turn_label" id="turn_3" style="display:none;">
-						<span id="turn_text_3"></span>
-						<div class="button turn_delete" id="turn_delete_3" onclick="deleteTurn(3);"></div>
-						<img id="turn_image_3" src="ui/challenger_sprite.png" height="62" width="62">
+					<div id="turn_fourth">
+						<div class="turn_block">4</div>
+						<div class="turn_label" id="turn_3" style="display:none;">
+							<span id="turn_text_3"></span>
+							<div class="button turn_delete" id="turn_delete_3" onclick="deleteTurn(3);"></div>
+							<img id="turn_image_3" src="ui/challenger_sprite.png" height="62" width="62">
+						</div>
 					</div>
 				</div>
 			</div>
-			<div id="turn_order_split">
+			<div class="frame_options">
+				<div id="rules_bar_top">
+					Menu
+				</div>
+				<div class="menu_options">
+					<div class="menu_filler"></div>
+					<div class="menu_radio">
+						<input type="radio" name="menu" class="menu_button" value="options" checked>設定<br>
+						<input type="radio" name="menu" class="menu_button" value="adjustments">調整<br>
+						<input type="radio" name="menu" class="menu_button" value="statistics">統計<br>
+						<input type="radio" name="menu" class="menu_button" value="close">コンパクト
+					</div>
+					<div class="menu_filler"></div>
+				</div>
+				<!--
+				<div id="display_left">
+					<div class="button button_options" id="toggle_stat">Show Statistics</div>
+				</div>
+				<div id="display_left">
+					<div class="button button_options" id="toggle_options">Hide Options</div>
+				</div>
+				-->
 			</div>
 		</div>
 		<div id="frame_results">
 			<div id="results_bar_top">
-				<!--
-				<div class="button" id="button_calculate" onclick="calculate();">計算</div> <input type="checkbox" data-var="options.autoCalculate" id="autocalculate" checked="checked"/>自動計算
-				<div id="results_bar_right"><span class="bar_label">ビュー </span><select id="view_results" data-var="options.viewFilter" class="duelrule_select"><option value="all" >全対戦</option><option value="changeVictor" >勝者が変更された</option><option value="changeRounds" >ラウンドが変更された</option><option value="changeDamage" >ダメージが変更された</option><option value="勝利" >勝利</option><option value="敗北" >敗北</option><option value="未決着" >未決着</option></select><span class="bar_label">並び替え</span><select id="sort_results" data-var="options.sortOrder" class="duelrule_select"><option value=1 >ベスト</option><option value=-1 >ワースト</option></select><div class="button" id="button_exportcalc" onclick="exportCalc();">結果出力</div></div>
-				-->
 				<div class="button" id="button_calculate" onclick="calculate(true);">計算</div>
 				<div id="results_bar_right">
 					<span class="bar_label">色</span>
@@ -680,12 +752,12 @@
 						<option value="ranged" >遠隔</option>
 					</select>
 					<span class="bar_label">兵種</span>
-					<select id="move_results" data-var="options.typeFilter">
+					<select id="type_results" data-var="options.typeFilter">
 						<option value="all" >全て</option>
 						<option value="infantry" >歩兵</option>
-						<option value="cavalry" >騎馬</option>
-						<option value="flying" >飛行</option>
 						<option value="armored" >重装</option>
+						<option value="flying" >飛行</option>
+						<option value="cavalry" >騎馬</option>
 					</select>
 					<span class="bar_label">ビュー</span>
 					<select id="view_results" data-var="options.viewFilter">
@@ -699,9 +771,10 @@
 					</select>
 					<span class="bar_label">並び替え</span>
 					<select id="sort_results" data-var="options.sortOrder">
-						<option value=1 >ベスト</option>
-						<option value=-1 selected>ワースト</option>
+						<option value="ベスト" >ベスト</option>
+						<option value="ワースト" selected>ワースト</option>
 					</select>
+					<div class="button" id="button_resetFilter" onclick="resetFilter();">リセット</div>
 					<div class="button" id="button_exportcalc" onclick="exportCalc();">結果出力</div>
 				</div>
 
@@ -713,7 +786,7 @@
 			<div id="winpercentages"><span class="results_stat">勝利 <span id="win_pct">-</span></span><span class="results_stat">敗北 <span id="lose_pct">-</span></span><span class="results_stat">未決着 <span id="inconclusive_pct">-</span></span></div>
 			<div id="results_list"></div>
 		</div>
-		<div id="footer"><a href="https://github.com/Andu2/FEH-Mass-Simulator">本家</a>. Last <a href="changelog.txt">updated</a> 2017-12-29. バグ等については <a href="https://twitter.com/krbysh_x86">@krbysh_x86</a> までご連絡ください。</div>
+		<div id="footer"><a href="https://github.com/Andu2/FEH-Mass-Simulator">本家</a>. Last <a href="changelog.txt">updated</a> 2018011401. バグ等については <a href="https://twitter.com/krbysh_x86">@krbysh_x86</a> までご連絡ください。</div>
 	</div>
 	<div id="frame_tooltip"></div>
 	<div id="screen_fade"></div>

@@ -1217,7 +1217,7 @@
 	},	{
 		"category": "Sol Katti",
 		"name_en": "Brash Assault",
-		"name": "差し違え",
+		"name": "ソール・カティ・専用",
 		"sp": 350,
 		"description": "If unit initiates combat with HP <= 75%, follow-up attacks occur immediately after unit's attack. Unit makes a guaranteed follow-up attack when HP <= 75% and attacking a foe that can counter.",
 		"description": "自分のＨＰが 75% 以下で、自分から攻撃した時、追撃可能なら自分の攻撃直後に追撃を行う 自分のＨＰが 75% 以下で、自分から攻撃した時、敵が反撃可能なら絶対追撃",
@@ -1287,7 +1287,7 @@
 	},	{
 		"category": "Mystletainn",
 		"name_en": "Fury",
-		"name": "獅子奮迅",
+		"name": "ミストルティン・専用",
 		"sp": 350,
 		"description": "Grants Atk/Spd/Def/Res+3. Unit takes 6 damage after combat.",
 		"description": "攻撃・速さ・守備・魔防 +3　戦闘後、自分に 6 ダメージ",
@@ -1353,7 +1353,7 @@
 	},	{
 		"category": "Siegmund",
 		"name_en": "Pursuit",
-		"name": "追撃",
+		"name": "ジークムント・専用",
 		"sp": 350,
 		"description": "Grants adjacent allies Atk+4 through their next actions at the start of each turn. Unit makes a guaranteed follow-up attack when HP >= 90% and attacking a foe that can counter.",
 		"description": "ターン開始時、周囲１マスの味方の攻撃 +4 (1ターン) 自分のＨＰが 90% 以上で、自分から攻撃した時、絶対追撃",
@@ -1422,8 +1422,8 @@
 		"prereq": "ジークムント"
 	},	{
 		"category": "Hauteclere",
-		"name": "Special Damage",
-		"name_en": "奥義ダメージ",
+		"name_en": "Special Damage",
+		"name": "オートクレール・専用",
 		"sp": 350,
 		"description": "Deals +10 damage when Special triggers.",
 		"description": "奥義発動時、奥義によるダメージ +10",
@@ -1489,7 +1489,7 @@
 	},	{
 		"category": "Fujin Yumi",
 		"name_en": "Follow",
-		"name": "グリモワール",
+		"name": "風神弓・専用",
 		"sp": 350,
 		"description": "If unit's HP ≥ 50%, unit can move adjacent to any ally within 2 spaces.",
 		"description": "自身のＨＰが 50% 以上の時、周囲２マス以内の味方の隣接マスに移動可能",
@@ -1555,7 +1555,7 @@
 	},	{
 		"category": "Deathly Dagger",
 		"name_en": "Magic Suppression",
-		"name": "敵魔法反撃不可",
+		"name": "死神の暗器・専用",
 		"sp": 350,
 		"description": "After combat, deals 10 damage to target and foes within 2 spaces of target. Foes using magic cannot counterattack.",
 		"description": "戦闘後、敵と、その周囲２マスの敵に 10 ダメージ　かつ守備・魔防 -7 (敵の次回行動終了まで) 敵が魔法の時、敵は反撃不可",
@@ -1621,5 +1621,58 @@
 		"res": 4,
 		"prereq": "Deathly Dagger",
 		"prereq": "死神の暗器"
+		},	{
+			"category": "Fujin Yumi",
+			"name_en": "Follow",
+			"name": "風神弓・専用",
+			"sp": 350,
+			"description": "If unit's HP ≥ 50%, unit can move adjacent to any ally within 2 spaces.",
+			"description": "自身のＨＰが 50% 以上の時、周囲２マス以内の味方の隣接マスに移動可能",
+			"hp": 0,
+			"atk": 0,
+			"spd": 0,
+			"def": 0,
+			"res": 0,
+			"prereq": "Fujin Yumi",
+			"prereq": "風神弓"
+		},	{
+			"category": "Fujin Yumi",
+			"name_en": "Atk Bonus",
+			"name": "攻撃",
+			"sp": 350,
+			"description": "",
+			"hp": 2,
+			"atk": 1,
+			"spd": 0,
+			"def": 0,
+			"res": 0,
+			"prereq": "Fujin Yumi",
+			"prereq": "風神弓"
+		},	{
+			"category": "Fujin Yumi",
+			"name_en": "Spd Bonus",
+			"name": "速さ",
+			"sp": 350,
+			"description": "",
+			"hp": 2,
+			"atk": 0,
+			"spd": 2,
+			"def": 0,
+			"res": 0,
+			"prereq": "Fujin Yumi",
+			"prereq": "風神弓"
+		},	{
+			"category": "Fujin Yumi",
+			"name_en": "Def Bonus",
+			"name": "守備",
+			"sp": 350,
+			"description": "",
+			"hp": 2,
+			"atk": 0,
+			"spd": 0,
+			"def": 3,
+			"res": 0,
+			"prereq": "Fujin Yumi",
+			"prereq": "風神弓"
 	}
 ]

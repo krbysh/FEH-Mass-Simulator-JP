@@ -6,8 +6,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-google.charts.load('current', {'packages':['corechart']});
-google.charts.load('current', {packages: ['corechart', 'bar']});
+google.charts.load('current', {packages: ['corechart']});
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -17,7 +16,16 @@ google.charts.load('current', {packages: ['corechart', 'bar']});
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-var hideOptions = localStorage['hideOptions'] || "false";
+var option_menu = localStorage['option_menu'] || "options";
+var option_colorFilter = localStorage['option_colorFilter'] || "all";
+var option_rangeFilter = localStorage['option_rangeFilter'] || "all";
+var option_typeFilter = localStorage['option_typeFilter'] || "all";
+var option_viewFilter = localStorage['option_viewFilter'] || "all";
+var option_sortOrder = localStorage['option_sortOrder'] || "worst";
+var option_showOnlyMaxSkills = localStorage['option_showOnlyMaxSkills'] || "true";
+var option_showOnlyDuelSkills = localStorage['option_showOnlyDuelSkills'] || "true";
+var option_autoCalculate = localStorage['option_autoCalculate'] || "true";
+var option_saveSettings = localStorage['option_saveSettings'] || "true";
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,9 +39,9 @@ var data = {};
 
 // Load JSON text from server hosted file and return JSON parsed object
 function loadJSON(filePath) {
-	// Load json file;
+	// Load JSON file;
 	var json = loadTextFileAjaxSync(filePath, "application/json");
-	// Parse json
+	// Parse JSON
 	return JSON.parse(json);
 }
 
@@ -133,11 +141,11 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"スリーズ (5★);Weapon: ブリザード;Special: 氷華;A: 魔防の城塞 3;B: 氷の封印;C: 魔防の謀策 3;",
-	"アクア(白夜のお正月) (5★);Weapon: 羽子板+;Assist: 歌う;B: 大地の舞い 3;C: 飛刃の鼓舞;",
-	"カミラ(白夜のお正月) (5★);Weapon: 門松+;Refine: 速さ - Advanced Melee;Special: 竜裂;A: 速さ守備の絆 3;C: 飛盾の紋章;",
-	"カムイ(男)(xxx) (5★);Weapon: 破魔矢+;Assist: 守備魔防の応援;A: 攻撃守備 2;C: 守備魔防の紋章 2;",
-	"タクミ(白夜のお正月) (5★);Weapon: 鏡餅+;Special: 月虹;A: 攻撃魔防の絆 3;B: 弓殺し 3;"
+	"カムイ(男)(新たな年を拓く者) (5★);Weapon: 破魔矢+;Assist: 守備魔防の応援;A: 攻撃守備 2;C: 守備魔防の紋章 2;",
+	"ミカヤ (5★);Weapon: セイニー;Assist: 癒しの手;A: 遠距離防御 3;B: キャンセル 3;C: 攻撃の大紋章 2;",
+	"サザ (5★);Weapon: ペシュカド;Special: 凶星;A: 死線 3;C: 攻撃速さの紋章 2;",
+	"ゼルギウス (5★);Weapon: エタルド;Special: 黒の月光;A: 鬼神の構え 3;B: 転移の粉;C: 恐慌の奇策 3;",
+	"オリヴァー (5★);Weapon: シャイン+;Special: 烈光;A: 鬼神明鏡の一撃 2;C: 攻撃の謀策 3;"
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -163,6 +171,7 @@ function initOptions(){
 
 	//Holder for options that aren't hero-specific
 	options = {};
+	options.saveSettings = true;
 	options.autoCalculate = true;
 	options.startTurn = 1;
 	//options.threatenRule = "なし";
@@ -173,14 +182,18 @@ function initOptions(){
 	options.rangeFilter = "all";
 	options.typeFilter = "all";
 	options.viewFilter = "all";
+	options.sortOrder = "ワースト";
 	options.customEnemyList = 0;
 	options.customEnemySelected = -1;
-	options.sortOrder = -1;
 	options.roundInitiators = ["自軍","敵"];
 
 	//Holder for side-specific options
+	options.chilled_challenger = false;
+	options.chilled_enemy = false;
 	options.panic_challenger = false;
 	options.panic_enemy = false;
+	options.harsh_command_challenger = false;
+	options.harsh_command_enemy = false;
 	options.candlelight_challenger = false;
 	options.candlelight_enemy = false;
 	options.defensive_challenger = false;
@@ -382,7 +395,6 @@ var calcuwaitTime = 0;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 $(document).ready(function(){
-
 	//Show incompatibility message: code does not work fr IE<9
 	//(Analytics show that the % of people who use IE<9 on my site is EXTREMELY low, like 1 in 30,000)
 	if(![].forEach){
@@ -395,7 +407,6 @@ $(document).ready(function(){
 	for(var i = 0; i < data.heroes.length; i++){
 		heroHTML += "<option value=" + i + " class=\"hero_option\">" + data.heroes[i].name + "</option>";
 	}
-
 	$("#challenger_name, #cl_enemy_name").html(heroHTML).select2({selectOnClose: true, dropdownAutoWidth : true});
 
 	//Inject select2 UI
@@ -414,7 +425,34 @@ $(document).ready(function(){
 	$("#enemies_mode").html(listHTML).select2({dropdownAutoWidth : true, width: '145px'});
 
 	//Set Options UI
-	showOptions(hideOptions == "false");
+	showOptions(option_menu);
+	$('input:radio[class=menu_button][value=' + option_menu + ']').prop('checked', true);
+
+	//Set filter UI
+	options.colorFilter = option_colorFilter;
+	$('#color_results').val(option_colorFilter).trigger('change.select2');
+	options.rangeFilter = option_rangeFilter;
+	$('#range_results').val(option_rangeFilter).trigger('change.select2');
+	options.typeFilter = option_typeFilter;
+	$('#type_results').val(option_typeFilter).trigger('change.select2');
+	options.viewFilter = option_viewFilter;
+	$('#view_results').val(option_viewFilter).trigger('change.select2');
+	options.sortOrder = option_sortOrder;
+	$('#sort_results').val(option_sortOrder).trigger('change.select2');
+
+	//Set chart UI
+	//TODO: cache this as well
+	$('#chart_type').val("enemies by color").trigger('change.select2');
+
+	//Set Settings UI
+	$('#saveSettings').prop('checked', (option_saveSettings == "true"));
+	options.showOnlyMaxSkills = (option_showOnlyMaxSkills == "true");
+	$('#rules_prereqs').prop('checked', (option_showOnlyMaxSkills == "true"));
+	options.hideUnaffectingSkills = (option_showOnlyDuelSkills == "true");
+	$('#rules_hideunaffecting').prop('checked', (option_showOnlyDuelSkills == "true"));
+	options.autoCalculate = (option_autoCalculate == "true");
+	$('#autoCalculate').prop('checked', (option_autoCalculate == "true"));
+
 	setSkillOptions(enemies.fl);
 	initEnemyList();
 	updateFullUI();
@@ -454,7 +492,7 @@ $(document).ready(function(){
 			}
 
 			var inputType = $(this).attr("type");
-			if(inputType=="number"){
+			if(inputType == "number"){
 				var min = $(this).attr("min");
 				var max = $(this).attr("max");
 				useCalcuwait = true;
@@ -465,7 +503,7 @@ $(document).ready(function(){
 					newVal = parseInt(newVal);
 				}
 			}
-			else if(inputType=="checkbox"){
+			else if(inputType == "checkbox"){
 				newVal = $(this).is(":checked");
 			}
 
@@ -530,6 +568,42 @@ $(document).ready(function(){
 				if(newVal == 0){
 					blockCalculate = true;
 				}
+			}
+
+			//Stuff specific to changing filter
+			if(endsWith(dataVar,".colorFilter")){
+				localStorage['option_colorFilter'] = newVal;
+			}
+			if(endsWith(dataVar,".rangeFilter")){
+				localStorage['option_rangeFilter'] = newVal;
+			}
+			if(endsWith(dataVar,".typeFilter")){
+				localStorage['option_typeFilter'] = newVal;
+			}
+			if(endsWith(dataVar,".viewFilter")){
+				localStorage['option_viewFilter'] = newVal;
+			}
+			if(endsWith(dataVar,".sortOrder")){
+				localStorage['option_sortOrder'] = newVal;
+			}
+			/*TODO: chartType cache
+			if(endsWith(dataVar,".chartType")){
+				localStorage['option_chartType'] = newVal;
+			}
+			*/
+
+			//Cache Settings
+			if(endsWith(dataVar,".showOnlyMaxSkills")){
+				localStorage['option_showOnlyMaxSkills'] = (options.showOnlyMaxSkills ? "true" : "false");
+			}
+			if(endsWith(dataVar,".hideUnaffectingSkills")){
+				localStorage['option_showOnlyDuelSkills'] = (options.hideUnaffectingSkills ? "true" : "false");
+			}
+			if(endsWith(dataVar,".autoCalculate")){
+				localStorage['option_autoCalculate'] = (options.autoCalculate ? "true" : "false");
+			}
+			if(endsWith(dataVar,".saveSettings")){
+				localStorage['option_saveSettings'] = (options.saveSettings ? "true" : "false");
 			}
 
 			for(var i = 0; i < varsThatUpdateFl.length; i++){
@@ -643,6 +717,7 @@ $(document).ready(function(){
 			calculate();
 		}
 	})
+
 	//Custom List Reset Buttons
 	$(".adj_reset_button").click(function(){
 		if (this.id == "reset_health"){
@@ -651,16 +726,6 @@ $(document).ready(function(){
 			resetCustomListBuffs();
 		}
 		calculate();
-	})
-
-	//Show Options Buttons
-	$(".button_options").click(function(){
-		if (this.id == "toggle_options"){
-			showOptions(hideOptions == "true");
-		}
-		if (this.id == "toggle_stat"){
-			toggleStat();
-		}
 	})
 
 	//Import/Export Buttons
@@ -675,6 +740,10 @@ $(document).ready(function(){
 		}
 		showImportDialog(target,type);
 	})
+
+	$(".menu_button").click(function() {
+	  showOptions($('input[name=menu]:checked').val());
+	});
 
 	$("#import_exit").click(function(){
 		hideImportDialog();
@@ -735,6 +804,18 @@ $(document).ready(function(){
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function initSettings(){
+	localStorage['option_menu'] = "options";
+	localStorage['option_colorFilter'] = "all";
+	localStorage['option_rangeFilter'] = "all";
+	localStorage['option_typeFilter'] = "all";
+	localStorage['option_viewFilter'] = "all";
+	localStorage['option_sortOrder'] = "worst";
+	localStorage['option_showOnlyMaxSkills'] = "true";
+	localStorage['option_showOnlyDuelSkills'] = "true";
+	localStorage['option_autoCalculate'] = "true";
+}
 
 function initHero(hero, alreadyHasSkills){
 	if(hero.index != -1){
@@ -916,6 +997,7 @@ function getValidRefineSkills(hero){
 			validSkills.push(i);
 		}
 	}
+
 	return validSkills;
 }
 
@@ -1079,10 +1161,10 @@ function setStats(hero){
 	}
 	else if(typeof hero.index != "undefined" && hero.index != -1){
 		var growthValMod = {"hp":0,"atk":0,"spd":0,"def":0,"res":0};
-		if(hero.boon!="none"){
+		if(hero.boon != "none"){
 			growthValMod[hero.boon]+=1;
 		}
-		if(hero.bane!="none"){
+		if(hero.bane != "none"){
 			growthValMod[hero.bane]-=1;
 		}
 
@@ -1437,7 +1519,6 @@ function adjustCustomListBuff(isStat){
 
 //Reset buffs for heroes in custom list
 function resetCustomListBuffs(isFlat){
-	//console.log("Resetting buffs");
 	//Reset all custom list hero buffs and debuffs to 0
 	enemies.cl.list.forEach(function(hero){
 		if (hero.buffs.hp != 0 || hero.debuffs.hp != 0){
@@ -1714,67 +1795,42 @@ function updateFlEnemies(){
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //TODO: Clean all these mid UI functions up
-function showOptions(show){
-	if (show){
-		setWideUI(true);
-		toggleMidUI("options");
+function showOptions(option){
+	if (option == "options"){
+		$("#frame_settings").show();
 	}
 	else{
-		if (!$("#frame_stat").is(':hidden') && $("#toggle_options").text() == "オプション表示"){
-			toggleMidUI("stat_close");
-		}else{
-			$("#frame_adj").hide();
-			$("#toggle_options").text("オプション表示");
-			hideOptions = "true";
-			localStorage["hideOptions"] = "true";
-			setWideUI(false);
-
-		}
+		$("#frame_settings").hide();
 	}
-}
 
-function toggleStat(){
-	if ($("#frame_stat").is(':hidden')){
-		setWideUI(true);
-		toggleMidUI("stat");
-	}else{
-		toggleMidUI("stat_close");
+	if (option == "adjustments"){
+		$("#frame_adjustments").show();
+	}
+	else{
+		$("#frame_adjustments").hide();
+	}
+
+	if (option == "statistics"){
+		$("#frame_statistics").show();
+	}
+	else{
+		$("#frame_statistics").hide();
+	}
+
+	if (option == "close"){
 		setWideUI(false);
 	}
-}
+	else{
+		setWideUI(true);
+	}
 
-function toggleMidUI(ui){
-	if (ui == "options"){
-		$("#frame_adj").show();
-		$("#toggle_options").text("オプション非表示");
-		hideOptions = "false";
-		localStorage["hideOptions"] = "false";
-		$("#frame_stat").hide();
-		$("#toggle_stat").text("統計表示");
-	}
-	if (ui == "stat"){
-		//Change options to show
-		$("#toggle_options").text("オプション表示");
-		//Show statistics UI
-		$("#frame_stat").show();
-		$("#toggle_stat").text("統計非表示");
-		drawChart();
-	}
-	if (ui == "stat_close"){
-		//If options UI is open, change button to hide
-		if (!$("#frame_adj").is(':hidden')){
-			$("#toggle_options").text("オプション非表示");
-		}
-		//Hide statistics UI
-		$("#frame_stat").hide();
-		$("#toggle_stat").text("統計表示");
-	}
+	localStorage["option_menu"] = option;
 }
 
 function setWideUI(setWide){
 	//If another mid UI is open, do not change width
 	if (!setWide){
-		if (!$("#frame_stat").is(':hidden') || !$("#frame_adj").is(':hidden')){
+		if (!$("#frame_statistics").is(':hidden') || !$("#frame_adjustments").is(':hidden') || !$("#frame_settings").is(':hidden')){
 			return;
 		}
 	}
@@ -1789,6 +1845,27 @@ function setWideUI(setWide){
 	$("#results_graph_back").width($("#frame_main").width() - 4);
 	$("#results_graph_wins").width($("#results_graph_wins").width() * $("#results_graph_back").width() / originBarWidth);
 	$("#results_graph_losses").width($("#results_graph_losses").width() * $("#results_graph_back").width() / originBarWidth);
+}
+
+//Reset filter select options
+function resetFilter(){
+	//Set filter UI
+	options.colorFilter = "全て";
+	localStorage['option_colorFilter'] = "全て";
+	$('#color_results').val(options.colorFilter).trigger('change.select2');
+	options.rangeFilter = "全て";
+	localStorage['option_rangeFilter'] = "全て";
+	$('#range_results').val(options.rangeFilter).trigger('change.select2');
+	options.typeFilter = "全て";
+	localStorage['option_typeFilter'] = "全て";
+	$('#type_results').val(options.typeFilter).trigger('change.select2');
+	options.viewFilter = "全対戦";
+	localStorage['option_viewFilter'] = "全対戦";
+	$('#view_results').val(options.viewFilter).trigger('change.select2');
+	options.sortOrder = "ワースト";
+	localStorage['option_sortOrder'] = "ワースト";
+	$('#sort_results').val(options.sortOrder).trigger('change.select2');
+	calculate();
 }
 
 //Select2 match function for matching starting characters
@@ -2130,9 +2207,45 @@ function showResultsTooltip(e,resultDiv){
 	$("#frame_tooltip").html(fightResults[resultId].fightText).show();
 }
 
-function hideResultsTooltip(){
-	showingTooltip = false;
-	$("#frame_tooltip").hide();
+function showHeroTooltip(heroType){
+	var hero;
+	var tooltipText;
+
+	//Set hero to selected hero type
+	switch (heroType){
+		case "challenger":
+			hero = challenger;
+			break;
+		case "list":
+			hero = enemies.fl;
+			break;
+		case "custom":
+			(options.customEnemySelected == -1) ? hero = -1 : hero = enemies.cl.list[options.customEnemySelected];
+			break;
+	}
+
+	if (hero != -1 && hero.index != -1){
+		showingTooltip = true;
+
+		tooltipText = "<span class=\"bold\">" + data.heroes[hero.index].name + "</span><br>";
+		tooltipText += " ＨＰ 基準値: <font color=\"#fefec8\">" + data.heroes[hero.index].basehp + "</font><br>";
+		tooltipText += " 攻撃 基準値: <font color=\"#fefec8\">" + data.heroes[hero.index].baseatk + "</font><br>";
+		tooltipText += " 速さ 基準値: <font color=\"#fefec8\">" + data.heroes[hero.index].basespd + "</font><br>";
+		tooltipText += " 守備 基準値: <font color=\"#fefec8\">" + data.heroes[hero.index].basedef + "</font><br>";
+		tooltipText += " 魔謀 基準値: <font color=\"#fefec8\">" + data.heroes[hero.index].baseres + "</font><br>";
+		/*
+		tooltipText += "<span class=\"bold\">" +  + "</span>";
+		tooltipText += " SP: <font color=\"#fefec8\">" +  + "</font><br>";
+		tooltipText += " HP: <font color=\"#fefec8\">" +  + "</font>";
+		tooltipText += " Atk: <font color=\"#fefec8\">" +  + "</font>";
+		tooltipText += " Spd: <font color=\"#fefec8\">" +  + "</font>";
+		tooltipText += " Def: <font color=\"#fefec8\">" +  + "</font>";
+		tooltipText += " Res: <font color=\"#fefec8\">" +  + "</font><br>";
+		tooltipText += data.refine[skillID].description;
+		*/
+
+		$("#frame_tooltip").html(tooltipText).show();
+	}
 }
 
 function showSkillTooltip(heroType, skillType){
@@ -2214,7 +2327,7 @@ function showSkillTooltip(heroType, skillType){
 	}
 }
 
-function hideSkillTooltip(){
+function hideTooltip(){
 	showingTooltip = false;
 	$("#frame_tooltip").hide();
 }
@@ -2227,7 +2340,6 @@ function resetTurn(turnName){
 	}
 	$("#turn_text_" + options.roundInitiators.length).html(turnName);
 	$("#turn_" + options.roundInitiators.length).show();
-	//console.log(turnName);
 	$("#turn_image_" + options.roundInitiators.length).attr("src", "ui/" + ((turnName == "自軍") ? "challenger" : "enemy") + "_sprite.png");
 	options.roundInitiators.push(turnName);
 	calculate();
@@ -2332,6 +2444,7 @@ function showImportDialog(side,type){
 	$("#button_clear").click(function(){
 		$("#importinput").val("");
 	})
+
 	$("#screen_fade").show();
 	$("#frame_import").show();
 }
@@ -2593,9 +2706,7 @@ function importText(side, customList){
 				data.blessType.forEach(function(blessType){
 					if(blessSplit[blessLine].slice(0,blessType.length) == blessType){
 						dataFound.bless = blessType;
-						//console.log("Bless: " + dataFound.bless);
 						dataFound.blessStack = parseInt(blessSplit[blessLine].replace( /^\D+/g, ''));
-						//console.log("BlessStack: " + dataFound.blessStack);
 					}
 				});
 			}
@@ -2730,7 +2841,6 @@ function importText(side, customList){
 				}
 			});
 		}
-		//***Implement Support Key***
 		else if(key == "summoner" || key == "ally"){
 			data.support.forEach(function(support){
 				if(keyValue[1].indexOf(support) != -1){
@@ -3277,12 +3387,12 @@ function fight(enemyIndex,resultIndex){
 	//Filter Type
 	if (ahEnemy.moveType == "infantry"){
 		passFilters.push("infantry");
-	}else if (ahEnemy.moveType == "cavalry"){
-		passFilters.push("cavalry");
+	}else if (ahEnemy.moveType == "armored"){
+		passFilters.push("armored");
 	}else if (ahEnemy.moveType == "flying"){
 		passFilters.push("flying");
-	}else{
-		passFilters.push("armored");
+	}else if (ahEnemy.moveType == "cavalry"){
+		passFilters.push("cavalry");
 	}
 
 	if(enemyList[enemyIndex].lastFightResult){
@@ -3369,7 +3479,7 @@ function fight(enemyIndex,resultIndex){
 	collectStatistics(ahChallenger, ahEnemy, outcome);
 
 	//Generate fight HTML
-	fightHTML = ["<div class=\"results_entry\" id=\"result_" + resultIndex + "\" onmouseover=\"showResultsTooltip(event,this);\" onmouseout=\"hideResultsTooltip();\">",
+	fightHTML = ["<div class=\"results_entry\" id=\"result_" + resultIndex + "\" onmouseover=\"showResultsTooltip(event,this);\" onmouseout=\"hideTooltip();\">",
 		"<div class=\"results_hpbox\">",
 			"<div class=\"results_hplabel\">HP</div>",
 			"<div class=\"results_hpnums\">",
@@ -3434,6 +3544,7 @@ function calculate(manual){
 	//manual = true if button was clicked
 	//calculates results and also adds them to page
 	if(options.autoCalculate || manual){
+
 		//Reset statistics
 		resetStatistics();
 
@@ -3534,19 +3645,18 @@ function getComparisonWeight(fightResult){
 
 function outputResults(){
 	//function separate from calculation so user can re-sort without recalculating
-	//options.sortOrder is 1 or -1
 	//Hide results that aren't different if view is set to changed only
 	//options.viewFilter is 0 or 1 or 2
 	var outputHTML = "";
 
-	if(options.sortOrder==1){
+	if(options.sortOrder == "ベスト"){
 		for(var i = 0; i < resultHTML.length; i++){
 			if(filterResult(i)){
 				outputHTML += resultHTML[i].html;
 			}
 		}
 	}
-	else if(options.sortOrder==-1){
+	else if(options.sortOrder == "ワースト"){
 		for(var i = resultHTML.length-1; i >= 0; i--){
 			if(filterResult(i)){
 				outputHTML += resultHTML[i].html;
@@ -4328,7 +4438,7 @@ function activeHero(hero){
 	}
 
 	//Checks if refine name matches refine index exactly and returns boolean
-	//eg. this.hasExactlyAtIndex("Refine Option", this.refineIndex)
+	//eg. this.hasAtRefineIndex("Refine Option", this.refineIndex)
 	this.hasAtRefineIndex = function(skill, index){
 		if(index != -1){
 			if (data.refine[index].name == skill){
@@ -4543,6 +4653,41 @@ function activeHero(hero){
 		return chargingText;
 	}
 
+	this.turnStartDebuff = function(enemy){
+		var debuffText = "";
+		var skillNames = [];
+		var debuffVal = {"atk":0,"spd":0,"def":0,"res":0};
+		var statJp;
+
+		//Chilling Seal Debuff
+		if ((enemy.challenger && options.chilled_challenger) || (!enemy.chalenger && options.chilled_enemy)){
+			debuffVal.atk = -6;
+			debuffVal.spd = -6;
+			skillNames.push("氷の封印");
+		}
+
+		if(skillNames.length > 0){
+			var statChanges = [];
+			for(var stat in debuffVal){
+				if(debuffVal[stat] < Math.min(enemy.debuffs[stat], enemy.combatDebuffs[stat])){
+					if(stat == "atk")	statJp = "攻撃";
+					if(stat == "spd")	statJp = "速さ";
+					if(stat == "def")	statJp = "守備";
+					if(stat == "res")	statJp = "魔防";
+					enemy.combatDebuffs[stat] = debuffVal[stat];
+//					statChanges.push(stat + " " + debuffVal[stat]);
+					statChanges.push(statJp + " " + debuffVal[stat]);
+				}
+			}
+
+			if(statChanges.length > 0){
+				debuffText += enemy.name + " は、ターン開始時に" + skillNames.join("、") + " の影響を受ける。"  + enemy.name + " は、" + statChanges.join("、") + " の効果を受ける。<br>";
+			}
+		}
+
+		return debuffText;
+	}
+
 	this.defiant = function(){
 		var defiantText = "";
 		var skillName = "";
@@ -4744,49 +4889,54 @@ function activeHero(hero){
 			}
 
 			//Bond skills
-			if (this.has("攻撃速さの絆")){
-				buffVal = this.has("攻撃速さの絆") + 2;
+			if (this.hasAtIndex("攻撃速さの絆", this.aIndex)){
+				buffVal = this.hasAtIndex("攻撃速さの絆", this.aIndex) + 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.atk += buffVal;
 				this.combatSpur.spd += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果で味方と隣接しているため、攻撃、速さ +" + buffVal + " 。<br>";
 			}
-			if (this.has("攻撃守備の絆")){
-				buffVal = this.has("攻撃守備の絆") + 2;
+			if (this.hasAtIndex("攻撃守備の絆", this.aIndex)){
+				buffVal = this.hasAtIndex("攻撃守備の絆", this.aIndex) + 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.atk += buffVal;
 				this.combatSpur.def += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果で味方と隣接しているため、攻撃、守備 +" + buffVal + " 。<br>";
 			}
-
-			if (this.has("攻撃魔防の絆")){
-				buffVal = this.has("攻撃魔防の絆") + 2;
+			if (this.hasAtIndex("攻撃魔防の絆", this.aIndex)){
+				buffVal = this.hasAtIndex("攻撃魔防の絆", this.aIndex) + 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.atk += buffVal;
 				this.combatSpur.res += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果で、味方と隣接している時、攻撃、魔防 +" + buffVal + " 。<br>";
 			}
-
-			if (this.has("速さ守備の絆")){
-				buffVal = this.has("速さ守備の絆") + 2;
+			if (this.hasAtIndex("速さ守備の絆", this.aIndex)){
+				buffVal = this.hasAtIndex("速さ守備の絆", this.aIndex) + 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.spd += buffVal;
 				this.combatSpur.def += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果で、味方と隣接している時、速さ、守備 +" + buffVal + " 。<br>";
 			}
-			if (this.has("速さ魔防の絆")){
-				buffVal = this.has("速さ魔防の絆") + 2;
+			if (this.hasAtIndex("速さ魔防の絆", this.aIndex)){
+				buffVal = this.hasAtIndex("速さ魔防の絆", this.aIndex) + 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.spd += buffVal;
 				this.combatSpur.res += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果で、味方と隣接している時、速さ、魔防 +" + buffVal +  "。<br>";
 			}
-			if (this.has("守備魔防の絆")){
-				buffVal = this.has("守備魔防の絆") + 2;
+			if (this.hasAtIndex("守備魔防の絆", this.aIndex)){
+				buffVal = this.hasAtIndex("守備魔防の絆", this.aIndex) + 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.def += buffVal;
 				this.combatSpur.res += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果で、味方と隣接している時、守備、魔防 +" + buffVal + " 。<br>";
+			}
+			if (this.hasAtRefineIndex("シムベリン・固有", this.refineIndex)){
+				buffVal = 5;
+				skillName = "シムベリン・固有";
+				this.combatSpur.atk += buffVal;
+				this.combatSpur.res += buffVal;
+				boostText += this.name + " は、" + skillName + "(錬成) の効果で、飛行の味方が２マス以内にいる時、攻撃、魔防 +" + buffVal + " 。<br>";
 			}
 		}
 
@@ -4808,9 +4958,13 @@ function activeHero(hero){
 				this.combatSpur.def += 4;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、ＨＰ 50% 以下の時、守備 +4 。<br>";
 			}
-			if(this.hasExactly("パルティア")){
+			if(this.hasExactly("パルティア") && this.refineIndex == -1){
 				this.combatSpur.res += 4;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、自分から攻撃時、魔防 +4 。<br>";
+			}
+			if (this.hasAtRefineIndex("パルティア・固有", this.refineIndex) && enemy.range == "ranged"){
+				this.combatSpur.atk += 6;
+				boostText += this.name + " は、" + data.refine[this.refineIndex].name + "(錬成) の効果で、戦闘中、攻撃 +6 。<br>";
 			}
 			if(this.hasExactly("黒き血の大剣")){
 				this.combatSpur.atk += 4;
@@ -4998,6 +5152,10 @@ function activeHero(hero){
 				this.combatSpur.res += 6;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、弓、暗器、魔法、杖の敵から敵から攻撃された時、守備、魔防 +6 。<br>";
 			}
+			if (this.hasAtRefineIndex("パルティア・固有", this.refineIndex) && enemy.range == "ranged"){
+				this.combatSpur.atk += 6;
+				boostText += this.name + " は、" + data.refine[this.refineIndex].name + "(錬成) の効果で、戦闘中、攻撃 +6 。<br>";
+			}
 
 			//Skills
 			if(this.has("金剛の呼吸")){
@@ -5108,7 +5266,7 @@ function activeHero(hero){
 				damageText += this.name + " は、"  + skillName + " の効果で、戦闘後、" + damage + " ダメージ。<br>";
 				totalDamage += damage;
 			}
-			if(this.hasAtRefineIndex("獅子奮迅", this.refineIndex)){
+			if(this.hasAtRefineIndex("ミストルティン・専用", this.refineIndex)){
 				damage = 6;
 				skillName = data.skills[this.weaponIndex].name;
 				damageText += this.name + " は、"  + skillName + "(錬成) の効果で、戦闘後、" + damage + " ダメージ。<br>";
@@ -5241,6 +5399,9 @@ function activeHero(hero){
 			if (this.hasExactly("鉄の暗器") || this.hasExactly("鋼の暗器")){
 				sealStats(data.skills[this.weaponIndex].name, ["def","res"], [-7]);
 			}
+			if (this.hasExactly("ペシュカド")){
+				sealStats(data.skills[this.weaponIndex].name, ["atk","spd","def","res"], [-4]);
+			}
 			if (this.hasExactly("紫煙の暗器+") && this.refineIndex != -1){
 				sealStats(data.skills[this.weaponIndex].name, ["atk","spd","def","res"], [-6]);
 			}
@@ -5308,6 +5469,10 @@ function activeHero(hero){
 
 			if((this.hasExactly("ファーストバイト+") || this.hasExactly("キューピッドの矢+") || this.hasExactly("聖なるブーケ+")) && this.refineIndex != -1){
 				buffStat(data.skills[this.weaponIndex].name + "(錬成)", ["def", "res"], 5);
+			}
+
+			if (this.hasExactly("ペシュカド")){
+				buffStat(data.skills[this.weaponIndex].name, ["atk","spd","def","res"], 4);
 			}
 
 			if((this.hasExactly("光のブレス+")) && this.refineIndex != -1){
@@ -5469,7 +5634,6 @@ function activeHero(hero){
 			if (enemy.panicked){
 				atkbonus += Math.max(enemy.buffs.atk,enemy.combatBuffs.atk) + Math.max(enemy.buffs.spd,enemy.combatBuffs.spd) + Math.max(enemy.buffs.def,enemy.combatBuffs.def) + Math.max(enemy.buffs.res,enemy.combatBuffs.res);
 			}
-			//console.log(atkbonus);
 			thisEffAtk += atkbonus;
 			if(!AOE && atkbonus != 0){damageText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、攻撃 +" + atkbonus + " 。<br>";}
 		}
@@ -5514,7 +5678,7 @@ function activeHero(hero){
 				if(AOEActivated){
 					this.resetCharge();
 
-					if(this.has("倭刀") || this.hasExactly("共鳴エクスカリバー") || this.hasExactly("気鋭ワユの剣") || this.hasExactly("奥義ダメージ")){
+					if(this.has("倭刀") || this.hasExactly("共鳴エクスカリバー") || this.hasExactly("気鋭ワユの剣") || this.hasExactly("オートクレール・専用")){
 						AOEDamage += 10;
 						damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 					}
@@ -5619,7 +5783,7 @@ function activeHero(hero){
 				this.resetCharge();
 				damageText += this.name + " は、" + data.skills[this.specialIndex].name + " を発動。<br>";
 
-				if(this.has("倭刀") || this.hasExactly("共鳴エクスカリバー") || this.hasExactly("気鋭ワユの剣") || this.hasExactly("奥義ダメージ")){
+				if(this.has("倭刀") || this.hasExactly("共鳴エクスカリバー") || this.hasExactly("気鋭ワユの剣") || this.hasExactly("オートクレール・専用")){
 					dmgBoostFlat += 10;
 					damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 				}
@@ -5828,7 +5992,8 @@ function activeHero(hero){
 			var effectiveBonus = 1;
 			if(enemy.moveType == "armored" && (this.has("ハンマー") || this.has("ハンマー鍛")
 				|| this.has("アーマーキラー") || this.has("アーマーキラー鍛")
-				|| this.has("貫きの槍") || this.has("貫きの槍鍛"))){
+				|| this.has("貫きの槍") || this.has("貫きの槍鍛")
+				|| this.hasExactly("セイニー"))){
 				effectiveBonus = (enemy.has("スヴェルの盾")) ? 1 : 1.5;
 			}
 			else if(enemy.moveType == "flying" && (this.hasExactly("エクスカリバー") || this.weaponType=="bow")){
@@ -5841,10 +6006,11 @@ function activeHero(hero){
 				|| this.has("ホースキラー")
 				|| this.has("ラウアウルフ") || this.has("ラウアウルフ鍛")
 				|| this.has("ブラーウルフ") || this.has("ブラーウルフ鍛")
-				|| this.has("グルンウルフ") || this.has("グルンウルフ鍛"))){
+				|| this.has("グルンウルフ") || this.has("グルンウルフ鍛")
+				|| this.hasExactly("セイニー"))){
 				effectiveBonus = (enemy.has("グラ二の盾")) ? 1 : 1.5;
 			}
-			else if(enemy.weaponType == "dragon" && (this.has("ファルシオン") || this.has("ナーガ"))){
+			else if(enemy.weaponType == "dragon" && (this.hasExactly("ファルシオン") || this.hasExactly("ナーガ") || this.hasExactly("聖書ナーガ"))){
 				effectiveBonus = 1.5;
 			}
 			else if((enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" || enemy.weaponType == "greentome") && (this.has("猫の暗器"))){
@@ -5883,7 +6049,15 @@ function activeHero(hero){
 				//Weapon
 				if (enemy.hasExactly("聖剣ティルフィング") && (this.weaponType == "redtome" || this.weaponType == "bluetome" || this.weaponType == "greentome")){
 					dmgReduction *= 0.5;
-					damageText += enemy.name + "の 聖剣ティルフィング の効果で、" + this.name + "の魔法ダメージは 50% 軽減。<br>";
+					damageText += enemy.name + " の 聖剣ティルフィング の効果で、" + this.name + " の魔法ダメージは 50% 軽減。<br>";
+				}
+				if (enemy.hasExactly("セイニー") && (this.moveType == "armored" || this.moveType == "cavalry") && (this.range == "ranged")){
+					dmgReduction *= 0.7;
+					damageText += enemy.name + " の セイニー の効果で、" + this.name + " のダメージは 30% 軽減。<br>";
+				}
+				if (enemy.hasExactly("パルティア") && enemy.refineIndex != -1 && (this.weaponType == "redtome" || this.weaponType == "bluetome" || this.weaponType == "greentome")){
+					dmgReduction *= 0.7;
+					damageText += enemy.name + " の パルティア(錬成) の効果で、" + this.name + " の魔法ダメージは 30% 軽減。<br>";
 				}
 			}
 
@@ -6030,7 +6204,6 @@ function activeHero(hero){
 			damageText += this.name + " は、" + enemy.name + " に対して <span class=\"highlight\">" + dmg + "</span> ダメージ。<br>";
 
 			//After damage defensive special effects
-			//***Does this count weapon triangle reductions? Reduction value > damage dealt?***
 			if(defensiveSpecialActivated){
 				//Ice Mirror damage charge up check
 				if (enemy.has("氷の聖鏡")){
@@ -6226,6 +6399,10 @@ function activeHero(hero){
 		if(!galeforce){
 			//Check self buffs (defiant skills)
 			roundText += this.defiant();
+
+			//Check for enemy debuffs
+			roundText += this.turnStartDebuff(this);
+			roundText += this.turnStartDebuff(enemy);
 
 			//Apply renewal effects
 			roundText += this.renewal(renew);
@@ -6547,7 +6724,7 @@ function activeHero(hero){
 			enemyCanCounter = false;
 		}
 
-		if(this.has("敵魔法反撃不可") && (enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" ||enemy.weaponType == "greentome")){
+		if(this.has("死神の暗器・専用") && (enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" ||enemy.weaponType == "greentome")){
 			roundText += enemy.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) の効果で反撃不可。<br>";
 			enemyCanCounter = false;
 		}
@@ -6558,7 +6735,7 @@ function activeHero(hero){
 				thisAutoFollow = true;
 			}
 		}
-		if (this.has("ソール・カティ") && this.hp/this.maxHp <= .75 && this.hasAtRefineIndex("差し違え", this.refineIndex) && (this.range == enemy.range || anyRangeCounter) && enemyCanCounter){
+		if (this.has("ソール・カティ") && this.hp/this.maxHp <= .75 && this.hasAtRefineIndex("ソール・カティ・専用", this.refineIndex) && (this.range == enemy.range || anyRangeCounter) && enemyCanCounter){
 			thisAutoFollow = true;
 		}
 		if (this.hasAtIndex("攻撃隊形", this.bIndex)){
@@ -6566,7 +6743,7 @@ function activeHero(hero){
 				thisAutoFollow = true;
 			}
 		}
-		if (this.hasAtRefineIndex("追撃", this.refineIndex) && (this.combatStartHp / this.maxHp >= 0.9)){
+		if (this.hasAtRefineIndex("ジークムント・専用", this.refineIndex) && (this.combatStartHp / this.maxHp >= 0.9)){
 			thisAutoFollow = true;
 		}
 		if(this.hasExactly("追撃リング") && (this.combatStartHp / this.maxHp >= 0.5)){
