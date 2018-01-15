@@ -2210,6 +2210,7 @@ function showResultsTooltip(e,resultDiv){
 function showHeroTooltip(heroType){
 	var hero;
 	var tooltipText;
+	var statJp;
 
 	//Set hero to selected hero type
 	switch (heroType){
@@ -2224,28 +2225,108 @@ function showHeroTooltip(heroType){
 			break;
 	}
 
-	if (hero != -1 && hero.index != -1){
-		showingTooltip = true;
-
-		tooltipText = "<span class=\"bold\">" + data.heroes[hero.index].name + "</span><br>";
-		tooltipText += " ＨＰ 基準値: <font color=\"#fefec8\">" + data.heroes[hero.index].basehp + "</font><br>";
-		tooltipText += " 攻撃 基準値: <font color=\"#fefec8\">" + data.heroes[hero.index].baseatk + "</font><br>";
-		tooltipText += " 速さ 基準値: <font color=\"#fefec8\">" + data.heroes[hero.index].basespd + "</font><br>";
-		tooltipText += " 守備 基準値: <font color=\"#fefec8\">" + data.heroes[hero.index].basedef + "</font><br>";
-		tooltipText += " 魔謀 基準値: <font color=\"#fefec8\">" + data.heroes[hero.index].baseres + "</font><br>";
-		/*
-		tooltipText += "<span class=\"bold\">" +  + "</span>";
-		tooltipText += " SP: <font color=\"#fefec8\">" +  + "</font><br>";
-		tooltipText += " HP: <font color=\"#fefec8\">" +  + "</font>";
-		tooltipText += " Atk: <font color=\"#fefec8\">" +  + "</font>";
-		tooltipText += " Spd: <font color=\"#fefec8\">" +  + "</font>";
-		tooltipText += " Def: <font color=\"#fefec8\">" +  + "</font>";
-		tooltipText += " Res: <font color=\"#fefec8\">" +  + "</font><br>";
-		tooltipText += data.refine[skillID].description;
-		*/
-
-		$("#frame_tooltip").html(tooltipText).show();
+	//If hero is undefined or empty, do nothing
+	if (hero == -1 || hero.index == -1){
+		return;
 	}
+
+	//Show tooltip
+	showingTooltip = true;
+	var base = {};
+	base.hp = data.heroes[hero.index].basehp;
+	base.atk = data.heroes[hero.index].baseatk;
+	base.spd = data.heroes[hero.index].basespd;
+	base.def = data.heroes[hero.index].basedef;
+	base.res = data.heroes[hero.index].baseres;
+
+	if (hero.rarity < 5){
+		//Subtract 2 from every stat to revert 5* base stats to 1*
+		base.hp -= 2;
+		base.atk -= 2;
+		base.spd -= 2;
+		base.def -= 2;
+		base.res -= 2;
+
+		//Sort stat bonus order of base stats
+		var rarityBaseOrder = ["atk","spd","def","res"];
+		var boostPriority = {"hp":4,"atk":3,"spd":2,"def":1,"res":0};
+		rarityBaseOrder.sort(function(a,b){
+			if(base[a]>base[b]){
+				return -1;
+			}
+			else if(base[a]<base[b]){
+				return 1;
+			}
+			else{
+				if(boostPriority[a]>boostPriority[b]){
+					return -1;
+				}
+				else{
+					return 1;
+				}
+			}
+		});
+
+		//Push hp last for 3* and 5* since it is 2 stat boost per * (2 stat -> 2 stat -> 2 stat + hp -> 2 stat -> 2 stat + hp)
+		rarityBaseOrder.push("hp");
+
+		//Add bonus to 1* base stats to rarity values
+		var rarityBoostCount = Math.floor((hero.rarity-1) * 2.5);
+		for(var i = 0; i < rarityBoostCount; i++){
+			base[rarityBaseOrder[i%5]]++;
+		}
+	}
+
+	//Add IV stats
+	var growthValMod = {"hp":0,"atk":0,"spd":0,"def":0,"res":0};
+	if(hero.boon != "none"){
+		growthValMod[hero.boon] += 1;
+	}
+	if(hero.bane != "none"){
+		growthValMod[hero.bane] -= 1;
+	}
+	base.hp += growthValMod.hp;
+	base.atk += growthValMod.atk;
+	base.spd += growthValMod.spd;
+	base.def += growthValMod.def;
+	base.res += growthValMod.res;
+
+	//Print tooltip text
+	tooltipText = "<span class=\"bold\">" + data.heroes[hero.index].name + " (";
+	if ((hero.boon == "none" && hero.bane == "none") || hero.boon == hero.bane){
+		tooltipText += "基準値";
+	}else{
+		//Print boon first
+		for (var stat in growthValMod){
+			if (growthValMod.hasOwnProperty(stat) && growthValMod[stat] > 0) {
+				if(stat == "hp")	statJp = "ＨＰ";
+				if(stat == "atk")	statJp = "攻撃";
+				if(stat == "spd")	statJp = "速さ";
+				if(stat == "def")	statJp = "守備";
+				if(stat == "res")	statJp = "魔防";
+				tooltipText += statJp + "↑";
+			}
+		}
+		//Print bane second
+		for (var stat in growthValMod){
+			if (growthValMod.hasOwnProperty(stat) && growthValMod[stat] < 0) {
+				if(stat == "hp")	statJp = "ＨＰ";
+				if(stat == "atk")	statJp = "攻撃";
+				if(stat == "spd")	statJp = "速さ";
+				if(stat == "def")	statJp = "守備";
+				if(stat == "res")	statJp = "魔防";
+				tooltipText += statJp + "↓";
+			}
+		}
+	}
+	tooltipText += ") " + "☆".repeat(hero.rarity) + " </span><br>";
+	tooltipText += " ＨＰ: <font color=\"#fefec8\">" + base.hp + "</font><br>";
+	tooltipText += " 攻撃: <font color=\"#fefec8\">" + base.atk + "</font><br>";
+	tooltipText += " 速さ: <font color=\"#fefec8\">" + base.spd + "</font><br>";
+	tooltipText += " 守備: <font color=\"#fefec8\">" + base.def + "</font><br>";
+	tooltipText += " 魔防: <font color=\"#fefec8\">" + base.res + "</font><br>";
+
+	$("#frame_tooltip").html(tooltipText).show();
 }
 
 function showSkillTooltip(heroType, skillType){
