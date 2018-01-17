@@ -293,7 +293,8 @@ function initOptions(){
 	enemies.fl.isFl = true;
 	enemies.fl.list = []; //May not actually use - might be too much redundant data
 
-	enemies.fl.include = {"melee":1,"ranged":1,"red":1,"blue":1,"green":1,"gray":1,"physical":1,"magical":1,"infantry":1,"cavalry":1,"flying":1,"armored":1,"staff":0,"nonstaff":1};
+	//enemies.fl.include = {"melee":1,"ranged":1,"red":1,"blue":1,"green":1,"gray":1,"physical":1,"magical":1,"infantry":1,"cavalry":1,"flying":1,"armored":1,"staff":0,"nonstaff":1};
+	enemies.fl.include = {"melee":1,"ranged":1,"red":1,"blue":1,"green":1,"gray":1,"physical":1,"magical":1,"infantry":1,"cavalry":1,"flying":1,"armored":1,"staff":0,"nonstaff":1,"dragon":1,"nondragon":1};
 
 	enemies.fl.merge = 0;
 	enemies.fl.rarity = 5;
@@ -1650,7 +1651,8 @@ function resetHero(hero,blockInit){//also resets fl, despite singular name - pas
 			hero.replaceC = 0;
 			hero.replaceS = 0;
 
-			hero.include = {"melee":1,"ranged":1,"red":1,"blue":1,"green":1,"gray":1,"physical":1,"magical":1,"infantry":1,"cavalry":1,"flying":1,"armored":1,"staff":0,"nonstaff":1};
+			//hero.include = {"melee":1,"ranged":1,"red":1,"blue":1,"green":1,"gray":1,"physical":1,"magical":1,"infantry":1,"cavalry":1,"flying":1,"armored":1,"staff":0,"nonstaff":1};
+			hero.include = {"melee":1,"ranged":1,"red":1,"blue":1,"green":1,"gray":1,"physical":1,"magical":1,"infantry":1,"cavalry":1,"flying":1,"armored":1,"staff":0,"nonstaff":1,"dragon":1,"nondragon":1};
 
 			if(!blockInit){
 				initEnemyList();
@@ -1752,6 +1754,12 @@ function setFlEnemies(){
 			confirmed = false;
 		}
 		else if(!enemies.fl.include["nonstaff"] && data.heroes[i].weapontype != "staff"){
+			confirmed = false;
+		}
+		else if(!enemies.fl.include["dragon"] && data.heroes[i].weapontype == "dragon"){
+			confirmed = false;
+		}
+		else if(!enemies.fl.include["nondragon"] && data.heroes[i].weapontype != "dragon"){
 			confirmed = false;
 		}
 		if(confirmed){
@@ -2938,7 +2946,8 @@ function importText(side, customList){
 			});
 		}
 		else if(includeObject){
-			var value = {"melee":0,"ranged":0,"red":0,"blue":0,"green":0,"gray":0,"physical":0,"magical":0,"infantry":0,"cavalry":0,"flying":0,"armored":0,"staff":0,"nonstaff":0};
+//			var value = {"melee":0,"ranged":0,"red":0,"blue":0,"green":0,"gray":0,"physical":0,"magical":0,"infantry":0,"cavalry":0,"flying":0,"armored":0,"staff":0,"nonstaff":0};
+			var value = {"melee":0,"ranged":0,"red":0,"blue":0,"green":0,"gray":0,"physical":0,"magical":0,"infantry":0,"cavalry":0,"flying":0,"armored":0,"staff":0,"nonstaff":0,"dragon":0,"nondragon":0};
 			var splitInclude = trySplit(keyValue[1],[","," "]);
 			for(var i = 0; i < splitInclude.length; i++){
 				for(var includeKey in value){

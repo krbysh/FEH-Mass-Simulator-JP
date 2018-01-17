@@ -617,14 +617,14 @@ svg > g > g:last-child { pointer-events: none }
 .includebuttons_row{
 	position:relative;
 	margin-top:1px;
-	height:22px;
+	height:20px;
 }
 
 .wideincludebutton{
 	text-align:center;
 	font-size:12px;
-	height:20px;
-	line-height:20px;
+	height:18px;
+	line-height:18px;
 	width:132px;
 	display:inline-block;
 	border-radius:2px;
@@ -635,8 +635,8 @@ svg > g > g:last-child { pointer-events: none }
 }
 
 .thinincludebutton{
-	height:20px;
-	line-height:20px;
+	height:18px;
+	line-height:18px;
 	text-align:center;
 	width:64px;
 	font-size:12px;
