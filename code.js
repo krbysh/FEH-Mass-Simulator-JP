@@ -2267,7 +2267,7 @@ function showHeroTooltip(heroType){
 			}
 		});
 
-		//Push hp last for 3* and 5* since it is 2 stat boost per * (2 stat -> 2 stat -> 2 stat + hp -> 2 stat -> 2 stat + hp)
+		//Push hp last for 3* and 5* since it is 2 stat boost per * (Base -> +2 stat -> +2 stat + hp -> +2 stat -> +2 stat + hp)
 		rarityBaseOrder.push("hp");
 
 		//Add bonus to 1* base stats to rarity values
@@ -4600,7 +4600,19 @@ function activeHero(hero){
 				//Seals
 				if(this.hasAtIndex("攻撃の謀策", this.sIndex)){
 					threatDebuffs.atk = Math.min(threatDebuffs.atk,-this.hasAtIndex("攻撃の謀策", this.sIndex)-2);
-					skillNames.push(data.skills[this.sIndex].name + " (聖印)");
+					skillNames.push(data.skills[this.sIndex].name + "(聖印)");
+				}
+				if(this.hasAtIndex("速さの謀策", this.sIndex)){
+					threatDebuffs.spd = Math.min(threatDebuffs.spd,-this.hasAtIndex("速さの謀策", this.sIndex)-2);
+					skillNames.push(data.skills[this.sIndex].name + "(聖印)");
+				}
+				if(this.hasAtIndex("守備の謀策", this.sIndex)){
+					threatDebuffs.def = Math.min(threatDebuffs.def,-this.hasAtIndex("守備の謀策", this.sIndex)-2);
+					skillNames.push(data.skills[this.sIndex].name + "(聖印)");
+				}
+				if(this.hasAtIndex("魔防の謀策", this.sIndex)){
+					threatDebuffs.res = Math.min(threatDebuffs.res,-this.hasAtIndex("魔防の謀策", this.sIndex)-2);
+					skillNames.push(data.skills[this.sIndex].name + "(聖印)");
 				}
 			}
 			//恐慌の奇策
@@ -4611,7 +4623,7 @@ function activeHero(hero){
 			//恐慌の奇策 Seal
 			if(this.hasAtIndex("恐慌の奇策", this.sIndex) && this.hp > enemy.hp + 6 - this.hasAtIndex("恐慌の奇策", this.sIndex) * 2){
 				enemy.panicked = true;
-				threatenText += this.name + " は、" + data.skills[this.sIndex].name + " (聖印) を発動、" + enemy.name + "に、パニック の効果を付与。<br>";
+				threatenText += this.name + " は、" + data.skills[this.sIndex].name + "(聖印) を発動、" + enemy.name + "に、パニック の効果を付与。<br>";
 			}
 		}
 
@@ -4623,7 +4635,7 @@ function activeHero(hero){
 		}
 		if(this.hasAtIndex("攻撃の威嚇", this.sIndex)){
 			threatDebuffs.atk = Math.min(threatDebuffs.atk,-this.hasAtIndex("攻撃の威嚇", this.sIndex)-2);
-			skillNames.push(data.skills[this.sIndex].name + " (聖印)");
+			skillNames.push(data.skills[this.sIndex].name + "(聖印)");
 		}
 		if(this.hasAtIndex("速さの威嚇", this.cIndex)){
 			threatDebuffs.spd = Math.min(threatDebuffs.spd,-this.hasAtIndex("速さの威嚇", this.cIndex)-2);
@@ -4631,7 +4643,7 @@ function activeHero(hero){
 		}
 		if(this.hasAtIndex("速さの威嚇", this.sIndex)){
 			threatDebuffs.spd = Math.min(threatDebuffs.spd,-this.hasAtIndex("速さの威嚇", this.sIndex)-2);
-			skillNames.push(data.skills[this.sIndex].name + " (聖印)");
+			skillNames.push(data.skills[this.sIndex].name + "(聖印)");
 		}
 		if(this.hasAtIndex("守備の威嚇", this.cIndex)){
 			threatDebuffs.def = Math.min(threatDebuffs.def,-this.hasAtIndex("守備の威嚇", this.cIndex)-2);
@@ -4639,7 +4651,7 @@ function activeHero(hero){
 		}
 		if(this.hasAtIndex("守備の威嚇", this.sIndex)){
 			threatDebuffs.def = Math.min(threatDebuffs.def,-this.hasAtIndex("守備の威嚇", this.sIndex)-2);
-			skillNames.push(data.skills[this.sIndex].name + " (聖印)");
+			skillNames.push(data.skills[this.sIndex].name + "(聖印)");
 		}
 		if(this.hasAtIndex("魔防の威嚇", this.cIndex)){
 			threatDebuffs.res = Math.min(threatDebuffs.res,-this.hasAtIndex("魔防の威嚇", this.cIndex)-2);
@@ -4647,7 +4659,7 @@ function activeHero(hero){
 		}
 		if(this.hasAtIndex("魔防の威嚇", this.sIndex)){
 			threatDebuffs.res = Math.min(threatDebuffs.res,-this.hasAtIndex("魔防の威嚇", this.sIndex)-2);
-			skillNames.push(data.skills[this.sIndex].name + " (聖印)");
+			skillNames.push(data.skills[this.sIndex].name + "(聖印)");
 		}
 
 		//Weapons
@@ -5421,30 +5433,81 @@ function activeHero(hero){
 		}
 
 		//Seals
-		if(this.has("攻撃封じ")){
-			sealValue.atk = -this.has("攻撃封じ") * 2 - 1;
+		var debuffValue = 0;
+		if (this.hasAtIndex("攻撃封じ", this.bIndex)){
+			debuffValue = -this.hasAtIndex("攻撃封じ", this.bIndex) * 2 - 1;
+			sealValue.atk = (sealValue.atk < debuffValue) ? sealValue.atk : debuffValue;
 			skillNames.push(data.skills[this.bIndex].name);
 		}
-		if(this.has("攻撃速さ封じ")){
-//			sealValue.spd = -this.has("攻撃速さ封じ") * 2 - 1;
-			sealValue.atk = -this.has("攻撃速さ封じ") * 2 - 1;
+		if (this.hasAtIndex("攻撃封じ", this.sIndex)){
+			debuffValue = -this.hasAtIndex("攻撃封じ", this.sIndex) * 2 - 1;
+			sealValue.atk = (sealValue.atk < debuffValue) ? sealValue.atk : debuffValue;
+			skillNames.push(data.skills[this.sIndex].name + "(聖印)");
+		}
+		if (this.hasAtIndex("速さ封じ", this.bIndex)){
+			debuffValue = -this.hasAtIndex("速さ封じ", this.bIndex) * 2 - 1;
+			sealValue.spd = (sealValue.spd < debuffValue) ? sealValue.spd : debuffValue;
 			skillNames.push(data.skills[this.bIndex].name);
 		}
-		if(this.has("攻撃守備封じ")){
-//			sealValue.def = -this.has("攻撃守備封じ") * 2 - 1;
-			sealValue.atk = -this.has("攻撃守備封じ") * 2 - 1;
+		if (this.hasAtIndex("速さ封じ", this.sIndex)){
+			debuffValue = -this.hasAtIndex("速さ封じ", this.sIndex) * 2 - 1;
+			sealValue.spd = (sealValue.spd < debuffValue) ? sealValue.spd : debuffValue;
+			skillNames.push(data.skills[this.sIndex].name + "(聖印)");
+		}
+		if (this.hasAtIndex("守備封じ", this.bIndex)){
+			debuffValue = -this.hasAtIndex("守備封じ", this.bIndex) * 2 - 1;
+			sealValue.def = (sealValue.def < debuffValue) ? sealValue.def : debuffValue;
 			skillNames.push(data.skills[this.bIndex].name);
 		}
-		if(this.has("速さ封じ")){ //Will count for seal atk speed as well
-			sealValue.spd = -this.has("速さ封じ") * 2 - 1;
+		if (this.hasAtIndex("守備封じ", this.sIndex)){
+			debuffValue = -this.hasAtIndex("守備封じ", this.sIndex) * 2 - 1;
+			sealValue.def = (sealValue.def < debuffValue) ? sealValue.def : debuffValue;
+			skillNames.push(data.skills[this.sIndex].name + "(聖印)");
+		}
+		if (this.hasAtIndex("魔防封じ", this.bIndex)){
+			debuffValue = -this.hasAtIndex("魔防封じ", this.bIndex) * 2 - 1;
+			sealValue.res = (sealValue.res < debuffValue) ? sealValue.res : debuffValue;
 			skillNames.push(data.skills[this.bIndex].name);
 		}
-		if(this.has("守備封じ")){ //Will count for seal atk def as well
-			sealValue.def = -this.has("守備封じ") * 2 - 1;
+		if( this.hasAtIndex("魔防封じ", this.sIndex)){
+			debuffValue = -this.hasAtIndex("魔防封じ", this.sIndex) * 2 - 1;
+			sealValue.res = (sealValue.res < debuffValue) ? sealValue.res : debuffValue;
+			skillNames.push(data.skills[this.sIndex].name + "(聖印)");
+		}
+		if (this.hasAtIndex("攻撃速さ封じ", this.bIndex)){
+			debuffValue = -this.hasAtIndex("攻撃速さ封じ", this.bIndex) * 2 - 1;
+			sealValue.atk = (sealValue.atk < debuffValue) ? sealValue.atk : debuffValue;
+			sealValue.spd = (sealValue.spd < debuffValue) ? sealValue.spd : debuffValue;
 			skillNames.push(data.skills[this.bIndex].name);
 		}
-		if(this.has("魔防封じ")){
-			sealValue.res = -this.has("魔防封じ") * 2 - 1;
+		if (this.hasAtIndex("攻撃守備封じ", this.bIndex)){
+			debuffValue = -this.hasAtIndex("攻撃守備封じ", this.bIndex) * 2 - 1;
+			sealValue.atk = (sealValue.atk < debuffValue) ? sealValue.atk : debuffValue;
+			sealValue.def = (sealValue.def < debuffValue) ? sealValue.def : debuffValue;
+			skillNames.push(data.skills[this.bIndex].name);
+		}
+		if (this.hasAtIndex("攻撃魔防封じ", this.bIndex)){
+			debuffValue = -this.hasAtIndex("攻撃魔防封じ", this.bIndex) * 2 - 1;
+			sealValue.atk = (sealValue.atk < debuffValue) ? sealValue.atk : debuffValue;
+			sealValue.res = (sealValue.res < debuffValue) ? sealValue.res : debuffValue;
+			skillNames.push(data.skills[this.bIndex].name);
+		}
+		if (this.hasAtIndex("速さ守備封じ", this.bIndex)){
+			debuffValue = -this.hasAtIndex("速さ守備封じ", this.bIndex) * 2 - 1;
+			sealValue.spd = (sealValue.spd < debuffValue) ? sealValue.spd : debuffValue;
+			sealValue.def = (sealValue.def < debuffValue) ? sealValue.def : debuffValue;
+			skillNames.push(data.skills[this.bIndex].name);
+		}
+		if (this.hasAtIndex("速さ魔防封じ", this.bIndex)){
+			debuffValue = -this.hasAtIndex("速さ魔防封じ", this.bIndex) * 2 - 1;
+			sealValue.spd = (sealValue.spd < debuffValue) ? sealValue.spd : debuffValue;
+			sealValue.res = (sealValue.res < debuffValue) ? sealValue.res : debuffValue;
+			skillNames.push(data.skills[this.bIndex].name);
+		}
+		if (this.hasAtIndex("守備魔防封じ", this.bIndex)){
+			debuffValue = -this.hasAtIndex("守備魔防封じ", this.bIndex) * 2 - 1;
+			sealValue.def = (sealValue.def < debuffValue) ? sealValue.def : debuffValue;
+			sealValue.res = (sealValue.res < debuffValue) ? sealValue.res : debuffValue;
 			skillNames.push(data.skills[this.bIndex].name);
 		}
 
@@ -5500,7 +5563,7 @@ function activeHero(hero){
 		var statChanges = [];
 		var statJp;
 
-		for(var stat in sealValue){
+		for (var stat in sealValue){
 			if(stat == "atk")	statJp = "攻撃";
 			if(stat == "spd")	statJp = "速さ";
 			if(stat == "def")	statJp = "守備";
@@ -5512,7 +5575,7 @@ function activeHero(hero){
 			}
 		}
 
-		if(skillNames.length > 0){
+		if (skillNames.length > 0){
 			if(statChanges.length > 0){
 				sealText += this.name + " は、" + skillNames.join("、") + " の効果で、" + enemy.name + " に " + statChanges.join("、") + "。<br>";
 			}
@@ -5565,7 +5628,7 @@ function activeHero(hero){
 		var statChanges = [];
 		var statJp;
 
-		for(var stat in buffValue){
+		for (var stat in buffValue){
 			if(buffValue[stat] > this.combatBuffs[stat]){
 				if(stat == "atk")	statJp = "攻撃";
 				if(stat == "spd")	statJp = "速さ";
@@ -6600,7 +6663,10 @@ function activeHero(hero){
 		//Check for 切り返し
 		var quickRiposte = false;
 		if(enemy.has("切り返し")){
-			if(enemy.combatStartHp/enemy.maxHp >= 1 - 0.1 * enemy.has("Quick Riposte")){
+			if(enemy.combatStartHp/enemy.maxHp >= 1 - 0.1 * enemy.hasAtIndex("切り返し", enemy.bIndex)){
+				quickRiposte = true;
+			}
+			if(enemy.combatStartHp/enemy.maxHp >= 1 - 0.1 * enemy.hasAtIndex("切り返し", enemy.sIndex)){
 				quickRiposte = true;
 			}
 		}
