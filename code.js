@@ -5746,7 +5746,7 @@ function activeHero(hero){
 		} else if(this.has("ラウアブレード") || this.has("ブラーブレード") || this.has("グルンブレード")){
 			var bladebonus = Math.max(this.buffs.atk,this.combatBuffs.atk) + Math.max(this.buffs.spd,this.combatBuffs.spd) + Math.max(this.buffs.def,this.combatBuffs.def) + Math.max(this.buffs.res,this.combatBuffs.res);
 			thisEffAtk += bladebonus;
-			if(!AOE && bladebonus != 0){damageText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、ダメージ +" + bladebonus + " 。<br>";}
+			if(!AOE && bladebonus != 0){damageText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、攻撃 +" + bladebonus + " 。<br>";}
 		}
 
 		//Defender relevant stats
@@ -5764,12 +5764,15 @@ function activeHero(hero){
 			enemyEffDef = enemy.def + Math.min(enemy.debuffs.def,enemy.combatDebuffs.def) + enemy.spur.def + enemy.combatSpur.def;
 			enemyEffRes = enemy.res + Math.min(enemy.debuffs.res,enemy.combatDebuffs.res) + enemy.spur.res + enemy.combatSpur.res;
 			if(!AOE){damageText += enemy.name + " の強化は敵のスキルにより、無効化される。<br>";}
+
+		}
 		//Bladetome bonus
-		} else if(enemy.has("ラウアブレード") || enemy.has("ブラーブレード") || enemy.has("グルンブレード")){
+		//***Does this happen? eg. Heavy Blade vs bladetome user, is bladetome bonus relevant on defense against Heavy Blade??***
+		/*else if(enemy.has("ラウアブレード") || enemy.has("ブラーブレード") || enemy.has("グルンブレード")){
 			var bladebonus = Math.max(this.buffs.atk,this.combatBuffs.atk) + Math.max(this.buffs.spd,this.combatBuffs.spd) + Math.max(this.buffs.def,this.combatBuffs.def) + Math.max(this.buffs.res,this.combatBuffs.res);
 			enemyEffAtk += bladebonus;
 			//if(!AOE && bladebonus != 0){damageText += enemy.name + " は、" + data.skills[enemy.weaponIndex].name + " の効果で、ダメージ +" + bladebonus + " 。<br>";}
-		}
+		}*/
 
 		//Blizzard bonus
 		//TODO: Check panic debuff interaction
