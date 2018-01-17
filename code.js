@@ -4893,6 +4893,12 @@ function activeHero(hero){
 				break;
 		}
 
+		//Combat buff
+		if (this.hasAtRefineIndex("パルティア・固有", this.refineIndex) && enemy.range == "ranged"){
+			this.combatSpur.atk += 6;
+			boostText += this.name + " は、" + data.refine[this.refineIndex].name + "(錬成) の効果で、遠距離の敵に対して、戦闘中、攻撃 +6 。<br>";
+		}
+
 		//Brazen skills
 		if(this.combatStartHp / this.maxHp <= 0.8){
 			if(this.has("攻撃守備の大覚醒")){
@@ -5055,10 +5061,6 @@ function activeHero(hero){
 				this.combatSpur.res += 4;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、自分から攻撃時、魔防 +4 。<br>";
 			}
-			if (this.hasAtRefineIndex("パルティア・固有", this.refineIndex) && enemy.range == "ranged"){
-				this.combatSpur.atk += 6;
-				boostText += this.name + " は、" + data.refine[this.refineIndex].name + "(錬成) の効果で、戦闘中、攻撃 +6 。<br>";
-			}
 			if(this.hasExactly("黒き血の大剣")){
 				this.combatSpur.atk += 4;
 				this.combatSpur.spd += 4;
@@ -5179,13 +5181,13 @@ function activeHero(hero){
 					buffVal = this.hasAtIndex("遠距離防御", this.aIndex) * 2;
 					this.combatSpur.def += buffVal;
 					this.combatSpur.res += buffVal;
-					boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で弓、暗器、魔法、杖の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
+					boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で遠距離の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
 				}
 				if(this.hasAtIndex("遠距離防御", this.sIndex)){
 					buffVal = this.hasAtIndex("遠距離防御", this.sIndex) * 2;
 					this.combatSpur.def += buffVal;
 					this.combatSpur.res += buffVal;
-					boostText += this.name + " は、" + data.skills[this.sIndex].name + " (聖印) の効果で弓、暗器、魔法、杖の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
+					boostText += this.name + " は、" + data.skills[this.sIndex].name + " (聖印) の効果で遠距離の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
 				}
 			}
 			if(enemy.range == "melee"){
@@ -5193,13 +5195,13 @@ function activeHero(hero){
 					buffVal = this.hasAtIndex("近距離防御", this.aIndex) * 2;
 					this.combatSpur.def += buffVal;
 					this.combatSpur.res += buffVal;
-					boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で剣、槍、斧、竜の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
+					boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で近距離の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
 				}
 				if(this.hasAtIndex("近距離防御", this.sIndex)){
 					buffVal = this.hasAtIndex("近距離防御", this.sIndex) * 2;
 					this.combatSpur.def += buffVal;
 					this.combatSpur.res += buffVal;
-					boostText += this.name + " は、" + data.skills[this.sIndex].name + " (聖印) の効果で剣、槍、斧、竜の敵近距離から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
+					boostText += this.name + " は、" + data.skills[this.sIndex].name + " (聖印) の効果で近距離の敵近距離から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
 				}
 			}
 
@@ -5245,10 +5247,6 @@ function activeHero(hero){
 				this.combatSpur.res += 6;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、弓、暗器、魔法、杖の敵から敵から攻撃された時、守備、魔防 +6 。<br>";
 			}
-			if (this.hasAtRefineIndex("パルティア・固有", this.refineIndex) && enemy.range == "ranged"){
-				this.combatSpur.atk += 6;
-				boostText += this.name + " は、" + data.refine[this.refineIndex].name + "(錬成) の効果で、戦闘中、攻撃 +6 。<br>";
-			}
 
 			//Skills
 			if(this.has("金剛の呼吸")){
@@ -5264,8 +5262,8 @@ function activeHero(hero){
 			}
 
 			//***Speed Stance not in game - need to rename***
-			if(this.has("Speed Stance")){
-				buffVal = this.has("Speed Stance") * 2;
+			if(this.has("飛燕の構え")){
+				buffVal = this.has("飛燕の構え") * 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.spd += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果で、敵から攻撃された時、速さ +" + buffVal + " 。<br>";
@@ -5764,15 +5762,15 @@ function activeHero(hero){
 			enemyEffDef = enemy.def + Math.min(enemy.debuffs.def,enemy.combatDebuffs.def) + enemy.spur.def + enemy.combatSpur.def;
 			enemyEffRes = enemy.res + Math.min(enemy.debuffs.res,enemy.combatDebuffs.res) + enemy.spur.res + enemy.combatSpur.res;
 			if(!AOE){damageText += enemy.name + " の強化は敵のスキルにより、無効化される。<br>";}
-
-		}
 		//Bladetome bonus
-		//***Does this happen? eg. Heavy Blade vs bladetome user, is bladetome bonus relevant on defense against Heavy Blade??***
-		/*else if(enemy.has("ラウアブレード") || enemy.has("ブラーブレード") || enemy.has("グルンブレード")){
+		//TODO: Check if bladetome bonus is relevant in enemy phase against Heavy Blade
+		//Bladetome bonus
+		}
+		else if(enemy.has("ラウアブレード") || enemy.has("ブラーブレード") || enemy.has("グルンブレード")){
 			var bladebonus = Math.max(this.buffs.atk,this.combatBuffs.atk) + Math.max(this.buffs.spd,this.combatBuffs.spd) + Math.max(this.buffs.def,this.combatBuffs.def) + Math.max(this.buffs.res,this.combatBuffs.res);
 			enemyEffAtk += bladebonus;
-			//if(!AOE && bladebonus != 0){damageText += enemy.name + " は、" + data.skills[enemy.weaponIndex].name + " の効果で、ダメージ +" + bladebonus + " 。<br>";}
-		}*/
+			if(!AOE && bladebonus != 0){damageText += enemy.name + " は、" + data.skills[enemy.weaponIndex].name + " の効果で、攻撃 +" + bladebonus + " 。<br>";}
+		}
 
 		//Blizzard bonus
 		//TODO: Check panic debuff interaction
