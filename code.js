@@ -4906,7 +4906,7 @@ function activeHero(hero){
 		}
 
 		//Combat buff
-		if (this.hasAtRefineIndex("パルティア・固有", this.refineIndex) && enemy.range == "ranged"){
+		if (this.hasAtRefineIndex("パルティア・専用", this.refineIndex) && enemy.range == "ranged"){
 			this.combatSpur.atk += 6;
 			boostText += this.name + " は、" + data.refine[this.refineIndex].name + "(錬成) の効果で、遠距離の敵に対して、戦闘中、攻撃 +6 。<br>";
 		}
@@ -5042,9 +5042,9 @@ function activeHero(hero){
 				this.combatSpur.res += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果で、味方と隣接している時、守備、魔防 +" + buffVal + " 。<br>";
 			}
-			if (this.hasAtRefineIndex("シムベリン・固有", this.refineIndex)){
+			if (this.hasAtRefineIndex("シムベリン・専用", this.refineIndex)){
 				buffVal = 5;
-				skillName = "シムベリン・固有";
+				skillName = "シムベリン・専用";
 				this.combatSpur.atk += buffVal;
 				this.combatSpur.res += buffVal;
 				boostText += this.name + " は、" + skillName + "(錬成) の効果で、飛行の味方が２マス以内にいる時、攻撃、魔防 +" + buffVal + " 。<br>";
@@ -5753,6 +5753,7 @@ function activeHero(hero){
 			thisEffRes = this.res + Math.min(this.debuffs.res,this.combatDebuffs.res) + this.spur.res + this.combatSpur.res;
 			if(!AOE){damageText += this.name + " の強化は敵のスキルにより、無効化される。<br>";}
 		//Bladetome bonus
+		//TODO: Find out if bladetomes affect AOE specials
 		} else if(this.has("ラウアブレード") || this.has("ブラーブレード") || this.has("グルンブレード")){
 			var bladebonus = Math.max(this.buffs.atk,this.combatBuffs.atk) + Math.max(this.buffs.spd,this.combatBuffs.spd) + Math.max(this.buffs.def,this.combatBuffs.def) + Math.max(this.buffs.res,this.combatBuffs.res);
 			thisEffAtk += bladebonus;
@@ -5839,17 +5840,6 @@ function activeHero(hero){
 						AOEDamage += 10;
 						damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 					}
-					//Wrath damage is checked when special is activated
-					//***Apparently Wrath does not affect AOE skills***
-					/*
-					if(this.has("怒り")){
-						if(this.hp/this.maxHp <= .25 * this.has("怒り")){
-							AOEDamage += 10;
-							damageText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
-						}
-					}
-					*/
-
 					if(enemy.has("エンブラの加護")){
 						AOEDamage = 0;
 					}
@@ -5986,7 +5976,7 @@ function activeHero(hero){
 						Cancel Affinity 1 = negate extra disadvantage	(Extra -20% to 0%)		(Total -20%)
 						Cancel Affinity 2 = negate extra disadvantage	(Extra -20% to 0%)		(Total -20%)
 						Cancel Affinity 3 = reverse extra disadvantage	(Extra -20% to +20%)	(Total 0%)
-					Disadvantarged Gem Weapon or 相性激化:								(Base +20%)
+					Disadvantaged Gem Weapon or 相性激化:								(Base +20%)
 						Cancel Affinity 1 = negate extra advantage		(Extra +20% to 0%)		(Total +20%)
 						Cancel Affinity 2 = keep extra advantage		(Extra +20% to +20%)	(Total +40%)
 						Cancel Affinity 3 = keep extra advantage		(Extra +20% to +20%)	(Total +40%)
@@ -6621,7 +6611,6 @@ function activeHero(hero){
 		var thisEffSpd = this.spd + Math.max(this.buffs.spd,this.combatBuffs.spd) + Math.min(this.debuffs.spd,this.combatDebuffs.spd) + this.spur.spd + this.combatSpur.spd;
 		var enemyEffSpd = enemy.spd + Math.max(enemy.buffs.spd,enemy.combatBuffs.spd) + Math.min(enemy.debuffs.spd,enemy.combatDebuffs.spd) + enemy.spur.spd + enemy.combatSpur.spd;
 		//Buff cancellation and reversion - Spd calculations
-		//***May require change depending on order of application between Panic and null skills***
 		if(this.panicked){
 			thisEffSpd = this.spd - Math.max(this.buffs.spd,this.combatBuffs.spd) + Math.min(this.debuffs.spd,this.combatDebuffs.spd) + this.spur.spd + this.combatSpur.spd;
 		} else if(isBuffCancelled(this, enemy)){
@@ -6639,7 +6628,14 @@ function activeHero(hero){
 		//Check for AOE special activation
 		roundText += this.doDamage(enemy, false, true, false);
 
-		//check for vantage before beginning combat
+		//check for Brave weapons, brave will be passed to this.doDamage
+		var brave = false;
+		if(this.has("勇者の剣") || this.has("勇者の槍") || this.has("勇者の斧") || this.has("勇者の弓")
+			|| this.hasExactly("ダイムサンダ") || this.hasExactly("アミーテ")){
+			brave = true;
+		}
+
+		//Check for Vantage
 		var vantage = false;
 		if(enemy.has("待ち伏せ")){
 			if(enemy.hp/enemy.maxHp <= .25 * enemy.has("待ち伏せ")){
@@ -6652,7 +6648,7 @@ function activeHero(hero){
 			}
 		}
 
-		//check for desperation before beginning combat
+		//Check for Desperation
 		var desperation = false;
 		if(this.has("攻め立て")){
 			if(this.hp/this.maxHp <= .25 * this.has("攻め立て")){
@@ -6673,57 +6669,79 @@ function activeHero(hero){
 			desperation = false;
 		}
 
-		//Check for 切り返し
-		var quickRiposte = false;
+
+		//Combat attack rank for follow-up attacks
+		//<0 - no follow-up, 0 - speed check, >0 - guaranteed follow-up
+		var thisAttackRank = 0;
+		var thisAttackRankChanged = false;
+		var enemyAttackRank = 0;
+		var enemyAttackRankChanged = false;
+
+		//Check for auto follow-up skills
+		if((this.hasAtIndex("差し違え", this.bIndex) || this.hasAtIndex("差し違え", this.sIndex)) && (this.range == enemy.range || anyRangeCounter) && enemyCanCounter){
+			//Use highest level of Brash Assault between B passive and seal
+			if(this.hp/this.maxHp <= .2 +  Math.max(this.hasAtIndex("差し違え", this.bIndex), this.hasAtIndex("差し違え", this.sIndex)) * 0.1){
+				thisAttackRank++;
+			}
+		}
+		if (this.has("ソール・カティ") && this.hp/this.maxHp <= .75 && this.hasAtRefineIndex("ソール・カティ・専用", this.refineIndex) && (this.range == enemy.range || anyRangeCounter) && enemyCanCounter){
+			thisAttackRank++;
+		}
+		if (this.hasAtIndex("攻撃隊形", this.bIndex)){
+			if (this.hasAtIndex("攻撃隊形", this.bIndex) == 3 || this.combatStartHp / this.maxHp >= 1.0 / this.hasAtIndex("攻撃隊形", this.bIndex)){
+				thisAttackRank++;
+			}
+		}
+		if (this.hasAtRefineIndex("ジークムント・専用", this.refineIndex) && (this.combatStartHp / this.maxHp >= 0.9)){
+			thisAttackRank++;
+		}
+		if (this.has("追撃リング") && (this.combatStartHp / this.maxHp >= 0.5)){
+			thisAttackRank++;
+		}
+		thisAttackRankChanged = (thisAttackRank > 0);
+
+		//Check for auto follow-up counters
 		if(enemy.has("切り返し")){
 			if(enemy.combatStartHp/enemy.maxHp >= 1 - 0.1 * enemy.hasAtIndex("切り返し", enemy.bIndex)){
-				quickRiposte = true;
+				enemyAttackRank++;
 			}
 			if(enemy.combatStartHp/enemy.maxHp >= 1 - 0.1 * enemy.hasAtIndex("切り返し", enemy.sIndex)){
-				quickRiposte = true;
+				enemyAttackRank++;
 			}
 		}
 		if (enemy.hasAtIndex("迎撃隊形", enemy.bIndex)){
 			if (enemy.combatStartHp / enemy.maxHp >= (1.0 - (enemy.hasAtIndex("迎撃隊形", enemy.bIndex) * 0.1) - ((enemy.hasAtIndex("迎撃隊形", enemy.bIndex) - 1) * 0.1))){
-				quickRiposte = true;
+				enemyAttackRank++;
 			}
 		}
 		if(enemy.has("アルマーズ") && enemy.combatStartHp/enemy.maxHp >= .8){
-			quickRiposte = true;
+			enemyAttackRank++;
 		}
 		if(enemy.hasExactly("追撃リング") && enemy.combatStartHp/enemy.maxHp >= .5){
-			quickRiposte = true;
+			enemyAttackRank++;
 		}
+		enemyAttackRankChanged = (enemyAttackRank > 0);
 
-		//Check for 守備隊形
-		//守備隊形 can come from either unit
-		//But some interactions apparently depend on who has it
-		var waryFighter = false;
-		var thisWaryFighter = false;
-		var enemyWaryFighter = false;
+		//Check for Wary Fighter
 		if(this.has("守備隊形")){
 			if(this.hp/this.maxHp >= 1.1 - 0.2 * this.has("守備隊形")){
-				waryFighter = true;
-				thisWaryFighter = true;
+				thisAttackRank--;
+				enemyAttackRank--;
+				thisAttackRankChanged = true;
+				enemyAttackRankChanged = true;
 			}
 		}
 		if(enemy.has("守備隊形")){
 			if(enemy.hp/enemy.maxHp >= 1.1 - 0.2 * enemy.has("守備隊形")){
-				waryFighter = true;
-				enemyWaryFighter = true;
+				thisAttackRank--;
+				enemyAttackRank--;
+				thisAttackRankChanged = true;
+				enemyAttackRankChanged = true;
 			}
 		}
 
-		//check for brave
-		//brave will be passed to this.doDamage
-		var brave = false;
-		if(this.has("勇者の剣") || this.has("勇者の槍") || this.has("勇者の斧") || this.has("勇者の弓") || this.has("ダイムサンダ") || this.has("アミーテ")){
-			brave = true;
-		}
-
-		//check for breaker skills
+		//check for Breaker skills
 		//Need to rdo this code to avoid repeating twice...
-		var thisBroken = false;
 		var thisBreakLevel = 2; // hp threshold
 		if(this.weaponType=="sword" && enemy.has("剣殺し")){
 			thisBreakLevel = 1.1 - enemy.has("剣殺し") * 0.2;
@@ -6752,8 +6770,6 @@ function activeHero(hero){
 		else if(this.weaponType=="dagger" && enemy.has("暗器殺しの弓")){
 			thisBreakLevel = 0;
 		}
-
-		var enemyBroken = false;
 		var enemyBreakLevel = 2; // hp threshold
 		if(enemy.weaponType=="sword" && this.has("剣殺し")){
 			enemyBreakLevel = 1.1 - this.has("剣殺し") * 0.2;
@@ -6784,23 +6800,25 @@ function activeHero(hero){
 		}
 
 		if(enemy.hp / enemy.maxHp >= thisBreakLevel){
-			thisBroken = true;
+			thisAttackRank--;
+			enemyAttackRank++;
+			thisAttackRankChanged = true;
+			enemyAttackRankChanged = true;
 		}
 		if(this.hp / this.maxHp >= enemyBreakLevel){
-			enemyBroken = true;
+			thisAttackRank++;
+			enemyAttackRank--;
+			thisAttackRankChanged = true;
+			enemyAttackRankChanged = true;
 		}
 
-		//Counterattack cancellation
+		//Check for Sweep skills
 		//***Mind the split location for various sweep calculations***
 		var firesweep = false;
 		var windsweep = 0;
 		var watersweep = 0;
 
-		if(this.has("火薙ぎ")){
-			firesweep = true;
-		}
-		if(enemy.has("火薙ぎ")){
-			firesweep = true;
+		if(this.has("火薙ぎ") || enemy.has("火薙ぎ")){
 			firesweep = true;
 		}
 		if(this.has("風薙ぎ")){
@@ -6816,44 +6834,14 @@ function activeHero(hero){
 			}
 		}
 
-		var thisFollowUp = false;
-		var enemyCanCounter = false;
-		var enemyFollowUp = false;
-
-		//I split up the follow-up rules to be less confusing, so there are extra computations
-		var preventEnemyFollow = false;
-		var preventThisFollow = false;
-		var enemyAutoFollow = false;
-		var thisAutoFollow = false;
-		var thisOutspeeds = false;
-		var enemyOutspeeds = false;
-
-		if(waryFighter){
-			preventEnemyFollow = true;
-			preventThisFollow = true;
-		}
-		if(thisBroken){
-			preventThisFollow = true;
-			enemyAutoFollow = true;
-		}
-		if(enemyBroken){
-			preventEnemyFollow = true;
-			thisAutoFollow = true;
-		}
-
-		if(quickRiposte){
-			enemyAutoFollow = true;
-		}
 		if(windsweep || watersweep){
-			preventThisFollow = true;
-		}
-		if(thisEffSpd-enemyEffSpd >= 5){
-			thisOutspeeds = true;
-		}
-		else if(thisEffSpd-enemyEffSpd <= -5){
-			enemyOutspeeds = true;
+			thisAttackRank--;
+			thisAttackRankChanged = true;
 		}
 
+		//Check if enemy can counter
+		var enemyCanCounter = false;
+		//TODO: Make this mess more readable
 		if(!firesweep
 			&& !(windsweep && data.physicalWeapons.indexOf(enemy.weaponType) != -1 && thisEffSpd - enemyEffSpd >= windsweep)
 			&& !(watersweep && data.magicalWeapons.indexOf(enemy.weaponType) != -1 && thisEffSpd - enemyEffSpd >= watersweep)){
@@ -6861,8 +6849,6 @@ function activeHero(hero){
 				enemyCanCounter = true;
 			}
 		}
-
-		//TODO: refactor these ifs and above ifs
 		if(this.has("幻惑の杖") && enemyCanCounter){
 			if(this.combatStartHp / this.maxHp >= 1.5 + this.has("幻惑の杖") * -0.5){
 				roundText += enemy.name + " は、幻惑の杖 の効果で反撃不可。<br>";
@@ -6873,82 +6859,52 @@ function activeHero(hero){
 			roundText += enemy.name + " は、幻惑の効果で反撃不可。<br>";
 			enemyCanCounter = false;
 		}
-
 		if(enemy.lit && enemyCanCounter){
 			roundText += enemy.name + " は、キャンドルサービス の効果で反撃不可。<br>";
 			enemyCanCounter = false;
 		}
-
 		if(this.has("サカの加護") && (enemy.weaponType == "axe" || enemy.weaponType == "sword" ||enemy.weaponType == "lance")){
 			roundText += enemy.name + " は、サカの加護 の効果で反撃不可。<br>";
 			enemyCanCounter = false;
 		}
-
 		if(this.has("死神の暗器・専用") && (enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" ||enemy.weaponType == "greentome")){
 			roundText += enemy.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) の効果で反撃不可。<br>";
 			enemyCanCounter = false;
 		}
 
-		//Check for 追撃
-		if((this.hasAtIndex("差し違え", this.bIndex) || this.hasAtIndex("差し違え", this.sIndex)) && (this.range == enemy.range || anyRangeCounter) && enemyCanCounter){
-			if(this.hp/this.maxHp <= .2 +  Math.max(this.hasAtIndex("差し違え", this.bIndex), this.hasAtIndex("差し違え", this.sIndex)) * 0.1){
-				thisAutoFollow = true;
-			}
-		}
-		if (this.has("ソール・カティ") && this.hp/this.maxHp <= .75 && this.hasAtRefineIndex("ソール・カティ・専用", this.refineIndex) && (this.range == enemy.range || anyRangeCounter) && enemyCanCounter){
-			thisAutoFollow = true;
-		}
-		if (this.hasAtIndex("攻撃隊形", this.bIndex)){
-			if (this.hasAtIndex("攻撃隊形", this.bIndex) == 3 || this.combatStartHp / this.maxHp >= 1.0 / this.hasAtIndex("攻撃隊形", this.bIndex)){
-				thisAutoFollow = true;
-			}
-		}
-		if (this.hasAtRefineIndex("ジークムント・専用", this.refineIndex) && (this.combatStartHp / this.maxHp >= 0.9)){
-			thisAutoFollow = true;
-		}
-		if(this.hasExactly("追撃リング") && (this.combatStartHp / this.maxHp >= 0.5)){
-			thisAutoFollow = true;
-		}
+		//Check if follow-up attacks occur
+		var thisFollowUp = false;
+		var enemyFollowUp = false;
 
-		//Cancel things out
-		//TODO: Add skill name into round text for follow-up triggers
-		if(preventThisFollow && thisAutoFollow){
-			preventThisFollow = false;
-			thisAutoFollow = false;
-			roundText += this.name + " の追撃関連スキルが競合し、相殺される。<br>";
-		}
-		if(thisAutoFollow){
-			roundText += this.name + " は、絶対追撃。<br>";
-		}
-		if(preventThisFollow){
-			roundText += this.name + " は、追撃できない。<br>";
-		}
-
-		if(enemyCanCounter){ //Don't show this text if the enemy can't counter anyway
-			if(preventEnemyFollow && enemyAutoFollow){
-				preventEnemyFollow = false;
-				enemyAutoFollow = false;
-				roundText += enemy.name + " の追撃関連スキルが競合し、相殺される。<br>";
-			}
-			if(enemyAutoFollow){
-				roundText += enemy.name + " は、絶対追撃。<br>";
-			}
-			if(preventEnemyFollow){
-				roundText += enemy.name + " は、追撃できない。<br>";
-			}
-		}
-
-		if((thisOutspeeds || thisAutoFollow) && !preventThisFollow){
+		if (thisAttackRank > 0){
 			thisFollowUp = true;
+			roundText += this.name + " は、絶対追撃。<br>";
+		}else if (thisAttackRank < 0){
+			thisFollowUp = false;
+			roundText += this.name + " は、追撃できない。<br>";
+		}else{
+			thisFollowUp = thisEffSpd-enemyEffSpd >= 5;
+			if (thisAttackRankChanged){
+				roundText += this.name + " の追撃関連スキルが競合し、相殺される。<br>";
+			}
 		}
-		if((enemyOutspeeds || enemyAutoFollow) && !preventEnemyFollow){
+
+		if (enemyAttackRank > 0){
 			enemyFollowUp = true;
+			roundText += enemy.name + " は、絶対追撃。<br>";
+		}else if (enemyAttackRank < 0){
+			enemyFollowUp = false;
+			roundText += enemy.name + " は、追撃できない。<br>";
+		}else{
+			enemyFollowUp = thisEffSpd-enemyEffSpd <= -5;
+			if (enemyAttackRankChanged){
+				roundText += enemy.name + " の追撃関連スキルが競合し、相殺される。<br>";
 		}
 
 		//Combat Damage
 		//doDamage parameters - enemy, brave, AOE, firstAttack
 
-		//Vantage: Enemy first attack
+		//Vantage: Enemy second attack
 		if(vantage && enemyCanCounter){
 			roundText += enemy.name + " は、待ち伏せ の効果で、先制攻撃。<br>";
 			roundText += enemy.doDamage(this, false, false, true);
