@@ -707,7 +707,7 @@
 	},	{
 		"category": "Cymbeline",
 		"name_en": "Flying Atk Res Bond",
-		"name": "シムベリン・固有",
+		"name": "シムベリン・専用",
 		"sp": 350,
 		"description": "Grants allies within 2 spaces Atk+3 during combat. Grants Atk/Res+5 during combat if within 2 spaces of a flying ally.",
 		"description": "周囲２マスの味方は、戦闘中、攻撃 +3　飛行の味方が２マス以内にいる時、戦闘中、自身の攻撃、魔防 +5",
@@ -777,7 +777,7 @@
 	},	{
 		"category": "Parthia",
 		"name_en": "Distant Atk",
-		"name": "パルティア・固有",
+		"name": "パルティア・専用",
 		"sp": 350,
 		"description": "If foe uses magic, damage from first attack received by unit during combat reduced by 30%. Grants Atk+6 during combat if foe uses bow, dagger, magic, or staff.",
 		"description": "敵が魔法の時、戦闘中、最初に受けた攻撃のダメージを 30% 軽減　敵が弓、暗器、魔法、杖の時、戦闘中、攻撃 +6",
