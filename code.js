@@ -6899,6 +6899,7 @@ function activeHero(hero){
 			enemyFollowUp = thisEffSpd-enemyEffSpd <= -5;
 			if (enemyAttackRankChanged){
 				roundText += enemy.name + " の追撃関連スキルが競合し、相殺される。<br>";
+			}
 		}
 
 		//Combat Damage
