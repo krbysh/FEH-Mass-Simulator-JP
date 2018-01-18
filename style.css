@@ -608,10 +608,12 @@ svg > g > g:last-child { pointer-events: none }
 	height:150px;
 }
 
+
 #enemies_includeheader{
 	position: relative;
-	width:254px;
+	width:127px;
 	text-align:center;
+	display:inline-block;
 }
 
 .includebuttons_row{
@@ -634,6 +636,10 @@ svg > g > g:last-child { pointer-events: none }
 	margin-left:4px;
 }
 
+#enemies_includeheader + .wideincludebutton{
+	margin-left:8px;
+}
+
 .thinincludebutton{
 	height:18px;
 	line-height:18px;
@@ -646,6 +652,10 @@ svg > g > g:last-child { pointer-events: none }
 
 .thinincludebutton + .thinincludebutton{
 	margin-left:4px;
+}
+
+#enemies_includeheader + .thinincludebutton{
+	margin-left:8px;
 }
 
 .notincluded{
