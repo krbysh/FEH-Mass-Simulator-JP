@@ -6548,8 +6548,8 @@ function activeHero(hero){
 			roundText += this.defiant();
 
 			//Check for enemy debuffs
-			roundText += this.turnStartDebuff(this);
 			roundText += this.turnStartDebuff(enemy);
+			roundText += enemy.turnStartDebuff(this);
 
 			//Apply renewal effects
 			roundText += this.renewal(renew);
@@ -6622,9 +6622,6 @@ function activeHero(hero){
 			enemyEffSpd = enemy.spd + Math.min(enemy.debuffs.spd,enemy.combatDebuffs.spd) + enemy.spur.spd + enemy.combatSpur.spd;
 		}
 
-		//check for any-distance counterattack
-		var anyRangeCounter = canCounterAnyRange(enemy);
-
 		//Check for AOE special activation
 		roundText += this.doDamage(enemy, false, true, false);
 
@@ -6671,146 +6668,11 @@ function activeHero(hero){
 
 
 		//Combat attack rank for follow-up attacks
-		//<0 - no follow-up, 0 - speed check, >0 - guaranteed follow-up
+		//***<0 - no follow-up, 0 - speed check, >0 - guaranteed follow-up***
 		var thisAttackRank = 0;
 		var thisAttackRankChanged = false;
 		var enemyAttackRank = 0;
 		var enemyAttackRankChanged = false;
-
-		//Check for auto follow-up skills
-		if((this.hasAtIndex("差し違え", this.bIndex) || this.hasAtIndex("差し違え", this.sIndex)) && (this.range == enemy.range || anyRangeCounter) && enemyCanCounter){
-			//Use highest level of Brash Assault between B passive and seal
-			if(this.hp/this.maxHp <= .2 +  Math.max(this.hasAtIndex("差し違え", this.bIndex), this.hasAtIndex("差し違え", this.sIndex)) * 0.1){
-				thisAttackRank++;
-			}
-		}
-		if (this.has("ソール・カティ") && this.hp/this.maxHp <= .75 && this.hasAtRefineIndex("ソール・カティ・専用", this.refineIndex) && (this.range == enemy.range || anyRangeCounter) && enemyCanCounter){
-			thisAttackRank++;
-		}
-		if (this.hasAtIndex("攻撃隊形", this.bIndex)){
-			if (this.hasAtIndex("攻撃隊形", this.bIndex) == 3 || this.combatStartHp / this.maxHp >= 1.0 / this.hasAtIndex("攻撃隊形", this.bIndex)){
-				thisAttackRank++;
-			}
-		}
-		if (this.hasAtRefineIndex("ジークムント・専用", this.refineIndex) && (this.combatStartHp / this.maxHp >= 0.9)){
-			thisAttackRank++;
-		}
-		if (this.has("追撃リング") && (this.combatStartHp / this.maxHp >= 0.5)){
-			thisAttackRank++;
-		}
-		thisAttackRankChanged = (thisAttackRank > 0);
-
-		//Check for auto follow-up counters
-		if(enemy.has("切り返し")){
-			if(enemy.combatStartHp/enemy.maxHp >= 1 - 0.1 * enemy.hasAtIndex("切り返し", enemy.bIndex)){
-				enemyAttackRank++;
-			}
-			if(enemy.combatStartHp/enemy.maxHp >= 1 - 0.1 * enemy.hasAtIndex("切り返し", enemy.sIndex)){
-				enemyAttackRank++;
-			}
-		}
-		if (enemy.hasAtIndex("迎撃隊形", enemy.bIndex)){
-			if (enemy.combatStartHp / enemy.maxHp >= (1.0 - (enemy.hasAtIndex("迎撃隊形", enemy.bIndex) * 0.1) - ((enemy.hasAtIndex("迎撃隊形", enemy.bIndex) - 1) * 0.1))){
-				enemyAttackRank++;
-			}
-		}
-		if(enemy.has("アルマーズ") && enemy.combatStartHp/enemy.maxHp >= .8){
-			enemyAttackRank++;
-		}
-		if(enemy.hasExactly("追撃リング") && enemy.combatStartHp/enemy.maxHp >= .5){
-			enemyAttackRank++;
-		}
-		enemyAttackRankChanged = (enemyAttackRank > 0);
-
-		//Check for Wary Fighter
-		if(this.has("守備隊形")){
-			if(this.hp/this.maxHp >= 1.1 - 0.2 * this.has("守備隊形")){
-				thisAttackRank--;
-				enemyAttackRank--;
-				thisAttackRankChanged = true;
-				enemyAttackRankChanged = true;
-			}
-		}
-		if(enemy.has("守備隊形")){
-			if(enemy.hp/enemy.maxHp >= 1.1 - 0.2 * enemy.has("守備隊形")){
-				thisAttackRank--;
-				enemyAttackRank--;
-				thisAttackRankChanged = true;
-				enemyAttackRankChanged = true;
-			}
-		}
-
-		//check for Breaker skills
-		//Need to rdo this code to avoid repeating twice...
-		var thisBreakLevel = 2; // hp threshold
-		if(this.weaponType=="sword" && enemy.has("剣殺し")){
-			thisBreakLevel = 1.1 - enemy.has("剣殺し") * 0.2;
-		}
-		else if(this.weaponType=="lance" && enemy.has("槍殺し")){
-			thisBreakLevel = 1.1 - enemy.has("槍殺し") * 0.2;
-		}
-		else if(this.weaponType=="axe" && enemy.has("斧殺し")){
-			thisBreakLevel = 1.1 - enemy.has("斧殺し") * 0.2;
-		}
-		else if(this.weaponType=="redtome" && enemy.has("赤魔殺し")){
-			thisBreakLevel = 1.1 - enemy.has("赤魔殺し") * 0.2;
-		}
-		else if(this.weaponType=="bluetome" && enemy.has("青魔殺し")){
-			thisBreakLevel = 1.1 - enemy.has("青魔殺し") * 0.2;
-		}
-		else if(this.weaponType=="greentome" && enemy.has("緑魔殺し")){
-			thisBreakLevel = 1.1 - enemy.has("緑魔殺し") * 0.2;
-		}
-		else if(this.weaponType=="bow" && enemy.has("弓殺し")){
-			thisBreakLevel = 1.1 - enemy.has("弓殺し") * 0.2;
-		}
-		else if(this.weaponType=="dagger" && enemy.has("暗器殺し")){
-			thisBreakLevel = 1.1 - enemy.has("暗器殺し") * 0.2;
-		}
-		else if(this.weaponType=="dagger" && enemy.has("暗器殺しの弓")){
-			thisBreakLevel = 0;
-		}
-		var enemyBreakLevel = 2; // hp threshold
-		if(enemy.weaponType=="sword" && this.has("剣殺し")){
-			enemyBreakLevel = 1.1 - this.has("剣殺し") * 0.2;
-		}
-		else if(enemy.weaponType=="lance" && this.has("槍殺し")){
-			enemyBreakLevel = 1.1 - this.has("槍殺し") * 0.2;
-		}
-		else if(enemy.weaponType=="axe" && this.has("斧殺し")){
-			enemyBreakLevel = 1.1 - this.has("斧殺し") * 0.2;
-		}
-		else if(enemy.weaponType=="redtome" && this.has("赤魔殺し")){
-			enemyBreakLevel = 1.1 - this.has("赤魔殺し") * 0.2;
-		}
-		else if(enemy.weaponType=="bluetome" && this.has("青魔殺し")){
-			enemyBreakLevel = 1.1 - this.has("青魔殺し") * 0.2;
-		}
-		else if(enemy.weaponType=="greentome" && this.has("緑魔殺し")){
-			enemyBreakLevel = 1.1 - this.has("緑魔殺し") * 0.2;
-		}
-		else if(enemy.weaponType=="bow" && this.has("弓殺し")){
-			enemyBreakLevel = 1.1 - this.has("弓殺し") * 0.2;
-		}
-		else if(enemy.weaponType=="dagger" && this.has("暗器殺し")){
-			enemyBreakLevel = 1.1 - this.has("暗器殺し") * 0.2;
-		}
-		else if(enemy.weaponType=="dagger" && this.has("暗器殺しの弓")){
-			enemyBreakLevel = 0;
-		}
-
-		if(enemy.hp / enemy.maxHp >= thisBreakLevel){
-			thisAttackRank--;
-			enemyAttackRank++;
-			thisAttackRankChanged = true;
-			enemyAttackRankChanged = true;
-		}
-		if(this.hp / this.maxHp >= enemyBreakLevel){
-			thisAttackRank++;
-			enemyAttackRank--;
-			thisAttackRankChanged = true;
-			enemyAttackRankChanged = true;
-		}
 
 		//Check for Sweep skills
 		//***Mind the split location for various sweep calculations***
@@ -6833,11 +6695,17 @@ function activeHero(hero){
 				watersweep += -2 + (this.has("速さの虚勢") * -3);
 			}
 		}
-
-		if(windsweep || watersweep){
+		if(windsweep){
 			thisAttackRank--;
 			thisAttackRankChanged = true;
 		}
+		if(watersweep){
+			thisAttackRank--;
+			thisAttackRankChanged = true;
+		}
+
+		//Check for any-distance counterattack
+		var anyRangeCounter = canCounterAnyRange(enemy);
 
 		//Check if enemy can counter
 		var enemyCanCounter = false;
@@ -6872,6 +6740,176 @@ function activeHero(hero){
 			enemyCanCounter = false;
 		}
 
+		//Check for auto follow-up skills
+		if (enemyCanCounter){
+			if (this.hasAtIndex("差し違え", this.bIndex)){
+				if (this.hp/this.maxHp <= .2 +  this.hasAtIndex("差し違え", this.bIndex) * 0.1){
+					thisAttackRank++;
+					thisAttackRankChanged = true;
+				}
+			}
+			if (this.hasAtIndex("差し違え", this.sIndex)){
+				if (this.hp/this.maxHp <= .2 +  this.hasAtIndex("差し違え", this.sIndex) * 0.1){
+					thisAttackRank++;
+					thisAttackRankChanged = true;
+				}
+			}
+			if (this.has("ソール・カティ") && this.hasAtRefineIndex("ソール・カティ・専用", this.refineIndex)){
+				if (this.hp / this.maxHp <= 0.75){
+					thisAttackRank++;
+					thisAttackRankChanged = true;
+				}
+			}
+		}
+		if (this.hasAtIndex("攻撃隊形", this.bIndex)){
+			if (this.hasAtIndex("攻撃隊形", this.bIndex) == 3 || (this.combatStartHp / this.maxHp >= 1.0 / this.hasAtIndex("攻撃隊形", this.bIndex))){
+				thisAttackRank++;
+				thisAttackRankChanged = true;
+			}
+		}
+		if (this.hasAtRefineIndex("ジークムント・専用", this.refineIndex)){
+			if (this.combatStartHp / this.maxHp >= 0.9){
+				thisAttackRank++;
+				thisAttackRankChanged = true;
+			}
+		}
+		if (this.has("追撃リング")){
+			if (this.combatStartHp / this.maxHp >= 0.5){
+				thisAttackRank++;
+				thisAttackRankChanged = true;
+			}
+		}
+		
+		//Check for auto follow-up counters
+		if(enemy.hasAtIndex("切り返し", enemy.bIndex)){
+			if(enemy.combatStartHp/enemy.maxHp >= 1 - 0.1 * enemy.hasAtIndex("切り返し", enemy.bIndex)){
+				enemyAttackRank++;
+				enemyAttackRankChanged = true;
+			}
+		}
+		if(enemy.hasAtIndex("切り返し", enemy.sIndex)){
+			if(enemy.combatStartHp/enemy.maxHp >= 1 - 0.1 * enemy.hasAtIndex("切り返し", enemy.sIndex)){
+				enemyAttackRank++;
+				enemyAttackRankChanged = true;
+			}
+		}
+		if (enemy.hasAtIndex("迎撃隊形", enemy.bIndex)){
+			if (enemy.combatStartHp / enemy.maxHp >= (1.0 - (enemy.hasAtIndex("迎撃隊形", enemy.bIndex) * 0.1) - ((enemy.hasAtIndex("迎撃隊形", enemy.bIndex) - 1) * 0.1))){
+				enemyAttackRank++;
+				enemyAttackRankChanged = true;
+			}
+		}
+		if (enemy.has("アルマーズ")){
+			if (enemy.combatStartHp/enemy.maxHp >= .8){
+				enemyAttackRank++;
+				enemyAttackRankChanged = true;
+			}
+		}
+		if (enemy.has("追撃リング")){
+			if (enemy.combatStartHp/enemy.maxHp >= .5){
+				enemyAttackRank++;
+				enemyAttackRankChanged = true;
+			}
+		}
+
+		//Check for Wary Fighter
+		if(this.has("守備隊形")){
+			if(this.hp/this.maxHp >= 1.1 - 0.2 * this.has("守備隊形")){
+				thisAttackRank--;
+				enemyAttackRank--;
+				thisAttackRankChanged = true;
+				enemyAttackRankChanged = true;
+			}
+		}
+		if(enemy.has("守備隊形")){
+			if(enemy.hp/enemy.maxHp >= 1.1 - 0.2 * enemy.has("守備隊形")){
+				thisAttackRank--;
+				enemyAttackRank--;
+				thisAttackRankChanged = true;
+				enemyAttackRankChanged = true;
+			}
+		}
+
+		//check for Breaker skills
+		var thisBreakLevel = 2; // hp threshold
+		if(this.weaponType=="sword" && enemy.has("剣殺し")){
+			thisBreakLevel = 1.1 - enemy.has("剣殺し") * 0.2;
+		}
+		else if(this.weaponType=="lance" && enemy.has("槍殺し")){
+			thisBreakLevel = 1.1 - enemy.has("槍殺し") * 0.2;
+		}
+		else if(this.weaponType=="axe" && enemy.has("斧殺し")){
+			thisBreakLevel = 1.1 - enemy.has("斧殺し") * 0.2;
+		}
+		else if(this.weaponType=="redtome" && enemy.has("赤魔殺し")){
+			thisBreakLevel = 1.1 - enemy.has("赤魔殺し") * 0.2;
+		}
+		else if(this.weaponType=="bluetome" && enemy.has("青魔殺し")){
+			thisBreakLevel = 1.1 - enemy.has("青魔殺し") * 0.2;
+		}
+		else if(this.weaponType=="greentome" && enemy.has("緑魔殺し")){
+			thisBreakLevel = 1.1 - enemy.has("緑魔殺し") * 0.2;
+		}
+		else if(this.weaponType=="bow" && enemy.has("弓殺し")){
+			thisBreakLevel = 1.1 - enemy.has("弓殺し") * 0.2;
+		}
+		else if(this.weaponType=="dagger" && enemy.has("暗器殺し")){
+			thisBreakLevel = 1.1 - enemy.has("暗器殺し") * 0.2;
+		}
+
+		var enemyBreakLevel = 2; // hp threshold
+		if(enemy.weaponType=="sword" && this.has("剣殺し")){
+			enemyBreakLevel = 1.1 - this.has("剣殺し") * 0.2;
+		}
+		else if(enemy.weaponType=="lance" && this.has("槍殺し")){
+			enemyBreakLevel = 1.1 - this.has("槍殺し") * 0.2;
+		}
+		else if(enemy.weaponType=="axe" && this.has("斧殺し")){
+			enemyBreakLevel = 1.1 - this.has("斧殺し") * 0.2;
+		}
+		else if(enemy.weaponType=="redtome" && this.has("赤魔殺し")){
+			enemyBreakLevel = 1.1 - this.has("赤魔殺し") * 0.2;
+		}
+		else if(enemy.weaponType=="bluetome" && this.has("青魔殺し")){
+			enemyBreakLevel = 1.1 - this.has("青魔殺し") * 0.2;
+		}
+		else if(enemy.weaponType=="greentome" && this.has("緑魔殺し")){
+			enemyBreakLevel = 1.1 - this.has("緑魔殺し") * 0.2;
+		}
+		else if(enemy.weaponType=="bow" && this.has("弓殺し")){
+			enemyBreakLevel = 1.1 - this.has("弓殺し") * 0.2;
+		}
+		else if(enemy.weaponType=="dagger" && this.has("暗器殺し")){
+			enemyBreakLevel = 1.1 - this.has("暗器殺し") * 0.2;
+		}
+
+		if(enemy.hp / enemy.maxHp >= thisBreakLevel){
+			thisAttackRank--;
+			enemyAttackRank++;
+			thisAttackRankChanged = true;
+			enemyAttackRankChanged = true;
+		}
+		if(this.hp / this.maxHp >= enemyBreakLevel){
+			thisAttackRank++;
+			enemyAttackRank--;
+			thisAttackRankChanged = true;
+			enemyAttackRankChanged = true;
+		}
+
+		//Other stacking Breaker skills
+		if(this.weaponType=="dagger" && enemy.has("暗器殺しの弓")){
+			thisAttackRank--;
+			enemyAttackRank++;
+			thisAttackRankChanged = true;
+			enemyAttackRankChanged = true;
+		}
+		if(enemy.weaponType=="dagger" && this.has("暗器殺しの弓")){
+			thisAttackRank++;
+			enemyAttackRank--;
+			thisAttackRankChanged = true;
+			enemyAttackRankChanged = true;
+		}
+
 		//Check if follow-up attacks occur
 		var thisFollowUp = false;
 		var enemyFollowUp = false;
@@ -6903,7 +6941,7 @@ function activeHero(hero){
 		}
 
 		//Combat Damage
-		//doDamage parameters - enemy, brave, AOE, firstAttack
+		//***doDamage parameters - (enemy, brave, AOE, firstAttack)***
 
 		//Vantage: Enemy second attack
 		if(vantage && enemyCanCounter){
