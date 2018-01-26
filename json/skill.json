@@ -12962,7 +12962,7 @@
 	}, {
 		"skill_id": 865,
 		"name": "Ivaldi",
-		"name": "イーヴァルディ ",
+		"name": "イーヴァルディ",
 		"slot": "weapon",
 		"sp": 400,
 		"description": "Grants Res+3. If foes' HP = 100% at start of combat, grants Atk\/Spd+3 during combat.",
