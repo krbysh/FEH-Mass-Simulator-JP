@@ -141,11 +141,11 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"カムイ(男)(新たな年を拓く者) (5★);Weapon: 破魔矢+;Assist: 守備魔防の応援;A: 攻撃守備 2;C: 守備魔防の紋章 2;",
-	"ミカヤ (5★);Weapon: セイニー;Assist: 癒しの手;A: 遠距離防御 3;B: キャンセル 3;C: 攻撃の大紋章 2;",
-	"サザ (5★);Weapon: ペシュカド;Special: 凶星;A: 死線 3;C: 攻撃速さの紋章 2;",
-	"ゼルギウス (5★);Weapon: エタルド;Special: 黒の月光;A: 鬼神の構え 3;B: 転移の粉;C: 恐慌の奇策 3;",
-	"オリヴァー (5★);Weapon: シャイン+;Special: 烈光;A: 鬼神明鏡の一撃 2;C: 攻撃の謀策 3;"
+	"エイリーク(聖魔の追憶) (5★);Weapon: グレイプニル;Assist: 攻撃速さの応援;A: 鬼神飛燕の一撃 2;B: 攻め立て 3;",
+	"ミルラ (5★);Weapon: 神炎のブレス;Special: 緋炎;A: 獅子奮迅 3;C: 竜刃の鼓舞;",
+	"ラーチェル (5★);Weapon: イーヴァルディ ;Special: 爆光;B: 回復 3;C: 魔防の指揮 3;",
+	"リオン (5★);Weapon: ナグルファル;Special: 復讐;A: 攻撃魔防 2;C: 魔防の大紋章 2;",
+	"マリカ (5★);Weapon: 倭刀+;Special: 凶星;A: ＨＰ守備 2;C: 歩行の鼓動 3;"
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -4360,9 +4360,14 @@ var lastAttacker = "none";
 
 function activeHero(hero){
 
+	//Note a difference between the combatBuffs used here and the 'combat buffs' on the wiki,
+	//combatBuffs here is only used for defiant skills, which are considered as field buffs
+	//Whereas combatSpurs are the 'combat buffs', which do not affect harsh command and bladetomes
+
 	this.combatBuffs = {"atk":0,"spd":0,"def":0,"res":0};
 	this.combatDebuffs = {"atk":0,"spd":0,"def":0,"res":0};
 	this.combatSpur = {"atk":0,"spd":0,"def":0,"res":0};
+	this.combatStat = {"atk":0,"spd":0,"def":0,"res":0};
 
 	this.skillNames = [];
 
@@ -4455,6 +4460,7 @@ function activeHero(hero){
 	this.charge = 0;
 	this.initiator = false;
 	this.panicked = false;
+	this.harshed = false;
 	this.lit = false;
 	this.didAttack = false;
 
@@ -4934,7 +4940,7 @@ function activeHero(hero){
 				//Does this take effect when defending? Answer: yes
 				this.combatSpur.atk += 5;
 				this.combatSpur.spd += 5;
-				boostText += this.name + " は、ライナロック の効果で ＨＰ が 100% のため、攻撃、速さ +5 。<br>";
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で ＨＰ が 100% のため、攻撃、速さ +5 。<br>";
 			}
 
 			if(this.has("貝殻") || this.has("氷菓子の弓") || this.has("魚を突いた銛") || this.has("スイカ割りの棍棒")){
@@ -4950,7 +4956,12 @@ function activeHero(hero){
 			if(this.has("リガルブレイド")){
 				this.combatSpur.atk += 2;
 				this.combatSpur.spd += 2;
-				boostText += this.name + " は、リガルブレイド の効果で、" + enemy.name + " のＨＰが 100% のため、攻撃、速さ +2 。<br>";
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、" + enemy.name + " のＨＰが 100% のため、攻撃、速さ +2 。<br>";
+			}
+			if(this.hasExactly("グレイプニル") || this.hasExactly("イーヴァルディ")){
+				this.combatSpur.atk += 3;
+				this.combatSpur.spd += 3;
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、" + enemy.name + " のＨＰが 100% のため、攻撃、速さ +3 。<br>";
 			}
 		}
 
@@ -5297,6 +5308,90 @@ function activeHero(hero){
 
 			return boostText;
 		}
+	}
+
+	//Calculates effective combat stats used within a round
+	this.setCombatStats = function(enemy){
+		var statText = "";
+		var panicDebuff = {"atk":0,"spd":0,"def":0,"res":0};
+
+		//Effective buff and debuff values
+		this.combatBuffs.atk = Math.max(this.buffs.atk, this.combatBuffs.atk);
+		this.combatBuffs.spd = Math.max(this.buffs.spd, this.combatBuffs.spd);
+		this.combatBuffs.def = Math.max(this.buffs.def, this.combatBuffs.def);
+		this.combatBuffs.res = Math.max(this.buffs.res, this.combatBuffs.res);
+		this.combatDebuffs.atk = Math.min(this.debuffs.atk, this.combatDebuffs.atk);
+		this.combatDebuffs.spd = Math.min(this.debuffs.spd, this.combatDebuffs.spd);
+		this.combatDebuffs.def = Math.min(this.debuffs.def, this.combatDebuffs.def);
+		this.combatDebuffs.res = Math.min(this.debuffs.res, this.combatDebuffs.res);
+
+		//Harsh Command - turns regular debuffs into field buffs
+		if (this.harshed){
+			this.combatBuffs.atk = Math.max(-1 * this.combatDebuffs.atk, this.combatBuffs.atk);
+			this.combatBuffs.spd = Math.max(-1 * this.combatDebuffs.spd, this.combatBuffs.spd);
+			this.combatBuffs.def = Math.max(-1 * this.combatDebuffs.def, this.combatBuffs.def);
+			this.combatBuffs.res = Math.max(-1 * this.combatDebuffs.res, this.combatBuffs.res);
+			this.combatDebuffs = {"atk":0,"spd":0,"def":0,"res":0};
+			statText += this.name + " の弱化は、一喝 により反転される。<br>";
+		}
+		//Panic debuff - turns field buffs into specialized debuffs, can stack with regular debuffs(?)
+		//TODO: Check if this debuff affects Blizzard
+		if (this.panicked){
+			panicDebuff.atk = this.combatBuffs.atk;
+			panicDebuff.spd = this.combatBuffs.spd;
+			panicDebuff.def = this.combatBuffs.def;
+			panicDebuff.res = this.combatBuffs.res;
+			this.combatBuffs = {"atk":0,"spd":0,"def":0,"res":0};
+			statText += this.name + " の強化は、パニック により反転される。.<br>";
+		//Buff cancelled - removes field buffs
+		}else if (isBuffCancelled(this, enemy)){
+			this.combatBuffs = {"atk":0,"spd":0,"def":0,"res":0};
+			statText += this.name + " の強化は敵のスキルにより、無効化される。<br>";
+		}
+
+		//Calculate effective combat stats
+		this.combatStat.atk = Math.max(this.atk + this.combatBuffs.atk + this.combatDebuffs.atk + this.spur.atk + this.combatSpur.atk - panicDebuff.atk, 0);
+		this.combatStat.spd = Math.max(this.spd + this.combatBuffs.spd + this.combatDebuffs.spd + this.spur.spd + this.combatSpur.spd - panicDebuff.spd, 0);
+		this.combatStat.def = Math.max(this.def + this.combatBuffs.def + this.combatDebuffs.def + this.spur.def + this.combatSpur.def - panicDebuff.def, 0);
+		this.combatStat.res = Math.max(this.res + this.combatBuffs.res + this.combatDebuffs.res + this.spur.res + this.combatSpur.res - panicDebuff.res, 0);
+
+		/***Old script used in doDamage()***
+		//Buff cancellation and reversion - Atk, Def, Res calculations
+		//***May require changes depending on order of application between Panic and other debuff skills***
+		//Attacker relevant stats
+		//Panic debuff
+		if(this.panicked){
+			this.combatStat.atk = this.atk - Math.max(this.buffs.atk,this.combatBuffs.atk) + Math.min(this.debuffs.atk,this.combatDebuffs.atk) + this.spur.atk + this.combatSpur.atk;
+			this.combatStat.spd = this.spd - Math.max(this.buffs.spd,this.combatBuffs.spd) + Math.min(this.debuffs.spd,this.combatDebuffs.spd) + this.spur.spd + this.combatSpur.spd;
+			this.combatStat.def = this.def - Math.max(this.buffs.def,this.combatBuffs.def) + Math.min(this.debuffs.def,this.combatDebuffs.def) + this.spur.def + this.combatSpur.def;
+			this.combatStat.res = this.res - Math.max(this.buffs.res,this.combatBuffs.res) + Math.min(this.debuffs.res,this.combatDebuffs.res) + this.spur.res + this.combatSpur.res;
+			if(!AOE){damageText += this.name + "'s buffs are reversed by debuff.<br>";}
+		//Buff cancellation
+		} else if(isBuffCancelled(this, enemy)){
+			this.combatStat.atk = this.atk + Math.min(this.debuffs.atk,this.combatDebuffs.atk) + this.spur.atk + this.combatSpur.atk;
+			this.combatStat.spd = this.spd + Math.min(this.debuffs.spd,this.combatDebuffs.spd) + this.spur.spd + this.combatSpur.spd;
+			this.combatStat.def = this.def + Math.min(this.debuffs.def,this.combatDebuffs.def) + this.spur.def + this.combatSpur.def;
+			this.combatStat.res = this.res + Math.min(this.debuffs.res,this.combatDebuffs.res) + this.spur.res + this.combatSpur.res;
+			if(!AOE){damageText += this.name + "'s buffs are nullified by opponent's skill.<br>";}
+		//Bladetome bonus
+		//TODO: Find out if bladetomes affect AOE specials
+		} else if(this.has("Raudrblade") || this.has("Blarblade") || this.has("Gronnblade")){
+			var bladebonus = Math.max(this.buffs.atk,this.combatBuffs.atk) + Math.max(this.buffs.spd,this.combatBuffs.spd) + Math.max(this.buffs.def,this.combatBuffs.def) + Math.max(this.buffs.res,this.combatBuffs.res);
+			this.combatStat.atk += bladebonus;
+			if(!AOE && bladebonus != 0){damageText += this.name + " gains +" + bladebonus + " Atk from " + data.skills[this.weaponIndex].name + ".<br>";}
+		}
+		//Blizzard bonus
+		if(this.has("Blizzard")){
+			var atkbonus = -1 * (Math.min(enemy.debuffs.atk,enemy.combatDebuffs.atk) + Math.min(enemy.debuffs.spd,enemy.combatDebuffs.spd) + Math.min(enemy.debuffs.def,enemy.combatDebuffs.def) + Math.min(enemy.debuffs.res,enemy.combatDebuffs.res));
+			if (enemy.panicked){
+				atkbonus += Math.max(enemy.buffs.atk,enemy.combatBuffs.atk) + Math.max(enemy.buffs.spd,enemy.combatBuffs.spd) + Math.max(enemy.buffs.def,enemy.combatBuffs.def) + Math.max(enemy.buffs.res,enemy.combatBuffs.res);
+			}
+			this.combatStat.atk += atkbonus;
+			if(!AOE && atkbonus != 0){damageText += this.name + " gains +" + atkbonus + " Atk from " + data.skills[this.weaponIndex].name + ".<br>";}
+		}
+		*/
+
+		return statText;
 	}
 
 	//poison only happens when the user initiates
@@ -5726,91 +5821,13 @@ function activeHero(hero){
 
 		var damageText = "";
 
-		var thisEffAtk = this.atk + Math.max(this.buffs.atk,this.combatBuffs.atk) + Math.min(this.debuffs.atk,this.combatDebuffs.atk) + this.spur.atk + this.combatSpur.atk;
-		var thisEffSpd = this.spd + Math.max(this.buffs.spd,this.combatBuffs.spd) + Math.min(this.debuffs.spd,this.combatDebuffs.spd) + this.spur.spd + this.combatSpur.spd;
-		var thisEffDef = this.def + Math.max(this.buffs.def,this.combatBuffs.def) + Math.min(this.debuffs.def,this.combatDebuffs.def) + this.spur.def + this.combatSpur.def;
-		var thisEffRes = this.res + Math.max(this.buffs.res,this.combatBuffs.res) + Math.min(this.debuffs.res,this.combatDebuffs.res) + this.spur.res + this.combatSpur.res;
-		var enemyEffAtk = enemy.atk + Math.max(enemy.buffs.atk,enemy.combatBuffs.atk) + Math.min(enemy.debuffs.atk,enemy.combatDebuffs.atk) + enemy.spur.atk + enemy.combatSpur.atk;
-		var enemyEffSpd = enemy.spd + Math.max(enemy.buffs.spd,enemy.combatBuffs.spd) + Math.min(enemy.debuffs.spd,enemy.combatDebuffs.spd) + enemy.spur.spd + enemy.combatSpur.spd;
-		var enemyEffDef = enemy.def + Math.max(enemy.buffs.def,enemy.combatBuffs.def) + Math.min(enemy.debuffs.def,enemy.combatDebuffs.def) + enemy.spur.def + enemy.combatSpur.def;
-		var enemyEffRes = enemy.res + Math.max(enemy.buffs.res,enemy.combatBuffs.res) + Math.min(enemy.debuffs.res,enemy.combatDebuffs.res) + enemy.spur.res + enemy.combatSpur.res;
-
-		//Buff cancellation and reversion - Atk, Def, Res calculations
-		//***May require changes depending on order of application between Panic and other debuff skills***
-		//Attacker relevant stats
-		//Panic debuff
-		if(this.panicked){
-			thisEffAtk = this.atk - Math.max(this.buffs.atk,this.combatBuffs.atk) + Math.min(this.debuffs.atk,this.combatDebuffs.atk) + this.spur.atk + this.combatSpur.atk;
-			thisEffSpd = this.spd - Math.max(this.buffs.spd,this.combatBuffs.spd) + Math.min(this.debuffs.spd,this.combatDebuffs.spd) + this.spur.spd + this.combatSpur.spd;
-			thisEffDef = this.def - Math.max(this.buffs.def,this.combatBuffs.def) + Math.min(this.debuffs.def,this.combatDebuffs.def) + this.spur.def + this.combatSpur.def;
-			thisEffRes = this.res - Math.max(this.buffs.res,this.combatBuffs.res) + Math.min(this.debuffs.res,this.combatDebuffs.res) + this.spur.res + this.combatSpur.res;
-			if(!AOE){damageText += this.name + " の強化は + ではなく - となる。<br>";}
-		//Buff cancellation
-	} else if(isBuffCancelled(this, enemy)){
-			thisEffAtk = this.atk + Math.min(this.debuffs.atk,this.combatDebuffs.atk) + this.spur.atk + this.combatSpur.atk;
-			thisEffSpd = this.spd + Math.min(this.debuffs.spd,this.combatDebuffs.spd) + this.spur.spd + this.combatSpur.spd;
-			thisEffDef = this.def + Math.min(this.debuffs.def,this.combatDebuffs.def) + this.spur.def + this.combatSpur.def;
-			thisEffRes = this.res + Math.min(this.debuffs.res,this.combatDebuffs.res) + this.spur.res + this.combatSpur.res;
-			if(!AOE){damageText += this.name + " の強化は敵のスキルにより、無効化される。<br>";}
-		//Bladetome bonus
-		//TODO: Find out if bladetomes affect AOE specials
-		} else if(this.has("ラウアブレード") || this.has("ブラーブレード") || this.has("グルンブレード")){
-			var bladebonus = Math.max(this.buffs.atk,this.combatBuffs.atk) + Math.max(this.buffs.spd,this.combatBuffs.spd) + Math.max(this.buffs.def,this.combatBuffs.def) + Math.max(this.buffs.res,this.combatBuffs.res);
-			thisEffAtk += bladebonus;
-			if(!AOE && bladebonus != 0){damageText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、攻撃 +" + bladebonus + " 。<br>";}
-		}
-
-		//Defender relevant stats
-		//Panic Debuff
-		if(enemy.panicked){
-			enemyEffAtk = enemy.atk - Math.max(enemy.buffs.atk,enemy.combatBuffs.atk) + Math.min(enemy.debuffs.atk,enemy.combatDebuffs.atk) + enemy.spur.atk + enemy.combatSpur.atk;
-			enemyEffSpd = enemy.spd - Math.max(enemy.buffs.spd,enemy.combatBuffs.spd) + Math.min(enemy.debuffs.spd,enemy.combatDebuffs.spd) + enemy.spur.spd + enemy.combatSpur.spd;
-			enemyEffDef = enemy.def - Math.max(enemy.buffs.def,enemy.combatBuffs.def) + Math.min(enemy.debuffs.def,enemy.combatDebuffs.def) + enemy.spur.def + enemy.combatSpur.def;
-			enemyEffRes = enemy.res - Math.max(enemy.buffs.res,enemy.combatBuffs.res) + Math.min(enemy.debuffs.res,enemy.combatDebuffs.res) + enemy.spur.res + enemy.combatSpur.res;
-			if(!AOE){damageText += enemy.name + " の強化は + ではなく - となる。<br>";}
-		//Buff cancellation
-		} else if(isBuffCancelled(enemy, this)){
-			enemyEffAtk = enemy.atk + Math.min(enemy.debuffs.atk,enemy.combatDebuffs.atk) + enemy.spur.atk + enemy.combatSpur.atk;
-			enemyEffSpd = enemy.spd + Math.min(enemy.debuffs.spd,enemy.combatDebuffs.spd) + enemy.spur.spd + enemy.combatSpur.spd;
-			enemyEffDef = enemy.def + Math.min(enemy.debuffs.def,enemy.combatDebuffs.def) + enemy.spur.def + enemy.combatSpur.def;
-			enemyEffRes = enemy.res + Math.min(enemy.debuffs.res,enemy.combatDebuffs.res) + enemy.spur.res + enemy.combatSpur.res;
-			if(!AOE){damageText += enemy.name + " の強化は敵のスキルにより、無効化される。<br>";}
-		//Bladetome bonus
-		//TODO: Check if bladetome bonus is relevant in enemy phase against Heavy Blade
-		//Bladetome bonus
-		}
-		else if(enemy.has("ラウアブレード") || enemy.has("ブラーブレード") || enemy.has("グルンブレード")){
-			var bladebonus = Math.max(this.buffs.atk,this.combatBuffs.atk) + Math.max(this.buffs.spd,this.combatBuffs.spd) + Math.max(this.buffs.def,this.combatBuffs.def) + Math.max(this.buffs.res,this.combatBuffs.res);
-			enemyEffAtk += bladebonus;
-			if(!AOE && bladebonus != 0){damageText += enemy.name + " は、" + data.skills[enemy.weaponIndex].name + " の効果で、攻撃 +" + bladebonus + " 。<br>";}
-		}
-
-		//Blizzard bonus
-		//TODO: Check panic debuff interaction
-		if(this.has("ブリザード")){
-			var atkbonus = -1 * (Math.min(enemy.debuffs.atk,enemy.combatDebuffs.atk) + Math.min(enemy.debuffs.spd,enemy.combatDebuffs.spd) + Math.min(enemy.debuffs.def,enemy.combatDebuffs.def) + Math.min(enemy.debuffs.res,enemy.combatDebuffs.res));
-			if (enemy.panicked){
-				atkbonus += Math.max(enemy.buffs.atk,enemy.combatBuffs.atk) + Math.max(enemy.buffs.spd,enemy.combatBuffs.spd) + Math.max(enemy.buffs.def,enemy.combatBuffs.def) + Math.max(enemy.buffs.res,enemy.combatBuffs.res);
-			}
-			thisEffAtk += atkbonus;
-			if(!AOE && atkbonus != 0){damageText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、攻撃 +" + atkbonus + " 。<br>";}
-		}
-		if(enemy.has("ブリザード")){
-			var atkbonus = -1 * (Math.min(this.debuffs.atk,this.combatDebuffs.atk) + Math.min(this.debuffs.spd,this.combatDebuffs.spd) + Math.min(this.debuffs.def,this.combatDebuffs.def) + Math.min(this.debuffs.res,this.combatDebuffs.res));
-			if (this.panicked){
-				atkbonus += Math.max(this.buffs.atk,this.combatBuffs.atk) + Math.max(this.buffs.spd,this.combatBuffs.spd) + Math.max(this.buffs.def,this.combatBuffs.def) + Math.max(this.buffs.res,this.combatBuffs.res);
-			}
-			enemyEffAtk += atkbonus;
-			if(!AOE && atkbonus != 0){damageText += enemy.name + " は、" + data.skills[enemy.weaponIndex].name + " の効果で、攻撃 +" + atkbonus + " 。<br>";}
-		}
-
 		//Relavant defense stat
-		var relevantDef = (this.attackType == "magical") ? enemyEffRes : enemyEffDef;
+		var relevantDef = (this.attackType == "magical") ? enemy.combatStat.res : enemy.combatStat.def;
 
 		//Refined Dragonstones
-		if (this.weaponType == "dragon" && this.refineIndex != -1 && enemy.range == "ranged"){
-			relevantDef = (enemyEffDef > enemyEffRes) ? enemyEffRes : enemyEffDef;
-			if (!AOE) {damageText += this.name + " は、" + data.skills[hero.weapon].name + "(錬成) の効果で"+ ((enemyEffDef > enemyEffRes) ? "魔防" : "守備" ) + "で計算。";}
+		if (this.weaponType == "dragon" && enemy.range == "ranged" && (this.refineIndex != -1 || this.hasExactly("神炎のブレス"))){
+			relevantDef = (enemy.combatStat.def > enemy.combatStat.res) ? enemy.combatStat.res : enemy.combatStat.def;
+			if (!AOE) {damageText += this.name + " は、" + data.skills[hero.weapon].name + (this.refineIndex != -1 ? "(錬成)" : "") + " の効果で " + ((enemy.combatStat.def > enemy.combatStat.res) ? "魔防" : "守備" ) + " で計算。<br>";}
 		}
 
 		//Specials
@@ -5822,7 +5839,7 @@ function activeHero(hero){
 				var AOEActivated = false;
 				var AOEDamage = 0;
 				//AOE specials don't take spur into effect
-				var AOEthisEffAtk = thisEffAtk - this.spur.atk - this.combatSpur.atk;
+				var AOEthisEffAtk = this.combatStat.atk- this.spur.atk - this.combatSpur.atk;
 
 				if(this.has("砕雷") || this.has("砕風") || this.has("砕光") || this.has("砕火") || this.has("爆雷") || this.has("爆風") || this.has("爆光") || this.has("爆火")){
 					AOEDamage = Math.max(0, AOEthisEffAtk - relevantDef);
@@ -5864,19 +5881,19 @@ function activeHero(hero){
 				}
 				else if(this.hasExactly("伏竜") || this.hasExactly("竜裂")){
 					//Works like Ignis and Glacies
-					dmgBoost += thisEffAtk * 0.3;
+					dmgBoost += this.combatStat.atk* 0.3;
 					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("竜穿")){
-					dmgBoost += thisEffAtk * 0.5;
+					dmgBoost += this.combatStat.atk* 0.5;
 					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("蛍火") || this.hasExactly("緋炎")){
-					dmgBoost += thisEffDef / 2;
+					dmgBoost += this.combatStat.def / 2;
 					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("華炎")){
-					dmgBoost += thisEffDef * 0.8;
+					dmgBoost += this.combatStat.def * 0.8;
 					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("陽影") || this.hasExactly("夕陽")){
@@ -5900,15 +5917,15 @@ function activeHero(hero){
 					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("氷点") || this.hasExactly("氷蒼")){
-					dmgBoost += thisEffRes / 2;
+					dmgBoost += this.combatStat.res / 2;
 					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("氷華")){
-					dmgBoost += thisEffRes * 0.8;
+					dmgBoost += this.combatStat.res * 0.8;
 					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("剣姫の流星")){
-					dmgBoost += thisEffSpd * 0.4;
+					dmgBoost += this.combatStat.spd * 0.4;
 					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("雪辱") || this.hasExactly("血讐")){
@@ -5953,13 +5970,13 @@ function activeHero(hero){
 			if((enemy.color=="green"&&this.color=="red")||(enemy.color=="red"&&this.color=="blue")||(enemy.color=="blue"&&this.color=="green")){
 				weaponAdvantage = 1;
 			}
-			else if(enemy.color=="gray" && (this.has("ラウアレイヴン") || this.has("ブラーレイヴン") || this.has("グルンレイヴン"))){
+			else if(enemy.color=="gray" && (this.has("ラウアレイヴン") || this.has("ブラーレイヴン") || this.has("グルンレイヴン") || this.has("ナグルファル"))){
 				weaponAdvantage = 1;
 			}
 			else if((this.color=="green"&&enemy.color=="red")||(this.color=="red"&&enemy.color=="blue")||(this.color=="blue"&&enemy.color=="green")){
 				weaponAdvantage = -1;
 			}
-			else if(this.color=="gray" && (enemy.has("ラウアレイヴン") || enemy.has("ブラーレイヴン") || enemy.has("グルンレイヴン"))){
+			else if(this.color=="gray" && (enemy.has("ラウアレイヴン") || enemy.has("ブラーレイヴン") || enemy.has("グルンレイヴン") || this.has("ナグルファル"))){
 				weaponAdvantage = -1;
 			}
 
@@ -6318,8 +6335,8 @@ function activeHero(hero){
 			//Damage calculation from http://feheroes.wiki/Damage_Calculation
 			//use bitwise or to truncate properly
 			//Doing calculation in steps to see the formula more clearly
-			var rawDmg = (thisEffAtk * effectiveBonus | 0);
-			var advBoost = ((thisEffAtk * effectiveBonus | 0) * weaponAdvantageBonus | 0);
+			var rawDmg = (this.combatStat.atk * effectiveBonus | 0);
+			var advBoost = ((this.combatStat.atk * effectiveBonus | 0) * weaponAdvantageBonus | 0);
 			var statBoost = dmgBoost;
 			var reduceDmg = relevantDef + (relevantDef * enemyDefModifier | 0);
 
@@ -6333,7 +6350,7 @@ function activeHero(hero){
 			var dmg = totalDmg - (totalDmg * (1 - dmgReduction) | 0) - dmgReductionFlat;
 
 			/*	Old damage formula
-			var rawDmg = (thisEffAtk * effectiveBonus | 0) + ((thisEffAtk * effectiveBonus | 0) * weaponAdvantageBonus | 0) + (dmgBoost | 0);
+			var rawDmg = (this.combatStat.atk* effectiveBonus | 0) + ((this.combatStat.atk* effectiveBonus | 0) * weaponAdvantageBonus | 0) + (dmgBoost | 0);
 			var reduceDmg = relevantDef + (relevantDef * enemyDefModifier | 0);
 			var dmg = (rawDmg - reduceDmg) * weaponModifier | 0;
 			dmg = dmg * dmgMultiplier | 0;
@@ -6417,31 +6434,31 @@ function activeHero(hero){
 					}
 				}
 				if(this.hasAtIndex("剛剣", this.aIndex)){
-					if(thisEffAtk - enemyEffAtk >= 7 - (this.hasAtIndex("剛剣", this.aIndex) * 2)){
+					if(this.combatStat.atk- enemy.combatStat.atk >= 7 - (this.hasAtIndex("剛剣", this.aIndex) * 2)){
 						gainCharge = Math.max(gainCharge, 1);
 						skillNames.push(data.skills[this.aIndex].name);
 					}
 				}
 				if(this.hasAtIndex("剛剣", this.sIndex)){
-					if(thisEffAtk - enemyEffAtk >= 7 - (this.hasAtIndex("剛剣", this.sIndex) * 2)){
+					if(this.combatStat.atk- enemy.combatStat.atk >= 7 - (this.hasAtIndex("剛剣", this.sIndex) * 2)){
 						gainCharge = Math.max(gainCharge, 1);
 						skillNames.push(data.skills[this.sIndex].name + " (聖印)");
 					}
 				}
 				if(this.hasExactly("烈剣デュランダル")){
-					if(thisEffAtk - enemyEffAtk >= 1){
+					if(this.combatStat.atk- enemy.combatStat.atk >= 1){
 						gainCharge = Math.max(gainCharge, 1);
 						skillNames.push(data.skills[this.weaponIndex].name);
 					}
 				}
 				if(this.has("柔剣")){
-					if(thisEffSpd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemyEffSpd >= 7 - (this.has("柔剣") * 2)){
+					if(this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd >= 7 - (this.has("柔剣") * 2)){
 						gainCharge = Math.max(gainCharge, 1);
 						skillNames.push(data.skills[this.aIndex].name);
 					}
 				}
 				if(this.hasExactly("瞬閃アイラの剣")){
-					if(thisEffSpd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemyEffSpd >= 1){
+					if(this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd >= 1){
 						gainCharge = Math.max(gainCharge, 1);
 						skillNames.push(data.skills[this.weaponIndex].name);
 					}
@@ -6505,7 +6522,7 @@ function activeHero(hero){
 				enemy.charge++;
 			}
 
-			//show hp
+			//Show hp
 			//Make sure challenger is first and in blue
 			if(this.challenger){
 				damageText += this.name + " <span class=\"blue\">" + this.hp + "</span> : " + enemy.name + " <span class=\"red\">" + enemy.hp + "</span><br>";
@@ -6514,7 +6531,7 @@ function activeHero(hero){
 				damageText += enemy.name + " <span class=\"blue\">" + enemy.hp + "</span> : " + this.name + " <span class=\"red\">" + this.hp + "</span><br>";
 			}
 
-			//do damage again if brave weapon
+			//Do damage again if using brave weapon
 			if(brave && enemy.hp > 0){
 				damageText += this.name + " は、" + data.skills[this.weaponIndex].name + " により再度攻撃。<br>";
 				damageText += this.doDamage(enemy, false, false, false);
@@ -6524,11 +6541,12 @@ function activeHero(hero){
 		return damageText;
 	}
 
-	//represents a full round of combat
+	//Represents a full round of combat
+	//TODO: Refactor 'this/enemy' duplicate codes into 'this.function(enemy)/enemy.function(this)' functions
 	this.attack = function(enemy,round,renew,galeforce){
 
 		//Initialize round
-		var roundText = "";//Common theme: text is returned by helper functions, so the functions are called by adding them to roundText
+		var roundText = "";	//Common theme: text is returned by helper functions, so the functions are called by adding them to roundText
 		this.initiator = true;
 		enemy.initiator = false;
 		enemy.didAttack = false;
@@ -6539,10 +6557,11 @@ function activeHero(hero){
 		//Get relevant defense for simplified text output
 		var relevantDefType = (enemy.attackType == "magical") ? "res" : "def";
 
-		//Remove certain buffs
+		//Initialize combat buffs - remove previous round buffs
 		this.combatBuffs = {"atk":0,"spd":0,"def":0,"res":0};
 
 		//Don't do any buff crap if it's the second move of a turn (galeforce)
+		//***These are turn start skill effects***
 		if(!galeforce){
 			//Check self buffs (defiant skills)
 			roundText += this.defiant();
@@ -6561,6 +6580,12 @@ function activeHero(hero){
 				}
 				if(options.panic_enemy){
 					enemy.challenger ? this.panicked = true : enemy.panicked = true;
+				}
+				if(options.harsh_command_challenger){
+					this.challenger ? this.harshed = true : enemy.harshed = true;
+				}
+				if(options.harsh_command_enemy){
+					enemy.challenger ? this.harshed = true : enemy.harshed = true;
 				}
 				if(options.candlelight_challenger){
 					this.challenger ? this.lit = true : enemy.lit = true;
@@ -6591,7 +6616,7 @@ function activeHero(hero){
 			*/
 
 			//Check for charge effects
-			//***Does turn start Wrath check for health after Renew?***
+			//***Does Wrath check for health after Renew?***
 			roundText += this.charging();
 		}
 
@@ -6599,33 +6624,49 @@ function activeHero(hero){
 		this.combatStartHp = this.hp;
 		enemy.combatStartHp = enemy.hp;
 
-		//Check combat effects
+		//Initialize combat spur
 		this.combatSpur = {"atk":0,"spd":0,"def":0,"res":0};
 		enemy.combatSpur = {"atk":0,"spd":0,"def":0,"res":0};
 
 		roundText += this.startCombatSpur(enemy);
 		roundText += enemy.startCombatSpur(this);
 
-		//Adjust speeds
-		//***Speed currently calculated twice, once here and once in doDamage, should merge together***
-		var thisEffSpd = this.spd + Math.max(this.buffs.spd,this.combatBuffs.spd) + Math.min(this.debuffs.spd,this.combatDebuffs.spd) + this.spur.spd + this.combatSpur.spd;
-		var enemyEffSpd = enemy.spd + Math.max(enemy.buffs.spd,enemy.combatBuffs.spd) + Math.min(enemy.debuffs.spd,enemy.combatDebuffs.spd) + enemy.spur.spd + enemy.combatSpur.spd;
-		//Buff cancellation and reversion - Spd calculations
-		if(this.panicked){
-			thisEffSpd = this.spd - Math.max(this.buffs.spd,this.combatBuffs.spd) + Math.min(this.debuffs.spd,this.combatDebuffs.spd) + this.spur.spd + this.combatSpur.spd;
-		} else if(isBuffCancelled(this, enemy)){
-			thisEffSpd = this.spd + Math.min(this.debuffs.spd,this.combatDebuffs.spd) + this.spur.spd + this.combatSpur.spd;
+		//Initialize combat stats
+		//***Replaces effAtk, effSpd, etc. so stats only have to be calculated once per round and used in both attack() and doDamage()***
+		this.combatStat = {"atk":0,"spd":0,"def":0,"res":0};
+		enemy.combatStat = {"atk":0,"spd":0,"def":0,"res":0};
+		roundText += this.setCombatStats(enemy);
+		roundText += enemy.setCombatStats(this);
+
+		//Bladetome bonus
+		if (this.has("ラウアブレード") || this.has("ブラーブレード") || this.has("グルンブレード")){
+			var atkbonus = this.combatBuffs.atk + this.combatBuffs.spd + this.combatBuffs.def + this.combatBuffs.res;
+			this.combatStat.atk += atkbonus;
+			if (atkbonus != 0){roundText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、攻撃 +" + atkbonus + " 。<br>";}
 		}
-		if(enemy.panicked){
-			enemyEffSpd = enemy.spd - Math.max(enemy.buffs.spd,enemy.combatBuffs.spd) + Math.min(enemy.debuffs.spd,enemy.combatDebuffs.spd) + enemy.spur.spd + enemy.combatSpur.spd;
-		} else if(isBuffCancelled(enemy, this)){
-			enemyEffSpd = enemy.spd + Math.min(enemy.debuffs.spd,enemy.combatDebuffs.spd) + enemy.spur.spd + enemy.combatSpur.spd;
+		if (enemy.has("ラウアブレード") || enemy.has("ブラーブレード") || enemy.has("グルンブレード")){
+			var atkbonus = enemy.combatBuffs.atk + enemy.combatBuffs.spd + enemy.combatBuffs.def + enemy.combatBuffs.res;
+			enemy.combatStat.atk += atkbonus;
+			if (atkbonus != 0){roundText += enemy.name + " は、" + data.skills[enemy.weaponIndex].name + " の効果で、攻撃 +" + atkbonus + " 。<br>";}
+		}
+
+		//Blizzard bonus
+		if(this.has("ブリザード")){
+			var atkbonus = -1 * (enemy.combatDebuffs.atk + enemy.combatDebuffs.spd + enemy.combatDebuffs.def + enemy.combatDebuffs.res);
+			this.combatStat.atk += atkbonus;
+			if (atkbonus != 0){roundText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、攻撃 +" + atkbonus + " 。<br>";}
+		}
+		if(enemy.has("ブリザード")){
+			var atkbonus = -1 * (this.combatDebuffs.atk + this.combatDebuffs.spd + this.combatDebuffs.def + this.combatDebuffs.res);
+			enemy.combatStat.atk += atkbonus;
+			if (atkbonus != 0){roundText += enemy.name + " は、" + data.skills[enemy.weaponIndex].name + " の効果で、攻撃 +" + atkbonus + " 。<br>";}
+
 		}
 
 		//Check for AOE special activation
 		roundText += this.doDamage(enemy, false, true, false);
 
-		//check for Brave weapons, brave will be passed to this.doDamage
+		//Check for Brave weapons, brave will be passed to this.doDamage
 		var brave = false;
 		if(this.has("勇者の剣") || this.has("勇者の槍") || this.has("勇者の斧") || this.has("勇者の弓")
 			|| this.hasExactly("ダイムサンダ") || this.hasExactly("アミーテ")){
@@ -6633,6 +6674,7 @@ function activeHero(hero){
 		}
 
 		//Check for Vantage
+		//***Does Vantage + Valaskjalf override Hardy Bearing?***
 		var vantage = false;
 		if(enemy.has("待ち伏せ")){
 			if(enemy.hp/enemy.maxHp <= .25 * enemy.has("待ち伏せ")){
@@ -6646,6 +6688,7 @@ function activeHero(hero){
 		}
 
 		//Check for Desperation
+		//***Does Desperation + Sol Katti override Hardy Bearing?***
 		var desperation = false;
 		if(this.has("攻め立て")){
 			if(this.hp/this.maxHp <= .25 * this.has("攻め立て")){
@@ -6711,31 +6754,31 @@ function activeHero(hero){
 		var enemyCanCounter = false;
 		//TODO: Make this mess more readable
 		if(!firesweep
-			&& !(windsweep && data.physicalWeapons.indexOf(enemy.weaponType) != -1 && thisEffSpd - enemyEffSpd >= windsweep)
-			&& !(watersweep && data.magicalWeapons.indexOf(enemy.weaponType) != -1 && thisEffSpd - enemyEffSpd >= watersweep)){
+			&& !(windsweep && data.physicalWeapons.indexOf(enemy.weaponType) != -1 && this.combatStat.spd - enemy.combatStat.spd >= windsweep)
+			&& !(watersweep && data.magicalWeapons.indexOf(enemy.weaponType) != -1 && this.combatStat.spd - enemy.combatStat.spd >= watersweep)){
 			if(this.range == enemy.range || anyRangeCounter){
 				enemyCanCounter = true;
 			}
 		}
-		if(this.has("幻惑の杖") && enemyCanCounter){
+		if (this.has("幻惑の杖") && enemyCanCounter){
 			if(this.combatStartHp / this.maxHp >= 1.5 + this.has("幻惑の杖") * -0.5){
 				roundText += enemy.name + " は、幻惑の杖 の効果で反撃不可。<br>";
 				enemyCanCounter = false;
 			}
 		}
-		if(this.hasExactly("幻惑") && enemyCanCounter){
+		if (this.hasExactly("幻惑") && enemyCanCounter){
 			roundText += enemy.name + " は、幻惑の効果で反撃不可。<br>";
 			enemyCanCounter = false;
 		}
-		if(enemy.lit && enemyCanCounter){
+		if (enemy.lit && enemyCanCounter){
 			roundText += enemy.name + " は、キャンドルサービス の効果で反撃不可。<br>";
 			enemyCanCounter = false;
 		}
-		if(this.has("サカの加護") && (enemy.weaponType == "axe" || enemy.weaponType == "sword" ||enemy.weaponType == "lance")){
+		if (this.has("サカの加護") && (enemy.weaponType == "axe" || enemy.weaponType == "sword" ||enemy.weaponType == "lance")){
 			roundText += enemy.name + " は、サカの加護 の効果で反撃不可。<br>";
 			enemyCanCounter = false;
 		}
-		if(this.has("死神の暗器・専用") && (enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" ||enemy.weaponType == "greentome")){
+		if (this.has("死神の暗器・専用") && (enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" ||enemy.weaponType == "greentome")){
 			roundText += enemy.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) の効果で反撃不可。<br>";
 			enemyCanCounter = false;
 		}
@@ -6779,16 +6822,16 @@ function activeHero(hero){
 				thisAttackRankChanged = true;
 			}
 		}
-		
+
 		//Check for auto follow-up counters
-		if(enemy.hasAtIndex("切り返し", enemy.bIndex)){
-			if(enemy.combatStartHp/enemy.maxHp >= 1 - 0.1 * enemy.hasAtIndex("切り返し", enemy.bIndex)){
+		if (enemy.hasAtIndex("切り返し", enemy.bIndex)){
+			if (enemy.combatStartHp/enemy.maxHp >= 1 - 0.1 * enemy.hasAtIndex("切り返し", enemy.bIndex)){
 				enemyAttackRank++;
 				enemyAttackRankChanged = true;
 			}
 		}
-		if(enemy.hasAtIndex("切り返し", enemy.sIndex)){
-			if(enemy.combatStartHp/enemy.maxHp >= 1 - 0.1 * enemy.hasAtIndex("切り返し", enemy.sIndex)){
+		if (enemy.hasAtIndex("切り返し", enemy.sIndex)){
+			if (enemy.combatStartHp/enemy.maxHp >= 1 - 0.1 * enemy.hasAtIndex("切り返し", enemy.sIndex)){
 				enemyAttackRank++;
 				enemyAttackRankChanged = true;
 			}
@@ -6828,6 +6871,15 @@ function activeHero(hero){
 				thisAttackRankChanged = true;
 				enemyAttackRankChanged = true;
 			}
+		}
+
+		if(this.hasExactly("神炎のブレス") && this.combatStat.def >= enemy.combatStat.def + 5){
+			enemyAttackRank--;
+			enemyAttackRankChanged = true;
+		}
+		if(enemy.hasExactly("神炎のブレス") && enemy.combatStat.def >= this.combatStat.def + 5){
+			thisAttackRank--;
+			thisAttackRankChanged = true;
 		}
 
 		//check for Breaker skills
@@ -6921,7 +6973,7 @@ function activeHero(hero){
 			thisFollowUp = false;
 			roundText += this.name + " は、追撃できない。<br>";
 		}else{
-			thisFollowUp = thisEffSpd-enemyEffSpd >= 5;
+			thisFollowUp = this.combatStat.spd-enemy.combatStat.spd >= 5;
 			if (thisAttackRankChanged){
 				roundText += this.name + " の追撃関連スキルが競合し、相殺される。<br>";
 			}
@@ -6934,7 +6986,7 @@ function activeHero(hero){
 			enemyFollowUp = false;
 			roundText += enemy.name + " は、追撃できない。<br>";
 		}else{
-			enemyFollowUp = thisEffSpd-enemyEffSpd <= -5;
+			enemyFollowUp = this.combatStat.spd-enemy.combatStat.spd <= -5;
 			if (enemyAttackRankChanged){
 				roundText += enemy.name + " の追撃関連スキルが競合し、相殺される。<br>";
 			}
@@ -6992,7 +7044,7 @@ function activeHero(hero){
 			roundText += this.endCombatDamage();
 		}
 
-		//Remove debuffs - action done
+		//Initialize combat debuffs - remove debuffs when action done and round complete
 		this.combatDebuffs = {"atk":0,"spd":0,"def":0,"res":0};
 		this.panicked = false;
 		this.lit = false;
