@@ -5976,7 +5976,7 @@ function activeHero(hero){
 			else if((this.color=="green"&&enemy.color=="red")||(this.color=="red"&&enemy.color=="blue")||(this.color=="blue"&&enemy.color=="green")){
 				weaponAdvantage = -1;
 			}
-			else if(this.color=="gray" && (enemy.has("ラウアレイヴン") || enemy.has("ブラーレイヴン") || enemy.has("グルンレイヴン") || this.has("ナグルファル"))){
+			else if(this.color=="gray" && (enemy.has("ラウアレイヴン") || enemy.has("ブラーレイヴン") || enemy.has("グルンレイヴン") || enemy.has("ナグルファル"))){
 				weaponAdvantage = -1;
 			}
 
@@ -6786,15 +6786,17 @@ function activeHero(hero){
 		//Check for auto follow-up skills
 		if (enemyCanCounter){
 			if (this.hasAtIndex("差し違え", this.bIndex)){
-				if (this.hp/this.maxHp <= .2 +  this.hasAtIndex("差し違え", this.bIndex) * 0.1){
+				if (this.hp/this.maxHp <= 0.2 +  this.hasAtIndex("差し違え", this.bIndex) * 0.1){
 					thisAttackRank++;
 					thisAttackRankChanged = true;
+					console.log("a");
 				}
 			}
 			if (this.hasAtIndex("差し違え", this.sIndex)){
-				if (this.hp/this.maxHp <= .2 +  this.hasAtIndex("差し違え", this.sIndex) * 0.1){
+				if (this.hp/this.maxHp <= 0.2 +  this.hasAtIndex("差し違え", this.sIndex) * 0.1){
 					thisAttackRank++;
 					thisAttackRankChanged = true;
+					console.log("b");
 				}
 			}
 			if (this.has("ソール・カティ") && this.hasAtRefineIndex("ソール・カティ・専用", this.refineIndex)){
