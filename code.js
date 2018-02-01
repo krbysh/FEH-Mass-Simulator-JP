@@ -141,11 +141,12 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
+	"アイク(伝承の神将) (5★);Weapon: ラグネル;Special: 蒼の天空;A: 明鏡の呼吸;B: 攻撃守備封じ 2;C: 守備の指揮 3;",
+	"マリカ (5★);Weapon: 倭刀+;Special: 凶星;A: ＨＰ守備 2;C: 歩行の鼓動 3;",
 	"エイリーク(聖魔の追憶) (5★);Weapon: グレイプニル;Assist: 攻撃速さの応援;A: 鬼神飛燕の一撃 2;B: 攻め立て 3;",
 	"ミルラ (5★);Weapon: 神炎のブレス;Special: 緋炎;A: 獅子奮迅 3;C: 竜刃の鼓舞;",
 	"ラーチェル (5★);Weapon: イーヴァルディ ;Special: 爆光;B: 回復 3;C: 魔防の指揮 3;",
-	"リオン (5★);Weapon: ナグルファル;Special: 復讐;A: 攻撃魔防 2;C: 魔防の大紋章 2;",
-	"マリカ (5★);Weapon: 倭刀+;Special: 凶星;A: ＨＰ守備 2;C: 歩行の鼓動 3;"
+	"リオン (5★);Weapon: ナグルファル;Special: 復讐;A: 攻撃魔防 2;C: 魔防の大紋章 2;"
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -5272,38 +5273,46 @@ function activeHero(hero){
 			}
 
 			//Skills
+			if(this.has("鬼神の呼吸")){
+				this.combatSpur.atk += 4;
+				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、攻撃 +4 。<br>";
+			}
+			if(this.has("飛燕の呼吸")){
+				this.combatSpur.spd += 4;
+				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、速さ +4 。<br>";
+			}
 			if(this.has("金剛の呼吸")){
 				this.combatSpur.def += 4;
-				boostText += this.name + " は、金剛の呼吸 の効果で、敵から攻撃された時、守備 +4 。<br>";
+				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、守備 +4 。<br>";
+			}
+			if(this.has("明鏡の呼吸")){
+				this.combatSpur.res += 4;
+				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、魔防 +4 。<br>";
 			}
 
 			if(this.has("鬼神の構え")){
 				buffVal = this.has("鬼神の構え") * 2;
-				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.atk += buffVal;
-				boostText += this.name + " は、" + skillName + " の効果で、敵から攻撃された時、攻撃 +" + buffVal + " 。<br>";
+				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、攻撃 +" + buffVal + " 。<br>";
 			}
 
 			//***Speed Stance not in game - need to rename***
 			if(this.has("飛燕の構え")){
 				buffVal = this.has("飛燕の構え") * 2;
-				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.spd += buffVal;
-				boostText += this.name + " は、" + skillName + " の効果で、敵から攻撃された時、速さ +" + buffVal + " 。<br>";
+				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、速さ +" + buffVal + " 。<br>";
 			}
 
 			if(this.has("金剛の構え")){
 				buffVal = this.has("金剛の構え") * 2;
-				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.def += buffVal;
-				boostText += this.name + " は、" + skillName + " の効果で、敵から攻撃された時、守備 +" + buffVal + " 。<br>";
+				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、守備 +" + buffVal + " 。<br>";
 			}
 
 			if(this.has("明鏡の構え")){
 				buffVal = this.has("明鏡の構え") * 2;
-				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.res += buffVal;
-				boostText += this.name + "は、" + skillName + " の効果で、敵から攻撃された時、魔防 +" + buffVal + " 。<br>";
+				boostText += this.name + "は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、魔防 +" + buffVal + " 。<br>";
 			}
 
 			return boostText;
@@ -5401,14 +5410,23 @@ function activeHero(hero){
 
 		if(!enemy.has("エンブラの加護")){
 			var poison = 0;
-			if(this.has("蛇毒")){
-				poison = this.has("蛇毒")*3+1;
+			if(this.hasAtIndex("蛇毒", this.bIndex)){
+				poison = this.hasAtIndex("蛇毒", this.bIndex)*3+1;
 				skillName = data.skills[this.bIndex].name;
 				if(enemy.hp - poison <= 0){
 					poison = enemy.hp - 1;
 				}
 				enemy.hp -= poison;
 				poisonEnemyText += enemy.name + " は、"  + skillName + " の効果で、戦闘後、" + poison + " ダメージ。<br>";
+			}
+			if(this.hasAtIndex("蛇毒", this.sIndex)){
+				poison = this.hasAtIndex("蛇毒", this.sIndex)*3+1;
+				skillName = data.skills[this.sIndex].name;
+				if(enemy.hp - poison <= 0){
+					poison = enemy.hp - 1;
+				}
+				enemy.hp -= poison;
+				poisonEnemyText += enemy.name + " は、"  + skillName + "(聖印) の効果で、戦闘後、" + poison + " ダメージ。<br>";
 			}
 			if(this.has("死神の暗器") && this.refineIndex == -1){
 				poison = 7;
@@ -5936,7 +5954,7 @@ function activeHero(hero){
 					dmgBoost += (this.maxHp-this.hp) * 0.5;
 					offensiveSpecialActivated = true;
 				}
-				else if(this.hasExactly("天空")){
+				else if(this.hasExactly("天空") || this.hasExactly("蒼の天空")){
 					enemyDefModifier = -0.5;
 					absorbPct = 0.5;
 					offensiveSpecialActivated = true;
@@ -6416,8 +6434,20 @@ function activeHero(hero){
 				var loseCharge = 0;
 				var skillNames = [];
 
-				//Steady Breath: Initiator has
+				//-Breath: Initiator has
+				if(!this.initiator && this.has("鬼神の呼吸")){
+					gainCharge = Math.max(gainCharge, 1);
+					skillNames.push(data.skills[this.aIndex].name);
+				}
+				if(!this.initiator && this.has("飛燕の呼吸")){
+					gainCharge = Math.max(gainCharge, 1);
+					skillNames.push(data.skills[this.aIndex].name);
+				}
 				if(!this.initiator && this.has("金剛の呼吸")){
+					gainCharge = Math.max(gainCharge, 1);
+					skillNames.push(data.skills[this.aIndex].name);
+				}
+				if(!this.initiator && this.has("明鏡の呼吸")){
 					gainCharge = Math.max(gainCharge, 1);
 					skillNames.push(data.skills[this.aIndex].name);
 				}
@@ -6492,8 +6522,20 @@ function activeHero(hero){
 				var loseCharge = 0;
 				var skillNames = [];
 
-				//Steady Breath: Enemy has
+				//-Breath: Enemy has
+				if(this.initiator && enemy.has("鬼神の呼吸")){
+					gainCharge = Math.max(gainCharge, 1);
+					skillNames.push(data.skills[enemy.aIndex].name);
+				}
+				if(this.initiator && enemy.has("飛燕の呼吸")){
+					gainCharge = Math.max(gainCharge, 1);
+					skillNames.push(data.skills[enemy.aIndex].name);
+				}
 				if(this.initiator && enemy.has("金剛の呼吸")){
+					gainCharge = Math.max(gainCharge, 1);
+					skillNames.push(data.skills[enemy.aIndex].name);
+				}
+				if(this.initiator && enemy.has("明鏡の呼吸")){
 					gainCharge = Math.max(gainCharge, 1);
 					skillNames.push(data.skills[enemy.aIndex].name);
 				}
