@@ -409,13 +409,16 @@ $(document).ready(function(){
 	for(var i = 0; i < data.heroes.length; i++){
 		heroHTML += "<option value=" + i + " class=\"hero_option\">" + data.heroes[i].name + "</option>";
 	}
-	$("#challenger_name, #cl_enemy_name").html(heroHTML).select2({selectOnClose: true, dropdownAutoWidth : true});
+	$("#challenger_name, #cl_enemy_name").html(heroHTML).select2({selectOnClose: true, dropdownAutoWidth : true, matcher: matchStartHeroes});
 
 	//Inject select2 UI
-	$("#challenger_weapon, #challenger_refine, #challenger_assist, #challenger_special, #challenger_a, #challenger_b, #challenger_c, #challenger_s").select2({selectOnClose: true, dropdownAutoWidth : true});
-	$("#enemies_weapon, #enemies_refine, #enemies_assist, #enemies_special, #enemies_a, #enemies_b, #enemies_c, #enemies_s").select2({selectOnClose: true, dropdownAutoWidth : true});
-	$("#cl_enemy_weapon, #cl_enemy_refine, #cl_enemy_assist, #cl_enemy_special, #cl_enemy_a, #cl_enemy_b, #cl_enemy_c, #cl_enemy_s").select2({selectOnClose: true, dropdownAutoWidth : true});
-	$("#enemies_weapon, #enemies_refine, #enemies_assist, #enemies_special, #enemies_a, #enemies_b, #enemies_c, #enemies_s").select2({selectOnClose: true, dropdownAutoWidth : true});
+	$("#challenger_weapon, #challenger_assist, #challenger_assist, #challenger_special, #challenger_a, #challenger_b, #challenger_c, #challenger_s").select2({selectOnClose: true, dropdownAutoWidth : true});
+	$("#enemies_weapon, #challenger_assist, #enemies_assist, #enemies_special, #enemies_a, #enemies_b, #enemies_c, #enemies_s").select2({selectOnClose: true, dropdownAutoWidth : true});
+	$("#cl_enemy_weapon, #challenger_assist, #cl_enemy_assist, #cl_enemy_special, #cl_enemy_a, #cl_enemy_b, #cl_enemy_c, #cl_enemy_s").select2({selectOnClose: true, dropdownAutoWidth : true});
+	$("#enemies_weapon, #challenger_assist, #enemies_assist, #enemies_special, #enemies_a, #enemies_b, #enemies_c, #enemies_s").select2({selectOnClose: true, dropdownAutoWidth : true});
+	//Inject select2 UI with matcher for data.refine
+	$("#challenger_refine, #enemies_refine, #cl_enemy_refine, #enemies_refine").select2({selectOnClose: true, dropdownAutoWidth : true});
+	//Inject select2 UI for Full List overwrite options
 	$("#enemies_weapon_overwrite, #enemies_assist_overwrite, #enemies_special_overwrite, #enemies_a_overwrite, #enemies_b_overwrite, #enemies_c_overwrite").select2({selectOnClose: true, dropdownAutoWidth : true, minimumResultsForSearch: -1});
 
 	//Load Custom Lists
@@ -854,6 +857,7 @@ function initHero(hero, alreadyHasSkills){
 
 function initEnemyList(){
 	setFlEnemies();
+	updateFlEnemies();
 	setSkills(enemies.fl);
 	setStats(enemies.fl);
 }
@@ -1638,6 +1642,7 @@ function resetHero(hero,blockInit){//also resets fl, despite singular name - pas
 		updateChallengerUI();
 	}
 	else{
+		//If current enemy list is Full List
 		if(options.customEnemyList == 0){
 			hero.weapon = -1;
 			hero.refine = -1;
@@ -1885,7 +1890,7 @@ function resetFilter(){
 }
 
 //Select2 match function for matching starting characters
-function matchStart(params, data) {
+function matchStartHeroes(params, data) {
 	//If there are no search terms, return all of the data
     if ($.trim(params.term) === '') {
 		return data;
@@ -1899,6 +1904,135 @@ function matchStart(params, data) {
 	//If search term appears in the beginning of data's text
 	if (data.text.toUpperCase().indexOf(params.term.toUpperCase()) == 0) {
 		return data;
+	}
+
+
+	//If search term is a number, match with BST that are greater than the input
+	if (isNaN(params.term) == false && data.id != -1){
+		if (this.data.heroes[data.id].basehp + this.data.growths[4][this.data.heroes[data.id].hpgrowth]
+			+ this.data.heroes[data.id].baseatk + this.data.growths[4][this.data.heroes[data.id].atkgrowth]
+			+ this.data.heroes[data.id].basespd + this.data.growths[4][this.data.heroes[data.id].spdgrowth]
+			+ this.data.heroes[data.id].basedef + this.data.growths[4][this.data.heroes[data.id].defgrowth]
+			+ this.data.heroes[data.id].baseres + this.data.growths[4][this.data.heroes[data.id].resgrowth]
+			>= parseInt(params.term)){
+			return data;
+		}
+	}
+
+    //Return `null` if the term should not be displayed
+    return null;
+}
+
+//Select2 match function for matching starting characters - Uses data.skills
+function matchStartSkills(params, data) {
+	//If there are no search terms, return all of the data
+    if ($.trim(params.term) === '') {
+		return data;
+    }
+
+    //Do not display the item if there is no 'text' property
+    if (typeof data.text === 'undefined') {
+		return null;
+    }
+
+	//If search term appears in the beginning of data's text
+	if (data.text.toUpperCase().indexOf(params.term.toUpperCase()) == 0) {
+		return data;
+	}
+
+	//If search term is a number, match with sp cost that are greater than the input
+	if (isNaN(params.term) == false && data.id != -1){
+		if (this.data.skills[data.id].sp >= parseInt(params.term)){
+			return data;
+		}
+	}
+
+    //Return `null` if the term should not be displayed
+    return null;
+}
+
+//Select2 match function for matching starting characters - Uses data.refine
+function matchStartRefine(params, data) {
+	//If there are no search terms, return all of the data
+    if ($.trim(params.term) === '') {
+		return data;
+    }
+
+    //Do not display the item if there is no 'text' property
+    if (typeof data.text === 'undefined') {
+		return null;
+    }
+
+	//If search term appears in the beginning of data's text
+	if (data.text.toUpperCase().indexOf(params.term.toUpperCase()) == 0) {
+		return data;
+	}
+
+	//If search term is a number, match with sp cost that are greater than the input
+	if (isNaN(params.term) == false && data.id != -1){
+		if (this.data.refine[data.id].sp >= parseInt(params.term)){
+			return data;
+		}
+	}
+
+    //Return `null` if the term should not be displayed
+    return null;
+}
+
+//Select2 match function for matching starting characters - Uses data.skills
+function matchStartSkills(params, data) {
+	//If there are no search terms, return all of the data
+    if ($.trim(params.term) === '') {
+		return data;
+    }
+
+    //Do not display the item if there is no 'text' property
+    if (typeof data.text === 'undefined') {
+		return null;
+    }
+
+	//If search term appears in the beginning of data's text
+	if (data.text.toUpperCase().indexOf(params.term.toUpperCase()) == 0) {
+		return data;
+	}
+
+	//If search term is a number, match with sp cost that are greater than the number
+	if (isNaN(params.term) == false){
+		if (data.id != -1){
+			if (this.data.skills[data.id].sp >= parseInt(params.term)){
+				return data;
+			}
+		}
+	}
+
+    //Return `null` if the term should not be displayed
+    return null;
+}
+
+//Select2 match function for matching starting characters - Uses data.refine
+function matchStartRefine(params, data) {
+	//If there are no search terms, return all of the data
+    if ($.trim(params.term) === '') {
+		return data;
+    }
+
+    //Do not display the item if there is no 'text' property
+    if (typeof data.text === 'undefined') {
+		return null;
+    }
+
+	//If search term appears in the beginning of data's text
+	if (data.text.toUpperCase().indexOf(params.term.toUpperCase()) == 0) {
+		return data;
+	}
+
+	//If search term is a number, match with sp cost that are greater than the number
+	if (isNaN(params.term) == false){
+		if (data.id != -1){
+			if (this.data.refine[data.id].sp >= parseInt(params.term)){
+				return data;
+			}
+		}
 	}
 
     //Return `null` if the term should not be displayed
@@ -4776,7 +4910,7 @@ function activeHero(hero){
 		var statJp;
 
 		//Chilling Seal Debuff
-		if ((enemy.challenger && options.chilled_challenger) || (!enemy.chalenger && options.chilled_enemy)){
+		if ((enemy.challenger && options.chilled_challenger) || (!enemy.challenger && options.chilled_enemy)){
 			debuffVal.atk = -6;
 			debuffVal.spd = -6;
 			skillNames.push("氷の封印");
