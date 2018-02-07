@@ -7497,7 +7497,7 @@
 		"def": 0,
 		"res": 0,
 		"charge": 0,
-		"inheritrule": "",
+		"inheritrule": "nonstaff",
 		"affectsduel": 1
 	}, {
 		"skill_id": 501,
@@ -7512,7 +7512,7 @@
 		"def": 0,
 		"res": 0,
 		"charge": 0,
-		"inheritrule": "",
+		"inheritrule": "nonstaff",
 		"affectsduel": 1
 	}, {
 		"skill_id": 502,
