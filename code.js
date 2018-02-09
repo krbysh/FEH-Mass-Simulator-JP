@@ -132,8 +132,15 @@ data.heroBaseSkills = [];
 data.heroMaxSkills = [[],[],[],[],[]]; //2d array; 1st num rarity, 2nd num skillindex
 
 data.skillsThatArePrereq = [];
-//Prereq exceptions are デュランダル、ティルフィング、エクスカリバー、ナーガ、オーラ、Sol, Luna, Astra, Assault, 聖兜
-data.skillPrereqExceptions = [16,23,65,66,91,125,162,168,170,193];
+//Prereq exceptions are:
+//Sol, Ardent Sacrifice, Luna, Astra, Assault, Sacred Cowl,
+//Armorslayer+, Killing Edge+, Raudrwolf+, Heavy Spear+, Killer Lance+, Blarwolf+,
+//Hammer+, Killer Axe+, Gronnwolf+, Assassin's Bow+, Killer Bow+
+data.skillPrereqExceptions = [
+	125, 137, 162, 168, 170, 193,
+	6, 10, 38, 74, 76, 87,
+	50, 52, 64,	107, 111
+	];
 
 data.enemyPrompts = {
 	//Just for fun, special messages for some of my favorites ;)
@@ -6013,6 +6020,10 @@ function activeHero(hero){
 						AOEDamage += 10;
 						damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 					}
+					if(this.has("怒り") && (this.hp / this.maxHp <= .25 * this.has("怒り"))){
+						AOEDamage += 10;
+						damageText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
+					}
 					if(enemy.has("エンブラの加護")){
 						AOEDamage = 0;
 					}
@@ -6108,11 +6119,9 @@ function activeHero(hero){
 					damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 				}
 				//Wrath damage is checked when special is activated
-				if(this.has("怒り")){
-					if(this.hp/this.maxHp <= .25 * this.has("怒り")){
-						dmgBoostFlat += 10;
-						damageText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
-					}
+				if(this.has("怒り") && (this.hp/this.maxHp <= .25 * this.has("怒り"))){
+					dmgBoostFlat += 10;
+					damageText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 				}
 			}
 		}
