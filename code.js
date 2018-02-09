@@ -148,12 +148,11 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"アイク(伝承の神将) (5★);Weapon: ラグネル;Special: 蒼の天空;A: 明鏡の呼吸;B: 攻撃守備封じ 2;C: 守備の指揮 3;",
-	"マリカ (5★);Weapon: 倭刀+;Special: 凶星;A: ＨＰ守備 2;C: 歩行の鼓動 3;",
-	"エイリーク(聖魔の追憶) (5★);Weapon: グレイプニル;Assist: 攻撃速さの応援;A: 鬼神飛燕の一撃 2;B: 攻め立て 3;",
-	"ミルラ (5★);Weapon: 神炎のブレス;Special: 緋炎;A: 獅子奮迅 3;C: 竜刃の鼓舞;",
-	"ラーチェル (5★);Weapon: イーヴァルディ ;Special: 爆光;B: 回復 3;C: 魔防の指揮 3;",
-	"リオン (5★);Weapon: ナグルファル;Special: 復讐;A: 攻撃魔防 2;C: 魔防の大紋章 2;"
+	"エリウッド(運命の息吹) (5★);Weapon: カサブランカ+;Assist: 攻撃守備の応援;A: 生命の業火 3;C: 重刃の紋章;",
+	"ロイ(大好きの気持ちを…) (5★);Weapon: グラーティア+;Assist: 相互援助;A: 鬼神の一撃 3;C: 弓の技量 3;",
+	"リリーナ(大好きの気持ちを…) (5★);Weapon: 緑のプレゼント箱+;Special: 烈火;A: ＨＰ攻撃 2;C: 攻撃の指揮 3;",
+	"ヘクトル(大好きの気持ちを…) (5★);Weapon: 狂斧アルマーズ;Special: 凶星;A: 遠距離反撃;B: 守備隊形 3;",
+	"リン(大好きの気持ちを…) (5★);Weapon: 青のプレゼント箱+;Assist: 献身;A: 攻撃速さの絆 3;B: キャンセル 3;C: 重装の行軍 3;",
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -1002,7 +1001,9 @@ function getValidRefineSkills(hero){
 		//For each prereq in prereqList, each if it matches hero weapon name EXACTLY
 		for (var prereq = 0; prereq < prereqList.length; prereq++){
 			if (heroWeaponName == prereqList[prereq]){
-				isPrereq = true;
+				if (data.refine[i].exclusive == "" || data.refine[i].exclusive.split(",").indexOf(data.heroes[hero.index].name) != -1){
+					isPrereq = true;
+				}
 			}
 		}
 		//If refine option is valid, push the option's index into the list
@@ -1066,7 +1067,8 @@ function getCDChange(skill, slot){
 			|| skillName.indexOf("キラーボウ") != -1	|| skillName.indexOf("キラーボウ鍛") != -1 	|| skillName.indexOf("キルソード鍛") != -1
 			|| skillName.indexOf("キラーアクス鍛") != -1	|| skillName.indexOf("キラーランス鍛") != -1	|| skillName.indexOf("魔性の槍") != -1
 			|| skillName.indexOf("ミストルティン") != -1	|| skillName.indexOf("オートクレール") != -1	|| skillName.indexOf("ウルヴァン") != -1
-			|| skillName.indexOf("アウドムラ") != -1 || skillName.indexOf("鏡餅") != -1
+			|| skillName.indexOf("アウドムラ") != -1 || skillName.indexOf("鏡餅") || skillName.indexOf("バシリコス") != -1
+			|| skillName.indexOf("狂斧アルマーズ") != -1
 			){
 				return -1;
 		}
@@ -1375,7 +1377,10 @@ function updateHealth(value, hero){
 function updateSpt(hero){
 	hero.spt = 0;
 	hero.spt += (hero.weapon != -1 ? data.skills[hero.weapon].sp : 0);
-	hero.spt += (hero.refine != -1 ? (data.refine[hero.refine].sp - data.skills[hero.weapon].sp) : 0);
+	//TODO: Look into this and refine db to prevent negative sp from being added
+	if (hero.refine != -1 && data.refine[hero.refine].sp > data.skills[hero.weapon].sp){
+		hero.spt += data.refine[hero.refine].sp - data.skills[hero.weapon].sp
+	}
 	hero.spt += (hero.assist != -1 ? data.skills[hero.assist].sp : 0);
 	hero.spt += (hero.special != -1 ? data.skills[hero.special].sp : 0);
 	hero.spt += (hero.a != -1 ? data.skills[hero.a].sp : 0);
@@ -3168,12 +3173,10 @@ function loadCustomList(index){
 	importText("enemies", {ggl:listText});
 }
 
-//Search for refine index by name and category
-//TODO: Change from exporting refineName/category as key to exporting refineName/weaponName to match against name/prereq instead?
-// 		Can merge duplicate entries in DB using this logic.
+//Search for refine index by weapon name and refine name
 function searchRefineIndex(refine){
 	for (var i = 0; i < data.refine.length; i++){
-		if (refine[0] == data.refine[i].name.toLowerCase() && refine[1] == data.refine[i].category.toLowerCase()){
+		if (data.refine[i].prereq.toLowerCase().split(",").indexOf(refine[0]) != -1 && refine[1] == data.refine[i].name.toLowerCase()){
 			return i;
 		}
 	}
@@ -3320,7 +3323,7 @@ function getExportText(side){
 			data.skillSlots.forEach(function(slot){
 				if(hero[slot] != -1){
 					if(slot == "refine"){
-						heroExportText += capitalize(slot) + ": " + data.refine[hero[slot]].name + " - " + data.refine[hero[slot]].category + delimiter;
+						heroExportText += capitalize(slot) + ": " + data.skills[hero.weapon].name + " - " + data.refine[hero[slot]].name + delimiter;
 					}else{
 						heroExportText += capitalize(slot) + ": " + data.skills[hero[slot]].name + delimiter;
 					}
@@ -4827,16 +4830,25 @@ function activeHero(hero){
 		}
 
 		//Weapons
-		if(this.has("フェンサリル")){
+		if (this.has("フェンサリル")){
 			threatDebuffs.atk = Math.min(threatDebuffs.atk,-4);
 			skillNames.push(data.skills[this.weaponIndex].name);
 		}
-		if(this.has("エッケザックス")){
+		if (this.has("エッケザックス")){
 			threatDebuffs.def = Math.min(threatDebuffs.def,-4);
 			skillNames.push(data.skills[this.weaponIndex].name);
 		}
+		if (this.hasExactly("エッケザックス")){
+			if (this.refineIndex == -1){
+				threatDebuffs.def = Math.min(threatDebuffs.def, -4);
+				skillNames.push("エッケザックス");
+			}else if (enemy.weaponType != "dragon"){
+				threatDebuffs.def = Math.min(threatDebuffs.def, -6);
+				skillNames.push("エッケザックス(錬成)");
+			}
+		}
 
-		if(skillNames.length > 0){
+		if (skillNames.length > 0){
 			var statChanges = [];
 			var statJp;
 
@@ -4861,13 +4873,14 @@ function activeHero(hero){
 	}
 
 	//Turn counting is complicated due to mix & matching turn order, will revisit later if necessary.
-	//Currently repeat effects are not applied since there are only 4 rounds (2 exchanges max) in this simulator
+	//Currently renew repeat effects are not applied since there are only 4 rounds (2 exchanges max) in this simulator
+	//TODO: Implement Turn counting properly for more than 4 rounds
 	this.renewal = function(renew){
 		var renewText = "";
 
 		//Effects that apply on renewal turn
 		if (renew){
-			if(this.has("回復")){
+			if (this.has("回復")){
 				//if(turn % (5 - this.has("Renewal")) == 0){
 				if(this.hp + 10 > this.maxHp){
 					this.hp = this.maxHp;
@@ -4876,14 +4889,25 @@ function activeHero(hero){
 				}
 				renewText += this.name + " は 回復 の効果で ＨＰ 10 回復。<br>";
 			}
-			if(this.has("ファルシオン")){
-				//if(turn % 3 == 0){
-				if(this.hp + 10 > this.maxHp){
-					this.hp = this.maxHp;
-				} else{
-					this.hp += 10;
+			if (this.has("ファルシオン")){
+				//Not refined - every third turn - if(turn % 3 == 0){
+				if (this.refineIndex == -1){
+					if(this.hp + 10 > this.maxHp){
+						this.hp = this.maxHp;
+					} else{
+						this.hp += 10;
+					}
+					renewText += this.name + " は ファルシオン の効果で ＨＰ 10 回復。<br>";
 				}
-				renewText += this.name + " は ファルシオン の効果で ＨＰ 10 回復。<br>";
+				//Refined - every other turn
+				else {
+					if(this.hp + 10 > this.maxHp){
+						this.hp = this.maxHp;
+					} else{
+						this.hp += 10;
+					}
+					renewText += this.name + " は ファルシオン(錬成) の効果で ＨＰ 10 回復。<br>";
+				}
 			}
 		}
 
@@ -4898,6 +4922,15 @@ function activeHero(hero){
 	//Turn start charge effects
 	this.charging = function(){
 		var chargingText = "";
+
+		//Weapon
+		//TODO: Check if Berserk Armads stacks with Wrath
+		if (this.hasExactly("狂斧アルマーズ") && getSpecialType(data.skills[this.specialIndex]) == "offensive"){
+			if(this.hp/this.maxHp <= .75){
+				this.charge++;
+				chargingText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、奥義カウント -1 。<br>";
+			}
+		}
 
 		//Wrath
 		if(this.has("怒り") && getSpecialType(data.skills[this.specialIndex]) == "offensive"){
@@ -5145,6 +5178,24 @@ function activeHero(hero){
 			var skillName = "";
 			var buffVal = 0;
 
+			//Weapons
+			if (this.hasExactly("ヒノカの紅薙刀")){
+				buffVal = 4;
+				skillName = data.skills[this.weaponIndex].name;
+				this.combatSpur.atk += buffVal;
+				this.combatSpur.spd += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で、歩行か飛行の味方が２マス以内にいる時、攻撃、速さ +" + buffVal + " 。<br>";
+			}
+			if (this.hasAtRefineIndex("ファルシオン覚醒・専用", this.refineIndex)){
+				buffVal = 4;
+				skillName = data.skills[this.weaponIndex].name;
+				this.combatSpur.atk += buffVal;
+				this.combatSpur.spd += buffVal;
+				this.combatSpur.def += buffVal;
+				this.combatSpur.res += buffVal;
+				boostText += this.name + " は、" + skillName + "(錬成) の効果で味方と隣接しているため、攻撃、速さ、守備、魔防 +" + buffVal + " 。<br>";
+			}
+
 			//Owl Tomes
 			if (this.has("ブラーアウル") || this.has("グルンアウル") || this.has("ラウアアウル") || this.hasExactly("ニーズヘッグ")){
 				buffVal = this.adjacent * 2;
@@ -5356,7 +5407,14 @@ function activeHero(hero){
 					buffVal = this.hasAtIndex("遠距離防御", this.sIndex) * 2;
 					this.combatSpur.def += buffVal;
 					this.combatSpur.res += buffVal;
-					boostText += this.name + " は、" + data.skills[this.sIndex].name + " (聖印) の効果で遠距離の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
+					boostText += this.name + " は、" + data.skills[this.sIndex].name + "(聖印) の効果で遠距離の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
+				}
+				if(this.hasAtRefineIndex("エッケザックス・専用", this.refineIndex)){
+					buffVal = 6;
+					this.combatSpur.def += buffVal;
+					this.combatSpur.res += buffVal;
+					boostText += this.name + " は、" + data.skills[this.sIndex].name + "(錬成) の効果で遠距離の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
+					boostText += this.name + " gets +" + buffVal + " Def/Res from being attacked from range with " + data.skills[this.weaponIndex].name + " (Refined).<br>";
 				}
 			}
 			if(enemy.range == "melee"){
@@ -5370,7 +5428,7 @@ function activeHero(hero){
 					buffVal = this.hasAtIndex("近距離防御", this.sIndex) * 2;
 					this.combatSpur.def += buffVal;
 					this.combatSpur.res += buffVal;
-					boostText += this.name + " は、" + data.skills[this.sIndex].name + " (聖印) の効果で近距離の敵近距離から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
+					boostText += this.name + " は、" + data.skills[this.sIndex].name + "(聖印) の効果で近距離の敵近距離から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
 				}
 			}
 
@@ -5655,6 +5713,12 @@ function activeHero(hero){
 					damageText += this.name + " は、"  + skillName + " の効果で、戦闘後、" + damage + " ダメージ。<br>";
 					totalDamage += damage;
 				}
+				if (this.initiator && this.hasAtRefineIndex("ファルシオン外伝・専用", this.refineIndex) && (this.combatStartHp / this.maxHp == 1)){
+					damage = 5;
+					skillName = data.skills[this.weaponIndex].name;
+					damageText += this.name + " は、"  + skillName + "(錬成) の効果で、戦闘後、" + damage + " ダメージ。<br>";
+					totalDamage += damage;
+				}
 			}
 
 			//Total
@@ -5793,7 +5857,7 @@ function activeHero(hero){
 			if (this.hasExactly("死神の暗器")){
 				sealStats(data.skills[this.weaponIndex].name, ["def","res"], [-7]);
 			}
-			if (this.has("銀の暗器") || this.has("貝殻") || this.has("舞踏祭の扇子") || this.has("鏡餅")){
+			if (this.has("銀の暗器") || this.has("貝殻") || this.has("舞踏祭の扇子") || this.has("鏡餅") || this.has("フェリシアの氷皿")){
 				sealStats(data.skills[this.weaponIndex].name, ["def","res"], [-5, -7]);
 			}
 			if (this.has("猫の暗器") && (enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" || enemy.weaponType == "greentome")){
@@ -5952,6 +6016,9 @@ function activeHero(hero){
 		if (opponent.hasExactly("聖書ナーガ")){
 			return true;
 		}
+		if ((opponent.has("カサブランカ") || opponent.has("青のプレゼント箱") || opponent.has("緑のプレゼント箱") || opponent.has("グラーティア")) && hero.range == "ranged"){
+			return true;
+		}
 		//Refinement
 		if (opponent.hasExactly("重装無効化") && hero.moveType == "armored"){
 			return true;
@@ -5968,6 +6035,21 @@ function activeHero(hero){
 		}
 		//Not cancelled
 		return false
+	}
+
+	//Check if hero has adaptive attack
+	this.isAdaptive = function(enemy){
+		if (this.hasExactly("フェリシアの氷皿")){
+			return true;
+		}
+		if (this.hasExactly("神炎のブレス") && enemy.range == "ranged"){
+			return true;
+		}
+		if (this.weaponType == "dragon" && enemy.range == "ranged" && (this.refineIndex != -1)){
+			return true;
+		}
+		//Hero does not have adaptive attack
+		return false;
 	}
 
 	//represents one attack of combat
@@ -5987,8 +6069,8 @@ function activeHero(hero){
 		//Relavant defense stat
 		var relevantDef = (this.attackType == "magical") ? enemy.combatStat.res : enemy.combatStat.def;
 
-		//Refined Dragonstones
-		if (this.weaponType == "dragon" && enemy.range == "ranged" && (this.refineIndex != -1 || this.hasExactly("神炎のブレス"))){
+		//Check for adaptive attack
+		if (this.isAdaptive(enemy)){
 			relevantDef = (enemy.combatStat.def > enemy.combatStat.res) ? enemy.combatStat.res : enemy.combatStat.def;
 			if (!AOE) {damageText += this.name + " は、" + data.skills[hero.weapon].name + (this.refineIndex != -1 ? "(錬成)" : "") + " の効果で " + ((enemy.combatStat.def > enemy.combatStat.res) ? "魔防" : "守備" ) + " で計算。<br>";}
 		}
@@ -6017,6 +6099,10 @@ function activeHero(hero){
 					this.resetCharge();
 
 					if(this.has("倭刀") || this.hasExactly("共鳴エクスカリバー") || this.hasExactly("気鋭ワユの剣") || this.hasExactly("オートクレール・専用")){
+						AOEDamage += 10;
+						damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
+					}
+					if(this.has("狂斧アルマーズ") && (this.hp / this.maxHp <= .75)){
 						AOEDamage += 10;
 						damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 					}
@@ -6119,6 +6205,10 @@ function activeHero(hero){
 					damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 				}
 				//Wrath damage is checked when special is activated
+				if(this.has("狂斧アルマーズ") && (this.hp/this.maxHp <= .75)){
+					dmgBoostFlat += 10;
+					damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
+				}
 				if(this.has("怒り") && (this.hp/this.maxHp <= .25 * this.has("怒り"))){
 					dmgBoostFlat += 10;
 					damageText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
@@ -6322,7 +6412,8 @@ function activeHero(hero){
 			if(enemy.moveType == "armored" && (this.has("ハンマー") || this.has("ハンマー鍛")
 				|| this.has("アーマーキラー") || this.has("アーマーキラー鍛")
 				|| this.has("貫きの槍") || this.has("貫きの槍鍛")
-				|| this.hasExactly("セイニー"))){
+				|| this.hasExactly("セイニー") || this.hasExactly("ウイングソード"))
+				){
 				effectiveBonus = (enemy.has("スヴェルの盾")) ? 1 : 1.5;
 			}
 			else if(enemy.moveType == "flying" && (this.hasExactly("エクスカリバー") || this.weaponType=="bow")){
@@ -6336,7 +6427,8 @@ function activeHero(hero){
 				|| this.has("ラウアウルフ") || this.has("ラウアウルフ鍛")
 				|| this.has("ブラーウルフ") || this.has("ブラーウルフ鍛")
 				|| this.has("グルンウルフ") || this.has("グルンウルフ鍛")
-				|| this.hasExactly("セイニー"))){
+				|| this.hasExactly("セイニー") || this.hasExactly("ウイングソード"))
+				){
 				effectiveBonus = (enemy.has("グラ二の盾")) ? 1 : 1.5;
 			}
 			else if(enemy.weaponType == "dragon" && (this.hasExactly("ファルシオン") || this.hasExactly("ナーガ") || this.hasExactly("聖書ナーガ"))){
@@ -6619,7 +6711,7 @@ function activeHero(hero){
 				if(this.hasAtIndex("剛剣", this.sIndex)){
 					if(this.combatStat.atk- enemy.combatStat.atk >= 7 - (this.hasAtIndex("剛剣", this.sIndex) * 2)){
 						gainCharge = Math.max(gainCharge, 1);
-						skillNames.push(data.skills[this.sIndex].name + " (聖印)");
+						skillNames.push(data.skills[this.sIndex].name + "(聖印)");
 					}
 				}
 				if(this.hasExactly("烈剣デュランダル")){
@@ -6628,16 +6720,28 @@ function activeHero(hero){
 						skillNames.push(data.skills[this.weaponIndex].name);
 					}
 				}
-				if(this.has("柔剣")){
-					if(this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd >= 7 - (this.has("柔剣") * 2)){
+				if(this.hasAtIndex("柔剣", this.aIndex)){
+					if(this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd >= 7 - (this.hasAtIndex("柔剣", this.aIndex) * 2)){
 						gainCharge = Math.max(gainCharge, 1);
 						skillNames.push(data.skills[this.aIndex].name);
+					}
+				}
+				if(this.hasAtRefineIndex("ウイングソード・専用", this.refineIndex)){
+					if(this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd >= 1){
+						gainCharge = Math.max(gainCharge, 1);
+						skillNames.push(data.skills[this.weaponIndex].name + "(錬成)");
 					}
 				}
 				if(this.hasExactly("瞬閃アイラの剣")){
 					if(this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd >= 1){
 						gainCharge = Math.max(gainCharge, 1);
 						skillNames.push(data.skills[this.weaponIndex].name);
+					}
+				}
+				if(this.hasAtRefineIndex("フェリシアの氷皿・専用", this.refineIndex)){
+					if(enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" || enemy.weaponType == "greentome"){
+						gainCharge = Math.max(gainCharge, 1);
+						skillNames.push(data.skills[this.weaponIndex].name + "(錬成)");
 					}
 				}
 
@@ -6722,7 +6826,7 @@ function activeHero(hero){
 
 			//Do damage again if using brave weapon
 			if(brave && enemy.hp > 0){
-				damageText += this.name + " は、" + data.skills[this.weaponIndex].name + " により再度攻撃。<br>";
+				damageText += this.name + " は、" + data.skills[this.weaponIndex].name + (this.refineIndex != -1 ? "(錬成)" : "") + " により再度攻撃。<br>";
 				damageText += this.doDamage(enemy, false, false, false);
 			}
 		}
@@ -6857,8 +6961,11 @@ function activeHero(hero){
 
 		//Check for Brave weapons, brave will be passed to this.doDamage
 		var brave = false;
-		if(this.has("勇者の剣") || this.has("勇者の槍") || this.has("勇者の斧") || this.has("勇者の弓")
+		if (this.has("勇者の剣") || this.has("勇者の槍") || this.has("勇者の斧") || this.has("勇者の弓")
 			|| this.hasExactly("ダイムサンダ") || this.hasExactly("アミーテ")){
+			brave = true;
+		}
+		if (this.hasAtRefineIndex("ファルシオン外伝・専用", this.refineIndex) && (this.combatStartHp / this.maxHp == 1)){
 			brave = true;
 		}
 
@@ -6978,14 +7085,12 @@ function activeHero(hero){
 				if (this.hp/this.maxHp <= 0.2 +  this.hasAtIndex("差し違え", this.bIndex) * 0.1){
 					thisAttackRank++;
 					thisAttackRankChanged = true;
-					console.log("a");
 				}
 			}
 			if (this.hasAtIndex("差し違え", this.sIndex)){
 				if (this.hp/this.maxHp <= 0.2 +  this.hasAtIndex("差し違え", this.sIndex) * 0.1){
 					thisAttackRank++;
 					thisAttackRankChanged = true;
-					console.log("b");
 				}
 			}
 			if (this.has("ソール・カティ") && this.hasAtRefineIndex("ソール・カティ・専用", this.refineIndex)){
@@ -7033,7 +7138,7 @@ function activeHero(hero){
 				enemyAttackRankChanged = true;
 			}
 		}
-		if (enemy.has("アルマーズ")){
+		if (enemy.hasExactly("アルマーズ")){
 			if (enemy.combatStartHp/enemy.maxHp >= .8){
 				enemyAttackRank++;
 				enemyAttackRankChanged = true;

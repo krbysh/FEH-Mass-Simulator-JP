@@ -11,7 +11,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Silver Sword+,Silver Axe+,Silver Lance+,Wo Dao+",
-		"prereq": "銀の剣+,銀の斧+,銀の槍+,倭刀+"
+		"prereq": "銀の剣+,銀の斧+,銀の槍+,倭刀+",
+		"exclusive": ""
 	},	{
 		"category": "Standard Melee",
 		"name_en": "Spd Bonus",
@@ -24,7 +25,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Silver Sword+,Silver Axe+,Silver Lance+,Wo Dao+",
-		"prereq": "銀の剣+,銀の斧+,銀の槍+,倭刀+"
+		"prereq": "銀の剣+,銀の斧+,銀の槍+,倭刀+",
+		"exclusive": ""
 	},	{
 		"category": "Standard Melee",
 		"name_en": "Def Bonus",
@@ -37,7 +39,8 @@
 		"def": 4,
 		"res": 0,
 		"prereq": "Silver Sword+,Silver Axe+,Silver Lance+,Wo Dao+",
-		"prereq": "銀の剣+,銀の斧+,銀の槍+,倭刀+"
+		"prereq": "銀の剣+,銀の斧+,銀の槍+,倭刀+",
+		"exclusive": ""
 	},	{
 		"category": "Standard Melee",
 		"name_en": "Res Bonus",
@@ -50,7 +53,8 @@
 		"def": 0,
 		"res": 4,
 		"prereq": "Silver Sword+,Silver Axe+,Silver Lance+,Wo Dao+",
-		"prereq": "銀の剣+,銀の斧+,銀の槍+,倭刀+"
+		"prereq": "銀の剣+,銀の斧+,銀の槍+,倭刀+",
+		"exclusive": ""
 	},	{
 		"category": "Spring Melee",
 		"name_en": "Atk Bonus",
@@ -64,7 +68,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Carrot Lance+,Carrot Axe+",
-		"prereq": "ニンジンの槍+,ニンジンの斧+"
+		"prereq": "ニンジンの槍+,ニンジンの斧+",
+		"exclusive": ""
 	},	{
 		"category": "Spring Melee",
 		"name_en": "Spd Bonus",
@@ -78,7 +83,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Carrot Lance+,Carrot Axe+",
-		"prereq": "ニンジンの槍+,ニンジンの斧+"
+		"prereq": "ニンジンの槍+,ニンジンの斧+",
+		"exclusive": ""
 	},	{
 		"category": "Spring Melee",
 		"name_en": "Def Bonus",
@@ -91,7 +97,8 @@
 		"def": 4,
 		"res": 0,
 		"prereq": "Carrot Lance+,Carrot Axe+",
-		"prereq": "ニンジンの槍+,ニンジンの斧+"
+		"prereq": "ニンジンの槍+,ニンジンの斧+",
+		"exclusive": ""
 	},	{
 		"category": "Spring Melee",
 		"name_en": "Res Bonus",
@@ -104,7 +111,8 @@
 		"def": 0,
 		"res": 4,
 		"prereq": "Carrot Lance+,Carrot Axe+",
-		"prereq": "ニンジンの槍+,ニンジンの斧+"
+		"prereq": "ニンジンの槍+,ニンジンの斧+",
+		"exclusive": ""
 	},	{
 		"category": "Standard Ranged",
 		"name_en": "Atk Bonus",
@@ -116,8 +124,9 @@
 		"spd": 0,
 		"def": 0,
 		"res": 0,
-		"prereq": "Silver Bow+,Bolganone+,Fenrir+,Thoron+,Rexcalibur+,Raudrowl+,Blarowl+,Gronnowl+",
-		"prereq": "銀の弓+,ボルガノン+,ノスフェラート+,トロン+,レクスカリバー+,ラウアアウル+,ブラーアウル+,グルンアウル+"
+		"prereq": "Silver Bow+,Bolganone+,Fenrir+,Thoron+,Rexcalibur+,Raudrowl+,Blarowl+,Gronnowl+,Shine+",
+		"prereq": "銀の弓+,ボルガノン+,ノスフェラート+,トロン+,レクスカリバー+,ラウアアウル+,ブラーアウル+,グルンアウル+,シャイン+",
+		"exclusive": ""
 	},	{
 		"category": "Standard Ranged",
 		"name_en": "Spd Bonus",
@@ -129,8 +138,9 @@
 		"spd": 2,
 		"def": 0,
 		"res": 0,
-		"prereq": "Silver Bow+,Bolganone+,Fenrir+,Thoron+,Rexcalibur+,Raudrowl+,Blarowl+,Gronnowl+",
-		"prereq": "銀の弓+,ボルガノン+,ノスフェラート+,トロン+,レクスカリバー+,ラウアアウル+,ブラーアウル+,グルンアウル+"
+		"prereq": "Silver Bow+,Bolganone+,Fenrir+,Thoron+,Rexcalibur+,Raudrowl+,Blarowl+,Gronnowl+,Shine+",
+		"prereq": "銀の弓+,ボルガノン+,ノスフェラート+,トロン+,レクスカリバー+,ラウアアウル+,ブラーアウル+,グルンアウル+,シャイン+",
+		"exclusive": ""
 	},	{
 		"category": "Standard Ranged",
 		"name_en": "Def Bonus",
@@ -142,8 +152,9 @@
 		"spd": 0,
 		"def": 3,
 		"res": 0,
-		"prereq": "Silver Bow+,Bolganone+,Fenrir+,Thoron+,Rexcalibur+,Raudrowl+,Blarowl+,Gronnowl+",
-		"prereq": "銀の弓+,ボルガノン+,ノスフェラート+,トロン+,レクスカリバー+,ラウアアウル+,ブラーアウル+,グルンアウル+"
+		"prereq": "Silver Bow+,Bolganone+,Fenrir+,Thoron+,Rexcalibur+,Raudrowl+,Blarowl+,Gronnowl+,Shine+",
+		"prereq": "銀の弓+,ボルガノン+,ノスフェラート+,トロン+,レクスカリバー+,ラウアアウル+,ブラーアウル+,グルンアウル+,シャイン+",
+		"exclusive": ""
 	},	{
 		"category": "Standard Ranged",
 		"name_en": "Res Bonus",
@@ -155,8 +166,9 @@
 		"spd": 0,
 		"def": 0,
 		"res": 3,
-		"prereq": "Silver Bow+,Bolganone+,Fenrir+,Thoron+,Rexcalibur+,Raudrowl+,Blarowl+,Gronnowl+",
-		"prereq": "銀の弓+,ボルガノン+,ノスフェラート+,トロン+,レクスカリバー+,ラウアアウル+,ブラーアウル+,グルンアウル+"
+		"prereq": "Silver Bow+,Bolganone+,Fenrir+,Thoron+,Rexcalibur+,Raudrowl+,Blarowl+,Gronnowl+,Shine+",
+		"prereq": "銀の弓+,ボルガノン+,ノスフェラート+,トロン+,レクスカリバー+,ラウアアウル+,ブラーアウル+,グルンアウル+,シャイン+",
+		"exclusive": ""
 	},	{
 		"category": "Spring Ranged",
 		"name_en": "Atk Bonus",
@@ -169,7 +181,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Blue Egg+,Green Egg+",
-		"prereq": "青の卵+,緑の卵+"
+		"prereq": "青の卵+,緑の卵+",
+		"exclusive": ""
 	},	{
 		"category": "Spring Ranged",
 		"name_en": "Spd Bonus",
@@ -182,7 +195,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Blue Egg+,Green Egg+",
-		"prereq": "青の卵+,緑の卵+"
+		"prereq": "青の卵+,緑の卵+",
+		"exclusive": ""
 	},	{
 		"category": "Spring Ranged",
 		"name_en": "Def Bonus",
@@ -195,7 +209,8 @@
 		"def": 3,
 		"res": 0,
 		"prereq": "Blue Egg+,Green Egg+",
-		"prereq": "青の卵+,緑の卵+"
+		"prereq": "青の卵+,緑の卵+",
+		"exclusive": ""
 	},	{
 		"category": "Spring Ranged",
 		"name_en": "Res Bonus",
@@ -208,7 +223,8 @@
 		"def": 0,
 		"res": 3,
 		"prereq": "Blue Egg+,Green Egg+",
-		"prereq": "青の卵+,緑の卵+"
+		"prereq": "青の卵+,緑の卵+",
+		"exclusive": ""
 	},	{
 		"category": "Standard Dagger",
 		"name_en": "Atk Bonus",
@@ -222,7 +238,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Silver Dagger+",
-		"prereq": "銀の暗器+"
+		"prereq": "銀の暗器+",
+		"exclusive": ""
 	},	{
 		"category": "Standard Dagger",
 		"name_en": "Spd Bonus",
@@ -236,7 +253,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Silver Dagger+",
-		"prereq": "銀の暗器+"
+		"prereq": "銀の暗器+",
+		"exclusive": ""
 	},	{
 		"category": "Standard Dagger",
 		"name_en": "Def Bonus",
@@ -250,7 +268,8 @@
 		"def": 3,
 		"res": 0,
 		"prereq": "Silver Dagger+",
-		"prereq": "銀の暗器+"
+		"prereq": "銀の暗器+",
+		"exclusive": ""
 	},	{
 		"category": "Standard Dagger",
 		"name_en": "Res Bonus",
@@ -264,7 +283,80 @@
 		"def": 0,
 		"res": 3,
 		"prereq": "Silver Dagger+",
-		"prereq": "銀の暗器+"
+		"prereq": "銀の暗器+",
+		"exclusive": ""
+	},	{
+		"category": "Basilikos",
+		"name_en": "Life and Death",
+		"name": "バシリコス・専用",
+		"sp": 400,
+		"description": "Grants Atk/Spd+5. Inflicts Def/Res-5",
+		"hp": 3,
+		"atk": 5,
+		"spd": 5,
+		"def": -5,
+		"res": -5,
+		"prereq": "Basilikos",
+		"prereq": "バシリコス",
+		"exclusive": ""
+	},	{
+		"category": "Hauteclere",
+		"name_en": "Special Damage",
+		"name": "オートクレール・専用",
+		"sp": 400,
+		"description": "Deals +10 damage when Special triggers.",
+		"description": "奥義発動時、奥義によるダメージ +10",
+		"hp": 3,
+		"atk": 0,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"prereq": "Hauteclere",
+		"prereq": "オートクレール",
+		"exclusive": ""
+	},	{
+		"category": "Hinoka's Spear",
+		"name_en": "Flying Commander",
+		"name": "ヒノカの紅薙刀・専用",
+		"sp": 400,
+		"description": "Infantry and flying allies within 2 spaces can move to a space adjacent to unit.",
+		"hp": 3,
+		"atk": 0,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"prereq": "Hinoka's Spear",
+		"prereq": "ヒノカの紅薙刀",
+		"exclusive": ""
+	},	{
+		"category": "Mystletainn",
+		"name_en": "Fury",
+		"name": "ミストルティン・専用",
+		"sp": 400,
+		"description": "Grants Atk/Spd/Def/Res+3. Unit takes 6 damage after combat.",
+		"description": "攻撃、速さ、守備、魔防 +3　戦闘後、自分に 6 ダメージ",
+		"hp": 3,
+		"atk": 3,
+		"spd": 3,
+		"def": 3,
+		"res": 3,
+		"prereq": "Mystletainn",
+		"prereq": "ミストルティン",
+		"exclusive": ""
+	},	{
+		"category": "Winged Sword",
+		"name_en": "Flashing Blade",
+		"name": "ウイングソード・専用",
+		"sp": 400,
+		"description": "If unit's Spd - foe's Spd >= 1, unit gains Special cooldown charge +1 per attack. (If using other similar skill, only highest value applied.)",
+		"hp": 3,
+		"atk": 0,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"prereq": "Winged Sword",
+		"prereq": "ウイングソード",
+		"exclusive": ""
 	},	{
 		"category": "Advanced Melee",
 		"name_en": "Atk Bonus",
@@ -276,8 +368,9 @@
 		"spd": 0,
 		"def": 0,
 		"res": 0,
-		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floaie+",
-		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+"
+		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+",
+		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+",
+		"exclusive": ""
 	},	{
 		"category": "Advanced Melee",
 		"name_en": "Spd Bonus",
@@ -289,8 +382,9 @@
 		"spd": 3,
 		"def": 0,
 		"res": 0,
-		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floaie+",
-		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+"
+		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+",
+		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+",
+		"exclusive": ""
 	},	{
 		"category": "Advanced Melee",
 		"name_en": "Def Bonus",
@@ -302,8 +396,9 @@
 		"spd": 0,
 		"def": 4,
 		"res": 0,
-		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floaie+",
-		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+"
+		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+",
+		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+",
+		"exclusive": ""
 	},	{
 		"category": "Advanced Melee",
 		"name_en": "Res Bonus",
@@ -315,8 +410,9 @@
 		"spd": 0,
 		"def": 0,
 		"res": 4,
-		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floaie+",
-		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+"
+		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+",
+		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+",
+		"exclusive": ""
 	},	{
 		"category": "Wedding Melee",
 		"name_en": "Atk Bonus",
@@ -329,7 +425,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "First Bite+",
-		"prereq": "ファーストバイト+"
+		"prereq": "ファーストバイト+",
+		"exclusive": ""
 	},	{
 		"category": "Wedding Melee",
 		"name_en": "Spd Bonus",
@@ -343,7 +440,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "First Bite+",
-		"prereq": "ファーストバイト+"
+		"prereq": "ファーストバイト+",
+		"exclusive": ""
 	},	{
 		"category": "Wedding Melee",
 		"name_en": "Def Bonus",
@@ -357,7 +455,8 @@
 		"def": 4,
 		"res": 0,
 		"prereq": "First Bite+",
-		"prereq": "ファーストバイト+"
+		"prereq": "ファーストバイト+",
+		"exclusive": ""
 	},	{
 		"category": "Wedding Melee",
 		"name_en": "Res Bonus",
@@ -371,7 +470,8 @@
 		"def": 0,
 		"res": 4,
 		"prereq": "First Bite+",
-		"prereq": "ファーストバイト+"
+		"prereq": "ファーストバイト+",
+		"exclusive": ""
 	},	{
 		"category": "Warding Melee",
 		"name_en": "Atk Bonus",
@@ -385,7 +485,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Berkut's Lance+",
-		"prereq": "ベルクトの槍+"
+		"prereq": "ベルクトの槍+",
+		"exclusive": ""
 	},	{
 		"category": "Warding Melee",
 		"name_en": "Spd Bonus",
@@ -399,7 +500,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Berkut's Lance+",
-		"prereq": "ベルクトの槍+"
+		"prereq": "ベルクトの槍+",
+		"exclusive": ""
 	},	{
 		"category": "Warding Melee",
 		"name_en": "Def Bonus",
@@ -413,7 +515,8 @@
 		"def": 4,
 		"res": 0,
 		"prereq": "Berkut's Lance+",
-		"prereq": "ベルクトの槍+"
+		"prereq": "ベルクトの槍+",
+		"exclusive": ""
 	},	{
 		"category": "Warding Melee",
 		"name_en": "Res Bonus",
@@ -427,7 +530,8 @@
 		"def": 0,
 		"res": 4,
 		"prereq": "Berkut's Lance+",
-		"prereq": "ベルクトの槍+"
+		"prereq": "ベルクトの槍+",
+		"exclusive": ""
 	},	{
 		"category": "Panic Melee",
 		"name_en": "Atk Bonus",
@@ -441,7 +545,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Legion's Axe+",
-		"prereq": "ローローの斧+"
+		"prereq": "ローローの斧+",
+		"exclusive": ""
 	},	{
 		"category": "Panic Melee",
 		"name_en": "Spd Bonus",
@@ -455,7 +560,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Legion's Axe+",
-		"prereq": "ローローの斧+"
+		"prereq": "ローローの斧+",
+		"exclusive": ""
 	},	{
 		"category": "Panic Melee",
 		"name_en": "Def Bonus",
@@ -469,7 +575,8 @@
 		"def": 4,
 		"res": 0,
 		"prereq": "Legion's Axe+",
-		"prereq": "ローローの斧+"
+		"prereq": "ローローの斧+",
+		"exclusive": ""
 	},	{
 		"category": "Panic Melee",
 		"name_en": "Res Bonus",
@@ -483,7 +590,107 @@
 		"def": 0,
 		"res": 4,
 		"prereq": "Legion's Axe+",
-		"prereq": "ローローの斧+"
+		"prereq": "ローローの斧+",
+		"exclusive": ""
+	},	{
+		"category": "Eckesachs",
+		"name_en": "Distant Def",
+		"name": "エッケザックス・専用",
+		"sp": 400,
+		"description": "Inflicts Def-6 on foes (excluding dragons) within 2 spaces at the start of each turn, through their next actions. If unit is attacked by foe using bow, daggers, magic, or staff, unit receives Def/Res+6 during combat.",
+		"hp": 3,
+		"atk": 0,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"prereq": "Eckesachs",
+		"prereq": "エッケザックス",
+		"exclusive": ""
+	},	{
+		"category": "Eckesachs",
+		"name_en": "Atk Bonus",
+		"name": "攻撃",
+		"sp": 400,
+		"description": "Inflicts Def-6 on foes (excluding dragons) within 2 spaces at the start of each turn, through their next actions.",
+		"hp": 5,
+		"atk": 2,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"prereq": "Eckesachs",
+		"prereq": "エッケザックス",
+		"exclusive": ""
+	},	{
+		"category": "Eckesachs",
+		"name_en": "Spd Bonus",
+		"name": "速さ",
+		"sp": 400,
+		"description": "Inflicts Def-6 on foes (excluding dragons) within 2 spaces at the start of each turn, through their next actions.",
+		"hp": 5,
+		"atk": 0,
+		"spd": 3,
+		"def": 0,
+		"res": 0,
+		"prereq": "Eckesachs",
+		"prereq": "エッケザックス",
+		"exclusive": ""
+	},	{
+		"category": "Eckesachs",
+		"name_en": "Def Bonus",
+		"name": "守備",
+		"sp": 400,
+		"description": "Inflicts Def-6 on foes (excluding dragons) within 2 spaces at the start of each turn, through their next actions.",
+		"hp": 5,
+		"atk": 0,
+		"spd": 0,
+		"def": 4,
+		"res": 0,
+		"prereq": "Eckesachs",
+		"prereq": "エッケザックス",
+		"exclusive": ""
+	},	{
+		"category": "Eckesachs",
+		"name_en": "Res Bonus",
+		"name": "魔防",
+		"sp": 400,
+		"description": "Inflicts Def-6 on foes (excluding dragons) within 2 spaces at the start of each turn, through their next actions.",
+		"hp": 5,
+		"atk": 0,
+		"spd": 0,
+		"def": 0,
+		"res": 4,
+		"prereq": "Eckesachs",
+		"prereq": "エッケザックス",
+		"exclusive": ""
+	},	{
+		"category": "Felicia's Plate",
+		"name_en": "Magic Absorption",
+		"name": "フェリシアの氷皿・専用",
+		"sp": 400,
+		"description": "Grants Special cooldown charge +1 if foe uses magic. (Only highest value applied. Does not stack.)",
+		"hp": 0,
+		"atk": 0,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"prereq": "Felicia's Plate",
+		"prereq": "フェリシアの氷皿",
+		"exclusive": ""
+	},	{
+		"category": "Fujin Yumi",
+		"name_en": "Follow",
+		"name": "風神弓・専用",
+		"sp": 400,
+		"description": "If unit's HP ≥ 50%, unit can move adjacent to any ally within 2 spaces.",
+		"description": "自身のＨＰが 50% 以上の時、周囲２マス以内の味方の隣接マスに移動可能",
+		"hp": 0,
+		"atk": 0,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"prereq": "Fujin Yumi",
+		"prereq": "風神弓",
+		"exclusive": ""
 	},	{
 		"category": "Advanced Ranged",
 		"name_en": "Atk Bonus",
@@ -495,8 +702,9 @@
 		"spd": 0,
 		"def": 0,
 		"res": 0,
-		"prereq": "Slaying Bow+,Refreshing Bolt+,Tomato Tome+,Sealife Tome+,Hibiscus Tome+,Dancer's Score+,Dancer's Ring+,Gaurd Bow+",
-		"prereq": "キラーボウ鍛+,氷菓子の弓+,トマトの本+,熱帯魚の本+,ハイビスカスの本+,舞踏祭の楽譜+,舞踏祭の輪+,遠距離防御の弓+,燭台+,破魔矢+,鏡餅+"
+		"prereq": "Slaying Bow+,Refreshing Bolt+,Tomato Tome+,Sealife Tome+,Hibiscus Tome+,Dancer's Score+,Dancer's Ring+,Guard Bow+,Candelabra+,Hama Ya+,Kagami Mochi+,Fujin Yumi,Felicia's Plate,Green Gift+,Blue Gift+,Gratia+",
+		"prereq": "キラーボウ鍛+,氷菓子の弓+,トマトの本+,熱帯魚の本+,ハイビスカスの本+,舞踏祭の楽譜+,舞踏祭の輪+,遠距離防御の弓+,燭台+,破魔矢+,鏡餅+,風神弓,フェリシアの氷皿,緑のプレゼント箱+,青のプレゼント箱+,グラーティア+",
+		"exclusive": ""
 	},	{
 		"category": "Advanced Ranged",
 		"name_en": "Spd Bonus",
@@ -508,8 +716,9 @@
 		"spd": 2,
 		"def": 0,
 		"res": 0,
-		"prereq": "Slaying Bow+,Refreshing Bolt+,Tomato Tome+,Sealife Tome+,Hibiscus Tome+,Dancer's Score+,Dancer's Ring+,Gaurd Bow+",
-		"prereq": "キラーボウ鍛+,氷菓子の弓+,トマトの本+,熱帯魚の本+,ハイビスカスの本+,舞踏祭の楽譜+,舞踏祭の輪+,遠距離防御の弓+,燭台+,破魔矢+,鏡餅+"
+		"prereq": "Slaying Bow+,Refreshing Bolt+,Tomato Tome+,Sealife Tome+,Hibiscus Tome+,Dancer's Score+,Dancer's Ring+,Guard Bow+,Candelabra+,Hama Ya+,Kagami Mochi+,Fujin Yumi,Felicia's Plate,Green Gift+,Blue Gift+,Gratia+",
+		"prereq": "キラーボウ鍛+,氷菓子の弓+,トマトの本+,熱帯魚の本+,ハイビスカスの本+,舞踏祭の楽譜+,舞踏祭の輪+,遠距離防御の弓+,燭台+,破魔矢+,鏡餅+,風神弓,フェリシアの氷皿,緑のプレゼント箱+,青のプレゼント箱+,グラーティア+",
+		"exclusive": ""
 	},	{
 		"category": "Advanced Ranged",
 		"name_en": "Def Bonus",
@@ -521,8 +730,9 @@
 		"spd": 0,
 		"def": 3,
 		"res": 0,
-		"prereq": "Slaying Bow+,Refreshing Bolt+,Tomato Tome+,Sealife Tome+,Hibiscus Tome+,Dancer's Score+,Dancer's Ring+,Gaurd Bow+",
-		"prereq": "キラーボウ鍛+,氷菓子の弓+,トマトの本+,熱帯魚の本+,ハイビスカスの本+,舞踏祭の楽譜+,舞踏祭の輪+,遠距離防御の弓+,燭台+,破魔矢+,鏡餅+"
+		"prereq": "Slaying Bow+,Refreshing Bolt+,Tomato Tome+,Sealife Tome+,Hibiscus Tome+,Dancer's Score+,Dancer's Ring+,Guard Bow+,Candelabra+,Hama Ya+,Kagami Mochi+,Fujin Yumi,Felicia's Plate,Green Gift+,Blue Gift+,Gratia+",
+		"prereq": "キラーボウ鍛+,氷菓子の弓+,トマトの本+,熱帯魚の本+,ハイビスカスの本+,舞踏祭の楽譜+,舞踏祭の輪+,遠距離防御の弓+,燭台+,破魔矢+,鏡餅+,風神弓,フェリシアの氷皿,緑のプレゼント箱+,青のプレゼント箱+,グラーティア+",
+		"exclusive": ""
 	},	{
 		"category": "Advanced Ranged",
 		"name_en": "Res Bonus",
@@ -534,8 +744,9 @@
 		"spd": 0,
 		"def": 0,
 		"res": 3,
-		"prereq": "Slaying Bow+,Refreshing Bolt+,Tomato Tome+,Sealife Tome+,Hibiscus Tome+,Dancer's Score+,Dancer's Ring+,Gaurd Bow+",
-		"prereq": "キラーボウ鍛+,氷菓子の弓+,トマトの本+,熱帯魚の本+,ハイビスカスの本+,舞踏祭の楽譜+,舞踏祭の輪+,遠距離防御の弓+,燭台+,破魔矢+,鏡餅+"
+		"prereq": "Slaying Bow+,Refreshing Bolt+,Tomato Tome+,Sealife Tome+,Hibiscus Tome+,Dancer's Score+,Dancer's Ring+,Guard Bow+,Candelabra+,Hama Ya+,Kagami Mochi+,Fujin Yumi,Felicia's Plate,Green Gift+,Blue Gift+,Gratia+",
+		"prereq": "キラーボウ鍛+,氷菓子の弓+,トマトの本+,熱帯魚の本+,ハイビスカスの本+,舞踏祭の楽譜+,舞踏祭の輪+,遠距離防御の弓+,燭台+,破魔矢+,鏡餅+,風神弓,フェリシアの氷皿,緑のプレゼント箱+,青のプレゼント箱+,グラーティア+",
+		"exclusive": ""
 	},	{
 		"category": "Dark Ranged",
 		"name_en": "Atk Bonus",
@@ -549,7 +760,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Clarisse's Bow+",
-		"prereq": "クライネの弓+"
+		"prereq": "クライネの弓+",
+		"exclusive": ""
 	},	{
 		"category": "Dark Ranged",
 		"name_en": "Spd Bonus",
@@ -563,7 +775,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Clarisse's Bow+",
-		"prereq": "クライネの弓+"
+		"prereq": "クライネの弓+",
+		"exclusive": ""
 	},	{
 		"category": "Dark Ranged",
 		"name_en": "Def Bonus",
@@ -577,7 +790,8 @@
 		"def": 3,
 		"res": 0,
 		"prereq": "Clarisse's Bow+",
-		"prereq": "クライネの弓+"
+		"prereq": "クライネの弓+",
+		"exclusive": ""
 	},	{
 		"category": "Dark Ranged",
 		"name_en": "Res Bonus",
@@ -591,7 +805,8 @@
 		"def": 0,
 		"res": 3,
 		"prereq": "Clarisse's Bow+",
-		"prereq": "クライネの弓+"
+		"prereq": "クライネの弓+",
+		"exclusive": ""
 	},	{
 		"category": "Halloween Panic",
 		"name_en": "Atk Bonus",
@@ -605,7 +820,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Monstrous Bow+,Spectral Tome+",
-		"prereq": "怪物の弓+,ゴーストの魔道書+"
+		"prereq": "怪物の弓+,ゴーストの魔道書+",
+		"exclusive": ""
 	},	{
 		"category": "Halloween Panic",
 		"name_en": "Spd Bonus",
@@ -619,7 +835,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Monstrous Bow+,Spectral Tome+",
-		"prereq": "怪物の弓+,ゴーストの魔道書+"
+		"prereq": "怪物の弓+,ゴーストの魔道書+",
+		"exclusive": ""
 	},	{
 		"category": "Halloween Panic",
 		"name_en": "Def Bonus",
@@ -633,7 +850,8 @@
 		"def": 3,
 		"res": 0,
 		"prereq": "Monstrous Bow+,Spectral Tome+",
-		"prereq": "怪物の弓+,ゴーストの魔道書+"
+		"prereq": "怪物の弓+,ゴーストの魔道書+",
+		"exclusive": ""
 	},	{
 		"category": "Halloween Panic",
 		"name_en": "Res Bonus",
@@ -647,7 +865,8 @@
 		"def": 0,
 		"res": 3,
 		"prereq": "Monstrous Bow+,Spectral Tome+",
-		"prereq": "怪物の弓+,ゴーストの魔道書+"
+		"prereq": "怪物の弓+,ゴーストの魔道書+",
+		"exclusive": ""
 	},	{
 		"category": "Wedding Ranged",
 		"name_en": "Atk Bonus",
@@ -661,7 +880,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Cupid Arrow+,Blessed Bouquet+",
-		"prereq": "キューピッドの矢+,聖なるブーケ+"
+		"prereq": "キューピッドの矢+,聖なるブーケ+",
+		"exclusive": ""
 	},	{
 		"category": "Wedding Ranged",
 		"name_en": "Spd Bonus",
@@ -675,7 +895,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Cupid Arrow+,Blessed Bouquet+",
-		"prereq": "キューピッドの矢+,聖なるブーケ+"
+		"prereq": "キューピッドの矢+,聖なるブーケ+",
+		"exclusive": ""
 	},	{
 		"category": "Wedding Ranged",
 		"name_en": "Def Bonus",
@@ -689,9 +910,10 @@
 		"def": 3,
 		"res": 0,
 		"prereq": "Cupid Arrow+,Blessed Bouquet+",
-		"prereq": "キューピッドの矢+,聖なるブーケ+"
+		"prereq": "キューピッドの矢+,聖なるブーケ+",
+		"exclusive": ""
 	},	{
-		"category": "Wedding Buff Ranged",
+		"category": "Wedding Ranged",
 		"name_en": "Res Bonus",
 		"name": "魔防",
 		"sp": 350,
@@ -703,12 +925,13 @@
 		"def": 0,
 		"res": 3,
 		"prereq": "Cupid Arrow+,Blessed Bouquet+",
-		"prereq": "キューピッドの矢+,聖なるブーケ+"
+		"prereq": "キューピッドの矢+,聖なるブーケ+",
+		"exclusive": ""
 	},	{
 		"category": "Cymbeline",
 		"name_en": "Flying Atk Res Bond",
 		"name": "シムベリン・専用",
-		"sp": 350,
+		"sp": 400,
 		"description": "Grants allies within 2 spaces Atk+3 during combat. Grants Atk/Res+5 during combat if within 2 spaces of a flying ally.",
 		"description": "周囲２マスの味方は、戦闘中、攻撃 +3　飛行の味方が２マス以内にいる時、戦闘中、自身の攻撃、魔防 +5",
 		"hp": 0,
@@ -717,12 +940,13 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Cymbeline",
-		"prereq": "シムベリン"
+		"prereq": "シムベリン",
+		"exclusive": ""
 	},	{
 		"category": "Cymbeline",
 		"name_en": "Atk Bonus",
 		"name": "攻撃",
-		"sp": 350,
+		"sp": 400,
 		"description": "Grants allies within 2 spaces Atk+3 during combat.",
 		"description": "周囲２マスの味方は、戦闘中、攻撃 +3",
 		"hp": 2,
@@ -731,12 +955,13 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Cymbeline",
-		"prereq": "シムベリン"
+		"prereq": "シムベリン",
+		"exclusive": ""
 	},	{
 		"category": "Cymbeline",
 		"name_en": "Spd Bonus",
 		"name": "速さ",
-		"sp": 350,
+		"sp": 400,
 		"description": "Grants allies within 2 spaces Atk+3 during combat.",
 		"description": "周囲２マスの味方は、戦闘中、攻撃 +3",
 		"hp": 2,
@@ -745,12 +970,13 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Cymbeline",
-		"prereq": "シムベリン"
+		"prereq": "シムベリン",
+		"exclusive": ""
 	},	{
 		"category": "Cymbeline",
 		"name_en": "Def Bonus",
 		"name": "守備",
-		"sp": 350,
+		"sp": 400,
 		"description": "Grants allies within 2 spaces Atk+3 during combat.",
 		"description": "周囲２マスの味方は、戦闘中、攻撃 +3",
 		"hp": 2,
@@ -759,12 +985,13 @@
 		"def": 3,
 		"res": 0,
 		"prereq": "Cymbeline",
-		"prereq": "シムベリン"
+		"prereq": "シムベリン",
+		"exclusive": ""
 	},	{
 		"category": "Cymbeline",
 		"name_en": "Res Bonus",
 		"name": "魔防",
-		"sp": 350,
+		"sp": 400,
 		"description": "Grants allies within 2 spaces Atk+3 during combat.",
 		"description": "周囲２マスの味方は、戦闘中、攻撃 +3",
 		"hp": 2,
@@ -773,12 +1000,13 @@
 		"def": 0,
 		"res": 3,
 		"prereq": "Cymbeline",
-		"prereq": "シムベリン"
+		"prereq": "シムベリン",
+		"exclusive": ""
 	},	{
 		"category": "Parthia",
 		"name_en": "Distant Atk",
 		"name": "パルティア・専用",
-		"sp": 350,
+		"sp": 400,
 		"description": "If foe uses magic, damage from first attack received by unit during combat reduced by 30%. Grants Atk+6 during combat if foe uses bow, dagger, magic, or staff.",
 		"description": "敵が魔法の時、戦闘中、最初に受けた攻撃のダメージを 30% 軽減　敵が弓、暗器、魔法、杖の時、戦闘中、攻撃 +6",
 		"hp": 0,
@@ -787,12 +1015,13 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Parthia",
-		"prereq": "パルティア"
+		"prereq": "パルティア",
+		"exclusive": ""
 	},	{
 		"category": "Parthia",
 		"name_en": "Atk Bonus",
 		"name": "攻撃",
-		"sp": 350,
+		"sp": 400,
 		"description": "If foe uses magic, damage from first attack received by unit during combat reduced by 30%.",
 		"description": "敵が魔法の時、戦闘中、最初に受けた攻撃のダメージを 30% 軽減",
 		"hp": 2,
@@ -801,12 +1030,13 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Parthia",
-		"prereq": "パルティア"
+		"prereq": "パルティア",
+		"exclusive": ""
 	},	{
 		"category": "Parthia",
 		"name_en": "Spd Bonus",
 		"name": "速さ",
-		"sp": 350,
+		"sp": 400,
 		"description": "If foe uses magic, damage from first attack received by unit during combat reduced by 30%.",
 		"description": "敵が魔法の時、戦闘中、最初に受けた攻撃のダメージを 30% 軽減",
 		"hp": 2,
@@ -815,12 +1045,13 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Parthia",
-		"prereq": "パルティア"
+		"prereq": "パルティア",
+		"exclusive": ""
 	},	{
 		"category": "Parthia",
 		"name_en": "Def Bonus",
 		"name": "守備",
-		"sp": 350,
+		"sp": 400,
 		"description": "If foe uses magic, damage from first attack received by unit during combat reduced by 30%.",
 		"description": "敵が魔法の時、戦闘中、最初に受けた攻撃のダメージを 30% 軽減",
 		"hp": 2,
@@ -829,12 +1060,13 @@
 		"def": 3,
 		"res": 0,
 		"prereq": "Parthia",
-		"prereq": "パルティア"
+		"prereq": "パルティア",
+		"exclusive": ""
 	},	{
 		"category": "Parthia",
 		"name_en": "Res Bonus",
 		"name": "魔防",
-		"sp": 350,
+		"sp": 400,
 		"description": "If foe uses magic, damage from first attack received by unit during combat reduced by 30%.",
 		"description": "敵が魔法の時、戦闘中、最初に受けた攻撃のダメージを 30% 軽減",
 		"hp": 2,
@@ -843,7 +1075,8 @@
 		"def": 0,
 		"res": 3,
 		"prereq": "Parthia",
-		"prereq": "パルティア"
+		"prereq": "パルティア",
+		"exclusive": ""
 	},	{
 		"category": "Advanced Dagger",
 		"name_en": "Atk Bonus",
@@ -857,7 +1090,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Seashell+,Dancer's Fan+",
-		"prereq": "貝殻+,舞踏祭の扇子+"
+		"prereq": "貝殻+,舞踏祭の扇子+",
+		"exclusive": ""
 	},	{
 		"category": "Advanced Dagger",
 		"name_en": "Spd Bonus",
@@ -871,7 +1105,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Seashell+,Dancer's Fan+",
-		"prereq": "貝殻+,舞踏祭の扇子+"
+		"prereq": "貝殻+,舞踏祭の扇子+",
+		"exclusive": ""
 	},	{
 		"category": "Advanced Dagger",
 		"name_en": "Def Bonus",
@@ -885,7 +1120,8 @@
 		"def": 3,
 		"res": 0,
 		"prereq": "Seashell+,Dancer's Fan+",
-		"prereq": "貝殻+,舞踏祭の扇子+"
+		"prereq": "貝殻+,舞踏祭の扇子+",
+		"exclusive": ""
 	},	{
 		"category": "Advanced Dagger",
 		"name_en": "Res Bonus",
@@ -899,7 +1135,8 @@
 		"def": 0,
 		"res": 3,
 		"prereq": "Seashell+,Dancer's Fan+",
-		"prereq": "貝殻+,舞踏祭の扇子+"
+		"prereq": "貝殻+,舞踏祭の扇子+",
+		"exclusive": ""
 	},	{
 		"category": "Smoke Dagger",
 		"name_en": "Atk Bonus",
@@ -913,7 +1150,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Smoke Dagger+",
-		"prereq": "紫煙の暗器+"
+		"prereq": "紫煙の暗器+",
+		"exclusive": ""
 	},	{
 		"category": "Smoke Dagger",
 		"name_en": "Spd Bonus",
@@ -927,7 +1165,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Smoke Dagger+",
-		"prereq": "紫煙の暗器+"
+		"prereq": "紫煙の暗器+",
+		"exclusive": ""
 	},	{
 		"category": "Smoke Dagger",
 		"name_en": "Def Bonus",
@@ -941,7 +1180,8 @@
 		"def": 3,
 		"res": 0,
 		"prereq": "Smoke Dagger+",
-		"prereq": "紫煙の暗器+"
+		"prereq": "紫煙の暗器+",
+		"exclusive": ""
 	},	{
 		"category": "Smoke Dagger",
 		"name_en": "Res Bonus",
@@ -955,7 +1195,8 @@
 		"def": 0,
 		"res": 3,
 		"prereq": "Smoke Dagger+",
-		"prereq": "紫煙の暗器+"
+		"prereq": "紫煙の暗器+",
+		"exclusive": ""
 	},	{
 		"category": "Rogue Dagger",
 		"name_en": "Atk Bonus",
@@ -969,7 +1210,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Rogue Dagger+",
-		"prereq": "盗賊の暗器+"
+		"prereq": "盗賊の暗器+",
+		"exclusive": ""
 	},	{
 		"category": "Rogue Dagger",
 		"name_en": "Spd Bonus",
@@ -983,7 +1225,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Rogue Dagger+",
-		"prereq": "盗賊の暗器+"
+		"prereq": "盗賊の暗器+",
+		"exclusive": ""
 	},	{
 		"category": "Rogue Dagger",
 		"name_en": "Def Bonus",
@@ -997,7 +1240,8 @@
 		"def": 3,
 		"res": 0,
 		"prereq": "Rogue Dagger+",
-		"prereq": "盗賊の暗器+"
+		"prereq": "盗賊の暗器+",
+		"exclusive": ""
 	},	{
 		"category": "Rogue Dagger",
 		"name_en": "Res Bonus",
@@ -1006,14 +1250,15 @@
 		"description": "After combat, inflicts Def\/Res-6 on target and foes within 2 spaces of target through their next actions. Also grants Def\/Res+6 to unit and allies within 2 spaces for 1 turn. ",
 		"description": "戦闘後、敵の周囲２マスの敵の攻撃、速さ、守備、魔防 -6 (敵の次回行動終了まで) 戦闘後、自分と、その周囲２マスの敵の守備、魔防 +6 (1 ターン)",
 		"hp": 2,
-		"atk": 3,
+		"atk": 5,
 		"spd": 0,
 		"def": 0,
 		"res": 3,
 		"prereq": "Rogue Dagger+",
-		"prereq": "盗賊の暗器+"
+		"prereq": "盗賊の暗器+",
+		"exclusive": ""
 	},	{
-		"category": "Effective Melee",
+		"category": "Effective Armored Melee",
 		"name_en": "Nullify Armored",
 		"name": "重装無効化",
 		"sp": 350,
@@ -1025,9 +1270,10 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Armorsmasher+,Slaying Spear+,Slaying Hammer+",
-		"prereq": "アーマーキラー鍛+,貫きの槍鍛+,ハンマー鍛+"
+		"prereq": "アーマーキラー鍛+,貫きの槍鍛+,ハンマー鍛+",
+		"exclusive": ""
 	},	{
-		"category": "Effective Melee",
+		"category": "Effective Cavalry Melee",
 		"name_en": "Nullify Cavalry",
 		"name": "騎馬無効化",
 		"sp": 350,
@@ -1039,7 +1285,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Zanbato+,Ridersbane+",
-		"prereq": "斬馬刀+,ホースキラー+"
+		"prereq": "斬馬刀+,ホースキラー+",
+		"exclusive": ""
 	},	{
 		"category": "Effective Melee",
 		"name_en": "Atk Bonus",
@@ -1052,7 +1299,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Armorsmasher+,Slaying Spear+,Slaying Hammer+,Zanbato+,Ridersbane+",
-		"prereq": "アーマーキラー鍛+,貫きの槍鍛+,ハンマー鍛+,斬馬刀+,ホースキラー+"
+		"prereq": "アーマーキラー鍛+,貫きの槍鍛+,ハンマー鍛+,斬馬刀+,ホースキラー+",
+		"exclusive": ""
 	},	{
 		"category": "Effective Melee",
 		"name_en": "Spd Bonus",
@@ -1065,7 +1313,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Armorsmasher+,Slaying Spear+,Slaying Hammer+,Zanbato+,Ridersbane+",
-		"prereq": "アーマーキラー鍛+,貫きの槍鍛+,ハンマー鍛+,斬馬刀+,ホースキラー+"
+		"prereq": "アーマーキラー鍛+,貫きの槍鍛+,ハンマー鍛+,斬馬刀+,ホースキラー+",
+		"exclusive": ""
 	},	{
 		"category": "Effective Melee",
 		"name_en": "Def Bonus",
@@ -1078,7 +1327,8 @@
 		"def": 4,
 		"res": 0,
 		"prereq": "Armorsmasher+,Slaying Spear+,Slaying Hammer+,Zanbato+,Ridersbane+",
-		"prereq": "アーマーキラー鍛+,貫きの槍鍛+,ハンマー鍛+,斬馬刀+,ホースキラー+"
+		"prereq": "アーマーキラー鍛+,貫きの槍鍛+,ハンマー鍛+,斬馬刀+,ホースキラー+",
+		"exclusive": ""
 	},	{
 		"category": "Effective Melee",
 		"name_en": "Res Bonus",
@@ -1091,7 +1341,8 @@
 		"def": 0,
 		"res": 4,
 		"prereq": "Armorsmasher+,Slaying Spear+,Slaying Hammer+,Zanbato+,Ridersbane+",
-		"prereq": "アーマーキラー鍛+,貫きの槍鍛+,ハンマー鍛+,斬馬刀+,ホースキラー+"
+		"prereq": "アーマーキラー鍛+,貫きの槍鍛+,ハンマー鍛+,斬馬刀+,ホースキラー+",
+		"exclusive": ""
 	},	{
 		"category": "Effective Tomes",
 		"name_en": "Nullify Cavalry",
@@ -1105,7 +1356,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Keen Raudrwolf+,Keen Blarwolf+,Keen Gronnwolf+",
-		"prereq": "ラウアウルフ鍛+,ブラーウルフ鍛+,グルンウルフ鍛+"
+		"prereq": "ラウアウルフ鍛+,ブラーウルフ鍛+,グルンウルフ鍛+",
+		"exclusive": ""
 	},	{
 		"category": "Effective Tomes",
 		"name_en": "Atk Bonus",
@@ -1118,7 +1370,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Keen Raudrwolf+,Keen Blarwolf+,Keen Gronnwolf+",
-		"prereq": "ラウアウルフ鍛+,ブラーウルフ鍛+,グルンウルフ鍛+"
+		"prereq": "ラウアウルフ鍛+,ブラーウルフ鍛+,グルンウルフ鍛+",
+		"exclusive": ""
 	},	{
 		"category": "Effective Tomes",
 		"name_en": "Spd Bonus",
@@ -1131,7 +1384,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Keen Raudrwolf+,Keen Blarwolf+,Keen Gronnwolf+",
-		"prereq": "ラウアウルフ鍛+,ブラーウルフ鍛+,グルンウルフ鍛+"
+		"prereq": "ラウアウルフ鍛+,ブラーウルフ鍛+,グルンウルフ鍛+",
+		"exclusive": ""
 	},	{
 		"category": "Effective Tomes",
 		"name_en": "Def Bonus",
@@ -1144,7 +1398,8 @@
 		"def": 3,
 		"res": 0,
 		"prereq": "Keen Raudrwolf+,Keen Blarwolf+,Keen Gronnwolf+",
-		"prereq": "ラウアウルフ鍛+,ブラーウルフ鍛+,グルンウルフ鍛+"
+		"prereq": "ラウアウルフ鍛+,ブラーウルフ鍛+,グルンウルフ鍛+",
+		"exclusive": ""
 	},	{
 		"category": "Effective Tomes",
 		"name_en": "Res Bonus",
@@ -1157,7 +1412,8 @@
 		"def": 0,
 		"res": 3,
 		"prereq": "Keen Raudrwolf+,Keen Blarwolf+,Keen Gronnwolf+",
-		"prereq": "ラウアウルフ鍛+,ブラーウルフ鍛+,グルンウルフ鍛+"
+		"prereq": "ラウアウルフ鍛+,ブラーウルフ鍛+,グルンウルフ鍛+",
+		"exclusive": ""
 	},	{
 		"category": "Staves",
 		"name_en": "Wrathful",
@@ -1171,7 +1427,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Absorb+,Fear+,Slow+,Gravity+,Pain+,Panic+,Candlelight+",
-		"prereq": "アブソーブ+,フィアー+,スロウ+,グラビティ+,ペイン+,パニック+,キャンドル+"
+		"prereq": "アブソーブ+,フィアー+,スロウ+,グラビティ+,ペイン+,パニック+,キャンドル+",
+		"exclusive": ""
 	},	{
 		"category": "Staves",
 		"name_en": "Dazzling",
@@ -1185,7 +1442,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Absorb+,Fear+,Slow+,Gravity+,Pain+,Panic+,Candlelight+",
-		"prereq": "アブソーブ+,フィアー+,スロウ+,グラビティ+,ペイン+,パニック+,キャンドル+"
+		"prereq": "アブソーブ+,フィアー+,スロウ+,グラビティ+,ペイン+,パニック+,キャンドル+",
+		"exclusive": ""
 	},	{
 		"category": "Dragonstone",
 		"name_en": "Atk Bonus",
@@ -1199,7 +1457,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Flametongue+,Lightning Breath+",
-		"prereq": "灼熱のブレス+,雷のブレス+"
+		"prereq": "灼熱のブレス+,雷のブレス+",
+		"exclusive": ""
 	},	{
 		"category": "Dragonstone",
 		"name_en": "Spd Bonus",
@@ -1213,7 +1472,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Flametongue+,Lightning Breath+",
-		"prereq": "灼熱のブレス+,雷のブレス+"
+		"prereq": "灼熱のブレス+,雷のブレス+",
+		"exclusive": ""
 	},	{
 		"category": "Dragonstone",
 		"name_en": "Def Bonus",
@@ -1227,7 +1487,8 @@
 		"def": 4,
 		"res": 0,
 		"prereq": "Flametongue+,Lightning Breath+",
-		"prereq": "灼熱のブレス+,雷のブレス+"
+		"prereq": "灼熱のブレス+,雷のブレス+",
+		"exclusive": ""
 	},	{
 		"category": "Dragonstone",
 		"name_en": "Res Bonus",
@@ -1241,7 +1502,8 @@
 		"def": 0,
 		"res": 4,
 		"prereq": "Flametongue+,Lightning Breath+",
-		"prereq": "灼熱のブレス+,雷のブレス+"
+		"prereq": "灼熱のブレス+,雷のブレス+",
+		"exclusive": ""
 	},	{
 		"category": "Light Dragonstone",
 		"name_en": "Atk Bonus",
@@ -1255,7 +1517,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Light Breath+",
-		"prereq": "光のブレス+"
+		"prereq": "光のブレス+",
+		"exclusive": ""
 	},	{
 		"category": "Light Dragonstone",
 		"name_en": "Spd Bonus",
@@ -1269,7 +1532,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Light Breath+",
-		"prereq": "光のブレス+"
+		"prereq": "光のブレス+",
+		"exclusive": ""
 	},	{
 		"category": "Light Dragonstone",
 		"name_en": "Def Bonus",
@@ -1283,7 +1547,8 @@
 		"def": 4,
 		"res": 0,
 		"prereq": "Light Breath+",
-		"prereq": "光のブレス+"
+		"prereq": "光のブレス+",
+		"exclusive": ""
 	},	{
 		"category": "Light Dragonstone",
 		"name_en": "Res Bonus",
@@ -1297,7 +1562,8 @@
 		"def": 0,
 		"res": 4,
 		"prereq": "Light Breath+",
-		"prereq": "光のブレス+"
+		"prereq": "光のブレス+",
+		"exclusive": ""
 	},	{
 		"category": "Dark Dragonstone",
 		"name_en": "Atk Bonus",
@@ -1311,7 +1577,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Dark Breath+",
-		"prereq": "闇のブレス+"
+		"prereq": "闇のブレス+",
+		"exclusive": ""
 	},	{
 		"category": "Dark Dragonstone",
 		"name_en": "Spd Bonus",
@@ -1325,7 +1592,8 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Dark Breath+",
-		"prereq": "闇のブレス+"
+		"prereq": "闇のブレス+",
+		"exclusive": ""
 	},	{
 		"category": "Dark Dragonstone",
 		"name_en": "Def Bonus",
@@ -1339,7 +1607,8 @@
 		"def": 4,
 		"res": 0,
 		"prereq": "Dark Breath+",
-		"prereq": "闇のブレス+"
+		"prereq": "闇のブレス+",
+		"exclusive": ""
 	},	{
 		"category": "Dark Dragonstone",
 		"name_en": "Res Bonus",
@@ -1353,12 +1622,13 @@
 		"def": 0,
 		"res": 4,
 		"prereq": "Dark Breath+",
-		"prereq": "闇のブレス+"
+		"prereq": "闇のブレス+",
+		"exclusive": ""
 	},	{
 		"category": "Sol Katti",
 		"name_en": "Brash Assault",
 		"name": "ソール・カティ・専用",
-		"sp": 350,
+		"sp": 400,
 		"description": "If unit initiates combat with HP <= 75%, follow-up attacks occur immediately after unit's attack. Unit makes a guaranteed follow-up attack when HP <= 75% and attacking a foe that can counter.",
 		"description": "自分のＨＰが 75% 以下で、自分から攻撃した時、追撃可能なら自分の攻撃直後に追撃を行う 自分のＨＰが 75% 以下で、自分から攻撃した時、敵が反撃可能なら絶対追撃",
 		"hp": 3,
@@ -1367,12 +1637,13 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Sol Katti",
-		"prereq": "ソール・カティ"
+		"prereq": "ソール・カティ",
+		"exclusive": ""
 	},	{
 		"category": "Sol Katti",
 		"name_en": "Atk Bonus",
 		"name": "攻撃",
-		"sp": 350,
+		"sp": 400,
 		"description": "If unit initiates combat with HP <= 75%, follow-up attacks occur immediately after unit's attack.",
 		"description": "自分のＨＰが 75% 以下で、自分から攻撃した時、追撃可能なら自分の攻撃直後に追撃を行う",
 		"hp": 5,
@@ -1381,12 +1652,13 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Sol Katti",
-		"prereq": "ソール・カティ"
+		"prereq": "ソール・カティ",
+		"exclusive": ""
 	},	{
 		"category": "Sol Katti",
 		"name_en": "Spd Bonus",
 		"name": "速さ",
-		"sp": 350,
+		"sp": 400,
 		"description": "If unit initiates combat with HP <= 75%, follow-up attacks occur immediately after unit's attack.",
 		"description": "自分のＨＰが 75% 以下で、自分から攻撃した時、追撃可能なら自分の攻撃直後に追撃を行う",
 		"hp": 5,
@@ -1395,12 +1667,13 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Sol Katti",
-		"prereq": "ソール・カティ"
+		"prereq": "ソール・カティ",
+		"exclusive": ""
 	},	{
 		"category": "Sol Katti",
 		"name_en": "Def Bonus",
 		"name": "守備",
-		"sp": 350,
+		"sp": 400,
 		"description": "If unit initiates combat with HP <= 75%, follow-up attacks occur immediately after unit's attack.",
 		"description": "自分のＨＰが 75% 以下で、自分から攻撃した時、追撃可能なら自分の攻撃直後に追撃を行う",
 		"hp": 5,
@@ -1409,12 +1682,13 @@
 		"def": 4,
 		"res": 0,
 		"prereq": "Sol Katti",
-		"prereq": "ソール・カティ"
+		"prereq": "ソール・カティ",
+		"exclusive": ""
 	},	{
 		"category": "Sol Katti",
 		"name_en": "Res Bonus",
 		"name": "魔防",
-		"sp": 350,
+		"sp": 400,
 		"description": "If unit initiates combat with HP <= 75%, follow-up attacks occur immediately after unit's attack.",
 		"description": "自分のＨＰが 75% 以下で、自分から攻撃した時、追撃可能なら自分の攻撃直後に追撃を行う",
 		"hp": 5,
@@ -1423,78 +1697,13 @@
 		"def": 0,
 		"res": 4,
 		"prereq": "Sol Katti",
-		"prereq": "ソール・カティ"
-	},	{
-		"category": "Mystletainn",
-		"name_en": "Fury",
-		"name": "ミストルティン・専用",
-		"sp": 350,
-		"description": "Grants Atk/Spd/Def/Res+3. Unit takes 6 damage after combat.",
-		"description": "攻撃、速さ、守備、魔防 +3　戦闘後、自分に 6 ダメージ",
-		"hp": 3,
-		"atk": 3,
-		"spd": 3,
-		"def": 3,
-		"res": 3,
-		"prereq": "Mystletainn",
-		"prereq": "ミストルティン"
-	},	{
-		"category": "Mystletainn",
-		"name_en": "Atk Bonus",
-		"name": "攻撃",
-		"sp": 350,
-		"description": "",
-		"hp": 5,
-		"atk": 2,
-		"spd": 0,
-		"def": 0,
-		"res": 0,
-		"prereq": "Mystletainn",
-		"prereq": "ミストルティン"
-	},	{
-		"category": "Mystletainn",
-		"name_en": "Spd Bonus",
-		"name": "速さ",
-		"sp": 350,
-		"description": "",
-		"hp": 5,
-		"atk": 0,
-		"spd": 3,
-		"def": 0,
-		"res": 0,
-		"prereq": "Mystletainn",
-		"prereq": "ミストルティン"
-	},	{
-		"category": "Mystletainn",
-		"name_en": "Def Bonus",
-		"name": "守備",
-		"sp": 350,
-		"description": "",
-		"hp": 5,
-		"atk": 0,
-		"spd": 0,
-		"def": 4,
-		"res": 0,
-		"prereq": "Mystletainn",
-		"prereq": "ミストルティン"
-	},	{
-		"category": "Mystletainn",
-		"name_en": "Res Bonus",
-		"name": "魔防",
-		"sp": 350,
-		"description": "",
-		"hp": 5,
-		"atk": 0,
-		"spd": 0,
-		"def": 0,
-		"res": 4,
-		"prereq": "Mystletainn",
-		"prereq": "ミストルティン"
+		"prereq": "ソール・カティ",
+		"exclusive": ""
 	},	{
 		"category": "Siegmund",
 		"name_en": "Pursuit",
 		"name": "ジークムント・専用",
-		"sp": 350,
+		"sp": 400,
 		"description": "Grants adjacent allies Atk+4 through their next actions at the start of each turn. Unit makes a guaranteed follow-up attack when HP >= 90% and attacking a foe that can counter.",
 		"description": "ターン開始時、周囲１マスの味方の攻撃 +4 (1ターン) 自分のＨＰが 90% 以上で、自分から攻撃した時、絶対追撃",
 		"hp": 3,
@@ -1503,12 +1712,13 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Siegmund",
-		"prereq": "ジークムント"
+		"prereq": "ジークムント",
+		"exclusive": ""
 	},	{
 		"category": "Siegmund",
 		"name_en": "Atk Bonus",
 		"name": "攻撃",
-		"sp": 350,
+		"sp": 400,
 		"description": "Grants adjacent allies Atk+4 through their next actions at the start of each turn.",
 		"description": "ターン開始時、周囲１マスの味方の攻撃 +4 (1ターン)",
 		"hp": 5,
@@ -1517,12 +1727,13 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Siegmund",
-		"prereq": "ジークムント"
+		"prereq": "ジークムント",
+		"exclusive": ""
 	},	{
 		"category": "Siegmund",
 		"name_en": "Spd Bonus",
 		"name": "速さ",
-		"sp": 350,
+		"sp": 400,
 		"description": "Grants adjacent allies Atk+4 through their next actions at the start of each turn.",
 		"description": "ターン開始時、周囲１マスの味方の攻撃 +4 (1ターン)",
 		"hp": 5,
@@ -1531,12 +1742,13 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Siegmund",
-		"prereq": "ジークムント"
+		"prereq": "ジークムント",
+		"exclusive": ""
 	},	{
 		"category": "Siegmund",
 		"name_en": "Def Bonus",
 		"name": "守備",
-		"sp": 350,
+		"sp": 400,
 		"description": "Grants adjacent allies Atk+4 through their next actions at the start of each turn.",
 		"description": "ターン開始時、周囲１マスの味方の攻撃 +4 (1ターン)",
 		"hp": 5,
@@ -1545,12 +1757,13 @@
 		"def": 4,
 		"res": 0,
 		"prereq": "Siegmund",
-		"prereq": "ジークムント"
+		"prereq": "ジークムント",
+		"exclusive": ""
 	},	{
 		"category": "Siegmund",
 		"name_en": "Res Bonus",
 		"name": "魔防",
-		"sp": 350,
+		"sp": 400,
 		"description": "Grants adjacent allies Atk+4 through their next actions at the start of each turn.",
 		"description": "ターン開始時、周囲１マスの味方の攻撃 +4 (1ターン)",
 		"hp": 5,
@@ -1559,144 +1772,114 @@
 		"def": 0,
 		"res": 4,
 		"prereq": "Siegmund",
-		"prereq": "ジークムント"
+		"prereq": "ジークムント",
+		"exclusive": ""
 	},	{
-		"category": "Hauteclere",
-		"name_en": "Special Damage",
-		"name": "オートクレール・専用",
-		"sp": 350,
-		"description": "Deals +10 damage when Special triggers.",
-		"description": "奥義発動時、奥義によるダメージ +10",
+		"category": "Falchion",
+		"name_en": "All Bond",
+		"name": "ファルシオン覚醒・専用",
+		"sp": 400,
+		"description": "Restores 10 HP at the start of every second turn. Grants Atk/Spd/Def/Res+4 during combat if unit is adjacent to an ally.",
 		"hp": 3,
 		"atk": 0,
 		"spd": 0,
 		"def": 0,
 		"res": 0,
-		"prereq": "Hauteclere",
-		"prereq": "オートクレール"
+		"prereq": "Falchion",
+		"prereq": "ファルシオン",
+		"exclusive": "Chrom,Marth (Masked),Lucina",
+		"exclusive": "クロム,マルス(仮面),ルキナ"
 	},	{
-		"category": "Hauteclere",
+		"category": "Falchion",
+		"name_en": "Falchion Drive",
+		"name": "ファルシオン・専用",
+		"sp": 400,
+		"description": "Restores 10 HP at the start of every second turn. Grants Atk/Spd/Def/Res+2 to allies within 2 spaces during combat.",
+		"hp": 3,
+		"atk": 0,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"prereq": "Falchion",
+		"prereq": "ファルシオン",
+		"exclusive": "Marth",
+		"exclusive": "マルス"
+	},	{
+		"category": "Falchion",
+		"name_en": "Brave Falchion",
+		"name": "ファルシオン外伝・専用",
+		"sp": 400,
+		"description": "If unit's HP = 100% at start of combat and unit initiates combat, unit attacks twice then takes 5 damage after combat.",
+		"hp": 3,
+		"atk": 0,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"prereq": "Falchion",
+		"prereq": "ファルシオン",
+		"exclusive": "Alm",
+		"exclusive": "アルム"
+	},	{
+		"category": "Falchion",
 		"name_en": "Atk Bonus",
 		"name": "攻撃",
-		"sp": 350,
-		"description": "",
+		"sp": 400,
+		"description": "Restores 10 HP at the start of every second turn.",
 		"hp": 5,
 		"atk": 2,
 		"spd": 0,
 		"def": 0,
 		"res": 0,
-		"prereq": "Hauteclere",
-		"prereq": "オートクレール"
+		"prereq": "Falchion",
+		"prereq": "ファルシオン",
+		"exclusive": ""
 	},	{
-		"category": "Hauteclere",
+		"category": "Falchion",
 		"name_en": "Spd Bonus",
 		"name": "速さ",
-		"sp": 350,
-		"description": "",
+		"sp": 400,
+		"description": "Restores 10 HP at the start of every second turn.",
 		"hp": 5,
 		"atk": 0,
 		"spd": 3,
 		"def": 0,
 		"res": 0,
-		"prereq": "Hauteclere",
-		"prereq": "オートクレール"
+		"prereq": "Falchion",
+		"prereq": "ファルシオン",
+		"exclusive": ""
 	},	{
-		"category": "Hauteclere",
+		"category": "Falchion",
 		"name_en": "Def Bonus",
 		"name": "守備",
-		"sp": 350,
-		"description": "",
+		"sp": 400,
+		"description": "Restores 10 HP at the start of every second turn.",
 		"hp": 5,
 		"atk": 0,
 		"spd": 0,
 		"def": 4,
 		"res": 0,
-		"prereq": "Hauteclere",
-		"prereq": "オートクレール"
+		"prereq": "Falchion",
+		"prereq": "ファルシオン",
+		"exclusive": ""
 	},	{
-		"category": "Hauteclere",
+		"category": "Falchion",
 		"name_en": "Res Bonus",
 		"name": "魔防",
-		"sp": 350,
-		"description": "",
+		"sp": 400,
+		"description": "Restores 10 HP at the start of every second turn.",
 		"hp": 5,
 		"atk": 0,
 		"spd": 0,
 		"def": 0,
 		"res": 4,
-		"prereq": "Hauteclere",
-		"prereq": "オートクレール"
-	},	{
-		"category": "Fujin Yumi",
-		"name_en": "Follow",
-		"name": "風神弓・専用",
-		"sp": 350,
-		"description": "If unit's HP ≥ 50%, unit can move adjacent to any ally within 2 spaces.",
-		"description": "自身のＨＰが 50% 以上の時、周囲２マス以内の味方の隣接マスに移動可能",
-		"hp": 0,
-		"atk": 0,
-		"spd": 0,
-		"def": 0,
-		"res": 0,
-		"prereq": "Fujin Yumi",
-		"prereq": "風神弓"
-	},	{
-		"category": "Fujin Yumi",
-		"name_en": "Atk Bonus",
-		"name": "攻撃",
-		"sp": 350,
-		"description": "",
-		"hp": 2,
-		"atk": 1,
-		"spd": 0,
-		"def": 0,
-		"res": 0,
-		"prereq": "Fujin Yumi",
-		"prereq": "風神弓"
-	},	{
-		"category": "Fujin Yumi",
-		"name_en": "Spd Bonus",
-		"name": "速さ",
-		"sp": 350,
-		"description": "",
-		"hp": 2,
-		"atk": 0,
-		"spd": 2,
-		"def": 0,
-		"res": 0,
-		"prereq": "Fujin Yumi",
-		"prereq": "風神弓"
-	},	{
-		"category": "Fujin Yumi",
-		"name_en": "Def Bonus",
-		"name": "守備",
-		"sp": 350,
-		"description": "",
-		"hp": 2,
-		"atk": 0,
-		"spd": 0,
-		"def": 3,
-		"res": 0,
-		"prereq": "Fujin Yumi",
-		"prereq": "風神弓"
-	},	{
-		"category": "Fujin Yumi",
-		"name_en": "Res Bonus",
-		"name": "魔防",
-		"sp": 350,
-		"description": "",
-		"hp": 2,
-		"atk": 0,
-		"spd": 0,
-		"def": 0,
-		"res": 3,
-		"prereq": "Fujin Yumi",
-		"prereq": "風神弓"
+		"prereq": "Falchion",
+		"prereq": "ファルシオン",
+		"exclusive": ""
 	},	{
 		"category": "Deathly Dagger",
 		"name_en": "Magic Suppression",
 		"name": "死神の暗器・専用",
-		"sp": 350,
+		"sp": 400,
 		"description": "After combat, deals 10 damage to target and foes within 2 spaces of target. Foes using magic cannot counterattack.",
 		"description": "戦闘後、敵と、その周囲２マスの敵に 10 ダメージ　かつ守備、魔防 -7 (敵の次回行動終了まで) 敵が魔法の時、敵は反撃不可",
 		"hp": 0,
@@ -1705,12 +1888,13 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Deathly Dagger",
-		"prereq": "死神の暗器"
+		"prereq": "死神の暗器",
+		"exclusive": ""
 	},	{
 		"category": "Deathly Dagger",
 		"name_en": "Atk Bonus",
 		"name": "攻撃",
-		"sp": 350,
+		"sp": 400,
 		"description": "After combat, deals 10 damage to target and foes within 2 spaces of target.",
 		"description": "戦闘後、敵と、その周囲２マスの敵に 10 ダメージ",
 		"hp": 2,
@@ -1719,12 +1903,13 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Deathly Dagger",
-		"prereq": "死神の暗器"
+		"prereq": "死神の暗器",
+		"exclusive": ""
 	},	{
 		"category": "Deathly Dagger",
 		"name_en": "Spd Bonus",
 		"name": "速さ",
-		"sp": 350,
+		"sp": 400,
 		"description": "After combat, deals 10 damage to target and foes within 2 spaces of target.",
 		"description": "戦闘後、敵と、その周囲２マスの敵に 10 ダメージ",
 		"hp": 2,
@@ -1733,12 +1918,13 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Deathly Dagger",
-		"prereq": "死神の暗器"
+		"prereq": "死神の暗器",
+		"exclusive": ""
 	},	{
 		"category": "Deathly Dagger",
 		"name_en": "Def Bonus",
 		"name": "守備",
-		"sp": 350,
+		"sp": 400,
 		"description": "After combat, deals 10 damage to target and foes within 2 spaces of target.",
 		"description": "戦闘後、敵と、その周囲２マスの敵に 10 ダメージ",
 		"hp": 2,
@@ -1747,12 +1933,13 @@
 		"def": 3,
 		"res": 0,
 		"prereq": "Deathly Dagger",
-		"prereq": "死神の暗器"
+		"prereq": "死神の暗器",
+		"exclusive": ""
 	},	{
 		"category": "Deathly Dagger",
 		"name_en": "Res Bonus",
 		"name": "魔防",
-		"sp": 350,
+		"sp": 400,
 		"description": "After combat, deals 10 damage to target and foes within 2 spaces of target.",
 		"hp": 2,
 		"atk": 3,
@@ -1760,59 +1947,7 @@
 		"def": 0,
 		"res": 3,
 		"prereq": "Deathly Dagger",
-		"prereq": "死神の暗器"
-		},	{
-			"category": "Fujin Yumi",
-			"name_en": "Follow",
-			"name": "風神弓・専用",
-			"sp": 350,
-			"description": "If unit's HP ≥ 50%, unit can move adjacent to any ally within 2 spaces.",
-			"description": "自身のＨＰが 50% 以上の時、周囲２マス以内の味方の隣接マスに移動可能",
-			"hp": 0,
-			"atk": 0,
-			"spd": 0,
-			"def": 0,
-			"res": 0,
-			"prereq": "Fujin Yumi",
-			"prereq": "風神弓"
-		},	{
-			"category": "Fujin Yumi",
-			"name_en": "Atk Bonus",
-			"name": "攻撃",
-			"sp": 350,
-			"description": "",
-			"hp": 2,
-			"atk": 1,
-			"spd": 0,
-			"def": 0,
-			"res": 0,
-			"prereq": "Fujin Yumi",
-			"prereq": "風神弓"
-		},	{
-			"category": "Fujin Yumi",
-			"name_en": "Spd Bonus",
-			"name": "速さ",
-			"sp": 350,
-			"description": "",
-			"hp": 2,
-			"atk": 0,
-			"spd": 2,
-			"def": 0,
-			"res": 0,
-			"prereq": "Fujin Yumi",
-			"prereq": "風神弓"
-		},	{
-			"category": "Fujin Yumi",
-			"name_en": "Def Bonus",
-			"name": "守備",
-			"sp": 350,
-			"description": "",
-			"hp": 2,
-			"atk": 0,
-			"spd": 0,
-			"def": 3,
-			"res": 0,
-			"prereq": "Fujin Yumi",
-			"prereq": "風神弓"
+		"prereq": "死神の暗器",
+		"exclusive": ""
 	}
 ]
