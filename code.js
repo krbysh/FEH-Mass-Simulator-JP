@@ -1067,7 +1067,7 @@ function getCDChange(skill, slot){
 			|| skillName.indexOf("キラーボウ") != -1	|| skillName.indexOf("キラーボウ鍛") != -1 	|| skillName.indexOf("キルソード鍛") != -1
 			|| skillName.indexOf("キラーアクス鍛") != -1	|| skillName.indexOf("キラーランス鍛") != -1	|| skillName.indexOf("魔性の槍") != -1
 			|| skillName.indexOf("ミストルティン") != -1	|| skillName.indexOf("オートクレール") != -1	|| skillName.indexOf("ウルヴァン") != -1
-			|| skillName.indexOf("アウドムラ") != -1 || skillName.indexOf("鏡餅") || skillName.indexOf("バシリコス") != -1
+			|| skillName.indexOf("アウドムラ") != -1 || skillName.indexOf("鏡餅") != -1 || skillName.indexOf("バシリコス") != -1
 			|| skillName.indexOf("狂斧アルマーズ") != -1
 			){
 				return -1;
