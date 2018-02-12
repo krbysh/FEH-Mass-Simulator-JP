@@ -67,6 +67,7 @@ gapi.analytics.ready(function() {
   XHR.send(urlEncodedData)
 
   gapi.analytics.auth.authorize({
+      container: 'auth-button',
       serverAuth: {
           access_token: token
       }
