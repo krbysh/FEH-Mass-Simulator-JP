@@ -117,7 +117,8 @@ function handleProfiles(response) {
   // Handles the response from the profiles list method.
   if (response.result.items && response.result.items.length) {
     // Get the first View (Profile) ID.
-    var firstProfileId = response.result.items[0].id;
+    //var firstProfileId = response.result.items[0].id;
+    var firstProfileId = 3A162114063;
 
     // Query the Core Reporting API.
     queryCoreReportingApi(firstProfileId);
@@ -134,7 +135,8 @@ function queryCoreReportingApi(profileId) {
     'ids': 'ga:' + profileId,
     'start-date': '7daysAgo',
     'end-date': 'today',
-    'metrics': 'ga:sessions'
+    'metrics': 'ga:uniqueEvents'
+    'dimensions': 'ga:eventLabel'
   })
   .then(function(response) {
     var formattedJson = JSON.stringify(response.result, null, 2);
@@ -145,7 +147,6 @@ function queryCoreReportingApi(profileId) {
       console.log(err);
   });
 }
-
   // Add an event listener to the 'auth-button'.
   document.getElementById('auth-button').addEventListener('click', authorize);
 </script>
