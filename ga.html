@@ -49,7 +49,6 @@ gapi.analytics.ready(function() {
   console.log(sJWS);
 
   var XHR = new XMLHttpRequest();
-  console.log(XHR);
   var urlEncodedData = "";
   var urlEncodedDataPairs = [];
 
@@ -59,12 +58,11 @@ gapi.analytics.ready(function() {
 
   // We define what will happen if the data are successfully sent
   XHR.addEventListener('load', function(event) {
-      console.log('a');
       var response = JSON.parse(XHR.responseText);
-      console.log(response);
       token = response["access_token"];
-
   });
+
+  console.log(token);
 
   // We define what will happen in case of error
   XHR.addEventListener('error', function(event) {
