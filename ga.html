@@ -49,14 +49,14 @@ gapi.analytics.ready(function() {
   XHR.addEventListener('load', function(event) {
       var response = JSON.parse(XHR.responseText);
       token = response["access_token"];
-  },false);
+  });
 
   // We define what will happen in case of error
   XHR.addEventListener('error', function(event) {
       console.log('Oops! Something went wrong.');
   });
 
-  XHR.open('POST', 'https://www.googleapis.com/oauth2/v3/token', false);
+  XHR.open('POST', 'https://www.googleapis.com/oauth2/v3/token');
   XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
   XHR.send(urlEncodedData)
 
