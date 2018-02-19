@@ -13592,7 +13592,7 @@
 		"name": "Armored Boots",
 		"name": "重装のブーツ",
 		"slot": "s",
-		"sp": 200,
+		"sp": 100,
 		"description": "If unit's HP = 100% at start of turn, unit can move 1 extra space. (That turn only; does not stack.)",
 		"hp": 0,
 		"atk": 0,
@@ -13600,7 +13600,7 @@
 		"def": 0,
 		"res": 0,
 		"charge": 0,
-		"inheritrule": "",
+		"inheritrule": "armored",
 		"affectsduel": 0
 
 
