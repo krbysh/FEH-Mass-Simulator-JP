@@ -6664,7 +6664,7 @@ function activeHero(hero){
 			}
 			this.hp += absorbHp;
 			if(absorbHp > 0){
-				damageText += this.name + " は、アブソーブ の効果で ＨＰ " + absorbHp + " 回復。<br>";
+				damageText += this.name + " は、ＨＰ " + absorbHp + " 回復。<br>";
 			}
 
 			//Special charge does not increase if special was used on this attack
