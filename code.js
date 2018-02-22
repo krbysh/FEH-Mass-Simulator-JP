@@ -148,11 +148,10 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"エリウッド(運命の息吹) (5★);Weapon: カサブランカ+;Assist: 攻撃守備の応援;A: 生命の業火 3;C: 重刃の紋章;",
-	"ロイ(大好きの気持ちを…) (5★);Weapon: グラーティア+;Assist: 相互援助;A: 鬼神の一撃 3;C: 弓の技量 3;",
-	"リリーナ(大好きの気持ちを…) (5★);Weapon: 緑のプレゼント箱+;Special: 烈火;A: ＨＰ攻撃 2;C: 攻撃の指揮 3;",
-	"ヘクトル(大好きの気持ちを…) (5★);Weapon: 狂斧アルマーズ;Special: 凶星;A: 遠距離反撃;B: 守備隊形 3;",
-	"リン(大好きの気持ちを…) (5★);Weapon: 青のプレゼント箱+;Assist: 献身;A: 攻撃速さの絆 3;B: キャンセル 3;C: 重装の行軍 3;",
+	"ルフレ(男)(闇に堕ちた英雄) (5★);Weapon: 邪竜のブレス;Special: 華炎;B: 迎撃隊形 3;C: 竜盾の紋章;",
+	"ハーディン(闇に堕ちた英雄) (5★);Weapon: グラディウス;Special: 復讐;A: 守備魔防の大覚醒 3;B: 攻撃隊形 3;",
+	"セリカ(闇に堕ちた英雄) (5★);Weapon: 宝剣ソフィア;Special: 月光;B: 速さの封印 3;C: 攻撃の鼓舞 3;",
+	"タクミ(闇に堕ちた英雄) (5★);Weapon: スカディ;Special: 復讐;A: 獅子奮迅 3;C: 速さの紫煙 3;",
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -180,7 +179,8 @@ function initOptions(){
 	options = {};
 	options.saveSettings = true;
 	options.autoCalculate = true;
-	options.startTurn = 1;
+	options.buffStartTurn = 1;
+	options.debuffStartTurn = 1;
 	//options.threatenRule = "なし";
 	options.ployBehavior = "十字";
 	options.showOnlyMaxSkills = true;
@@ -1137,7 +1137,7 @@ function canCounterAnyRange(hero){
 	if(hero.has("近距離反撃") || hero.has("遠距離反撃") || hero.has("雷のブレス")
 		|| hero.has("雷神刀") || hero.has("ジークフリート") || hero.has("ラグネル")
 		|| hero.has("グラディウス") || hero.has("エタルド") || hero.has("剛斧トマホーク")
-		|| hero.has("レイプト")){
+		|| hero.has("レイプト") || hero.has("邪竜のブレス")){
 		return true;
 	}
 	return false;
@@ -3507,21 +3507,25 @@ function fight(enemyIndex,resultIndex){
 	ahEnemy = new activeHero(enemyList[enemyIndex]);
 
 	var rounds = 0;
-	var challengerRound = 0;
-	var enemyRound = 0;
+	var challengerBuffRound = 0;
+	var challengerDebuffRound = 0;
+	var enemyBuffRound = 0;
+	var enemyDebuffRound = 0;
 
 	for(var round = 1; round <= options.roundInitiators.length;round++){
 		rounds = round;
 		fightText += "<div class=\"fight_round\"><span class=\"bold\">ラウンド " + round + ": ";
 		if(options.roundInitiators[round-1]=="自軍"){
 			fightText += ahChallenger.name + " の攻撃</span><br>";
-			if (round >= options.startTurn) challengerRound++;
-			fightText += ahChallenger.attack(ahEnemy, round, challengerRound == 1, false);
+			if (round >= options.buffStartTurn) challengerBuffRound++;
+			if (round >= options.debuffStartTurn) challengerDebuffRound++;
+			fightText += ahChallenger.attack(ahEnemy, round, challengerBuffRound, challengerDebuffRound, false);
 		}
 		else{
 			fightText += ahEnemy.name + " の攻撃</span><br>";
-			if (round >= options.startTurn) enemyRound++;
-			fightText +=  ahEnemy.attack(ahChallenger, round, enemyRound == 1, false);
+			if (round >= options.buffStartTurn) enemyBuffRound++;
+			if (round >= options.debuffStartTurn) enemyDebuffRound++;
+			fightText +=  ahEnemy.attack(ahChallenger, round, enemyBuffRound, enemyDebuffRound, false);
 		}
 		if(ahEnemy.hp <= 0 || ahChallenger.hp <= 0){
 			break;
@@ -3948,7 +3952,7 @@ function exportCalc(){
 		//Should take out buffs and stuff that aren't used to minimize columns?
 		csvString += "Challenger,cColor,cMovetype,cWeapontype,cRarity,cMerge,cBoon,cBane,cMaxHP,cStartHP,cAtk,cSpd,cDef,cRes,cWeapon,cRefine,cAssist,cSpecial,cPrecharge,cAdjacent,cA,cB,cC,cS,cBuffAtk,cBuffSpd,cBuffDef,cBuffRes,cDebuffAtk,cDebuffSpd,cDebuffDef,cDebuffRes,cSpurAtk,cSpurSpd,cSpurDef,cSpurRes,";
 		csvString += "Enemy,eColor,eMovetype,eWeapontype,eRarity,eMerge,eBoon,eBane,eMaxHP,eStartHP,eAtk,eSpd,eDef,eRes,eWeapon,eRefine,eAssist,eSpecial,ePrecharge,eAdjacent,eA,eB,eC,eS,eBuffAtk,eBuffSpd,eBuffDef,eBuffRes,eDebuffAtk,eDebuffSpd,eDebuffDef,eDebuffRes,eSpurAtk,eSpurSpd,eSpurDef,eSpurRes,";
-		csvString += "InitialThreatenChallenger,InitialThreatenEnemy,StartTurn,GaleforceChallenger,GaleforceEnemy,Initiator1,Initiator2,Initiator3,Initiator4,Outcome,cEndHP,eEndHP,Rounds,Overkill,BattleLog\n";
+		csvString += "InitialThreatenChallenger,InitialThreatenEnemy,buffStartTurn,debuffStartTurn,GaleforceChallenger,GaleforceEnemy,Initiator1,Initiator2,Initiator3,Initiator4,Outcome,cEndHP,eEndHP,Rounds,Overkill,BattleLog\n";
 
 		fightResults.forEach(function(result){
 			csvString += data.heroes[challenger.index].name + ",";
@@ -4108,7 +4112,8 @@ function exportCalc(){
 
 			csvString += options.threaten_challenger + ",";
 			csvString += options.threaten_enemy + ",";
-			csvString += options.startTurn + ",";
+			csvString += options.buffstartTurn + ",";
+			csvString += options.debuffstartTurn + ",";
 			csvString += options.galeforce_challenger + ",";
 			csvString += options.galeforce_enemy + ",";
 			for(var rnd = 0; rnd < 4;rnd++){
@@ -4875,11 +4880,12 @@ function activeHero(hero){
 	//Turn counting is complicated due to mix & matching turn order, will revisit later if necessary.
 	//Currently renew repeat effects are not applied since there are only 4 rounds (2 exchanges max) in this simulator
 	//TODO: Implement Turn counting properly for more than 4 rounds
-	this.renewal = function(renew){
-		var renewText = "";
+	this.buffStart = function(buffRound){
+		var startText = "";
 
 		//Effects that apply on renewal turn
-		if (renew){
+		//TODO: Fix round counting for renewal effects
+		if (buffRound == 1){
 			if (this.has("回復")){
 				//if(turn % (5 - this.has("Renewal")) == 0){
 				if(this.hp + 10 > this.maxHp){
@@ -4887,7 +4893,7 @@ function activeHero(hero){
 				} else{
 					this.hp += 10;
 				}
-				renewText += this.name + " は 回復 の効果で ＨＰ 10 回復。<br>";
+				startText += this.name + " は 回復 の効果で ＨＰ 10 回復。<br>";
 			}
 			if (this.has("ファルシオン")){
 				//Not refined - every third turn - if(turn % 3 == 0){
@@ -4897,7 +4903,7 @@ function activeHero(hero){
 					} else{
 						this.hp += 10;
 					}
-					renewText += this.name + " は ファルシオン の効果で ＨＰ 10 回復。<br>";
+					startText += this.name + " は ファルシオン の効果で ＨＰ 10 回復。<br>";
 				}
 				//Refined - every other turn
 				else {
@@ -4906,7 +4912,7 @@ function activeHero(hero){
 					} else{
 						this.hp += 10;
 					}
-					renewText += this.name + " は ファルシオン(錬成) の効果で ＨＰ 10 回復。<br>";
+					startText += this.name + " は ファルシオン(錬成) の効果で ＨＰ 10 回復。<br>";
 				}
 			}
 		}
@@ -4914,9 +4920,38 @@ function activeHero(hero){
 		//Effects that apply every turn
 		if (this.hasExactly("リカバーリング")){
 			this.hp += 10;
-			renewText += this.name + " は、リカバーリング の効果で ＨＰ 10 回復。<br>";
+			startText += this.name + " は、リカバーリング の効果で ＨＰ 10 回復。<br>";
 		}
-		return renewText;
+		return startText;
+	}
+
+	this.debuffStart = function(debuffRound, enemy){
+		var startText = "";
+		var skillName = "";
+		var damage = 0;
+
+		//TODO: Fix round counting for skadi effects
+		if (debuffRound == 1){
+			if (this.has("スカディ")){
+				skillName = "スカディ";
+				damage = 10;
+				enemy.panicked = true;
+				startText += this.name + " は、" + data.skills[this.weaponIndex].name + " を発動、" + enemy.name + " にパニックの効果。<br>";
+			}
+		}
+
+		//Poison damage does not kill
+		if(enemy.hp - damage <= 0){
+			damage = enemy.hp - 1;
+		}
+
+		//Deal damage
+		if (damage != 0){
+			enemy.hp -= damage;
+			startText += enemy.name + " は、ターンの開始時、" + skillName + " の効果で " + damage + " ダメージを受ける。<br>";
+		}
+
+		return startText;
 	}
 
 	//Turn start charge effects
@@ -5098,6 +5133,13 @@ function activeHero(hero){
 
 		//Brazen skills
 		if(this.combatStartHp / this.maxHp <= 0.8){
+			if(this.has("攻撃速さの大覚醒")){
+				statBonus = 1 + 2 * this.has("攻撃速さの大覚醒");
+				this.combatSpur.atk += statBonus;
+				this.combatSpur.spd += statBonus;
+				skillName = data.skills[this.aIndex].name;
+				boostText += this.name + " は、" + skillName + " の効果で、攻撃、速さ +" + statBonus + " 。<br>";
+			}
 			if(this.has("攻撃守備の大覚醒")){
 				statBonus = 1 + 2 * this.has("攻撃守備の大覚醒");
 				this.combatSpur.atk += statBonus;
@@ -5105,12 +5147,33 @@ function activeHero(hero){
 				skillName = data.skills[this.aIndex].name;
 				boostText += this.name + " は、" + skillName + " の効果で、攻撃、守備 +" + statBonus + " 。<br>";
 			}
-			if(this.has("攻撃速さの大覚醒")){
-				statBonus = 1 + 2 * this.has("攻撃速さの大覚醒");
+			if(this.has("攻撃魔防の大覚醒")){
+				statBonus = 1 + 2 * this.has("攻撃魔防の大覚醒");
 				this.combatSpur.atk += statBonus;
-				this.combatSpur.spd += statBonus;
+				this.combatSpur.res += statBonus;
 				skillName = data.skills[this.aIndex].name;
-				boostText += this.name + " は、" + skillName + " の効果で、攻撃、速さ +" + statBonus + " 。<br>";
+				boostText += this.name + " は、" + skillName + " の効果で、攻撃、魔防 +" + statBonus + " 。<br>";
+			}
+			if(this.has("速さ守備の大覚醒")){
+				statBonus = 1 + 2 * this.has("速さ守備の大覚醒");
+				this.combatSpur.spd += statBonus;
+				this.combatSpur.def += statBonus;
+				skillName = data.skills[this.aIndex].name;
+				boostText += this.name + " は、" + skillName + " の効果で、速さ、守備 +" + statBonus + " 。<br>";
+			}
+			if(this.has("速さ魔防の大覚醒")){
+				statBonus = 1 + 2 * this.has("速さ魔防の大覚醒");
+				this.combatSpur.spd += statBonus;
+				this.combatSpur.res += statBonus;
+				skillName = data.skills[this.aIndex].name;
+				boostText += this.name + " は、" + skillName + " の効果で、速さ、魔防 +" + statBonus + " 。<br>";
+			}
+			if(this.has("守備魔防の大覚醒")){
+				statBonus = 1 + 2 * this.has("守備魔防の大覚醒");
+				this.combatSpur.def += statBonus;
+				this.combatSpur.res += statBonus;
+				skillName = data.skills[this.aIndex].name;
+				boostText += this.name + " は、" + skillName + " の効果で、守備、魔防 +" + statBonus + " 。<br>";
 			}
 		}
 
@@ -5121,7 +5184,13 @@ function activeHero(hero){
 				this.combatSpur.spd += 5;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で ＨＰ が 100% のため、攻撃、速さ +5 。<br>";
 			}
-
+			if(this.has("宝剣ソフィア")){
+				this.combatSpur.atk += 4;
+				this.combatSpur.spd += 4;
+				this.combatSpur.def += 4;
+				this.combatSpur.res += 4;
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で ＨＰ が 100% のため、攻撃、速さ、守備、魔防 +4 。<br>";
+			}
 			if(this.has("貝殻") || this.has("氷菓子の弓") || this.has("魚を突いた銛") || this.has("スイカ割りの棍棒")){
 				this.combatSpur.atk += 2;
 				this.combatSpur.spd += 2;
@@ -5554,7 +5623,7 @@ function activeHero(hero){
 			panicDebuff.def = this.combatBuffs.def;
 			panicDebuff.res = this.combatBuffs.res;
 			this.combatBuffs = {"atk":0,"spd":0,"def":0,"res":0};
-			statText += this.name + " の強化は、パニック により反転される。.<br>";
+			statText += this.name + " の強化は、パニック により反転される。<br>";
 		//Buff cancelled - removes field buffs
 		}else if (isBuffCancelled(this, enemy)){
 			this.combatBuffs = {"atk":0,"spd":0,"def":0,"res":0};
@@ -5703,18 +5772,28 @@ function activeHero(hero){
 			//Activate only when attacking
 			if(this.didAttack && this.combatStartHp / this.maxHp >= 1){
 				//Weapons
-				if(this.has("ライナロック") || this.has("貝殻") || this.has("氷菓子の弓") || this.has("魚を突いた銛") || this.has("スイカ割りの棍棒")){
-					if (data.skills[this.weaponIndex].name == "ライナロック"){
-						damage = 5;
-					} else{
-						damage = 2;
-					}
+				damage = 0;
+				if (this.has("貝殻") || this.has("氷菓子の弓") || this.has("魚を突いた銛") || this.has("スイカ割りの棍棒")){
+					damage = 2;
+				}
+				if (this.hasExactly("宝剣ソフィア")){
+					damage = 4;
+				}
+				if (this.hasExactly("ライナロック")){
+					damage = 5;
+				}
+				if (damage != 0){
 					skillName = data.skills[this.weaponIndex].name;
 					damageText += this.name + " は、"  + skillName + " の効果で、戦闘後、" + damage + " ダメージ。<br>";
 					totalDamage += damage;
 				}
+
+				//Refinement
+				damage = 0;
 				if (this.initiator && this.hasAtRefineIndex("ファルシオン外伝・専用", this.refineIndex) && (this.combatStartHp / this.maxHp == 1)){
 					damage = 5;
+				}
+				if (damage != 0){
 					skillName = data.skills[this.weaponIndex].name;
 					damageText += this.name + " は、"  + skillName + "(錬成) の効果で、戦闘後、" + damage + " ダメージ。<br>";
 					totalDamage += damage;
@@ -6042,12 +6121,15 @@ function activeHero(hero){
 		if (this.hasExactly("フェリシアの氷皿")){
 			return true;
 		}
-		if (this.hasExactly("神炎のブレス") && enemy.range == "ranged"){
-			return true;
+		if (enemy.range == "ranged"){
+			if (this.hasExactly("神炎のブレス") || this.hasExactly("邪竜のブレス")){
+				return true;
+			}
+			if (this.weaponType == "dragon" && (this.refineIndex != -1)){
+				return true;
+			}
 		}
-		if (this.weaponType == "dragon" && enemy.range == "ranged" && (this.refineIndex != -1)){
-			return true;
-		}
+
 		//Hero does not have adaptive attack
 		return false;
 	}
@@ -6836,7 +6918,7 @@ function activeHero(hero){
 
 	//Represents a full round of combat
 	//TODO: Refactor 'this/enemy' duplicate codes into 'this.function(enemy)/enemy.function(this)' functions
-	this.attack = function(enemy,round,renew,galeforce){
+	this.attack = function(enemy, round, buffRound, debuffRound, galeforce){
 
 		//Initialize round
 		var roundText = "";	//Common theme: text is returned by helper functions, so the functions are called by adding them to roundText
@@ -6863,8 +6945,9 @@ function activeHero(hero){
 			roundText += this.turnStartDebuff(enemy);
 			roundText += enemy.turnStartDebuff(this);
 
-			//Apply renewal effects
-			roundText += this.renewal(renew);
+			//Apply turnStart effects
+			roundText += this.buffStart(buffRound);
+			roundText += this.debuffStart(debuffRound, enemy);
 
 			//Set initial status
 			if (round == 1){
@@ -7388,7 +7471,7 @@ function activeHero(hero){
 			if(!galeforce && this.has("疾風迅雷") && data.skills[this.specialIndex].charge <= this.charge && (this.challenger ? options.galeforce_challenger : options.galeforce_enemy)){
 				roundText += this.name + " は、疾風迅雷 の効果で、再度攻撃。<br>";
 				this.resetCharge();
-				roundText += this.attack(enemy,round,false,true);
+				roundText += this.attack(enemy, round, 0, 0, true);
 			}
 		}
 
