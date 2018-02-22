@@ -1088,7 +1088,7 @@ function getCDChange(skill, slot){
 	//Assist
 	if (slot == "assist"){
 		//Cooldown increase
-		if (skillName.indexOf("セインツ") != -1			|| skillName.indexOf("リバース") != -1	|| skillName.indexOf("リカバー") != -1){
+		if (skillName == "セインツ" || skillName == "リバース" || skillName == "リカバー"){
 				return 1;
 		}
 	}
