@@ -4839,10 +4839,6 @@ function activeHero(hero){
 			threatDebuffs.atk = Math.min(threatDebuffs.atk,-4);
 			skillNames.push(data.skills[this.weaponIndex].name);
 		}
-		if (this.has("エッケザックス")){
-			threatDebuffs.def = Math.min(threatDebuffs.def,-4);
-			skillNames.push(data.skills[this.weaponIndex].name);
-		}
 		if (this.hasExactly("エッケザックス")){
 			if (this.refineIndex == -1){
 				threatDebuffs.def = Math.min(threatDebuffs.def, -4);
@@ -5482,8 +5478,7 @@ function activeHero(hero){
 					buffVal = 6;
 					this.combatSpur.def += buffVal;
 					this.combatSpur.res += buffVal;
-					boostText += this.name + " は、" + data.skills[this.sIndex].name + "(錬成) の効果で遠距離の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
-					boostText += this.name + " gets +" + buffVal + " Def/Res from being attacked from range with " + data.skills[this.weaponIndex].name + " (Refined).<br>";
+					boostText += this.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) の効果で遠距離の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
 				}
 			}
 			if(enemy.range == "melee"){
@@ -6521,7 +6516,7 @@ function activeHero(hero){
 			}
 
 			if(effectiveBonus > 1 ){
-				damageText += this.name + "の攻撃は、武器の特効の効果で、" + (effectiveBonus * 100 - 100) + "% 上昇。<br>";
+				damageText += this.name + " の攻撃は、武器の特効の効果で、" + (effectiveBonus * 100 - 100) + "% 上昇。<br>";
 			}
 
 			//Class modifier
