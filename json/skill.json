@@ -9512,7 +9512,7 @@
 	}, {
 		"skill_id": 635,
 		"name": "Dancer's Ring+",
-		"name": "舞踏祭の輪+ ",
+		"name": "舞踏祭の輪+",
 		"slot": "weapon",
 		"sp": 300,
 		"description": "If unit initiates attack, adjacent allies recover 7 HP after combat.",
