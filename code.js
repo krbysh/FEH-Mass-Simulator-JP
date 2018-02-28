@@ -7247,6 +7247,10 @@ function activeHero(hero){
 				enemyAttackRankChanged = true;
 			}
 		}
+		if (enemy.hasExactly("炎槍ジークムント")){
+			enemyAttackRank++;
+			enemyAttackRankChanged = true;
+		}
 
 		//Check for Wary Fighter
 		if(this.has("守備隊形")){
