@@ -148,6 +148,7 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
+	"エフラム(伝承の勇王) (5★);Weapon: 炎槍ジークムント;Special: 太陽;A: 鬼神金剛の構え 2;B: 太陽の腕輪;C: 守備の鼓舞 3;",
 	"ルフレ(男)(闇に堕ちた英雄) (5★);Weapon: 邪竜のブレス;Special: 華炎;B: 迎撃隊形 3;C: 竜盾の紋章;",
 	"ハーディン(闇に堕ちた英雄) (5★);Weapon: グラディウス;Special: 復讐;A: 守備魔防の大覚醒 3;B: 攻撃隊形 3;",
 	"セリカ(闇に堕ちた英雄) (5★);Weapon: 宝剣ソフィア;Special: 月光;B: 速さの封印 3;C: 攻撃の鼓舞 3;",
@@ -5557,7 +5558,12 @@ function activeHero(hero){
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、魔防 +4 。<br>";
 			}
 
-			if(this.has("鬼神の構え")){
+			if(this.has("鬼神金剛の構え")){
+				buffVal = this.has("鬼神金剛の構え") * 2;
+				this.combatSpur.atk += buffVal;
+				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、攻撃 +" + buffVal + " 。<br>";
+			}
+			else if(this.has("鬼神の構え")){
 				buffVal = this.has("鬼神の構え") * 2;
 				this.combatSpur.atk += buffVal;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、攻撃 +" + buffVal + " 。<br>";
@@ -5570,7 +5576,12 @@ function activeHero(hero){
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、速さ +" + buffVal + " 。<br>";
 			}
 
-			if(this.has("金剛の構え")){
+			if(this.has("鬼神金剛の構え")){
+				buffVal = this.has("鬼神金剛の構え") * 2;
+				this.combatSpur.def += buffVal;
+				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、守備 +" + buffVal + " 。<br>";
+			}
+			else if(this.has("金剛の構え")){
 				buffVal = this.has("金剛の構え") * 2;
 				this.combatSpur.def += buffVal;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、守備 +" + buffVal + " 。<br>";
@@ -6187,6 +6198,10 @@ function activeHero(hero){
 						AOEDamage += 10;
 						damageText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 					}
+					if(this.has("怒り") && (this.hp / this.maxHp <= .25 * this.has("怒り"))){
+						AOEDamage += 10;
+						damageText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
+					}
 					if(enemy.has("エンブラの加護")){
 						AOEDamage = 0;
 					}
@@ -6286,9 +6301,9 @@ function activeHero(hero){
 					dmgBoostFlat += 10;
 					damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 				}
-				if(this.has("怒り") && (this.hp/this.maxHp <= .25 * this.has("怒り"))){
-					dmgBoostFlat += 10;
-					damageText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
+				if(this.hasExactly("太陽の腕輪")){
+					absorbPct += 0.3;
+					damageText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で、奥義発動時、与えたダメージの30％自分を回復。<br>";
 				}
 			}
 		}
@@ -7195,6 +7210,10 @@ function activeHero(hero){
 				thisAttackRank++;
 				thisAttackRankChanged = true;
 			}
+		}
+		if (this.hasExactly("炎槍ジークムント")){
+			thisAttackRank++;
+			thisAttackRankChanged = true;
 		}
 
 		//Check for auto follow-up counters
