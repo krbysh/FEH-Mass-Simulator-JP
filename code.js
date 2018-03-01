@@ -6301,9 +6301,12 @@ function activeHero(hero){
 					dmgBoostFlat += 10;
 					damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 				}
-				if(this.hasExactly("太陽の腕輪")){
-					absorbPct += 0.3;
+
+				//Solar Brace
+				//***Does it activate with defensive specials? Does it stack with Absorb?***
+				if (!AOE && this.hasExactly("太陽の腕輪")){
 					damageText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で、奥義発動時、与えたダメージの30％自分を回復。<br>";
+					absorbPct += 0.3;
 				}
 			}
 		}
@@ -7212,8 +7215,10 @@ function activeHero(hero){
 			}
 		}
 		if (this.hasExactly("炎槍ジークムント")){
-			thisAttackRank++;
-			thisAttackRankChanged = true;
+			if (this.adjacent <= 1){
+				thisAttackRank++;
+				thisAttackRankChanged = true;
+			}
 		}
 
 		//Check for auto follow-up counters
@@ -7248,8 +7253,10 @@ function activeHero(hero){
 			}
 		}
 		if (enemy.hasExactly("炎槍ジークムント")){
-			enemyAttackRank++;
-			enemyAttackRankChanged = true;
+			if (enemy.adjacent <= 1){
+				enemyAttackRank++;
+				enemyAttackRankChanged = true;
+			}
 		}
 
 		//Check for Wary Fighter
