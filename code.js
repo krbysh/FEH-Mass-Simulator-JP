@@ -4982,10 +4982,14 @@ function activeHero(hero){
 
 		//Chilling Seal Debuff
 		if ((enemy.challenger && options.chilled_challenger) || (!enemy.challenger && options.chilled_enemy)){
-			if(this.has("氷の封印")){
+			if(this.hasExactly("氷の封印")){
 				debuffVal.atk = -6;
 				debuffVal.spd = -6;
 				skillNames.push("氷の封印");
+			}
+			if(this.hasExactly("深き印の風")){
+				debuffVal.atk = -7;
+				skillNames.push("深き印の風");
 			}
 			if(this.has("速さの封印")){
 				debuffVal.spd = -this.hasAtIndex("速さの封印", this.bIndex) * 2 - 1;
@@ -5012,7 +5016,7 @@ function activeHero(hero){
 			}
 
 			if(statChanges.length > 0){
-				debuffText += enemy.name + " は、ターン開始時に " + skillNames.join("、") + " の影響を受ける。"  + enemy.name + " は、" + statChanges.join("、") + " の効果を受ける。<br>";
+				debuffText += enemy.name + " は、ターン開始時に " + skillNames.join("、") + " の影響を受ける。<br>"  + enemy.name + " は、" + statChanges.join("、") + " の効果を受ける。<br>";
 			}
 		}
 
