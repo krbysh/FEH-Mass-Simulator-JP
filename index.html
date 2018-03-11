@@ -44,7 +44,7 @@
 				<button class="button button_newheroes" id="3"><img class="newheroes_picture" src="heroes/Morgan (M).png"/></button>
 			</div>
 		</div>
-		<div id="frame_updatenotice" data-update="2018030902">新錬成に対応しました。新英雄に対応しました。封印系スキルは、設定メニューから選択ください。
+		<div id="frame_updatenotice" data-update="2018030902">新錬成に対応しました。新英雄に対応しました。封印系スキルは、設定メニューから選択ください。<br>フィルター設定保存を追加しました。
 			<div id="update_icon">!</div>
 			<div class="button" id="button_closeupdatenotice" onclick="hideUpdateNotice();">x</div>
 		</div>
@@ -749,7 +749,7 @@
 				<div id="results_bar_right">
 					<span class="bar_label">色</span>
 					<select id="color_results" data-var="options.colorFilter">
-						<option value="all" selected="selected">全て</option>
+						<option value="all" selected>全て</option>
 						<option value="red" style="background-color: #FAAFBE">赤</option>
 						<option value="blue" style="background-color: lightblue">青</option>
 						<option value="green" style="background-color: #99C68E">緑</option>
@@ -757,13 +757,13 @@
 					</select>
 					<span class="bar_label">射程</span>
 					<select id="range_results" data-var="options.rangeFilter">
-						<option value="all" selected="selected">全て</option>
+						<option value="all" selected>全て</option>
 						<option value="melee" >近接</option>
 						<option value="ranged" >遠隔</option>
 					</select>
 					<span class="bar_label">兵種</span>
 					<select id="type_results" data-var="options.typeFilter">
-						<option value="all" selected="selected">全て</option>
+						<option value="all" selected>全て</option>
 						<option value="infantry" >歩兵</option>
 						<option value="armored" >重装</option>
 						<option value="flying" >飛行</option>
@@ -771,7 +771,7 @@
 					</select>
 					<span class="bar_label">ビュー</span>
 					<select id="view_results" data-var="options.viewFilter">
-						<option value="all" selected="selected">全対戦</option>
+						<option value="all" selected>全対戦</option>
 						<option value="changeVictor" >勝者が変更された</option>
 						<option value="changeRounds" >ラウンドが変更された</option>
 						<option value="changeDamage" >ダメージが変更された</option>
@@ -781,7 +781,7 @@
 					</select>
 					<span class="bar_label">並び替え</span>
 					<select id="sort_results" data-var="options.sortOrder">
-						<option value="ワースト" selected="selected">ワースト</option>
+						<option value="ワースト" selected>ワースト</option>
 						<option value="ベスト">ベスト</option>
 					</select>
 					<div class="button" id="button_resetFilter" onclick="resetFilter();">リセット</div>

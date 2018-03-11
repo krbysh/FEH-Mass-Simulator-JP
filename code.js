@@ -21,12 +21,12 @@ var option_colorFilter = localStorage['option_colorFilter'] || "all";
 var option_rangeFilter = localStorage['option_rangeFilter'] || "all";
 var option_typeFilter = localStorage['option_typeFilter'] || "all";
 var option_viewFilter = localStorage['option_viewFilter'] || "all";
-var option_sortOrder = localStorage['option_sortOrder'] || "worst";
+var option_sortOrder = localStorage['option_sortOrder'] || "ワースト";
 var option_showOnlyMaxSkills = localStorage['option_showOnlyMaxSkills'] || "true";
 var option_showOnlyDuelSkills = localStorage['option_showOnlyDuelSkills'] || "true";
 var option_autoCalculate = localStorage['option_autoCalculate'] || "true";
 var option_saveSettings = localStorage['option_saveSettings'] || "true";
-var option_saveFilters = localStorage['option_saveFilters'] || "false";
+var option_saveFilters = localStorage['option_saveFilters'] || "true";
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
