@@ -1373,8 +1373,8 @@
 		"spd": 0,
 		"def": 0,
 		"res": 0,
-		"prereq": "Zanbato+,Ridersbane+",
-		"prereq": "斬馬刀+,ホースキラー+",
+		"prereq": "Zanbato+,Ridersbane+,Poleaxe+",
+		"prereq": "斬馬刀+,ホースキラー+,ポールアクス+",
 		"exclusive": ""
 	},	{
 		"category": "Effective Melee",
@@ -1387,8 +1387,8 @@
 		"spd": 0,
 		"def": 0,
 		"res": 0,
-		"prereq": "Armorsmasher+,Slaying Spear+,Slaying Hammer+,Zanbato+,Ridersbane+",
-		"prereq": "アーマーキラー鍛+,貫きの槍鍛+,ハンマー鍛+,斬馬刀+,ホースキラー+",
+		"prereq": "Armorsmasher+,Slaying Spear+,Slaying Hammer+,Zanbato+,Ridersbane+,Poleaxe+",
+		"prereq": "アーマーキラー鍛+,貫きの槍鍛+,ハンマー鍛+,斬馬刀+,ホースキラー+,ポールアクス+",
 		"exclusive": ""
 	},	{
 		"category": "Effective Melee",
@@ -1401,8 +1401,8 @@
 		"spd": 3,
 		"def": 0,
 		"res": 0,
-		"prereq": "Armorsmasher+,Slaying Spear+,Slaying Hammer+,Zanbato+,Ridersbane+",
-		"prereq": "アーマーキラー鍛+,貫きの槍鍛+,ハンマー鍛+,斬馬刀+,ホースキラー+",
+		"prereq": "Armorsmasher+,Slaying Spear+,Slaying Hammer+,Zanbato+,Ridersbane+,Poleaxe+",
+		"prereq": "アーマーキラー鍛+,貫きの槍鍛+,ハンマー鍛+,斬馬刀+,ホースキラー+,ポールアクス+",
 		"exclusive": ""
 	},	{
 		"category": "Effective Melee",
@@ -1415,8 +1415,8 @@
 		"spd": 0,
 		"def": 4,
 		"res": 0,
-		"prereq": "Armorsmasher+,Slaying Spear+,Slaying Hammer+,Zanbato+,Ridersbane+",
-		"prereq": "アーマーキラー鍛+,貫きの槍鍛+,ハンマー鍛+,斬馬刀+,ホースキラー+",
+		"prereq": "Armorsmasher+,Slaying Spear+,Slaying Hammer+,Zanbato+,Ridersbane+,Poleaxe+",
+		"prereq": "アーマーキラー鍛+,貫きの槍鍛+,ハンマー鍛+,斬馬刀+,ホースキラー+,ポールアクス+",
 		"exclusive": ""
 	},	{
 		"category": "Effective Melee",
@@ -1429,8 +1429,8 @@
 		"spd": 0,
 		"def": 0,
 		"res": 4,
-		"prereq": "Armorsmasher+,Slaying Spear+,Slaying Hammer+,Zanbato+,Ridersbane+",
-		"prereq": "アーマーキラー鍛+,貫きの槍鍛+,ハンマー鍛+,斬馬刀+,ホースキラー+",
+		"prereq": "Armorsmasher+,Slaying Spear+,Slaying Hammer+,Zanbato+,Ridersbane+,Poleaxe+",
+		"prereq": "アーマーキラー鍛+,貫きの槍鍛+,ハンマー鍛+,斬馬刀+,ホースキラー+,ポールアクス+",
 		"exclusive": ""
 	},	{
 		"category": "Effective Tomes",

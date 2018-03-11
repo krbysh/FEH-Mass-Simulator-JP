@@ -26,6 +26,7 @@ var option_showOnlyMaxSkills = localStorage['option_showOnlyMaxSkills'] || "true
 var option_showOnlyDuelSkills = localStorage['option_showOnlyDuelSkills'] || "true";
 var option_autoCalculate = localStorage['option_autoCalculate'] || "true";
 var option_saveSettings = localStorage['option_saveSettings'] || "true";
+var option_saveFilters = localStorage['option_saveFilters'] || "false";
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -440,16 +441,20 @@ $(document).ready(function(){
 	$('input:radio[class=menu_button][value=' + option_menu + ']').prop('checked', true);
 
 	//Set filter UI
-	options.colorFilter = option_colorFilter;
-	$('#color_results').val(option_colorFilter).trigger('change.select2');
-	options.rangeFilter = option_rangeFilter;
-	$('#range_results').val(option_rangeFilter).trigger('change.select2');
-	options.typeFilter = option_typeFilter;
-	$('#type_results').val(option_typeFilter).trigger('change.select2');
-	options.viewFilter = option_viewFilter;
-	$('#view_results').val(option_viewFilter).trigger('change.select2');
-	options.sortOrder = option_sortOrder;
-	$('#sort_results').val(option_sortOrder).trigger('change.select2');
+	if (option_saveFilters == "true"){
+		options.colorFilter = option_colorFilter;
+		$('#color_results').val(option_colorFilter).trigger('change.select2');
+		options.rangeFilter = option_rangeFilter;
+		$('#range_results').val(option_rangeFilter).trigger('change.select2');
+		options.typeFilter = option_typeFilter;
+		$('#type_results').val(option_typeFilter).trigger('change.select2');
+		options.viewFilter = option_viewFilter;
+		$('#view_results').val(option_viewFilter).trigger('change.select2');
+		options.sortOrder = option_sortOrder;
+		$('#sort_results').val(option_sortOrder).trigger('change.select2');
+	}else{
+		resetFilter();
+	}
 
 	//Set chart UI
 	//TODO: cache this as well
@@ -615,6 +620,9 @@ $(document).ready(function(){
 			}
 			if(endsWith(dataVar,".saveSettings")){
 				localStorage['option_saveSettings'] = (options.saveSettings ? "true" : "false");
+			}
+			if(endsWith(dataVar,".saveFilters")){
+				localStorage['option_saveFilters'] = (options.saveFilters ? "true" : "false");
 			}
 
 			for(var i = 0; i < varsThatUpdateFl.length; i++){
@@ -6541,36 +6549,36 @@ function activeHero(hero){
 
 			//Check weapon effective against
 			var effectiveBonus = 1;
-			if(enemy.moveType == "armored" && (this.has("ハンマー") || this.has("ハンマー鍛")
+			if(enemy.moveType == "armored"
+				&& (this.has("ハンマー") || this.has("ハンマー鍛")
 				|| this.has("アーマーキラー") || this.has("アーマーキラー鍛")
 				|| this.has("貫きの槍") || this.has("貫きの槍鍛")
 				|| this.hasExactly("セイニー") || this.hasExactly("ウイングソード"))
 				){
 				effectiveBonus = (enemy.has("スヴェルの盾")) ? 1 : 1.5;
 			}
-			else if(enemy.moveType == "flying" && (this.hasExactly("エクスカリバー") || this.weaponType=="bow")){
+			else if (enemy.moveType == "flying" && (this.hasExactly("エクスカリバー") || this.weaponType=="bow")){
 				effectiveBonus = (enemy.has("アイオテの盾")) ? 1 : 1.5;
 			}
-			else if(enemy.moveType == "infantry" && (this.has("秘毒の暗器"))){
+			else if (enemy.moveType == "infantry" && (this.has("秘毒の暗器"))){
 				effectiveBonus = 1.5;
 			}
-			else if(enemy.moveType == "cavalry" && (this.has("斬馬刀")
-				|| this.has("ホースキラー")
-				|| this.has("ラウアウルフ") || this.has("ラウアウルフ鍛")
-				|| this.has("ブラーウルフ") || this.has("ブラーウルフ鍛")
-				|| this.has("グルンウルフ") || this.has("グルンウルフ鍛")
+			else if (enemy.moveType == "cavalry"
+				&& (this.has("斬馬刀") || this.has("ホースキラー") || this.has("ラウアウルフ")
+				|| this.has("ラウアウルフ鍛") || this.has("ブラーウルフ") || this.has("ブラーウルフ鍛")
+				|| this.has("グルンウルフ") || this.has("グルンウルフ鍛") || this.has("ポールアクス")
 				|| this.hasExactly("セイニー") || this.hasExactly("ウイングソード"))
 				){
 				effectiveBonus = (enemy.has("グラ二の盾")) ? 1 : 1.5;
 			}
-			else if(enemy.weaponType == "dragon" && (this.hasExactly("ファルシオン") || this.hasExactly("封剣ファルシオン") || this.hasExactly("ナーガ") || this.hasExactly("聖書ナーガ"))){
+			else if (enemy.weaponType == "dragon" && (this.hasExactly("ファルシオン") || this.hasExactly("封剣ファルシオン") || this.hasExactly("ナーガ") || this.hasExactly("聖書ナーガ"))){
 				effectiveBonus = 1.5;
 			}
-			else if((enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" || enemy.weaponType == "greentome") && (this.has("猫の暗器"))){
+			else if ((enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" || enemy.weaponType == "greentome") && (this.has("猫の暗器"))){
 				effectiveBonus = 1.5;
 			}
 
-			if(effectiveBonus > 1 ){
+			if (effectiveBonus > 1 ){
 				damageText += this.name + " の攻撃は、武器の特効の効果で、" + (effectiveBonus * 100 - 100) + "% 上昇。<br>";
 			}
 
@@ -7051,6 +7059,14 @@ function activeHero(hero){
 			roundText += this.charging();
 		}
 
+		//Check for unarmed weapon
+		//TODO: Check for issues.
+		//***Having the function return this early skips the rest of the combat scripts, need to check for issues with post-combat effects***
+		if (this.weaponIndex == -1){
+			roundText += this.name + " は装備がないため、攻撃不可。";
+			return roundText;
+		}
+
 		//Set after renewal
 		this.combatStartHp = this.hp;
 		enemy.combatStartHp = enemy.hp;
@@ -7185,14 +7201,26 @@ function activeHero(hero){
 		var anyRangeCounter = canCounterAnyRange(enemy);
 
 		//Check if enemy can counter
-		var enemyCanCounter = false;
-		//TODO: Make this mess more readable
-		if(!firesweep
-			&& !(windsweep && data.physicalWeapons.indexOf(enemy.weaponType) != -1 && this.combatStat.spd - enemy.combatStat.spd >= windsweep)
-			&& !(watersweep && data.magicalWeapons.indexOf(enemy.weaponType) != -1 && this.combatStat.spd - enemy.combatStat.spd >= watersweep)){
-			if(this.range == enemy.range || anyRangeCounter){
-				enemyCanCounter = true;
-			}
+		var enemyCanCounter = true;
+
+		if (this.range != enemy.range && !anyRangeCounter){
+			enemyCanCounter = false;
+		}
+		if (enemy.weaponIndex == -1){
+			enemyCanCounter = false;
+			roundText += enemy.name + " は装備がないため、反撃不可。<br>";
+		}
+		if (firesweep){
+			enemyCanCounter = false;
+			roundText += enemy.name + " は、火薙ぎ の効果で反撃不可。<br>";
+		}
+		if (windsweep && data.physicalWeapons.indexOf(enemy.weaponType) != -1 && this.combatStat.spd - enemy.combatStat.spd >= windsweep){
+			enemyCanCounter = false;
+			roundText += enemy.name + " は、風薙ぎ の効果で反撃不可。<br>";
+		}
+		if (watersweep && data.magicalWeapons.indexOf(enemy.weaponType) != -1 && this.combatStat.spd - enemy.combatStat.spd >= watersweep){
+			enemyCanCounter = false;
+			roundText += enemy.name + " は、水薙ぎ の効果で反撃不可。<br>";
 		}
 		if (this.has("幻惑の杖") && enemyCanCounter){
 			if(this.combatStartHp / this.maxHp >= 1.5 + this.has("幻惑の杖") * -0.5){
