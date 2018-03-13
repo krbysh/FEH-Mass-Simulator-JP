@@ -26,7 +26,7 @@ var option_showOnlyMaxSkills = localStorage['option_showOnlyMaxSkills'] || "true
 var option_showOnlyDuelSkills = localStorage['option_showOnlyDuelSkills'] || "true";
 var option_autoCalculate = localStorage['option_autoCalculate'] || "true";
 var option_saveSettings = localStorage['option_saveSettings'] || "true";
-var option_saveFilters = localStorage['option_saveFilters'] || "true";
+var option_saveFilters = localStorage['option_saveFilters'] || "false";
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,7 +88,7 @@ data.lists = loadJSON('json/custom_lists.json')
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-var debug = false;
+var debug = true;
 
 data.weaponTypes = ["sword","lance","axe","redtome","bluetome","greentome","dragon","bow","dagger","staff"];
 data.rangedWeapons = ["redtome","bluetome","greentome","bow","dagger","staff"];
@@ -411,18 +411,22 @@ $(document).ready(function(){
 		$("#update_text").html("Your browser does not appear to support some of the code this app uses (JavaScript ES5). The app probably won't work.");
 	}
 
+	//Load or Reset Settings
+	if (option_saveSettings == "false"){initSettings();}
+
 	//Populate hero select options
 	heroHTML = "<option value=-1 class=\"hero_option\">英雄選択</option>";
 	for(var i = 0; i < data.heroes.length; i++){
 		heroHTML += "<option value=" + i + " class=\"hero_option\">" + data.heroes[i].name + "</option>";
 	}
-	$("#challenger_name, #cl_enemy_name").html(heroHTML).select2({selectOnClose: true, dropdownAutoWidth : true, matcher: matchStartHeroes});
 
+	//Inject select2 UI with matcher for data.heroes
+	$("#challenger_name, #cl_enemy_name").html(heroHTML).select2({selectOnClose: true, dropdownAutoWidth : true, matcher: matchStartHeroes});
 	//Inject select2 UI
 	$("#challenger_weapon, #challenger_assist, #challenger_assist, #challenger_special, #challenger_a, #challenger_b, #challenger_c, #challenger_s").select2({selectOnClose: true, dropdownAutoWidth : true});
-	$("#enemies_weapon, #challenger_assist, #enemies_assist, #enemies_special, #enemies_a, #enemies_b, #enemies_c, #enemies_s").select2({selectOnClose: true, dropdownAutoWidth : true});
-	$("#cl_enemy_weapon, #challenger_assist, #cl_enemy_assist, #cl_enemy_special, #cl_enemy_a, #cl_enemy_b, #cl_enemy_c, #cl_enemy_s").select2({selectOnClose: true, dropdownAutoWidth : true});
-	$("#enemies_weapon, #challenger_assist, #enemies_assist, #enemies_special, #enemies_a, #enemies_b, #enemies_c, #enemies_s").select2({selectOnClose: true, dropdownAutoWidth : true});
+	$("#enemies_weapon, #enemies_assist, #enemies_special, #enemies_a, #enemies_b, #enemies_c, #enemies_s").select2({selectOnClose: true, dropdownAutoWidth : true});
+	$("#cl_enemy_weapon, #cl_enemy_assist, #cl_enemy_special, #cl_enemy_a, #cl_enemy_b, #cl_enemy_c, #cl_enemy_s").select2({selectOnClose: true, dropdownAutoWidth : true});
+	$("#enemies_weapon, #enemies_assist, #enemies_special, #enemies_a, #enemies_b, #enemies_c, #enemies_s").select2({selectOnClose: true, dropdownAutoWidth : true});
 	//Inject select2 UI with matcher for data.refine
 	$("#challenger_refine, #enemies_refine, #cl_enemy_refine, #enemies_refine").select2({selectOnClose: true, dropdownAutoWidth : true});
 	//Inject select2 UI for Full List overwrite options
@@ -830,7 +834,7 @@ function initSettings(){
 	localStorage['option_rangeFilter'] = "all";
 	localStorage['option_typeFilter'] = "all";
 	localStorage['option_viewFilter'] = "all";
-	localStorage['option_sortOrder'] = "worst";
+	localStorage['option_sortOrder'] = "ワースト";
 	localStorage['option_showOnlyMaxSkills'] = "true";
 	localStorage['option_showOnlyDuelSkills'] = "true";
 	localStorage['option_autoCalculate'] = "true";
@@ -1529,11 +1533,7 @@ function adjustCustomListBuff(isStat){
 					}else{
 						if (enemies.cl.movement == "all"){
 							//Account for lack of dragon Hone buffs
-							if (stat == "atk" || stat == "spd"){
-								hero.buffs[stat] = (data.heroes[hero.index].movetype == "infantry") ? 4 : 6;
-							}else{
-								hero.buffs[stat] = (data.heroes[hero.index].movetype != "infantry" || data.heroes[hero.index].weapontype == "dragon") ? 6 : 4;
-							}
+							hero.buffs[stat] = (data.heroes[hero.index].movetype == "infantry" && data.heroes[hero.index].weapontype != "dragon") ? 4 : 6;
 						}else{
 							hero.buffs[stat] = buffVal;
 						}
@@ -1891,17 +1891,17 @@ function setWideUI(setWide){
 //Reset filter select options
 function resetFilter(){
 	//Set filter UI
-	options.colorFilter = "全て";
-	localStorage['option_colorFilter'] = "全て";
+	options.colorFilter = "all";
+	localStorage['option_colorFilter'] = "all";
 	$('#color_results').val(options.colorFilter).trigger('change.select2');
-	options.rangeFilter = "全て";
-	localStorage['option_rangeFilter'] = "全て";
+	options.rangeFilter = "all";
+	localStorage['option_rangeFilter'] = "all";
 	$('#range_results').val(options.rangeFilter).trigger('change.select2');
-	options.typeFilter = "全て";
-	localStorage['option_typeFilter'] = "全て";
+	options.typeFilter = "all";
+	localStorage['option_typeFilter'] = "all";
 	$('#type_results').val(options.typeFilter).trigger('change.select2');
-	options.viewFilter = "全対戦";
-	localStorage['option_viewFilter'] = "全対戦";
+	options.viewFilter = "all";
+	localStorage['option_viewFilter'] = "all";
 	$('#view_results').val(options.viewFilter).trigger('change.select2');
 	options.sortOrder = "ワースト";
 	localStorage['option_sortOrder'] = "ワースト";
@@ -1992,66 +1992,6 @@ function matchStartRefine(params, data) {
 	if (isNaN(params.term) == false && data.id != -1){
 		if (this.data.refine[data.id].sp >= parseInt(params.term)){
 			return data;
-		}
-	}
-
-    //Return `null` if the term should not be displayed
-    return null;
-}
-
-//Select2 match function for matching starting characters - Uses data.skills
-function matchStartSkills(params, data) {
-	//If there are no search terms, return all of the data
-    if ($.trim(params.term) === '') {
-		return data;
-    }
-
-    //Do not display the item if there is no 'text' property
-    if (typeof data.text === 'undefined') {
-		return null;
-    }
-
-	//If search term appears in the beginning of data's text
-	if (data.text.toUpperCase().indexOf(params.term.toUpperCase()) == 0) {
-		return data;
-	}
-
-	//If search term is a number, match with sp cost that are greater than the number
-	if (isNaN(params.term) == false){
-		if (data.id != -1){
-			if (this.data.skills[data.id].sp >= parseInt(params.term)){
-				return data;
-			}
-		}
-	}
-
-    //Return `null` if the term should not be displayed
-    return null;
-}
-
-//Select2 match function for matching starting characters - Uses data.refine
-function matchStartRefine(params, data) {
-	//If there are no search terms, return all of the data
-    if ($.trim(params.term) === '') {
-		return data;
-    }
-
-    //Do not display the item if there is no 'text' property
-    if (typeof data.text === 'undefined') {
-		return null;
-    }
-
-	//If search term appears in the beginning of data's text
-	if (data.text.toUpperCase().indexOf(params.term.toUpperCase()) == 0) {
-		return data;
-	}
-
-	//If search term is a number, match with sp cost that are greater than the number
-	if (isNaN(params.term) == false){
-		if (data.id != -1){
-			if (this.data.refine[data.id].sp >= parseInt(params.term)){
-				return data;
-			}
 		}
 	}
 
