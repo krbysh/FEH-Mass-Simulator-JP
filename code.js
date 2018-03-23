@@ -149,10 +149,10 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"ジェローム (5★);Weapon: ポールアクス+;Assist: 攻撃守備の応援;A: 守備の城塞 3;B: 一撃離脱;",
-	"クロム(聖痕の王と邪痕の子) (5★);Weapon: 封剣ファルシオン;Special: 天空;A: 獅子奮迅 3;B: 守備の封印 3;C: 剣の技量 3;",
-	"マーク(女) (5★);Weapon: ブラーサーペント+;Special: 氷蒼;A: 鬼神明鏡の構え 2;B: キャンセル 3;C: 攻撃の謀策 3;",
-	"マーク(男) (5★);Weapon: 魔書ギムレー;Special: 竜穿;B: 強化無効・遠距離 3;C: 守備魔防の紋章 2;",
+	"アルフォンス(兎たちの春祭り) (5★);Weapon: ビッグスプーン+;Special: 夕陽;A: 鬼神金剛の一撃 2;C: 守備の紫煙 3;",
+	"シャロン(兎たちの春祭り) (5★);Weapon: ムニンの魔卵;Assist: 攻撃速さの応援;A: 飛燕明鏡の構え 2;B: 豊穣の喜び;C: 魔防の指揮 3;",
+	"カゲロウ(兎たちの春祭り) (5★);Weapon: ベビーキャロット+;Special: 凶星;A: 速さ魔防の絆 3;B: 栄誉の喜び;C: 飛刃の紋章;",
+	"カチュア(兎たちの春祭り) (5★);Weapon: フギンの魔卵;Assist: 引き寄せ;B: 魔防の封印 3;C: 速さの大紋章 2;",
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -4930,6 +4930,16 @@ function activeHero(hero){
 
 		//Chilling Seal Debuff
 		if ((enemy.challenger && options.chilled_challenger) || (!enemy.challenger && options.chilled_enemy)){
+			if (this.hasExactly("フギンの魔卵") && this.hp / this.maxHp >= 0.5 ){
+				debuffVal.atk = -5;
+				debuffVal.def = -5;
+				skillNames.push("フギンの魔卵");
+			}
+			if (this.hasExactly("ムニンの魔卵") && this.hp / this.maxHp >= 0.5 ){
+				debuffVal.atk = -5;
+				debuffVal.res = -5;
+				skillNames.push("ムニンの魔卵");
+			}
 			if(this.hasExactly("氷の封印")){
 				debuffVal.atk = -6;
 				debuffVal.spd = -6;
@@ -4939,6 +4949,10 @@ function activeHero(hero){
 				debuffVal.atk = -7;
 				skillNames.push("深き印の風");
 			}
+			if(this.has("攻撃の封印")){
+				debuffVal.atk = -this.hasAtIndex("攻撃の封印", this.bIndex) * 2 - 1;
+				skillNames.push("攻撃の封印");
+			}
 			if(this.has("速さの封印")){
 				debuffVal.spd = -this.hasAtIndex("速さの封印", this.bIndex) * 2 - 1;
 				skillNames.push("速さの封印");
@@ -4946,6 +4960,10 @@ function activeHero(hero){
 			if(this.has("守備の封印")){
 				debuffVal.def = -this.hasAtIndex("守備の封印", this.bIndex) * 2 - 1;
 				skillNames.push("守備の封印");
+			}
+			if(this.has("魔防の封印")){
+				debuffVal.res = -this.hasAtIndex("魔防の封印", this.bIndex) * 2 - 1;
+				skillNames.push("魔防の封印");
 			}
 		}
 
@@ -5911,7 +5929,7 @@ function activeHero(hero){
 			}
 
 			//Daggers
-			if (this.hasExactly("死神の暗器")){
+			if (this.hasExactly("死神の暗器") || this.has("ベビーキャロット")){
 				sealStats(data.skills[this.weaponIndex].name, ["def","res"], [-7]);
 			}
 			if (this.has("銀の暗器") || this.has("貝殻") || this.has("舞踏祭の扇子") || this.has("鏡餅") || this.has("フェリシアの氷皿")){
@@ -6171,7 +6189,7 @@ function activeHero(hero){
 				if(AOEActivated){
 					this.resetCharge();
 
-					if(this.has("倭刀") || this.hasExactly("共鳴エクスカリバー") || this.hasExactly("気鋭ワユの剣") || this.hasExactly("オートクレール・専用")){
+					if(this.has("倭刀") || this.has("ビッグスプーン") || this.has("ベビーキャロット") || this.hasExactly("共鳴エクスカリバー") || this.hasExactly("気鋭ワユの剣") || this.hasExactly("オートクレール・専用")){
 						AOEDamage += 10;
 						damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 					}
@@ -6277,7 +6295,7 @@ function activeHero(hero){
 				this.resetCharge();
 				damageText += this.name + " は、" + data.skills[this.specialIndex].name + " を発動。<br>";
 
-				if(this.has("倭刀") || this.hasExactly("共鳴エクスカリバー") || this.hasExactly("気鋭ワユの剣") || this.hasExactly("オートクレール・専用")){
+				if(this.has("倭刀") || this.has("ビッグスプーン") || this.has("ベビーキャロット") || this.hasExactly("共鳴エクスカリバー") || this.hasExactly("気鋭ワユの剣") || this.hasExactly("オートクレール・専用")){
 					dmgBoostFlat += 10;
 					damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 				}
