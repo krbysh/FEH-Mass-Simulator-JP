@@ -6894,6 +6894,13 @@ function activeHero(hero){
 					skillNames.push(data.skills[enemy.aIndex].name);
 				}
 
+				if(enemy.hasAtRefineIndex("フェリシアの氷皿・専用", enemy.refineIndex)){
+					if(this.weaponType == "redtome" || this.weaponType == "bluetome" || this.weaponType == "greentome"){
+						gainCharge = Math.max(gainCharge, 1);
+						skillNames.push(data.skills[enemy.weaponIndex].name + "(錬成)");
+					}
+				}
+
 				if (gainCharge > 0){
 					enemy.charge += gainCharge;
 					damageText += enemy.name + " は、" + skillNames.join("、") + " により、奥義カウント変動量 +" + gainCharge + " 。<br>";
