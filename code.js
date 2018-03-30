@@ -149,6 +149,7 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
+	"ルフレ(女)(邪竜の応身) (5★);Weapon: 邪竜のブレス;Special: 緋炎;A: 邪竜の鱗;B: 相性相殺 3;C: 魔防の紫煙 3;",
 	"アルフォンス(兎たちの春祭り) (5★);Weapon: ビッグスプーン+;Special: 夕陽;A: 鬼神金剛の一撃 2;C: 守備の紫煙 3;",
 	"シャロン(兎たちの春祭り) (5★);Weapon: ムニンの魔卵;Assist: 攻撃速さの応援;A: 飛燕明鏡の構え 2;B: 豊穣の喜び;C: 魔防の指揮 3;",
 	"カゲロウ(兎たちの春祭り) (5★);Weapon: ベビーキャロット+;Special: 凶星;A: 速さ魔防の絆 3;B: 栄誉の喜び;C: 飛刃の紋章;",
@@ -5582,7 +5583,12 @@ function activeHero(hero){
 				this.combatSpur.res += buffVal;
 				boostText += this.name + "は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、魔防 +" + buffVal + " 。<br>";
 			}
-
+			if(this.has("邪竜の鱗")){
+				buffVal = 4;
+				this.combatSpur.def += buffVal;
+				this.combatSpur.res += buffVal;
+				boostText += this.name + "は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、守備、魔防 +" + buffVal + " 。<br>";
+			}
 			return boostText;
 		}
 	}
@@ -6516,7 +6522,7 @@ function activeHero(hero){
 				effectiveBonus = (enemy.has("スヴェルの盾")) ? 1 : 1.5;
 			}
 			else if (enemy.moveType == "flying" && (this.hasExactly("エクスカリバー") || this.weaponType=="bow")){
-				effectiveBonus = (enemy.has("アイオテの盾")) ? 1 : 1.5;
+				effectiveBonus = (enemy.has("アイオテの盾") || enemy.has("邪竜の鱗")) ? 1 : 1.5;
 			}
 			else if (enemy.moveType == "infantry" && (this.has("秘毒の暗器"))){
 				effectiveBonus = 1.5;
