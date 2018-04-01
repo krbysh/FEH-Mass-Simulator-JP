@@ -24,8 +24,8 @@
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 	<script src="select2/select2.min.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="style.css?v=2018020101"/>
-	<script type="text/javascript" src="code.js?v=2018033001"></script>
+	<link rel="stylesheet" type="text/css" href="style.css?v=2018040201"/>
+	<script type="text/javascript" src="code.js?v=2018040201"></script>
 
 </head>
 
@@ -407,6 +407,7 @@
 				<div id="rules_bar_top">
 					統計
 				</div>
+<!--
 				<div id="adj_title">自軍</div>
 				<div class="adj_status">
 					<div class="stat_desc">残ＨＰ: 最大</div>
@@ -434,6 +435,69 @@
 					<div class="stat_desc">残ＨＰ: 平均</div>
 					<div class="stat_value" id="enemies_res_hp_avg">-</div>
 				</div>
+-->
+				<div id="adj_title"><span id="wins_res_count">-</span> 勝利 <span>(自軍ＨＰ)</span></div>
+				<div class='adj_status_compact'>
+						<label>
+								<span>最大</span>
+								<span id="wins_res_hp_max">-</span>
+						</label>
+						<label>
+								<span>平均</span>
+								<span id="wins_res_hp_avg">-</span>
+						</label>
+						<label>
+								<span>最小</span>
+								<span id="wins_res_hp_min">-</span>
+						</label>
+				</div>
+
+				<div id="adj_title"><span id="losses_res_count">-</span> 敗北 <span>(敵ＨＰ)</span></div>
+				<div class='adj_status_compact'>
+						<label>
+								<span>最大</span>
+								<span id="losses_res_hp_max">-</span>
+						</label>
+						<label>
+								<span>平均</span>
+								<span id="losses_res_hp_avg">-</span>
+						</label>
+						<label>
+								<span>最小</span>
+								<span id="losses_res_hp_min">-</span>
+						</label>
+				</div>
+
+				<div id="adj_title"><span id="inconclusive_res_count">-</span> 未決着</div>
+				<div class='adj_status_compact'>
+						<label>
+								<span>最大</span>
+								<span id="inconclusives_challenger_res_hp_max">-</span>
+						</label>
+						<label>
+								<span>平均</span>
+								<span id="inconclusives_challenger_res_hp_avg">-</span>
+						</label>
+						<label>
+								<span>最小</span>
+								<span id="inconclusives_challenger_res_hp_min">-</span>
+						</label>
+				</div>
+				<div class='adj_status_compact'>
+						<label>
+								<span>最大</span>
+								<span id="inconclusives_enemy_res_hp_max">-</span>
+						</label>
+						<label>
+								<span>平均</span>
+								<span id="inconclusives_enemy_res_hp_avg">-</span>
+						</label>
+						<label>
+								<span>最小</span>
+								<span id="inconclusives_enemy_res_hp_min">-</span>
+						</label>
+				</div>
+
 				<div style="line-height:40%;"><br></div>
 				<div id="adj_title">チャート</div>
 				<div class="adj_status">
