@@ -149,11 +149,11 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"ルフレ(女)(邪竜の応身) (5★);Weapon: 邪竜のブレス;Special: 緋炎;A: 邪竜の鱗;B: 相性相殺 3;C: 魔防の紫煙 3;",
-	"アルフォンス(兎たちの春祭り) (5★);Weapon: ビッグスプーン+;Special: 夕陽;A: 鬼神金剛の一撃 2;C: 守備の紫煙 3;",
-	"シャロン(兎たちの春祭り) (5★);Weapon: ムニンの魔卵;Assist: 攻撃速さの応援;A: 飛燕明鏡の構え 2;B: 豊穣の喜び;C: 魔防の指揮 3;",
-	"カゲロウ(兎たちの春祭り) (5★);Weapon: ベビーキャロット+;Special: 凶星;A: 速さ魔防の絆 3;B: 栄誉の喜び;C: 飛刃の紋章;",
-	"カチュア(兎たちの春祭り) (5★);Weapon: フギンの魔卵;Assist: 引き寄せ;B: 魔防の封印 3;C: 速さの大紋章 2;",
+	"リーフ (5★);Weapon: 光の剣;Special: 烈光;A: 飛燕金剛の一撃 2;B: Ｓドリンク;C: 攻撃の大紋章 2;",
+	"ナンナ (5★);Weapon: アブソーブ+;Assist: レスト+;Special: 天照;A: 速さ魔防 2;C: 守備の大紋章 2;",
+	"ラインハルト(トラキアの世界) (5★);Weapon: マスターソード;Special: 大盾;A: 鬼神の一撃 3;B: 待ち伏せ 3;C: 攻撃守備の紋章 2;",
+	"オルエン(トラキアの世界) (5★);Weapon: 雷旋の書;Special: 烈風;A: 鬼神飛燕の一撃 2;C: 緑魔の経験 3;",
+	"フィン (5★);Weapon: 勇者の槍+;Special: 祈り;B: 攻撃守備封じ 2;C: 騎刃の紋章;",
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -1070,7 +1070,6 @@ function getMaxSkills(skillset,rarity){
 
 //Return cooldown changes of skill
 function getCDChange(skill, slot){
-
 	//If skill slot is empty, return 0
 	if (skill == undefined){
 		return 0;
@@ -1113,7 +1112,30 @@ function getCDChange(skill, slot){
 
 	//Seal
 	if (slot == "s"){
-		//Precharge Increase
+
+	}
+
+	//No Change
+	return 0;
+}
+
+function getPrechargeChange(skill, slot){
+	//If skill slot is empty, return 0
+	if (skill == undefined){
+		return 0;
+	}
+
+	var skillName = skill.name;
+
+	//B Skill
+	if (slot == "b"){
+		if(skillName.indexOf("Ｓドリンク") != -1){
+			return 1;
+		}
+	}
+
+	//Seal
+	if (slot == "s"){
 		if(skillName.indexOf("奥義の鼓動") != -1){
 			return 1;
 		}
@@ -2236,11 +2258,6 @@ function updateHeroUI(hero){
 				specialCharge += getCDChange(data.skills[hero.assist], "assist");
 			}
 
-			//Special Item
-			if(hero.s != -1){
-				precharge += getCDChange(data.skills[hero.s], "s")
-			}
-
 			//B Skill
 			if(hero.b != -1){
 				var bName = data.skills[hero.b].name;
@@ -2252,6 +2269,13 @@ function updateHeroUI(hero){
 						precharge += 1;
 					}
 				}
+				precharge += getPrechargeChange(data.skills[hero.b], "b");
+			}
+
+			//Special Item
+			if(hero.s != -1){
+				specialCharge += getCDChange(data.skills[hero.s], "s");
+				precharge += getPrechargeChange(data.skills[hero.s], "s");
 			}
 
 			//Display before precharge calculation to ignore precharge changes on UI (Old UI includes precharge changes for displayed value)
@@ -4741,7 +4765,11 @@ function activeHero(hero){
 	this.resetCharge();
 	this.charge += this.precharge;
 
+	//***Precharge is confusing here: Why is it added into charge first then added again from skills?***
 	if(this.has("奥義の鼓動")){
+		this.charge++;
+	}
+	if(this.has("Ｓドリンク")){
 		this.charge++;
 	}
 
@@ -4913,6 +4941,14 @@ function activeHero(hero){
 					this.hp += 10;
 				}
 				startText += this.name + " は 回復 の効果で ＨＰ 10 回復。<br>";
+			}
+			if (this.hasExactly("Ｓドリンク")){
+				if(this.hp + 99 > this.maxHp){
+					this.hp = this.maxHp;
+				} else{
+					this.hp += 99;
+				}
+				startText += this.name + " は Ｓドリンク の効果で ＨＰ 99 回復。<br>";
 			}
 			if (this.hasExactly("ファルシオン")){
 				//Not refined - every third turn - if(turn % 3 == 0){
@@ -6787,6 +6823,15 @@ function activeHero(hero){
 				absorbPct = 0.5;
 			}
 
+			//Flat damage
+			//*** Is Light Brand damage bonus flat damage or bonus attack? ***
+			if (this.hasExactly("光の剣")){
+				if (enemy.combatStat.def >= enemy.combatStat.res + 5){
+					dmgBoostFlat += 7;
+					damageText += this.name + " は、光の剣 の効果でダメージ +7 。<br>";
+				}
+			}
+
 			//Release charged damage
 			if (this.chargedDamage > 0){
 				dmgBoostFlat += this.chargedDamage;
@@ -7160,12 +7205,12 @@ function activeHero(hero){
 		roundText += enemy.setCombatStats(this);
 
 		//Bladetome bonus
-		if (this.has("ラウアブレード") || this.has("ブラーブレード") || this.has("グルンブレード")){
+		if (this.has("ラウアブレード") || this.has("ブラーブレード") || this.has("グルンブレード") || this.hasExactly("雷旋の書")){
 			var atkbonus = this.combatBuffs.atk + this.combatBuffs.spd + this.combatBuffs.def + this.combatBuffs.res;
 			this.combatStat.atk += atkbonus;
 			if (atkbonus != 0){roundText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、攻撃 +" + atkbonus + " 。<br>";}
 		}
-		if (enemy.has("ラウアブレード") || enemy.has("ブラーブレード") || enemy.has("グルンブレード")){
+		if (enemy.has("ラウアブレード") || enemy.has("ブラーブレード") || enemy.has("グルンブレード") || enemy.hasExactly("雷旋の書")){
 			var atkbonus = enemy.combatBuffs.atk + enemy.combatBuffs.spd + enemy.combatBuffs.def + enemy.combatBuffs.res;
 			enemy.combatStat.atk += atkbonus;
 			if (atkbonus != 0){roundText += enemy.name + " は、" + data.skills[enemy.weaponIndex].name + " の効果で、攻撃 +" + atkbonus + " 。<br>";}
@@ -7188,13 +7233,17 @@ function activeHero(hero){
 		roundText += this.doDamage(enemy, false, true, false);
 
 		//Check for Brave weapons, brave will be passed to this.doDamage
-		var brave = false;
+		var doubleInitiate = false;
+		var doubleCounter = false;
 		if (this.has("勇者の剣") || this.has("勇者の槍") || this.has("勇者の斧") || this.has("勇者の弓")
-			|| this.hasExactly("ダイムサンダ") || this.hasExactly("アミーテ")){
-			brave = true;
+			|| this.hasExactly("ダイムサンダ") || this.hasExactly("アミーテ") || this.hasExactly("マスターソード")){
+			doubleInitiate = true;
 		}
 		if (this.hasAtRefineIndex("ファルシオン外伝・専用", this.refineIndex) && (this.combatStartHp / this.maxHp == 1)){
-			brave = true;
+			doubleInitiate = true;
+		}
+		if (enemy.hasExactly("マスターソード")){
+			doubleCounter = true;
 		}
 
 		//Check for Vantage
@@ -7378,6 +7427,12 @@ function activeHero(hero){
 				enemyAttackRankChanged = true;
 			}
 		}
+		if (enemy.hasAtRefineIndex("封印の剣・専用", enemy.refineIndex)){
+			if (enemy.combatStartHp/enemy.maxHp >= .5){
+				enemyAttackRank++;
+				enemyAttackRankChanged = true;
+			}
+		}
 		if (enemy.hasAtIndex("迎撃隊形", enemy.bIndex)){
 			if (enemy.combatStartHp / enemy.maxHp >= (1.0 - (enemy.hasAtIndex("迎撃隊形", enemy.bIndex) * 0.1) - ((enemy.hasAtIndex("迎撃隊形", enemy.bIndex) - 1) * 0.1))){
 				enemyAttackRank++;
@@ -7398,12 +7453,6 @@ function activeHero(hero){
 		}
 		if (enemy.hasExactly("炎槍ジークムント")){
 			if (enemy.adjacent <= 1){
-				enemyAttackRank++;
-				enemyAttackRankChanged = true;
-			}
-		}
-		if (enemy.hasAtRefineIndex("封印の剣・専用", enemy.refineIndex)){
-			if (enemy.combatStartHp/enemy.maxHp >= .5){
 				enemyAttackRank++;
 				enemyAttackRankChanged = true;
 			}
@@ -7560,36 +7609,36 @@ function activeHero(hero){
 		//Vantage: Enemy second attack
 		if(vantage && enemyCanCounter){
 			roundText += enemy.name + " は、待ち伏せ の効果で、先制攻撃。<br>";
-			roundText += enemy.doDamage(this, false, false, true);
+			roundText += enemy.doDamage(this, doubleCounter, false, true);
 		}
 
 		//Initiator first attack
 		if(this.hp > 0){
-			roundText += this.doDamage(enemy, brave, false, true);
+			roundText += this.doDamage(enemy, doubleInitiate, false, true);
 		}
 
 		//Desperation: Initiator second attack
 		if(this.hp > 0 && enemy.hp > 0 && desperation && thisFollowUp){
 			roundText += this.name + " は、攻め立て の効果で、攻撃の直後に追撃。<br>";
-			roundText += this.doDamage(enemy, brave, false, false);
+			roundText += this.doDamage(enemy, doubleInitiate, false, false);
 		}
 
 		//Non-Vantage: Enemy first attack
 		//Vantange: Enemy second attack
 		if(enemy.hp > 0 && this.hp > 0 && (!vantage || (vantage && enemyFollowUp && enemyCanCounter))){
 			if(enemyCanCounter){
-				roundText += enemy.doDamage(this, false, false, !vantage);
+				roundText += enemy.doDamage(this, doubleCounter, false, !vantage);
 			}
 		}
 
 		//Non-Desperation: Initiator second attack
 		if(this.hp > 0 && enemy.hp > 0 && !desperation && thisFollowUp){
-			roundText += this.doDamage(enemy, brave, false, false);
+			roundText += this.doDamage(enemy, doubleInitiate, false, false);
 		}
 
 		//Non-Vantage: Enemy second attack
 		if(this.hp > 0 && enemy.hp > 0 && !vantage && enemyCanCounter && enemyFollowUp){
-			roundText += enemy.doDamage(this, false, false, false);
+			roundText += enemy.doDamage(this, doubleCounter, false, false);
 		}
 
 		//Do post-combat damage to enemy if enemy isn't dead
