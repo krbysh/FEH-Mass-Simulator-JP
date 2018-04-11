@@ -1086,7 +1086,7 @@ function getCDChange(skill, slot){
 			|| skillName.indexOf("キラーアクス鍛") != -1	|| skillName.indexOf("キラーランス鍛") != -1	|| skillName.indexOf("魔性の槍") != -1
 			|| skillName.indexOf("ミストルティン") != -1	|| skillName.indexOf("オートクレール") != -1	|| skillName.indexOf("ウルヴァン") != -1
 			|| skillName.indexOf("アウドムラ") != -1 || skillName.indexOf("鏡餅") != -1 || skillName.indexOf("バシリコス") != -1
-			|| skillName.indexOf("狂斧アルマーズ") != -1
+			|| skillName.indexOf("狂斧アルマーズ") != -1 || skillName.indexOf("無銘の一門の剣") != -1
 			){
 				return -1;
 		}
@@ -5024,6 +5024,10 @@ function activeHero(hero){
 				debuffVal.atk = -7;
 				skillNames.push("深き印の風");
 			}
+			if(this.hasExactly("フォルブレイズ")){
+				debuffVal.res = -7;
+				skillNames.push("フォルブレイズ");
+			}
 			if(this.has("攻撃の封印")){
 				debuffVal.atk = -this.hasAtIndex("攻撃の封印", this.bIndex) * 2 - 1;
 				skillNames.push("攻撃の封印");
@@ -5261,9 +5265,15 @@ function activeHero(hero){
 
 		if(enemy.combatStartHp / enemy.maxHp >= 1){
 			if(this.has("リガルブレイド")){
-				this.combatSpur.atk += 2;
-				this.combatSpur.spd += 2;
-				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、" + enemy.name + " のＨＰが 100% のため、攻撃、速さ +2 。<br>";
+				if (this.refineIndex == -1) {
+					this.combatSpur.atk += 2;
+					this.combatSpur.spd += 2;
+					boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、" + enemy.name + " のＨＰが 100% のため、攻撃、速さ +2 。<br>";
+				} else {
+					this.combatSpur.atk += 3;
+					this.combatSpur.spd += 3;
+					boostText += this.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) の効果で、" + enemy.name + " のＨＰが 100% のため、攻撃、速さ +3 。<br>";
+				}
 			}
 			if(this.hasExactly("グレイプニル") || this.hasExactly("イーヴァルディ")){
 				this.combatSpur.atk += 3;
@@ -5394,6 +5404,15 @@ function activeHero(hero){
 				this.combatSpur.res += buffVal;
 				boostText += this.name + " は、" + skillName + "(錬成) の効果で、飛行の味方が２マス以内にいる時、攻撃、魔防 +" + buffVal + " 。<br>";
 			}
+			if (this.hasAtRefineIndex("リガルブレイド・専用", this.refineIndex)){
+				buffVal = 3;
+				skillName = "リガルブレイド・専用";
+				this.combatSpur.atk += buffVal;
+				this.combatSpur.spd += buffVal;
+				this.combatSpur.def += buffVal;
+				this.combatSpur.res += buffVal;
+				boostText += this.name + " は、" + skillName + "(錬成) の効果で、魔法かつ歩行の味方が２マス以内にいる時、攻撃、速さ、守備、魔防 +" + buffVal + " 。<br>";
+			}
 		}
 
 		//this.blow = function(){
@@ -5423,7 +5442,10 @@ function activeHero(hero){
 				this.combatSpur.spd += 4;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、自分から攻撃時、攻撃、速さ +4 。<br>"
 			}
-
+			if (this.hasAtRefineIndex("フォルブレイズ・専用", this.refineIndex)){
+				this.combatSpur.atk += 6;
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) の効果で、自分から攻撃時、攻撃 +6 。<br>"
+			}
 			//Skills
 			if(this.has("鬼神飛燕の一撃")){
 				buffVal = this.has("鬼神飛燕の一撃") * 2;
@@ -5467,8 +5489,8 @@ function activeHero(hero){
 				this.combatSpur.res += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、守備、魔防 +" + buffVal + " 。<br>";
 			}
-			else if(this.has("鬼神の一撃")){
-				buffVal = this.has("鬼神の一撃") * 2;
+			else if(this.hasAtIndex("鬼神の一撃", this.aIndex)){
+				buffVal = this.hasAtIndex("鬼神の一撃", this.aIndex) * 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.atk += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、攻撃 +" + buffVal + " 。<br>";
@@ -5536,7 +5558,18 @@ function activeHero(hero){
 			}
 
 			//weapon
-			if(this.hasExactly("封印の剣") || this.hasExactly("ナーガ")){
+			if(this.hasExactly("封印の剣")){
+				if (this.refineIndex == -1) {
+					this.combatSpur.def += 2;
+					this.combatSpur.res += 2;
+					boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、守備、魔防 +2 。<br>";
+				} else {
+					this.combatSpur.def += 4;
+					this.combatSpur.res += 4;
+					boostText += this.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) の効果で、敵から攻撃された時、守備、魔防 +4 。<br>";
+				}
+			}
+			if(this.hasExactly("ナーガ")){
 				this.combatSpur.def += 2;
 				this.combatSpur.res += 2;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、守備、魔防 +2 。<br>";
@@ -6269,17 +6302,13 @@ function activeHero(hero){
 				if(AOEActivated){
 					this.resetCharge();
 
-					if(this.has("倭刀") || this.has("ビッグスプーン") || this.has("ベビーキャロット") || this.hasExactly("共鳴エクスカリバー") || this.hasExactly("気鋭ワユの剣") || this.hasExactly("オートクレール・専用")){
+					if(this.has("倭刀") || this.has("ビッグスプーン") || this.has("ベビーキャロット") || this.hasExactly("共鳴エクスカリバー") || this.hasExactly("気鋭ワユの剣") || this.hasExactly("オートクレール・専用") || this.hasExactly("無銘の一門の剣・専用")){
 						AOEDamage += 10;
 						damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 					}
 					if(this.has("狂斧アルマーズ") && (this.hp / this.maxHp <= .75)){
 						AOEDamage += 10;
 						damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
-					}
-					if(this.has("怒り") && (this.hp / this.maxHp <= .25 * this.has("怒り"))){
-						AOEDamage += 10;
-						damageText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 					}
 					if(this.has("怒り") && (this.hp / this.maxHp <= .25 * this.has("怒り"))){
 						AOEDamage += 10;
@@ -6375,7 +6404,7 @@ function activeHero(hero){
 				this.resetCharge();
 				damageText += this.name + " は、" + data.skills[this.specialIndex].name + " を発動。<br>";
 
-				if(this.has("倭刀") || this.has("ビッグスプーン") || this.has("ベビーキャロット") || this.hasExactly("共鳴エクスカリバー") || this.hasExactly("気鋭ワユの剣") || this.hasExactly("オートクレール・専用")){
+				if(this.has("倭刀") || this.has("ビッグスプーン") || this.has("ベビーキャロット") || this.hasExactly("共鳴エクスカリバー") || this.hasExactly("気鋭ワユの剣") || this.hasExactly("オートクレール・専用") || this.hasExactly("無銘の一門の剣・専用")){
 					dmgBoostFlat += 10;
 					damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 				}
@@ -6609,7 +6638,7 @@ function activeHero(hero){
 				){
 				effectiveBonus = (enemy.has("グラ二の盾")) ? 1 : 1.5;
 			}
-			else if (enemy.weaponType == "dragon" && (this.hasExactly("ファルシオン") || this.hasExactly("封剣ファルシオン") || this.hasExactly("ナーガ") || this.hasExactly("聖書ナーガ"))){
+			else if (enemy.weaponType == "dragon" && (this.hasExactly("ファルシオン") || this.hasExactly("封剣ファルシオン") || this.hasExactly("ナーガ") || this.hasExactly("聖書ナーガ") || (this.hasExactly("封印の剣") && this.refineIndex != -1))){
 				effectiveBonus = 1.5;
 			}
 			else if ((enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" || enemy.weaponType == "greentome") && (this.has("猫の暗器"))){
@@ -7369,6 +7398,12 @@ function activeHero(hero){
 		}
 		if (enemy.hasExactly("炎槍ジークムント")){
 			if (enemy.adjacent <= 1){
+				enemyAttackRank++;
+				enemyAttackRankChanged = true;
+			}
+		}
+		if (enemy.hasAtRefineIndex("封印の剣・専用", enemy.refineIndex)){
+			if (enemy.combatStartHp/enemy.maxHp >= .5){
 				enemyAttackRank++;
 				enemyAttackRankChanged = true;
 			}
