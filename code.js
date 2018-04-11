@@ -6451,7 +6451,10 @@ function activeHero(hero){
 					dmgBoostFlat += 10;
 					damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 				}
-
+				if(this.has("怒り") && (this.hp/this.maxHp <= .25 * this.has("怒り"))){
+					dmgBoostFlat += 10;
+					damageText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
+				}
 				//Solar Brace
 				//***Does it activate with defensive specials? Does it stack with Absorb?***
 				if (!AOE && this.hasExactly("太陽の腕輪")){
