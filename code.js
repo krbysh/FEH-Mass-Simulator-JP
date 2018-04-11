@@ -137,10 +137,12 @@ data.skillsThatArePrereq = [];
 //Sol, Ardent Sacrifice, Luna, Astra, Assault, Sacred Cowl,
 //Armorslayer+, Killing Edge+, Raudrwolf+, Heavy Spear+, Killer Lance+, Blarwolf+,, Rexcalibur+
 //Hammer+, Killer Axe+, Gronnwolf+, Assassin's Bow+, Killer Bow+
+//Wo Dao+, Bolganone+
 data.skillPrereqExceptions = [
 	125, 137, 162, 168, 170, 193,
 	6, 10, 38, 74, 76, 87,
-	50, 52, 64,	107, 111, 424
+	50, 52, 64,	107, 111, 424,
+	14, 28
 	];
 
 data.enemyPrompts = {

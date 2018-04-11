@@ -358,6 +358,20 @@
 		"prereq": "ウイングソード",
 		"exclusive": ""
 	},	{
+		"category": "Nameless Blade",
+		"name_en": "Special Damage",
+		"name": "無銘の一門の剣・専用",
+		"sp": 400,
+		"description": "Deals +10 damage when Special triggers.",
+		"hp": 3,
+		"atk": 0,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"prereq": "Nameless Blade",
+		"prereq": "無銘の一門の剣",
+		"exclusive": ""
+	},	{
 		"category": "Advanced Melee",
 		"name_en": "Atk Bonus",
 		"name": "攻撃",
@@ -2126,20 +2140,6 @@
 		"res": 3,
 		"prereq": "Deathly Dagger",
 		"prereq": "死神の暗器",
-		"exclusive": ""
-	},	{
-		"category": "Nameless Blade",
-		"name_en": "Special Damage",
-		"name": "無銘の一門の剣・専用",
-		"sp": 400,
-		"description": "Deals +10 damage when Special triggers.",
-		"hp": 3,
-		"atk": 0,
-		"spd": 0,
-		"def": 0,
-		"res": 0,
-		"prereq": "Nameless Blade",
-		"prereq": "無銘の一門の剣",
 		"exclusive": ""
 	},	{
 		"category": "Regal Blade",
