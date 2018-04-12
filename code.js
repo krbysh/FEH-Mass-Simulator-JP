@@ -6352,6 +6352,12 @@ function activeHero(hero){
 						AOEDamage += 10;
 						damageText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 					}
+					if (this.hasExactly("光の剣")){
+						if (enemy.combatStat.def >= enemy.combatStat.res + 5){
+							AOEDamage += 7;
+							damageText += this.name + " は、光の剣 の効果で、奥義発動時 +7 ダメージ。<br>";
+						}
+					}
 					if(enemy.has("エンブラの加護")){
 						AOEDamage = 0;
 					}
