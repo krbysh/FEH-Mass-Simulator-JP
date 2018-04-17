@@ -14727,7 +14727,21 @@
 		"charge": 0,
 		"inheritrule": "staff",
 		"affectsduel": 0
-
+	}, {
+		"skill_id": 983,
+		"name": "Wargod's Tome",
+		"name": "軍神の書",
+		"slot": "weapon",
+		"sp": 400,
+		"description": "At start of turn, all foes in cardinal directions with Res 1 or more lower than unit suffer Atk\/Res-4 until the end of foe's next action.",
+		"hp": 0,
+		"atk": 14,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"charge": 0,
+		"inheritrule": "unique",
+		"affectsduel": 1
 
 
 

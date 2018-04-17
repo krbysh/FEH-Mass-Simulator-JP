@@ -151,11 +151,12 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
+	"サイアス (5★);Weapon: 軍神の書;Special: 氷華;B: 離脱の行路 3;C: 速さの謀策 3;",
+	"フィン (5★);Weapon: 勇者の槍+;Special: 祈り;B: 攻撃守備封じ 2;C: 騎刃の紋章;",
 	"リーフ (5★);Weapon: 光の剣;Special: 烈光;A: 飛燕金剛の一撃 2;B: Ｓドリンク;C: 攻撃の大紋章 2;",
 	"ナンナ (5★);Weapon: アブソーブ+;Assist: レスト+;Special: 天照;A: 速さ魔防 2;C: 守備の大紋章 2;",
 	"ラインハルト(トラキアの世界) (5★);Weapon: マスターソード;Special: 大盾;A: 鬼神の一撃 3;B: 待ち伏せ 3;C: 攻撃守備の紋章 2;",
 	"オルエン(トラキアの世界) (5★);Weapon: 雷旋の書;Special: 烈風;A: 鬼神飛燕の一撃 2;C: 緑魔の経験 3;",
-	"フィン (5★);Weapon: 勇者の槍+;Special: 祈り;B: 攻撃守備封じ 2;C: 騎刃の紋章;",
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -4797,6 +4798,11 @@ function activeHero(hero){
 			if(this.res > enemy.res){
 				//Weapon
 				if(this.hasExactly("ファラフレイム")){
+					threatDebuffs.atk = Math.min(threatDebuffs.atk, -4);
+					threatDebuffs.res = Math.min(threatDebuffs.res, -4);
+					skillNames.push(data.skills[this.weaponIndex].name);
+				}
+				if(this.hasExactly("軍神の書")){
 					threatDebuffs.atk = Math.min(threatDebuffs.atk, -4);
 					threatDebuffs.res = Math.min(threatDebuffs.res, -4);
 					skillNames.push(data.skills[this.weaponIndex].name);
