@@ -151,12 +151,11 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"サイアス (5★);Weapon: 軍神の書;Special: 氷華;B: 離脱の行路 3;C: 速さの謀策 3;",
-	"フィン (5★);Weapon: 勇者の槍+;Special: 祈り;B: 攻撃守備封じ 2;C: 騎刃の紋章;",
-	"リーフ (5★);Weapon: 光の剣;Special: 烈光;A: 飛燕金剛の一撃 2;B: Ｓドリンク;C: 攻撃の大紋章 2;",
-	"ナンナ (5★);Weapon: アブソーブ+;Assist: レスト+;Special: 天照;A: 速さ魔防 2;C: 守備の大紋章 2;",
-	"ラインハルト(トラキアの世界) (5★);Weapon: マスターソード;Special: 大盾;A: 鬼神の一撃 3;B: 待ち伏せ 3;C: 攻撃守備の紋章 2;",
-	"オルエン(トラキアの世界) (5★);Weapon: 雷旋の書;Special: 烈風;A: 鬼神飛燕の一撃 2;C: 緑魔の経験 3;",
+	"ヒノカ(白き翼) (5★);Weapon: 戦姫の和弓;Special: 月光;A: 攻撃速さの絆 3;B: 編隊飛行 3;C: 飛行の先導 3;",
+	"カンナ(女) (5★);Weapon: 水のブレス+;Special: 竜裂;A: 鬼神の構え 3;C: 竜刃の紋章;",
+	"シグレ(白き翼) (5★);Weapon: 倭鉾+;Special: 夕陽;A: 飛燕の構え 3;C: 飛盾の紋章;",
+	"カンナ(男) (5★);Weapon: 水のブレス+;Special: 竜穿;A: 守備魔防の大覚醒 3;C: 竜盾の鼓舞;",
+	"スズカゼ (5★);Weapon: 暗殺手裏剣+;Special: 氷蒼;B: 蛇毒 3;C: 攻撃の紫煙 3;",
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -1088,7 +1087,7 @@ function getCDChange(skill, slot){
 			|| skillName.indexOf("キラーアクス鍛") != -1	|| skillName.indexOf("キラーランス鍛") != -1	|| skillName.indexOf("魔性の槍") != -1
 			|| skillName.indexOf("ミストルティン") != -1	|| skillName.indexOf("オートクレール") != -1	|| skillName.indexOf("ウルヴァン") != -1
 			|| skillName.indexOf("アウドムラ") != -1 || skillName.indexOf("鏡餅") != -1 || skillName.indexOf("バシリコス") != -1
-			|| skillName.indexOf("狂斧アルマーズ") != -1 || skillName.indexOf("無銘の一門の剣") != -1
+			|| skillName.indexOf("狂斧アルマーズ") != -1 || skillName.indexOf("無銘の一門の剣") != -1 || skillName.indexOf("暗殺手裏剣") != -1
 			){
 				return -1;
 		}
@@ -5648,7 +5647,11 @@ function activeHero(hero){
 				this.combatSpur.def += 4;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、攻撃、守備 +4 。<br>";
 			}
-			//***Does magic for Guard Bow include dragons?***
+			if(this.has("水のブレス")){
+				this.combatSpur.def += 4;
+				this.combatSpur.res += 4;
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、守備、魔防 +4 。<br>";
+			}
 			if(this.has("遠距離防御の弓") && enemy.range == "ranged"){
 				this.combatSpur.def += 6;
 				this.combatSpur.res += 6;
@@ -6089,7 +6092,7 @@ function activeHero(hero){
 			if (this.hasExactly("死神の暗器") || this.has("ベビーキャロット")){
 				sealStats(data.skills[this.weaponIndex].name, ["def","res"], [-7]);
 			}
-			if (this.has("銀の暗器") || this.has("貝殻") || this.has("舞踏祭の扇子") || this.has("鏡餅") || this.has("フェリシアの氷皿")){
+			if (this.has("銀の暗器") || this.has("貝殻") || this.has("舞踏祭の扇子") || this.has("鏡餅") || this.has("暗殺手裏剣") || this.has("フェリシアの氷皿")){
 				sealStats(data.skills[this.weaponIndex].name, ["def","res"], [-5, -7]);
 			}
 			if (this.has("猫の暗器") && (enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" || enemy.weaponType == "greentome")){
@@ -6288,7 +6291,7 @@ function activeHero(hero){
 			return true;
 		}
 		if (enemy.range == "ranged"){
-			if (this.hasExactly("神炎のブレス") || this.hasExactly("邪竜のブレス")){
+			if (this.hasExactly("神炎のブレス") || this.hasExactly("邪竜のブレス") || this.has("水のブレス")){
 				return true;
 			}
 			if (this.weaponType == "dragon" && (this.refineIndex != -1)){
@@ -6346,7 +6349,10 @@ function activeHero(hero){
 				if(AOEActivated){
 					this.resetCharge();
 
-					if(this.has("倭刀") || this.has("ビッグスプーン") || this.has("ベビーキャロット") || this.hasExactly("共鳴エクスカリバー") || this.hasExactly("気鋭ワユの剣") || this.hasExactly("オートクレール・専用") || this.hasExactly("無銘の一門の剣・専用")){
+					if(this.has("倭刀") || this.has("ビッグスプーン") || this.has("ベビーキャロット") || this.hasExactly("共鳴エクスカリバー")
+					 || this.hasExactly("気鋭ワユの剣") || this.hasExactly("オートクレール・専用") || this.hasExactly("無銘の一門の剣・専用")
+					 || this.has("倭鉾")
+					){
 						AOEDamage += 10;
 						damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 					}
@@ -6454,7 +6460,10 @@ function activeHero(hero){
 				this.resetCharge();
 				damageText += this.name + " は、" + data.skills[this.specialIndex].name + " を発動。<br>";
 
-				if(this.has("倭刀") || this.has("ビッグスプーン") || this.has("ベビーキャロット") || this.hasExactly("共鳴エクスカリバー") || this.hasExactly("気鋭ワユの剣") || this.hasExactly("オートクレール・専用") || this.hasExactly("無銘の一門の剣・専用")){
+				if(this.has("倭刀") || this.has("ビッグスプーン") || this.has("ベビーキャロット") || this.hasExactly("共鳴エクスカリバー")
+				 || this.hasExactly("気鋭ワユの剣") || this.hasExactly("オートクレール・専用") || this.hasExactly("無銘の一門の剣・専用")
+				 || this.has("倭鉾")
+				){
 					dmgBoostFlat += 10;
 					damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 				}
@@ -6673,7 +6682,7 @@ function activeHero(hero){
 				&& (this.has("ハンマー") || this.has("ハンマー鍛")
 				|| this.has("アーマーキラー") || this.has("アーマーキラー鍛")
 				|| this.has("貫きの槍") || this.has("貫きの槍鍛")
-				|| this.hasExactly("セイニー") || this.hasExactly("ウイングソード"))
+				|| this.hasExactly("セイニー") || this.hasExactly("ウイングソード") || this.hasExactly("戦姫の和弓"))
 				){
 				effectiveBonus = (enemy.has("スヴェルの盾")) ? 1 : 1.5;
 			}
