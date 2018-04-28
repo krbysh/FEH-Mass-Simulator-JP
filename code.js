@@ -90,10 +90,10 @@ data.lists = loadJSON('json/custom_lists.json')
 
 var debug = true;
 
-data.weaponTypes = ["sword","lance","axe","redtome","bluetome","greentome","dragon","bow","dagger","staff"];
-data.rangedWeapons = ["redtome","bluetome","greentome","bow","dagger","staff"];
+data.weaponTypes = ["sword","lance","axe","redtome","bluetome","greentome","dragon","redbow","bluebow","greenbow","bow","dagger","staff"];
+data.rangedWeapons = ["redtome","bluetome","greentome","redbow","bluebow","greenbow","bow","dagger","staff"];
 data.meleeWeapons = ["sword","lance","axe","dragon"];
-data.physicalWeapons = ["sword","lance","axe","bow","dagger"];
+data.physicalWeapons = ["sword","lance","axe","redbow","bluebow","greenbow","bow","dagger"];
 data.magicalWeapons = ["redtome","bluetome","greentome","dragon","staff"];
 data.moveTypes = ["infantry","armored","flying","cavalry","mounted"];
 data.colors = ["red","blue","green","gray"];
@@ -151,6 +151,7 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
+	"リン(風の公女) (5★);Weapon: 疾弓ミュルグレ;Assist: 守備魔防の応援;A: サカの掟;B: 攻め立て 3;C: 速さの指揮 3;",
 	"ヒノカ(白き翼) (5★);Weapon: 戦姫の和弓;Special: 月光;A: 攻撃速さの絆 3;B: 編隊飛行 3;C: 飛行の先導 3;",
 	"カンナ(女) (5★);Weapon: 水のブレス+;Special: 竜裂;A: 鬼神の構え 3;C: 竜刃の紋章;",
 	"シグレ(白き翼) (5★);Weapon: 倭鉾+;Special: 夕陽;A: 飛燕の構え 3;C: 飛盾の紋章;",
@@ -2231,11 +2232,11 @@ function updateHeroUI(hero){
 		$("#" + htmlPrefix + "res").html(hero.res);
 		$("#" + htmlPrefix + "bst").html(hero.bst + " / " + hero.spt);
 		$("#" + htmlPrefix + "asc").html(Math.round(100*(588.5 + 4*((hero.bst / 8) + (hero.spt / 240) + hero.merge + 5*(hero.rarity - 5)))) * 0.01);
-		if(data.heroes[hero.index].weapontype != "dragon"){
-			$("#" + htmlPrefix + "weapon_icon").attr("src","weapons/" + data.heroes[hero.index].weapontype + ".png");
+		if(data.heroes[hero.index].weapontype == "dragon" || data.heroes[hero.index].weapontype == "bow" ){
+			$("#" + htmlPrefix + "weapon_icon").attr("src","weapons/" + data.heroes[hero.index].color + data.heroes[hero.index].weapontype + ".png");
 		}
 		else{
-			$("#" + htmlPrefix + "weapon_icon").attr("src","weapons/" + data.heroes[hero.index].color + "dragon.png");
+			$("#" + htmlPrefix + "weapon_icon").attr("src","weapons/" + data.heroes[hero.index].weapontype + ".png");
 		}
 		$("#" + htmlPrefix + "movement_icon").attr("src","weapons/" + data.heroes[hero.index].movetype + ".png");
 
@@ -3586,6 +3587,11 @@ function fight(enemyIndex,resultIndex){
 		weaponTypeName = ahEnemy.color + "dragon";
 	}
 
+	//Set weapon icon name for bow
+	if (weaponTypeName == "bow" && ahEnemy.color != "gray"){
+		weaponTypeName = ahEnemy.color + "bow";
+	}
+
 	if(typeof enemyList[enemyIndex].lastFightResult == "undefined"){
 		enemyList[enemyIndex].lastFightResult = "";
 	}
@@ -3594,11 +3600,11 @@ function fight(enemyIndex,resultIndex){
 	passFilters.push(outcome);
 
 	//Filter Color
-	if (weaponTypeName == "sword" || weaponTypeName == "redtome" || weaponTypeName == "reddragon"){
+	if (weaponTypeName == "sword" || weaponTypeName == "redtome" || weaponTypeName == "redbow" ||weaponTypeName == "reddragon"){
 		passFilters.push("red");
-	}else if (weaponTypeName == "lance" || weaponTypeName == "bluetome" || weaponTypeName == "bluedragon"){
+	}else if (weaponTypeName == "lance" || weaponTypeName == "bluetome" || weaponTypeName == "bluebow" ||weaponTypeName == "bluedragon"){
 		passFilters.push("blue");
-	}else if (weaponTypeName == "axe" || weaponTypeName == "greentome" || weaponTypeName == "greendragon"){
+	}else if (weaponTypeName == "axe" || weaponTypeName == "greentome" || weaponTypeName == "greenbow" ||weaponTypeName == "greendragon"){
 		passFilters.push("green");
 	}else{
 		passFilters.push("gray");
@@ -5456,6 +5462,15 @@ function activeHero(hero){
 				this.combatSpur.res += buffVal;
 				boostText += this.name + " は、" + skillName + "(錬成) の効果で、魔法かつ歩行の味方が２マス以内にいる時、攻撃、速さ、守備、魔防 +" + buffVal + " 。<br>";
 			}
+
+			//Comparative Adjacent Skills
+			if (this.hasAtIndex("疾弓ミュルグレ", this.weaponIndex) && this.adjacent > enemy.adjacent){
+				buffVal = 5;
+				skillName = data.skills[this.weaponIndex].name;
+				this.combatSpur.atk += buffVal;
+				this.combatSpur.spd += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で、２マス以内の敵の数より味方の数が多い時、攻撃、速さ +" + buffVal + " 。<br>";
+			}
 		}
 
 		//this.blow = function(){
@@ -5742,6 +5757,16 @@ function activeHero(hero){
 				this.combatSpur.def += buffVal;
 				this.combatSpur.res += buffVal;
 				boostText += this.name + "は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、守備、魔防 +" + buffVal + " 。<br>";
+			}
+			//Multiple Adjacent Skills
+			if (this.hasAtIndex("サカの掟", this.aIndex) && this.adjacent >= 2){
+				buffVal = 4;
+				skillName = data.skills[this.aIndex].name;
+				this.combatSpur.atk += buffVal;
+				this.combatSpur.spd += buffVal;
+				this.combatSpur.def += buffVal;
+				this.combatSpur.res += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で、２マス以内に味方が２人以上いる時、攻撃、速さ、守備、魔防 +" + buffVal + " 。<br>";
 			}
 			return boostText;
 		}
@@ -6271,7 +6296,7 @@ function activeHero(hero){
 		if (opponent.has("ベオクの加護") && (hero.moveType == "cavalry" || hero.moveType == "flying")){
 			return true;
 		}
-		if (opponent.has("ミュルグレ") && (hero.weaponType == "redtome" || hero.weaponType == "bluetome" || hero.weaponType == "greentome")){
+		if (opponent.hasExactly("ミュルグレ") && (hero.weaponType == "redtome" || hero.weaponType == "bluetome" || hero.weaponType == "greentome")){
 			return true;
 		}
 		if (opponent.has("強化無効・遠距離") && hero.range == "ranged"){

@@ -4391,7 +4391,24 @@
 		"weapontype": "lance",
 		"movetype": "flying",
 		"minrarity": 5
-
+	}, {
+		"hero_id": 247,
+		"name_en": "Lyn (Lady of the Wind)",
+		"name": "リン(風の公女)",
+		"basehp": 17,
+		"baseatk": 9,
+		"basespd": 10,
+		"basedef": 4,
+		"baseres": 5,
+		"hpgrowth": 5,
+		"atkgrowth": 6,
+		"spdgrowth": 8,
+		"defgrowth": 4,
+		"resgrowth": 6,
+		"color": "green",
+		"weapontype": "bow",
+		"movetype": "infantry",
+		"minrarity": 5
 
 
 
