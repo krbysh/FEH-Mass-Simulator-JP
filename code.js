@@ -7564,7 +7564,7 @@ function activeHero(hero){
 		else if(this.weaponType=="greentome" && enemy.has("緑魔殺し")){
 			thisBreakLevel = 1.1 - enemy.has("緑魔殺し") * 0.2;
 		}
-		else if(this.weaponType=="bow" && enemy.has("弓殺し")){
+		else if((this.weaponType=="bow" && this.color=="gray") && enemy.has("弓殺し")){
 			thisBreakLevel = 1.1 - enemy.has("弓殺し") * 0.2;
 		}
 		else if(this.weaponType=="dagger" && enemy.has("暗器殺し")){
@@ -7590,7 +7590,7 @@ function activeHero(hero){
 		else if(enemy.weaponType=="greentome" && this.has("緑魔殺し")){
 			enemyBreakLevel = 1.1 - this.has("緑魔殺し") * 0.2;
 		}
-		else if(enemy.weaponType=="bow" && this.has("弓殺し")){
+		else if((enemy.weaponType=="bow" && enemy.color=="gray") && this.has("弓殺し")){
 			enemyBreakLevel = 1.1 - this.has("弓殺し") * 0.2;
 		}
 		else if(enemy.weaponType=="dagger" && this.has("暗器殺し")){
