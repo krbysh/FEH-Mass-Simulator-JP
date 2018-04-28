@@ -12418,7 +12418,7 @@
 		"res": 0,
 		"charge": 0,
 		"inheritrule": "unique",
-		"affectsduel": 0
+		"affectsduel": 1
 	}, {
 		"skill_id": 829,
 		"name": "Hagoita",
@@ -13706,7 +13706,7 @@
 		"res": 0,
 		"charge": 0,
 		"inheritrule": "",
-		"affectsduel": 0
+		"affectsduel": 1
 	}, {
 		"skill_id": 915,
 		"name": "Chill Spd 2",
@@ -13721,7 +13721,7 @@
 		"res": 0,
 		"charge": 0,
 		"inheritrule": "",
-		"affectsduel": 0
+		"affectsduel": 1
 	}, {
 		"skill_id": 916,
 		"name": "Chill Spd 3",
@@ -13736,7 +13736,7 @@
 		"res": 0,
 		"charge": 0,
 		"inheritrule": "",
-		"affectsduel": 0
+		"affectsduel": 1
 	}, {
 		"skill_id": 917,
 		"name": "Skadi",
@@ -13976,7 +13976,7 @@
 		"res": 0,
 		"charge": 0,
 		"inheritrule": "",
-		"affectsduel": 0
+		"affectsduel": 1
 	}, {
 		"skill_id": 933,
 		"name": "Chill Def 2",
@@ -13991,7 +13991,7 @@
 		"res": 0,
 		"charge": 0,
 		"inheritrule": "",
-		"affectsduel": 0
+		"affectsduel": 1
 	}, {
 		"skill_id": 934,
 		"name": "Chill Def 3",
@@ -14006,7 +14006,7 @@
 		"res": 0,
 		"charge": 0,
 		"inheritrule": "",
-		"affectsduel": 0
+		"affectsduel": 1
 	}, {
 		"skill_id": 935,
 		"name": "Poleaxe",
@@ -14276,7 +14276,7 @@
 		"res": 0,
 		"charge": 0,
 		"inheritrule": "",
-		"affectsduel": 0
+		"affectsduel": 1
 	}, {
 		"skill_id": 953,
 		"name": "Chill Res 2",
@@ -14291,7 +14291,7 @@
 		"res": 0,
 		"charge": 0,
 		"inheritrule": "",
-		"affectsduel": 0
+		"affectsduel": 1
 	}, {
 		"skill_id": 954,
 		"name": "Chill Res 3",
@@ -14306,7 +14306,7 @@
 		"res": 0,
 		"charge": 0,
 		"inheritrule": "",
-		"affectsduel": 0
+		"affectsduel": 1
 	}, {
 		"skill_id": 955,
 		"name": "Lethal Carrot",
