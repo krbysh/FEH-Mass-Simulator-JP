@@ -102,7 +102,7 @@ data.buffTypes = ["buffs","debuffs","spur"];
 data.buffStats = ["hp","atk","spd","def","res"];
 data.stats = ["hp","atk","spd","def","res"];
 data.support = ["s","s-","a","a-","b","b-","c","c-"];
-data.blessType = ["fire","water","wind","earth"];
+data.blessType = ["atk","spd","def","res"];
 
 //Growth shifts of 3 are what make some banes/boons +/- 4
 //growth table from https://feheroes.wiki/Stat_Growth
@@ -264,8 +264,8 @@ function initOptions(){
 	challenger.bane = "none";
 	challenger.summoner = "none";
 	challenger.ally = "none";
-	challenger.bless = "none";
-	challenger.blessStack = 0;
+	challenger.bless_1 = "none";
+	challenger.bless_2 = "none";
 
 	//The following 6 arrays will be set from arrays generated in the heroes array so they don't have to be re-calculated
 	challenger.naturalSkills = []; //Skills the hero has without having to inherit
@@ -319,8 +319,8 @@ function initOptions(){
 	enemies.fl.bane = "none";
 	enemies.fl.summoner = "none";
 	enemies.fl.ally = "none";
-	enemies.fl.bless = "none";
-	enemies.fl.blessStack = 0;
+	enemies.fl.bless_1 = "none";
+	enemies.fl.bless_2 = "none";
 
 	enemies.fl.naturalSkills = [];
 	enemies.fl.validWeaponSkills = getValidSkills(enemies.fl,"weapon");
@@ -492,14 +492,14 @@ $(document).ready(function(){
 		var dataVar = $(this).attr("data-var");
 		if(dataVar){
 			var varsThatChangeStats = [
-				".buffs.hp",".debuffs.hp",".rarity",".merge",".boon",".bane",".summoner",".ally",".bless",".blessStack",".weapon",".refine",".a",".s",".replaceWeapon",".replaceRefine",".replaceA"
+				".buffs.hp",".debuffs.hp",".rarity",".merge",".boon",".bane",".summoner",".ally",".bless_1",".bless_2",".weapon",".refine",".a",".s",".replaceWeapon",".replaceRefine",".replaceA"
 			];
 			var varsThatChangeSkills = [
 				".rarity",".replaceWeapon",".replaceRefine",".replaceAssist",".replaceSpecial",".replaceA",".replaceB",".replaceC","enemies.fl.weapon","enemies.fl.refine",
 				"enemies.fl.assist","enemies.fl.special","enemies.fl.a","enemies.fl.b","enemies.fl.c","enemies.fl.s"
 			];
 			var varsThatUpdateFl = [
-				".boon",".bane",".summoner",".ally",".bless",".blessStack",".precharge",".adjacent",".damage",".rarity",".merge"
+				".boon",".bane",".summoner",".ally",".bless_1",".bless_2",".precharge",".adjacent",".damage",".rarity",".merge"
 			]
 
 			var newVal = $(this).val();
@@ -1326,22 +1326,42 @@ function setStats(hero){
 		//hero.bst += hero.buffs.hp + hero.debuffs.hp;
 
 		//Confer Blessing
-		switch (hero.bless){
-			case "fire":
-				hero.hp += 3 * hero.blessStack;
-				hero.def += 4 * hero.blessStack;
+		switch (hero.bless_1){
+			case "atk":
+				hero.hp += 3;
+				hero.atk += 2;
 				break;
-			case "water":
-				hero.hp += 3 * hero.blessStack;
-				hero.spd += 3 * hero.blessStack;
+			case "spd":
+				hero.hp += 3;
+				hero.spd += 3;
 				break;
-			case "wind":
-				hero.hp += 3 * hero.blessStack;
-				hero.res += 4 * hero.blessStack;
+			case "def":
+				hero.hp += 3;
+				hero.def += 4;
 				break;
-			case "earth":
-				hero.hp += 3 * hero.blessStack;
-				hero.atk += 2 * hero.blessStack;
+			case "res":
+				hero.hp += 3;
+				hero.res += 4;
+				break;
+			default:
+				break;
+		}
+		switch (hero.bless_2){
+			case "atk":
+				hero.hp += 3;
+				hero.atk += 2;
+				break;
+			case "spd":
+				hero.hp += 3;
+				hero.spd += 3;
+				break;
+			case "def":
+				hero.hp += 3;
+				hero.def += 4;
+				break;
+			case "res":
+				hero.hp += 3;
+				hero.res += 4;
 				break;
 			default:
 				break;
@@ -1649,8 +1669,8 @@ function cloneHero(clone, target){
 		clone.bane = target.bane;
 		clone.summoner = target.summoner;
 		clone.ally = target.ally;
-		clone.bless = target.bless;
-		clone.blessStack = target.blessStack;
+		clone.bless_1 = target.bless_1;
+		clone.bless_2 = target.bless_2;
 		clone.weapon = target.weapon;
 		clone.refine = target.refine;
 		clone.assist = target.assist;
@@ -1674,8 +1694,8 @@ function resetHero(hero,blockInit){//also resets fl, despite singular name - pas
 	hero.bane = "none";
 	hero.summoner = "none";
 	hero.ally = "none";
-	hero.bless = "none";
-	hero.blessStack = 0;
+	hero.bless_1 = "none";
+	hero.bless_2 = "none";
 
 	hero.damage = 0;
 	hero.precharge = 0;
@@ -1736,7 +1756,7 @@ function addClEnemy(index){
 	enemies.cl.list.push({
 		"index":index,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"assist":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
 		"buffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "spur": {"hp":0,"atk":0,"spd":0,"def":0,"res":0},
-		"boon": "none", "bane": "none", "summoner":"none", "ally":"none", "bless":"none", "blessStack":0, "merge":0, "rarity":5, "precharge":0, "adjacent":1, "damage":0
+		"boon": "none", "bane":"none", "summoner":"none", "ally":"none", "bless_1":"none", "bless_2":"none", "merge":0, "rarity":5, "precharge":0, "adjacent":1, "damage":0
 	});
 	options.customEnemySelected = newCustomEnemyId;
 	updateEnemyUI();
@@ -1783,7 +1803,7 @@ function setFlEnemies(){
 		if(enemies.fl.list.length-1 < i){
 			enemies.fl.list.push({"index":i,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"assist":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
 				"buffs": enemies.fl.buffs, "debuffs": enemies.fl.debuffs, "spur": enemies.fl.spur,
-				"boon": enemies.fl.boon, "bane": enemies.fl.bane, "summoner": enemies.fl.summoner, "ally": enemies.fl.ally, "bless": enemies.fl.bless, "blessStack": enemies.fl.blessStack,
+				"boon": enemies.fl.boon, "bane": enemies.fl.bane, "summoner": enemies.fl.summoner, "ally": enemies.fl.ally, "bless_1": enemies.fl.bless_1, "bless_2": enemies.fl.bless_2,
 				"merge": enemies.fl.merge, "rarity": enemies.fl.rarity, "precharge": enemies.fl.precharge, "adjacent": enemies.fl.adjacent, "damage": enemies.fl.damage
 			});
 		}
@@ -1847,8 +1867,8 @@ function updateFlEnemies(){
 		enemies.fl.list[i].bane =  enemies.fl.bane;
 		enemies.fl.list[i].summoner =  enemies.fl.summoner;
 		enemies.fl.list[i].ally =  enemies.fl.ally;
-		enemies.fl.list[i].bless =  enemies.fl.bless;
-		enemies.fl.list[i].blessStack =  enemies.fl.blessStack;
+		enemies.fl.list[i].bless_1 =  enemies.fl.bless_1;
+		enemies.fl.list[i].bless_2 =  enemies.fl.bless_2;
 		enemies.fl.list[i].merge =  enemies.fl.merge;
 		enemies.fl.list[i].rarity =  enemies.fl.rarity;
 		enemies.fl.list[i].precharge =  enemies.fl.precharge;
@@ -2167,7 +2187,7 @@ function updateHeroUI(hero){
 		hero = {
 			"index":-1,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"assist":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
 			"buffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "spur": {"hp":0,"atk":0,"spd":0,"def":0,"res":0},
-			"boon": "none", "bane": "none", "summoner":"none", "ally":"none", "bless":"none", "blessStack":0, "merge":0, "rarity":5, "precharge":0, "adjacent":1, "damage":0
+			"boon": "none", "bane":"none", "summoner":"none", "ally":"none", "bless_1":"none", "bless_2":"none", "merge":0, "rarity":5, "precharge":0, "adjacent":1, "damage":0
 		}
 	}
 	var htmlPrefix = getHtmlPrefix(hero);
@@ -2216,8 +2236,8 @@ function updateHeroUI(hero){
 	$("#" + htmlPrefix + "bane").val(hero.bane);
 	$("#" + htmlPrefix + "summoner").val(hero.summoner);
 	$("#" + htmlPrefix + "ally").val(hero.ally);
-	$("#" + htmlPrefix + "bless").val(hero.bless);
-	$("#" + htmlPrefix + "blessStack").val(hero.blessStack);
+	$("#" + htmlPrefix + "bless_1").val(hero.bless_1);
+	$("#" + htmlPrefix + "bless_2").val(hero.bless_2);
 
 	if(typeof hero.index != "undefined" && hero.index != -1){ //cl/challenger-specific stuff
 		$("#" + htmlPrefix + "name").val(hero.index);
@@ -2601,7 +2621,7 @@ function copyChallenger(){
 		enemies.cl.list.push({
 			"index":-1,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"assist":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
 			"buffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "spur": {"hp":0,"atk":0,"spd":0,"def":0,"res":0},
-			"boon": "none", "bane": "none", "summoner":"none", "ally":"none", "bless":"none", "blessStack":0, "merge":0, "rarity":5, "precharge":0, "adjacent":1, "damage":0
+			"boon":"none", "bane":"none", "summoner":"none", "ally":"none", "bless_1":"none", "bless_2":"none", "merge":0, "rarity":5, "precharge":0, "adjacent":1, "damage":0
 		});
 		hero = enemies.cl.list[enemies.cl.list.length - 1];
 		//Copy challenger attributes
@@ -2770,7 +2790,7 @@ function importText(side, customList){
 			enemies.cl.list.push({
 				"index":-1,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"assist":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
 				"buffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "spur": {"hp":0,"atk":0,"spd":0,"def":0,"res":0},
-				"boon": "none", "bane":"none", "summoner":"none", "ally":"none", "bless":"none", "blessStack":0, "merge":0, "rarity":5, "precharge":0, "adjacent":1, "damage":0
+				"boon":"none", "bane":"none", "summoner":"none", "ally":"none", "bless_1":"none", "bless_2":"none", "merge":0, "rarity":5, "precharge":0, "adjacent":1, "damage":0
 			});
 			hero = enemies.cl.list[enemies.cl.list.length-1];
 		}
@@ -2797,9 +2817,11 @@ function importText(side, customList){
 		if(firstLine.ally){
 			hero.ally = firstLine.ally;
 		}
-		if(firstLine.bless){
-			hero.bless = firstLine.bless;
-			hero.blessStack = firstLine.blessStack;
+		if(firstLine.bless_1){
+			hero.bless_1 = firstLine.bless_1;
+		}
+		if(firstLine.bless_2){
+			hero.bless_2 = firstLine.bless_2;
 		}
 
 		//Reset skills - they won't be reset with setSkills
@@ -2926,13 +2948,23 @@ function importText(side, customList){
 		if(blessSplit.length > 1){ //Don't check if there's no "Bless: "
 			for(var blessLine = 0; blessLine < blessSplit.length; blessLine++){
 				blessSplit[blessLine] = removeEdgeJunk(blessSplit[blessLine]).toLowerCase();
+				//console.log(blessSplit[blessLine]);
 
+				//First Bless Check
 				data.blessType.forEach(function(blessType){
 					if(blessSplit[blessLine].slice(0,blessType.length) == blessType){
-						dataFound.bless = blessType;
-						dataFound.blessStack = parseInt(blessSplit[blessLine].replace( /^\D+/g, ''));
+						dataFound.bless_1 = blessType;
 					}
 				});
+				//Second Bless Check
+				if (dataFound.bless_1 && blessSplit[blessLine].substring(3).length >= 3){
+					data.blessType.forEach(function(blessType){
+						if(blessSplit[blessLine].substring(3).slice(0,blessType.length) == blessType){
+							dataFound.bless_2 = blessType;
+						}
+					});
+				}
+				//TODO: Third Bless Check
 			}
 		}
 
@@ -3072,11 +3104,12 @@ function importText(side, customList){
 				}
 			});
 		}
+		//TODO: Check if this is working properly
 		else if(key == "bless"){
 			data.blessType.forEach(function(blessType){
 				if(keyValue[1].indexOf(blessType) != -1){
 					value = blessType;
-					dataFound["blessStack"] = parseInt(keyValue[1].replace( /^\D+/g, ''));
+//					dataFound["blessStack"] = parseInt(keyValue[1].replace( /^\D+/g, ''));
 				}
 			});
 		}
@@ -3231,8 +3264,8 @@ function getExportText(side){
 		if(enemies.fl.ally != "none"){
 			exportText += "Ally: " + enemies.fl.ally + delimiter;
 		}
-		if(enemies.fl.bless != "none"){
-			exportText += "Bless: " + enemies.fl.bless + enemies.fl.blessStack + delimiter;
+		if(enemies.fl.bless_1 != "none" || enemies.fl.bless_2 != "none"){
+			exportText += "Bless: " + enemies.fl.bless_1 + enemies.fl.bless_2 + delimiter;
 		}
 
 		data.skillSlots.forEach(function(slot){
@@ -3295,8 +3328,8 @@ function getExportText(side){
 			if(hero.ally != "none"){
 				heroExportText += " Ally: " + hero.ally;
 			}
-			if(hero.bless != "none" && hero.blessStack != 0){
-				heroExportText += " Bless: " + hero.bless + hero.blessStack;
+			if(hero.bless_1 != "none" || hero.bless_2 != 0){
+				heroExportText += " Bless: " + (hero.bless_1 == "none" ? "" : hero.bless_1) + (hero.bless_2 == "none" ? "" : hero.bless_2);
 			}
 			heroExportText += ")" + delimiter;
 
@@ -4601,8 +4634,8 @@ function activeHero(hero){
 	this.bane = hero.bane;
 	this.summoner = hero.summoner;
 	this.ally = hero.ally;
-	this.bless = hero.bless;
-	this.blessStack = hero.blessStack;
+	this.bless_1 = hero.bless_1;
+	this.bless_2 = hero.bless_2;
 	this.damage = hero.damage;
 
 	this.buffs = hero.buffs;
@@ -6905,13 +6938,10 @@ function activeHero(hero){
 			var totalDmg = Math.max(0, rawDmg + advBoost + statBoost - reduceDmg);
 			//Total damage is modified by weapon modifier (ie. healer staff reduction)
 			totalDmg = (totalDmg * weaponModifier | 0);
-			//TODO: Check if flat damage affected by weapon triangle multiplier.
 			//Total damage is modified by damage multiplier from specials + flat damage bonus
 			totalDmg = (totalDmg * dmgMultiplier | 0) + dmgBoostFlat;
-			//Final damage is total damage - damage reduction from specials - flat damage reduction
-			var dmg = totalDmg - (totalDmg * (1 - dmgReduction) | 0) - dmgReductionFlat;
-			//Final damage cannot be negative
-			dmg = Math.max(0, dmg);
+			//Final damage is total damage - damage reduction from specials - flat damage reduction (should not be reduced below 0)
+			var dmg = Math.max(0, totalDmg - (totalDmg * (1 - dmgReduction) | 0) - dmgReductionFlat);
 
 			/*	Old damage formula
 			var rawDmg = (this.combatStat.atk* effectiveBonus | 0) + ((this.combatStat.atk* effectiveBonus | 0) * weaponAdvantageBonus | 0) + (dmgBoost | 0);
@@ -7567,7 +7597,7 @@ function activeHero(hero){
 		else if(this.weaponType=="greentome" && enemy.has("緑魔殺し")){
 			thisBreakLevel = 1.1 - enemy.has("緑魔殺し") * 0.2;
 		}
-		else if((this.weaponType=="bow" && this.color=="gray") && enemy.has("弓殺し")){
+		else if(this.weaponType=="bow" && this.color=="gray" && enemy.has("弓殺し")){
 			thisBreakLevel = 1.1 - enemy.has("弓殺し") * 0.2;
 		}
 		else if(this.weaponType=="dagger" && enemy.has("暗器殺し")){
@@ -7593,7 +7623,7 @@ function activeHero(hero){
 		else if(enemy.weaponType=="greentome" && this.has("緑魔殺し")){
 			enemyBreakLevel = 1.1 - this.has("緑魔殺し") * 0.2;
 		}
-		else if((enemy.weaponType=="bow" && enemy.color=="gray") && this.has("弓殺し")){
+		else if(enemy.weaponType=="bow" && enemy.color=="gray" && this.has("弓殺し")){
 			enemyBreakLevel = 1.1 - this.has("弓殺し") * 0.2;
 		}
 		else if(enemy.weaponType=="dagger" && this.has("暗器殺し")){

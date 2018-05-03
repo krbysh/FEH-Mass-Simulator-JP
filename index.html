@@ -25,7 +25,7 @@
 	<script src="select2/select2.min.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="style.css?v=2018040201"/>
-	<script type="text/javascript" src="code.js?v=2018042702"></script>
+	<script type="text/javascript" src="code.js?v=2018050301"></script>
 
 </head>
 
@@ -141,20 +141,21 @@
 								</select>
 							</div>
 							<div class="misc_row">祝福
-									<select class="misc_input_left" data-var="challenger.bless" id="challenger_bless">
-										<option value="bless" disabled>祝福</option>
+									<select class="misc_input_left" data-var="challenger.bless_1" id="challenger_bless_1">
+										<option value="bless" disabled>祝福 1</option>
 										<option value="none">なし</option>
-										<option value="fire">火</option>
-										<option value="water">水</option>
-										<option value="wind">風</option>
-										<option value="earth">地</option>
+										<option value="atk">攻撃</option>
+										<option value="spd">速さ</option>
+										<option value="def">守備</option>
+										<option value="res">魔防</option>
 									</select>
-									<select class="misc_input" data-var="challenger.blessStack" id="challenger_blessStack">
-										<option value="stack" disabled>数</option>
-										<option value="0">なし</option>
-										<option value="1">x1</option>
-										<option value="2">x2</option>
-										<option value="3">x3</option>
+									<select class="misc_input" data-var="challenger.bless_2" id="challenger_bless_2">
+										<option value="bless" disabled>祝福 2</option>
+										<option value="none">なし</option>
+										<option value="atk">攻撃</option>
+										<option value="spd">速さ</option>
+										<option value="def">守備</option>
+										<option value="res">魔防</option>
 									</select>
 								</div>
 							<div class="misc_row">隣接の味方
@@ -601,20 +602,21 @@
 								</select>
 							</div>
 							<div class="misc_row">祝福
-								<select class="misc_input_left" data-var="enemies.fl.bless" id="enemies_bless">
-									<option value="bless" disabled>祝福</option>
+								<select class="misc_input_left" data-var="enemies.fl.bless_1" id="enemies_bless_1">
+									<option value="bless" disabled>祝福 1</option>
 									<option value="none">なし</option>
-									<option value="fire">火</option>
-									<option value="water">水</option>
-									<option value="wind">風</option>
-									<option value="earth">土</option>
+									<option value="atk">攻撃</option>
+									<option value="spd">速さ</option>
+									<option value="def">守備</option>
+									<option value="res">魔防</option>
 								</select>
-								<select class="misc_input" data-var="enemies.fl.blessStack" id="enemies_blessStack">
-									<option value="stack" disabled>数</option>
-									<option value="0">なし</option>
-									<option value="1">x1</option>
-									<option value="2">x2</option>
-									<option value="3">x3</option>
+								<select class="misc_input" data-var="enemies.fl.bless_2" id="enemies_bless_2">
+									<option value="bless" disabled>祝福 2</option>
+									<option value="none">なし</option>
+									<option value="atk">攻撃</option>
+									<option value="spd">速さ</option>
+									<option value="def">守備</option>
+									<option value="res">魔防</option>
 								</select>
 							</div>
 							<div class="misc_row">隣接の味方
@@ -687,20 +689,21 @@
 									</select>
 								</div>
 								<div class="misc_row">祝福
-									<select class="misc_input_left" data-var="enemies.cl.list.bless" id="cl_enemy_bless">
-										<option value="bless" disabled>祝福</option>
+									<select class="misc_input_left" data-var="enemies.cl.bless_1" id="enemies_bless_1">
+										<option value="bless" disabled>祝福 1</option>
 										<option value="none">なし</option>
-										<option value="fire">火</option>
-										<option value="water">水</option>
-										<option value="wind">風</option>
-										<option value="earth">土</option>
+										<option value="atk">攻撃</option>
+										<option value="spd">速さ</option>
+										<option value="def">守備</option>
+										<option value="res">魔防</option>
 									</select>
-									<select class="misc_input" data-var="enemies.cl.list.blessStack" id="cl_enemy_blessStack">
-										<option value="stack" disabled>数</option>
-										<option value="0">なし</option>
-										<option value="1">x1</option>
-										<option value="2">x2</option>
-										<option value="3">x3</option>
+									<select class="misc_input" data-var="enemies.cl.bless_2" id="enemies_bless_2">
+										<option value="bless" disabled>祝福 2</option>
+										<option value="none">なし</option>
+										<option value="atk">攻撃</option>
+										<option value="spd">速さ</option>
+										<option value="def">守備</option>
+										<option value="res">魔防</option>
 									</select>
 								</div>
 								<div class="misc_row">隣接の味方
@@ -862,7 +865,7 @@
 			<div id="winpercentages"><span class="results_stat">勝利 <span id="win_pct">-</span></span><span class="results_stat">敗北 <span id="lose_pct">-</span></span><span class="results_stat">未決着 <span id="inconclusive_pct">-</span></span></div>
 			<div id="results_list"></div>
 		</div>
-		<div id="footer"><a href="https://github.com/Andu2/FEH-Mass-Simulator">本家</a>. Last updated 2018-04-28. バグ等については <a href="https://twitter.com/krbysh_x86">@krbysh_x86</a> までご連絡ください。</div>
+		<div id="footer"><a href="https://github.com/Andu2/FEH-Mass-Simulator">本家</a>. Last updated 2018-05-03. バグ等については <a href="https://twitter.com/krbysh_x86">@krbysh_x86</a> までご連絡ください。</div>
 	</div>
 	<div id="frame_tooltip"></div>
 	<div id="screen_fade"></div>
