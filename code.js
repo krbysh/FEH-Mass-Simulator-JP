@@ -2472,6 +2472,15 @@ function updateHeroUI(hero){
 		$("#" + htmlPrefix + "res").html(hero.res);
 		$("#" + htmlPrefix + "bst").html(hero.bst + " / " + hero.spt);
 		$("#" + htmlPrefix + "asc").html(Math.round(100*(588.5 + 4*((hero.bst / 8) + (hero.spt / 240) + hero.merge + 5*(hero.rarity - 5)))) * 0.01);
+
+		//Hero portrait
+		if (hero.index == 0){
+			$("#" + htmlPrefix + "picture").attr("src","heroes/generic/" + data.heroes[hero.index].movetype + "_" + data.heroes[hero.index].weapontype + ".png");
+		}else{
+			$("#" + htmlPrefix + "picture").attr("src","heroes/" + data.heroes[hero.index].name_en + ".png");
+		}
+
+		//Weapon and movement icons
 		if(data.heroes[hero.index].weapontype == "dragon" || data.heroes[hero.index].weapontype == "bow" ){
 			$("#" + htmlPrefix + "weapon_icon").attr("src","weapons/" + data.heroes[hero.index].color + data.heroes[hero.index].weapontype + ".png");
 		}
