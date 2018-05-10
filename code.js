@@ -151,12 +151,9 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"リン(風の公女) (5★);Weapon: 疾弓ミュルグレ;Assist: 守備魔防の応援;A: サカの掟;B: 攻め立て 3;C: 速さの指揮 3;",
-	"ヒノカ(白き翼) (5★);Weapon: 戦姫の和弓;Special: 月光;A: 攻撃速さの絆 3;B: 編隊飛行 3;C: 飛行の先導 3;",
-	"カンナ(女) (5★);Weapon: 水のブレス+;Special: 竜裂;A: 鬼神の構え 3;C: 竜刃の紋章;",
-	"シグレ(白き翼) (5★);Weapon: 倭鉾+;Special: 夕陽;A: 飛燕の構え 3;C: 飛盾の紋章;",
-	"カンナ(男) (5★);Weapon: 水のブレス+;Special: 竜穿;A: 守備魔防の大覚醒 3;C: 竜盾の鼓舞;",
-	"スズカゼ (5★);Weapon: 暗殺手裏剣+;Special: 氷蒼;B: 蛇毒 3;C: 攻撃の紫煙 3;",
+	"アレス (5★);Weapon: 魔剣ミストルティン;Special: 竜裂;A: 攻撃守備の大覚醒 3;B: 守備魔防封じ 2;",
+	"リーン (5★);Weapon: 守りの剣+;Assist: 踊る;B: 業火疾風の舞い 2;C: 剣の技量 3;",
+	"イシュタル (5★);Weapon: トールハンマー;Special: 月虹;A: 鬼神飛燕の一撃 2;B: 待ち伏せ 3;C: 攻撃の波・奇数 3;",
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
