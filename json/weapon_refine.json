@@ -382,8 +382,8 @@
 		"spd": 0,
 		"def": 0,
 		"res": 0,
-		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+",
-		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+",
+		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+",
+		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+",
 		"exclusive": ""
 	},	{
 		"category": "Advanced Melee",
@@ -396,8 +396,8 @@
 		"spd": 3,
 		"def": 0,
 		"res": 0,
-		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+",
-		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+",
+		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+",
+		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+",
 		"exclusive": ""
 	},	{
 		"category": "Advanced Melee",
@@ -410,8 +410,8 @@
 		"spd": 0,
 		"def": 4,
 		"res": 0,
-		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+",
-		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+",
+		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+",
+		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+",
 		"exclusive": ""
 	},	{
 		"category": "Advanced Melee",
@@ -424,8 +424,8 @@
 		"spd": 0,
 		"def": 0,
 		"res": 4,
-		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+",
-		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+",
+		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+",
+		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+",
 		"exclusive": ""
 	},	{
 		"category": "Wedding Melee",

@@ -214,6 +214,8 @@ function initOptions(){
 	options.threaten_enemy = false;
 	options.galeforce_challenger = true;
 	options.galeforce_enemy = true;
+	options.odd_buff_challenger = true;
+	options.odd_buff_enemy = true;
 
 	//Holder for statistic values;
 	options.chartType = "enemies by color";
@@ -287,6 +289,7 @@ function initOptions(){
 	challenger.c = -1;
 	challenger.s = -1;
 
+	challenger.statOffset = {"hp":0,"atk":0,"spd":0,"def":0,"res":0};
 	challenger.hp = 0;
 	challenger.atk = 0;
 	challenger.spd = 0;
@@ -1116,6 +1119,7 @@ function getCDChange(skill, slot){
 			|| skillName.indexOf("ミストルティン") != -1	|| skillName.indexOf("オートクレール") != -1	|| skillName.indexOf("ウルヴァン") != -1
 			|| skillName.indexOf("アウドムラ") != -1 || skillName.indexOf("鏡餅") != -1 || skillName.indexOf("バシリコス") != -1
 			|| skillName.indexOf("狂斧アルマーズ") != -1 || skillName.indexOf("無銘の一門の剣") != -1 || skillName.indexOf("暗殺手裏剣") != -1
+			|| skillName.indexOf("トールハンマー") != -1
 			){
 				return -1;
 		}
@@ -2922,6 +2926,7 @@ function showImportDialog(side,type){
 	$("#frame_import").show();
 }
 
+//Import dialog UI is used for export as well
 function hideImportDialog(){
 	$("#screen_fade").hide();
 	$("#frame_import").hide();
@@ -3624,9 +3629,12 @@ function copyExportText(){
 	$("#importinput")[0].select();
 	var successful = document.execCommand('copy');
 	if(!successful){
-		$("#button_import").html("Ctrl+C to finish the job")
+		$("#button_import").html("Ctrl/Cmd+C でコピーしてください。")
 	}
+	
+	hideImportDialog();
 }
+
 
 function switchEnemySelect(newVal){
 	var willCalculate = false;
@@ -4888,6 +4896,10 @@ function activeHero(hero){
 	//Charged damage to be released during combat, resets at end of combat
 	this.chargedDamage = 0;
 
+	//Triggered is true if a special activates
+	this.triggered = false;
+
+	this.statOffset = {"hp":0,"atk":0,"spd":0,"def":0,"res":0};
 	this.maxHp = hero.hp;
 	this.atk = hero.atk;
 	this.spd = hero.spd;
@@ -5393,10 +5405,22 @@ function activeHero(hero){
 		return debuffText;
 	}
 
-	this.defiant = function(){
-		var defiantText = "";
+	this.turnStartBuff = function(){
+		var buffText = "";
 		var skillName = "";
 		var statBonus = 0;
+
+
+		if ((this.challenger && options.odd_buff_challenger) || (!this.challenger && options.odd_buff_enemy)){
+			if(this.has("攻撃の波・奇数")){
+				var bonusAtk = this.has("攻撃の波・奇数") * 2;
+				skillName = data.skills[this.cIndex].name;
+			}
+		}
+		if(bonusAtk > this.combatBuffs.atk){
+			this.combatBuffs.atk = bonusAtk;
+			buffText += this.name + " は、" + skillName + " の効果で、攻撃 +" + bonusAtk + " 。<br>";
+		}
 
 		//All defiant sklls trigger at or below 50% HP
 		if(this.hp / this.maxHp <= 0.5){
@@ -5414,7 +5438,7 @@ function activeHero(hero){
 			}
 			if(defiantAtk > this.combatBuffs.atk){
 				this.combatBuffs.atk = defiantAtk;
-				defiantText += this.name + " は、" + skillName + " の効果で、攻撃 +" + defiantAtk + " 。<br>";
+				buffText += this.name + " は、" + skillName + " の効果で、攻撃 +" + defiantAtk + " 。<br>";
 			}
 
 			var defiantSpd = 0;
@@ -5424,7 +5448,7 @@ function activeHero(hero){
 			}
 			if(defiantSpd > this.combatBuffs.spd){
 				this.combatBuffs.spd = defiantSpd;
-				defiantText += this.name + " は、" + skillName + " の効果で、速さ +" + defiantSpd + " 。<br>";
+				buffText += this.name + " は、" + skillName + " の効果で、速さ +" + defiantSpd + " 。<br>";
 			}
 
 			var defiantDef = 0;
@@ -5434,7 +5458,7 @@ function activeHero(hero){
 			}
 			if(defiantDef > this.combatBuffs.def){
 				this.combatBuffs.def = defiantDef;
-				defiantText += this.name + " は、" + skillName + " の効果で、守備 +" + defiantDef + " 。<br>";
+				buffText += this.name + " は、" + skillName + " の効果で、守備 +" + defiantDef + " 。<br>";
 			}
 
 			var defiantRes = 0;
@@ -5444,10 +5468,10 @@ function activeHero(hero){
 			}
 			if(defiantRes > this.combatBuffs.res){
 				this.combatBuffs.res = defiantRes;
-				defiantText += this.name + " は、" + skillName + " の効果で、魔防 +" + defiantRes + " 。<br>";
+				buffText += this.name + " は、" + skillName + " の効果で、魔防 +" + defiantRes + " 。<br>";
 			}
 		}
-		return defiantText;
+		return buffText;
 	}
 
 	//For buffs that act like spur and stack
@@ -5766,6 +5790,10 @@ function activeHero(hero){
 				this.combatSpur.spd += 4;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、自分から攻撃時、速さ +4 。<br>";
 			}
+			if(this.hasExactly("トールハンマー")){
+				this.combatSpur.spd += 6;
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、自分から攻撃時、速さ +6 。<br>";
+			}
 			if(this.hasExactly("ティルフィング") && this.hp / this.maxHp <= 0.5){
 				this.combatSpur.def += 4;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、ＨＰ 50% 以下の時、守備 +4 。<br>";
@@ -5967,6 +5995,11 @@ function activeHero(hero){
 				this.combatSpur.def += 6;
 				this.combatSpur.res += 6;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、弓、暗器、魔法、杖の敵から敵から攻撃された時、守備、魔防 +6 。<br>";
+			}
+			if(this.has("守りの剣")){
+				buffVal = 7;
+				this.combatSpur.def += buffVal;
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、守備 +7 。<br>";
 			}
 
 			//Skills
@@ -6471,6 +6504,14 @@ function activeHero(hero){
 			}
 		}
 
+		//Post-combat buff for special triggered during combat
+		if (this.triggered){
+			if (this.hasExactly("魔剣ミストルティン")){
+				this.charge = this.charge + 2;
+				postCombatBuffText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で戦闘後、奥義カウント -2。<br>";
+			}
+		}
+
 		//Daggers only take effect if the unit performed an attack
 		if(this.didAttack){
 			if(this.hasExactly("盗賊の暗器+")){
@@ -6625,13 +6666,13 @@ function activeHero(hero){
 			if (!AOE) {damageText += this.name + " は、" + data.skills[hero.weapon].name + (this.refineIndex != -1 ? "(錬成)" : "") + " の効果で " + ((enemy.combatStat.def > enemy.combatStat.res) ? "魔防" : "守備" ) + " で計算。<br>";}
 		}
 
-		//Specials
+		//Offensive Specials
+		var AOEActivated = false;
 		var offensiveSpecialActivated = false;
 		if(this.specialIndex != -1 && data.skills[this.specialIndex].charge <= this.charge){
 
 			//Do AOE specials
 			if(AOE){
-				var AOEActivated = false;
 				var AOEDamage = 0;
 
 				if(this.has("砕雷") || this.has("砕風") || this.has("砕光") || this.has("砕火") || this.has("爆雷") || this.has("爆風") || this.has("爆光") || this.has("爆火")){
@@ -7414,6 +7455,13 @@ function activeHero(hero){
 				damageText += this.doDamage(enemy, false, false, false);
 			}
 		}
+		//Special trigger check
+		if (AOEActivated || offensiveSpecialActivated){
+			this.triggered = true;
+		}
+		if (defensiveSpecialActivated){
+			enemy.triggered = true;
+		}
 
 		return damageText;
 	}
@@ -7430,6 +7478,8 @@ function activeHero(hero){
 		lastAttacker = "none";
 		this.chargedDamage = 0;
 		enemy.chargedDamage = 0;
+		this.triggered = false;
+		enemy.triggered = false;
 
 		//Get relevant defense for simplified text output
 		var relevantDefType = (enemy.attackType == "magical") ? "res" : "def";
@@ -7441,7 +7491,7 @@ function activeHero(hero){
 		//***These are turn start skill effects***
 		if(!galeforce){
 			//Check self buffs (defiant skills)
-			roundText += this.defiant();
+			roundText += this.turnStartBuff(enemy);
 
 			//Check for enemy debuffs
 			roundText += this.turnStartDebuff(enemy);
