@@ -201,6 +201,13 @@ svg > g > g:last-child { pointer-events: none }
 	text-align:center;
 }
 
+.bar_top_full_list{
+	text-align:center;
+	font-family: "Merriweather";
+	font-size:18px;
+	line-height:32px;
+}
+
 .bar_top_list_right{
 	position: absolute;
 	right:2px;
