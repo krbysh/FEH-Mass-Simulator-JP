@@ -667,9 +667,11 @@ $(document).ready(function(){
 				}
 			}
 
-			//Update custom enemy
+			//Update custom enemy when list changes
 			if (endsWith(dataVar, ".customEnemySelected")){
 				updateEnemyUI();
+				//Scroll to middle of list
+				$('#cl_enemylist_list').scrollTop((options.customEnemySelected - 6.5) * 25 - 10);
 			}
 
 			//Update health
@@ -1796,8 +1798,9 @@ function addClEnemy(index){
 	options.customEnemySelected = newCustomEnemyId;
 	updateEnemyUI();
 	updateClList();
-	//Scroll to bottom of the list
-	$('#cl_enemylist_list').scrollTop((enemies.cl.list.length - 12) * 25 + 3);
+
+	//Scroll to end of list
+	$('#cl_enemylist_list').scrollTop((options.customEnemySelected - 14) * 25 - 10);
 }
 
 function selectClEnemy(clEnemyId){
@@ -1807,6 +1810,15 @@ function selectClEnemy(clEnemyId){
 		updateClList();
 		updateEnemyUI();
 	}
+}
+
+function deleteSelectedClEnemy(){
+	enemies.cl.list.splice(options.customEnemySelected, 1);
+	if(options.customEnemySelected >= enemies.cl.list.length){
+		options.customEnemySelected -= 1;
+	}
+	updateEnemyUI();
+	updateClList();
 }
 
 function deleteClEnemy(event,clEnemyId){
@@ -2755,6 +2767,8 @@ function copyChallenger(){
 		options.customEnemySelected = enemies.cl.list.length - 1;
 		updateEnemyUI();
 		updateClList();
+		//Scroll to end of list
+		$('#cl_enemylist_list').scrollTop((options.customEnemySelected - 14) * 25 - 10);
 		//Update challenger UI and calculate
 		updateChallengerUI();
 		validateNumberInputs();
@@ -2860,6 +2874,8 @@ function importText(side, customList){
 			}
 			updateClList();
 			updateEnemyUI();
+			//Scroll to end of list
+			$('#cl_enemylist_list').scrollTop((options.customEnemySelected - 14) * 25 - 10);
 		}
 		//else if(includesLike(importSplit[0],"ENEMIES - FILTERED FULL LIST")){
 		else{
@@ -3599,8 +3615,6 @@ function updateClList(){
 			+ ");\" onmouseover=\"undoClStyle(this)\" onmouseout=\"redoClStyle(this)\">x</div></div>";
 		$("#cl_enemylist_list").append(clEnemyHTML);
 	}
-
-	$('#cl_enemylist_list').scrollTop((options.customEnemySelected - 14) * 25 - 10);
 
 	//Update select2 List
 	updateEnemyList();
