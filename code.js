@@ -266,6 +266,7 @@ function initOptions(){
 	challenger.ally = "none";
 	challenger.bless_1 = "none";
 	challenger.bless_2 = "none";
+	challenger.bless_3 = "none";
 
 	//The following 6 arrays will be set from arrays generated in the heroes array so they don't have to be re-calculated
 	challenger.naturalSkills = []; //Skills the hero has without having to inherit
@@ -321,6 +322,7 @@ function initOptions(){
 	enemies.fl.ally = "none";
 	enemies.fl.bless_1 = "none";
 	enemies.fl.bless_2 = "none";
+	enemies.fl.bless_3 = "none";
 
 	enemies.fl.naturalSkills = [];
 	enemies.fl.validWeaponSkills = getValidSkills(enemies.fl,"weapon");
@@ -498,14 +500,14 @@ $(document).ready(function(){
 		var dataVar = $(this).attr("data-var");
 		if(dataVar){
 			var varsThatChangeStats = [
-				".buffs.hp",".debuffs.hp",".rarity",".merge",".boon",".bane",".summoner",".ally",".bless_1",".bless_2",".weapon",".refine",".a",".s",".replaceWeapon",".replaceRefine",".replaceA"
+				".buffs.hp",".debuffs.hp",".rarity",".merge",".boon",".bane",".summoner",".ally",".bless_1",".bless_2",".bless_3",".weapon",".refine",".a",".s",".replaceWeapon",".replaceRefine",".replaceA"
 			];
 			var varsThatChangeSkills = [
 				".rarity",".replaceWeapon",".replaceRefine",".replaceAssist",".replaceSpecial",".replaceA",".replaceB",".replaceC","enemies.fl.weapon","enemies.fl.refine",
 				"enemies.fl.assist","enemies.fl.special","enemies.fl.a","enemies.fl.b","enemies.fl.c","enemies.fl.s"
 			];
 			var varsThatUpdateFl = [
-				".boon",".bane",".summoner",".ally",".bless_1",".bless_2",".precharge",".adjacent",".damage",".rarity",".merge"
+				".boon",".bane",".summoner",".ally",".bless_1",".bless_2",".bless_3",".precharge",".adjacent",".damage",".rarity",".merge"
 			]
 
 			var newVal = $(this).val();
@@ -1377,6 +1379,26 @@ function setStats(hero){
 			default:
 				break;
 		}
+		switch (hero.bless_3){
+			case "atk":
+				hero.hp += 3;
+				hero.atk += 2;
+				break;
+			case "spd":
+				hero.hp += 3;
+				hero.spd += 3;
+				break;
+			case "def":
+				hero.hp += 3;
+				hero.def += 4;
+				break;
+			case "res":
+				hero.hp += 3;
+				hero.res += 4;
+				break;
+			default:
+				break;
+		}
 
 		//Add stats based on skills
 		if(hero.weapon != -1){
@@ -1682,6 +1704,7 @@ function cloneHero(clone, target){
 		clone.ally = target.ally;
 		clone.bless_1 = target.bless_1;
 		clone.bless_2 = target.bless_2;
+		clone.bless_3 = target.bless_3;
 		clone.weapon = target.weapon;
 		clone.refine = target.refine;
 		clone.assist = target.assist;
@@ -1707,6 +1730,7 @@ function resetHero(hero,blockInit){//also resets fl, despite singular name - pas
 	hero.ally = "none";
 	hero.bless_1 = "none";
 	hero.bless_2 = "none";
+	hero.bless_3 = "none";
 
 	hero.damage = 0;
 	hero.precharge = 0;
@@ -1767,7 +1791,7 @@ function addClEnemy(index){
 	enemies.cl.list.push({
 		"index":index,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"assist":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
 		"buffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "spur": {"hp":0,"atk":0,"spd":0,"def":0,"res":0},
-		"boon": "none", "bane":"none", "summoner":"none", "ally":"none", "bless_1":"none", "bless_2":"none", "merge":0, "rarity":5, "precharge":0, "adjacent":1, "damage":0
+		"boon": "none", "bane":"none", "summoner":"none", "ally":"none", "bless_1":"none", "bless_2":"none", "bless_3":"none", "merge":0, "rarity":5, "precharge":0, "adjacent":1, "damage":0
 	});
 	options.customEnemySelected = newCustomEnemyId;
 	updateEnemyUI();
@@ -1814,7 +1838,7 @@ function setFlEnemies(){
 		if(enemies.fl.list.length-1 < i){
 			enemies.fl.list.push({"index":i,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"assist":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
 				"buffs": enemies.fl.buffs, "debuffs": enemies.fl.debuffs, "spur": enemies.fl.spur,
-				"boon": enemies.fl.boon, "bane": enemies.fl.bane, "summoner": enemies.fl.summoner, "ally": enemies.fl.ally, "bless_1": enemies.fl.bless_1, "bless_2": enemies.fl.bless_2,
+				"boon": enemies.fl.boon, "bane": enemies.fl.bane, "summoner": enemies.fl.summoner, "ally": enemies.fl.ally, "bless_1": enemies.fl.bless_1, "bless_2": enemies.fl.bless_2, "bless_3": enemies.fl.bless_3,
 				"merge": enemies.fl.merge, "rarity": enemies.fl.rarity, "precharge": enemies.fl.precharge, "adjacent": enemies.fl.adjacent, "damage": enemies.fl.damage
 			});
 		}
@@ -1880,6 +1904,7 @@ function updateFlEnemies(){
 		enemies.fl.list[i].ally =  enemies.fl.ally;
 		enemies.fl.list[i].bless_1 =  enemies.fl.bless_1;
 		enemies.fl.list[i].bless_2 =  enemies.fl.bless_2;
+		enemies.fl.list[i].bless_3 =  enemies.fl.bless_3;
 		enemies.fl.list[i].merge =  enemies.fl.merge;
 		enemies.fl.list[i].rarity =  enemies.fl.rarity;
 		enemies.fl.list[i].precharge =  enemies.fl.precharge;
@@ -2051,6 +2076,7 @@ function matchStartHeroesList(params, data) {
 				return data;
 			}
 		}
+
 		//Move type search
 		if (this.data.moveTypes.indexOf(params.term.toLowerCase()) != -1){
 			if (this.data.heroes[enemies.cl.list[data.id].index].movetype === params.term.toLowerCase()){
@@ -2065,6 +2091,8 @@ function matchStartHeroesList(params, data) {
 			}
 		}
 	}
+
+
 
     //Return `null` if the term should not be displayed
     return null;
@@ -2282,7 +2310,7 @@ function updateHeroUI(hero){
 		hero = {
 			"index":-1,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"assist":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
 			"buffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "spur": {"hp":0,"atk":0,"spd":0,"def":0,"res":0},
-			"boon": "none", "bane":"none", "summoner":"none", "ally":"none", "bless_1":"none", "bless_2":"none", "merge":0, "rarity":5, "precharge":0, "adjacent":1, "damage":0
+			"boon": "none", "bane":"none", "summoner":"none", "ally":"none", "bless_1":"none", "bless_2":"none", "bless_3":"none", "merge":0, "rarity":5, "precharge":0, "adjacent":1, "damage":0
 		}
 	}
 	var htmlPrefix = getHtmlPrefix(hero);
@@ -2333,6 +2361,7 @@ function updateHeroUI(hero){
 	$("#" + htmlPrefix + "ally").val(hero.ally);
 	$("#" + htmlPrefix + "bless_1").val(hero.bless_1);
 	$("#" + htmlPrefix + "bless_2").val(hero.bless_2);
+	$("#" + htmlPrefix + "bless_3").val(hero.bless_3);
 
 	if(typeof hero.index != "undefined" && hero.index != -1){ //cl/challenger-specific stuff
 		$("#" + htmlPrefix + "name").val(hero.index);
@@ -2716,7 +2745,7 @@ function copyChallenger(){
 		enemies.cl.list.push({
 			"index":-1,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"assist":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
 			"buffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "spur": {"hp":0,"atk":0,"spd":0,"def":0,"res":0},
-			"boon":"none", "bane":"none", "summoner":"none", "ally":"none", "bless_1":"none", "bless_2":"none", "merge":0, "rarity":5, "precharge":0, "adjacent":1, "damage":0
+			"boon":"none", "bane":"none", "summoner":"none", "ally":"none", "bless_1":"none", "bless_2":"none", "bless_3":"none", "merge":0, "rarity":5, "precharge":0, "adjacent":1, "damage":0
 		});
 		hero = enemies.cl.list[enemies.cl.list.length - 1];
 		//Copy challenger attributes
@@ -2726,8 +2755,6 @@ function copyChallenger(){
 		options.customEnemySelected = enemies.cl.list.length - 1;
 		updateEnemyUI();
 		updateClList();
-		//Scroll to bottom of list
-		$('#cl_enemylist_list').scrollTop((enemies.cl.list.length - 12) * 25 + 3);
 		//Update challenger UI and calculate
 		updateChallengerUI();
 		validateNumberInputs();
@@ -2833,8 +2860,6 @@ function importText(side, customList){
 			}
 			updateClList();
 			updateEnemyUI();
-			//Scroll to bottom of enemy list
-			$('#cl_enemylist_list').scrollTop((enemies.cl.list.length - 12) * 25 + 3);
 		}
 		//else if(includesLike(importSplit[0],"ENEMIES - FILTERED FULL LIST")){
 		else{
@@ -2885,7 +2910,7 @@ function importText(side, customList){
 			enemies.cl.list.push({
 				"index":-1,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"assist":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
 				"buffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "spur": {"hp":0,"atk":0,"spd":0,"def":0,"res":0},
-				"boon":"none", "bane":"none", "summoner":"none", "ally":"none", "bless_1":"none", "bless_2":"none", "merge":0, "rarity":5, "precharge":0, "adjacent":1, "damage":0
+				"boon":"none", "bane":"none", "summoner":"none", "ally":"none", "bless_1":"none", "bless_2":"none", "bless_3":"none", "merge":0, "rarity":5, "precharge":0, "adjacent":1, "damage":0
 			});
 			hero = enemies.cl.list[enemies.cl.list.length-1];
 		}
@@ -2917,6 +2942,9 @@ function importText(side, customList){
 		}
 		if(firstLine.bless_2){
 			hero.bless_2 = firstLine.bless_2;
+		}
+		if(firstLine.bless_3){
+			hero.bless_3 = firstLine.bless_3;
 		}
 
 		//Reset skills - they won't be reset with setSkills
@@ -3059,7 +3087,14 @@ function importText(side, customList){
 						}
 					});
 				}
-				//TODO: Third Bless Check
+				//Third Bless Check
+				if (dataFound.bless_2 && blessSplit[blessLine].substring(6).length >= 3){
+					data.blessType.forEach(function(blessType){
+						if(blessSplit[blessLine].substring(6).slice(0,blessType.length) == blessType){
+							dataFound.bless_3 = blessType;
+						}
+					});
+				}
 			}
 		}
 
@@ -3359,8 +3394,8 @@ function getExportText(side){
 		if(enemies.fl.ally != "none"){
 			exportText += "Ally: " + enemies.fl.ally + delimiter;
 		}
-		if(enemies.fl.bless_1 != "none" || enemies.fl.bless_2 != "none"){
-			exportText += "Bless: " + enemies.fl.bless_1 + enemies.fl.bless_2 + delimiter;
+		if(enemies.fl.bless_1 != "none" || enemies.fl.bless_2 != "none" || enemies.fl.bless_3 != "none"){
+			exportText += "Bless: " + enemies.fl.bless_1 + enemies.fl.bless_2 + enemies.fl.bless_3 + delimiter;
 		}
 
 		data.skillSlots.forEach(function(slot){
@@ -3423,8 +3458,8 @@ function getExportText(side){
 			if(hero.ally != "none"){
 				heroExportText += " Ally: " + hero.ally;
 			}
-			if(hero.bless_1 != "none" || hero.bless_2 != 0){
-				heroExportText += " Bless: " + (hero.bless_1 == "none" ? "" : hero.bless_1) + (hero.bless_2 == "none" ? "" : hero.bless_2);
+			if(hero.bless_1 != "none" || hero.bless_2 != "none" || hero.bless_2 != "none"){
+				heroExportText += " Bless: " + (hero.bless_1 == "none" ? "" : hero.bless_1) + (hero.bless_2 == "none" ? "" : hero.bless_2) + (hero.bless_3 == "none" ? "" : hero.bless_3) ;
 			}
 			heroExportText += ")" + delimiter;
 
@@ -3529,7 +3564,7 @@ function updateClList(){
 		if(clIndex <= lastEnemy){
 			//Update the text of the items in the list
 			var enemyIndex = enemies.cl.list[clIndex].index;
-			var enemyName = "New enemy";
+			var enemyName = "新規英雄";
 			if(enemyIndex >= 0){
 				enemyName = data.heroes[enemyIndex].name;
 			}
@@ -3548,7 +3583,7 @@ function updateClList(){
 	for(var clIndex = lastElement + 1; clIndex <= lastEnemy; clIndex++){
 		//Update the text of the items in the list
 		var enemyIndex = enemies.cl.list[clIndex].index;
-		var enemyName = "New enemy";
+		var enemyName = "新規英雄";
 		if(enemyIndex >= 0){
 			enemyName = data.heroes[enemyIndex].name;
 		}
@@ -3564,10 +3599,12 @@ function updateClList(){
 			+ ");\" onmouseover=\"undoClStyle(this)\" onmouseout=\"redoClStyle(this)\">x</div></div>";
 		$("#cl_enemylist_list").append(clEnemyHTML);
 	}
-}
 
-//Update select2 List
-updateEnemyList();
+	$('#cl_enemylist_list').scrollTop((options.customEnemySelected - 14) * 25 - 10);
+
+	//Update select2 List
+	updateEnemyList();
+}
 
 function undoClStyle(element){
 	$(element).parent().addClass("cl_destyled");
@@ -4734,6 +4771,7 @@ function activeHero(hero){
 	this.ally = hero.ally;
 	this.bless_1 = hero.bless_1;
 	this.bless_2 = hero.bless_2;
+	this.bless_3 = hero.bless_3;
 	this.damage = hero.damage;
 
 	this.buffs = hero.buffs;

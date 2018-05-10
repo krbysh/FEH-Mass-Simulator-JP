@@ -149,23 +149,31 @@
 								</select>
 							</div>
 							<div class="misc_row">祝福
-									<select class="misc_input_left" data-var="challenger.bless_1" id="challenger_bless_1">
-										<option value="bless" disabled>祝福 1</option>
-										<option value="none">なし</option>
-										<option value="atk">攻撃</option>
-										<option value="spd">速さ</option>
-										<option value="def">守備</option>
-										<option value="res">魔防</option>
-									</select>
-									<select class="misc_input" data-var="challenger.bless_2" id="challenger_bless_2">
-										<option value="bless" disabled>祝福 2</option>
-										<option value="none">なし</option>
-										<option value="atk">攻撃</option>
-										<option value="spd">速さ</option>
-										<option value="def">守備</option>
-										<option value="res">魔防</option>
-									</select>
-								</div>
+								<select class="misc_input_small_left" data-var="challenger.bless_1" id="challenger_bless_1">
+									<option value="bless" disabled>祝福 1</option>
+									<option value="none">無</option>
+									<option value="atk">攻</option>
+									<option value="spd">速</option>
+									<option value="def">守</option>
+									<option value="res">魔</option>
+								</select>
+								<select class="misc_input_small_center" data-var="challenger.bless_2" id="challenger_bless_2">
+									<option value="bless" disabled>祝福 2</option>
+									<option value="none">無</option>
+									<option value="atk">攻</option>
+									<option value="spd">速</option>
+									<option value="def">守</option>
+									<option value="res">魔</option>
+								</select>
+								<select class="misc_input_small_right" data-var="challenger.bless_3" id="challenger_bless_3">
+									<option value="bless" disabled>祝福 3</option>
+									<option value="none">無</option>
+									<option value="atk">攻</option>
+									<option value="spd">速</option>
+									<option value="def">守</option>
+									<option value="res">魔</option>
+								</select>
+							</div>
 							<div class="misc_row">隣接の味方
 								<input type="number" id="challenger_adjacent" data-var="challenger.adjacent" class="misc_input smallnuminput" value=1 min=0 max=4 />
 							</div>
@@ -612,21 +620,29 @@
 								</select>
 							</div>
 							<div class="misc_row">祝福
-								<select class="misc_input_left" data-var="enemies.fl.bless_1" id="enemies_bless_1">
+								<select class="misc_input_small_left" data-var="enemies.fl.bless_1" id="enemies_bless_1">
 									<option value="bless" disabled>祝福 1</option>
-									<option value="none">なし</option>
-									<option value="atk">攻撃</option>
-									<option value="spd">速さ</option>
-									<option value="def">守備</option>
-									<option value="res">魔防</option>
+									<option value="none">無</option>
+									<option value="atk">攻</option>
+									<option value="spd">速</option>
+									<option value="def">守</option>
+									<option value="res">魔</option>
 								</select>
-								<select class="misc_input" data-var="enemies.fl.bless_2" id="enemies_bless_2">
+								<select class="misc_input_small_center" data-var="enemies.fl.bless_2" id="enemies_bless_2">
 									<option value="bless" disabled>祝福 2</option>
-									<option value="none">なし</option>
-									<option value="atk">攻撃</option>
-									<option value="spd">速さ</option>
-									<option value="def">守備</option>
-									<option value="res">魔防</option>
+									<option value="none">無</option>
+									<option value="atk">攻</option>
+									<option value="spd">速</option>
+									<option value="def">守</option>
+									<option value="res">魔</option>
+								</select>
+								<select class="misc_input_small_right" data-var="enemies.fl.bless_3" id="enemies_bless_3">
+									<option value="bless" disabled>祝福 3</option>
+									<option value="none">無</option>
+									<option value="atk">攻</option>
+									<option value="spd">速</option>
+									<option value="def">守</option>
+									<option value="res">魔</option>
 								</select>
 							</div>
 							<div class="misc_row">隣接の味方
@@ -709,21 +725,29 @@
 									</select>
 								</div>
 								<div class="misc_row">祝福
-									<select class="misc_input_left" data-var="enemies.cl.bless_1" id="enemies_bless_1">
+									<select class="misc_input_small_left" data-var="enemies.cl.list.bless_1" id="cl_enemy_bless_1">
 										<option value="bless" disabled>祝福 1</option>
-										<option value="none">なし</option>
-										<option value="atk">攻撃</option>
-										<option value="spd">速さ</option>
-										<option value="def">守備</option>
-										<option value="res">魔防</option>
+										<option value="none">無</option>
+										<option value="atk">攻</option>
+										<option value="spd">速</option>
+										<option value="def">守</option>
+										<option value="res">魔</option>
 									</select>
-									<select class="misc_input" data-var="enemies.cl.bless_2" id="enemies_bless_2">
+									<select class="misc_input_small_center" data-var="enemies.cl.list.bless_2" id="cl_enemy_bless_2">
 										<option value="bless" disabled>祝福 2</option>
-										<option value="none">なし</option>
-										<option value="atk">攻撃</option>
-										<option value="spd">速さ</option>
-										<option value="def">守備</option>
-										<option value="res">魔防</option>
+										<option value="none">無</option>
+										<option value="atk">攻</option>
+										<option value="spd">速</option>
+										<option value="def">守</option>
+										<option value="res">魔</option>
+									</select>
+									<select class="misc_input_small_right" data-var="enemies.cl.list.bless_3" id="cl_enemy_bless_3">
+										<option value="bless" disabled>祝福 3</option>
+										<option value="none">無</option>
+										<option value="atk">攻</option>
+										<option value="spd">速</option>
+										<option value="def">守</option>
+										<option value="res">魔</option>
 									</select>
 								</div>
 								<div class="misc_row">隣接の味方
