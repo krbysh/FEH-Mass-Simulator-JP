@@ -3631,7 +3631,7 @@ function copyExportText(){
 	if(!successful){
 		$("#button_import").html("Ctrl/Cmd+C でコピーしてください。")
 	}
-	
+
 	hideImportDialog();
 }
 
@@ -5676,6 +5676,13 @@ function activeHero(hero){
 				this.combatSpur.spd += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果で、歩行か飛行の味方が２マス以内にいる時、攻撃、速さ +" + buffVal + " 。<br>";
 			}
+			if (this.hasExactly("カミラの艶斧")){
+				buffVal = 4;
+				skillName = data.skills[this.weaponIndex].name;
+				this.combatSpur.atk += buffVal;
+				this.combatSpur.spd += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で、騎馬か飛行の味方が２マス以内にいる時、攻撃、速さ +" + buffVal + " 。<br>";
+			}
 			if (this.hasAtRefineIndex("ファルシオン覚醒・専用", this.refineIndex)){
 				buffVal = 4;
 				skillName = data.skills[this.weaponIndex].name;
@@ -7020,7 +7027,8 @@ function activeHero(hero){
 				&& (this.has("ハンマー") || this.has("ハンマー鍛")
 				|| this.has("アーマーキラー") || this.has("アーマーキラー鍛")
 				|| this.has("貫きの槍") || this.has("貫きの槍鍛")
-				|| this.hasExactly("セイニー") || this.hasExactly("ウイングソード") || this.hasExactly("戦姫の和弓"))
+				|| this.hasExactly("セイニー") || this.hasExactly("ウイングソード")
+				|| this.hasExactly("戦姫の和弓") || this.hasExactly("ロムファイア"))
 				){
 				effectiveBonus = (enemy.has("スヴェルの盾")) ? 1 : 1.5;
 			}
@@ -7034,7 +7042,7 @@ function activeHero(hero){
 				&& (this.has("斬馬刀") || this.has("ホースキラー") || this.has("ラウアウルフ")
 				|| this.has("ラウアウルフ鍛") || this.has("ブラーウルフ") || this.has("ブラーウルフ鍛")
 				|| this.has("グルンウルフ") || this.has("グルンウルフ鍛") || this.has("ポールアクス")
-				|| this.hasExactly("セイニー") || this.hasExactly("ウイングソード"))
+				|| this.hasExactly("セイニー") || this.hasExactly("ウイングソード") || this.hasExactly("ロムファイア"))
 				){
 				effectiveBonus = (enemy.has("グラ二の盾")) ? 1 : 1.5;
 			}
@@ -7345,6 +7353,12 @@ function activeHero(hero){
 					}
 				}
 				if(this.hasAtRefineIndex("ウイングソード・専用", this.refineIndex)){
+					if(this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd >= 1){
+						gainCharge = Math.max(gainCharge, 1);
+						skillNames.push(data.skills[this.weaponIndex].name + "(錬成)");
+					}
+				}
+				if(this.hasAtRefineIndex("ロムファイア・専用", this.refineIndex)){
 					if(this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd >= 1){
 						gainCharge = Math.max(gainCharge, 1);
 						skillNames.push(data.skills[this.weaponIndex].name + "(錬成)");
@@ -8077,6 +8091,7 @@ function activeHero(hero){
 			}
 
 			//Finally, Galeforce!
+			//***Check if this works with Dark Mystletainn***
 			if(!galeforce && this.has("疾風迅雷") && data.skills[this.specialIndex].charge <= this.charge && (this.challenger ? options.galeforce_challenger : options.galeforce_enemy)){
 				roundText += this.name + " は、疾風迅雷 の効果で、再度攻撃。<br>";
 				this.resetCharge();

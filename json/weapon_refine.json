@@ -344,7 +344,7 @@
 		"prereq": "ミストルティン",
 		"exclusive": ""
 	},	{
-		"category": "Winged Sword",
+		"category": "Flashing Blade",
 		"name_en": "Flashing Blade",
 		"name": "ウイングソード・専用",
 		"sp": 400,
@@ -354,8 +354,22 @@
 		"spd": 0,
 		"def": 0,
 		"res": 0,
-		"prereq": "Winged Sword",
+		"prereq": "Winged Sword,Rhomphaia",
 		"prereq": "ウイングソード",
+		"exclusive": ""
+	},	{
+		"category": "Flashing Blade",
+		"name_en": "Flashing Blade",
+		"name": "ロムファイア・専用",
+		"sp": 400,
+		"description": "If unit's Spd - foe's Spd >= 1, unit gains Special cooldown charge +1 per attack. (If using other similar skill, only highest value applied.)",
+		"hp": 3,
+		"atk": 0,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"prereq": "Winged Sword,Rhomphaia",
+		"prereq": "ロムファイア",
 		"exclusive": ""
 	},	{
 		"category": "Nameless Blade",
@@ -372,6 +386,20 @@
 		"prereq": "無銘の一門の剣",
 		"exclusive": ""
 	},	{
+		"category": "カミラの艶斧",
+		"name_en": "Drive Mounted Atk Spd",
+		"name": "カミラの艶斧・専用",
+		"sp": 400,
+		"description": "Grants Atk/Spd+3 to cavalry and flying allies within 2 spaces during combat.",
+		"hp": 3,
+		"atk": 0,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"prereq": "Camilla's Axe",
+		"prereq": "カミラの艶斧",
+		"exclusive": ""
+	},	{
 		"category": "Advanced Melee",
 		"name_en": "Atk Bonus",
 		"name": "攻撃",
@@ -382,8 +410,8 @@
 		"spd": 0,
 		"def": 0,
 		"res": 0,
-		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+",
-		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+",
+		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+,Camilla's Axe,Rhomphaia",
+		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+,カミラの艶斧,ロムファイア",
 		"exclusive": ""
 	},	{
 		"category": "Advanced Melee",
@@ -396,8 +424,8 @@
 		"spd": 3,
 		"def": 0,
 		"res": 0,
-		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+",
-		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+",
+		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+,Camilla's Axe,Rhomphaia",
+		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+,カミラの艶斧,ロムファイア",
 		"exclusive": ""
 	},	{
 		"category": "Advanced Melee",
@@ -410,8 +438,8 @@
 		"spd": 0,
 		"def": 4,
 		"res": 0,
-		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+",
-		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+",
+		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+,Camilla's Axe,Rhomphaia",
+		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+,カミラの艶斧,ロムファイア",
 		"exclusive": ""
 	},	{
 		"category": "Advanced Melee",
@@ -424,8 +452,8 @@
 		"spd": 0,
 		"def": 0,
 		"res": 4,
-		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+",
-		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+",
+		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+,Camilla's Axe,Rhomphaia",
+		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+,カミラの艶斧,ロムファイア",
 		"exclusive": ""
 	},	{
 		"category": "Wedding Melee",
@@ -605,6 +633,76 @@
 		"res": 4,
 		"prereq": "Legion's Axe+",
 		"prereq": "ローローの斧+",
+		"exclusive": ""
+	},	{
+		"category": "Yato",
+		"name_en": "Drive Support",
+		"name": "夜刀神・専用",
+		"sp": 400,
+		"description": "Grants Atk/Spd/Def/Res+2. If unit is within 2 spaces of support partner, grants Atk/Spd/Def/Res+4 to that ally during combat.",
+		"hp": 3,
+		"atk": 2,
+		"spd": 2,
+		"def": 2,
+		"res": 2,
+		"prereq": "Yato",
+		"prereq": "夜刀神",
+		"exclusive": ""
+	},	{
+		"category": "Yato",
+		"name_en": "Atk Bonus",
+		"name": "攻撃",
+		"sp": 400,
+		"description": "Grants Atk/Spd/Def/Res+2.",
+		"hp": 5,
+		"atk": 4,
+		"spd": 2,
+		"def": 2,
+		"res": 2,
+		"prereq": "Yato",
+		"prereq": "夜刀神",
+		"exclusive": ""
+	},	{
+		"category": "Yato",
+		"name_en": "Spd Bonus",
+		"name": "速さ",
+		"sp": 400,
+		"description": "Grants Atk/Spd/Def/Res+2.",
+		"hp": 5,
+		"atk": 2,
+		"spd": 5,
+		"def": 2,
+		"res": 2,
+		"prereq": "Yato",
+		"prereq": "夜刀神",
+		"exclusive": ""
+	},	{
+		"category": "Yato",
+		"name_en": "Def Bonus",
+		"name": "守備",
+		"sp": 400,
+		"description": "Grants Atk/Spd/Def/Res+2.",
+		"hp": 5,
+		"atk": 2,
+		"spd": 2,
+		"def": 6,
+		"res": 2,
+		"prereq": "Yato",
+		"prereq": "夜刀神",
+		"exclusive": ""
+	},	{
+		"category": "Yato",
+		"name_en": "Res Bonus",
+		"name": "魔防",
+		"sp": 400,
+		"description": "Grants Atk/Spd/Def/Res+2.",
+		"hp": 5,
+		"atk": 2,
+		"spd": 2,
+		"def": 2,
+		"res": 6,
+		"prereq": "Yato",
+		"prereq": "夜刀神",
 		"exclusive": ""
 	},	{
 		"category": "Eckesachs",
