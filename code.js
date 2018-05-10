@@ -1989,15 +1989,31 @@ function matchStartHeroes(params, data) {
 	}
 
 
-	//If search term is a number, match with BST that are greater than the input
-	if (isNaN(params.term) == false && data.id != -1){
-		if (this.data.heroes[data.id].basehp + this.data.growths[4][this.data.heroes[data.id].hpgrowth]
-			+ this.data.heroes[data.id].baseatk + this.data.growths[4][this.data.heroes[data.id].atkgrowth]
-			+ this.data.heroes[data.id].basespd + this.data.growths[4][this.data.heroes[data.id].spdgrowth]
-			+ this.data.heroes[data.id].basedef + this.data.growths[4][this.data.heroes[data.id].defgrowth]
-			+ this.data.heroes[data.id].baseres + this.data.growths[4][this.data.heroes[data.id].resgrowth]
-			>= parseInt(params.term)){
-			return data;
+	if (data.id != -1){
+		//BST Search: If search term is a number, match with BST that are greater than the input
+		if (isNaN(params.term) == false){
+			if (this.data.heroes[data.id].basehp + this.data.growths[4][this.data.heroes[data.id].hpgrowth]
+				+ this.data.heroes[data.id].baseatk + this.data.growths[4][this.data.heroes[data.id].atkgrowth]
+				+ this.data.heroes[data.id].basespd + this.data.growths[4][this.data.heroes[data.id].spdgrowth]
+				+ this.data.heroes[data.id].basedef + this.data.growths[4][this.data.heroes[data.id].defgrowth]
+				+ this.data.heroes[data.id].baseres + this.data.growths[4][this.data.heroes[data.id].resgrowth]
+				>= parseInt(params.term)){
+				return data;
+			}
+		}
+
+		//Move type search
+		if (this.data.moveTypes.indexOf(params.term.toLowerCase()) != -1){
+			if (this.data.heroes[data.id].movetype === params.term.toLowerCase()){
+				return data;
+			}
+		}
+
+		//Color search
+		if (this.data.colors.indexOf(params.term.toLowerCase()) != -1){
+			if (this.data.heroes[data.id].color === params.term.toLowerCase()){
+				return data;
+			}
 		}
 	}
 
@@ -2022,15 +2038,31 @@ function matchStartHeroesList(params, data) {
 		return data;
 	}
 
-	//If search term is a number, match with BST that are greater than the input
-	if (isNaN(params.term) == false && data.id != -1){
-		if (this.data.heroes[data.id].basehp + this.data.growths[4][this.data.heroes[data.id].hpgrowth]
-			+ this.data.heroes[data.id].baseatk + this.data.growths[4][this.data.heroes[data.id].atkgrowth]
-			+ this.data.heroes[data.id].basespd + this.data.growths[4][this.data.heroes[data.id].spdgrowth]
-			+ this.data.heroes[data.id].basedef + this.data.growths[4][this.data.heroes[data.id].defgrowth]
-			+ this.data.heroes[data.id].baseres + this.data.growths[4][this.data.heroes[data.id].resgrowth]
-			>= parseInt(params.term)){
-			return data;
+	if (enemies.cl.list[data.id] != -1){
+		//If search term is a number, match with BST that are greater than the input
+		//TODO:Add IVs into bst search param
+		if (isNaN(params.term) == false){
+			if (this.data.heroes[enemies.cl.list[data.id].index].basehp + this.data.growths[4][this.data.heroes[enemies.cl.list[data.id].index].hpgrowth]
+				+ this.data.heroes[enemies.cl.list[data.id].index].baseatk + this.data.growths[4][this.data.heroes[enemies.cl.list[data.id].index].atkgrowth]
+				+ this.data.heroes[enemies.cl.list[data.id].index].basespd + this.data.growths[4][this.data.heroes[enemies.cl.list[data.id].index].spdgrowth]
+				+ this.data.heroes[enemies.cl.list[data.id].index].basedef + this.data.growths[4][this.data.heroes[enemies.cl.list[data.id].index].defgrowth]
+				+ this.data.heroes[enemies.cl.list[data.id].index].baseres + this.data.growths[4][this.data.heroes[enemies.cl.list[data.id].index].resgrowth]
+				>= parseInt(params.term)){
+				return data;
+			}
+		}
+		//Move type search
+		if (this.data.moveTypes.indexOf(params.term.toLowerCase()) != -1){
+			if (this.data.heroes[enemies.cl.list[data.id].index].movetype === params.term.toLowerCase()){
+				return data;
+			}
+		}
+
+		//Color search
+		if (this.data.colors.indexOf(params.term.toLowerCase()) != -1){
+			if (this.data.heroes[enemies.cl.list[data.id].index].color === params.term.toLowerCase()){
+				return data;
+			}
 		}
 	}
 
@@ -3497,7 +3529,7 @@ function updateClList(){
 		if(clIndex <= lastEnemy){
 			//Update the text of the items in the list
 			var enemyIndex = enemies.cl.list[clIndex].index;
-			var enemyName = "新規英雄";
+			var enemyName = "New enemy";
 			if(enemyIndex >= 0){
 				enemyName = data.heroes[enemyIndex].name;
 			}
@@ -3516,7 +3548,7 @@ function updateClList(){
 	for(var clIndex = lastElement + 1; clIndex <= lastEnemy; clIndex++){
 		//Update the text of the items in the list
 		var enemyIndex = enemies.cl.list[clIndex].index;
-		var enemyName = "新規英雄";
+		var enemyName = "New enemy";
 		if(enemyIndex >= 0){
 			enemyName = data.heroes[enemyIndex].name;
 		}
