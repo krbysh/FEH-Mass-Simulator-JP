@@ -5377,42 +5377,42 @@ function activeHero(hero){
 		//Chilling Seal Debuff
 		if ((enemy.challenger && options.chilled_challenger) || (!enemy.challenger && options.chilled_enemy)){
 			if (this.hasExactly("フギンの魔卵") && this.hp / this.maxHp >= 0.5 ){
-				debuffVal.atk = -5;
-				debuffVal.def = -5;
+				debuffVal.atk = Math.min(debuffVal.atk, -5);
+				debuffVal.def = Math.min(debuffVal.def, -5);
 				skillNames.push("フギンの魔卵");
 			}
 			if (this.hasExactly("ムニンの魔卵") && this.hp / this.maxHp >= 0.5 ){
-				debuffVal.atk = -5;
-				debuffVal.res = -5;
+				debuffVal.atk = Math.min(debuffVal.atk, -5);
+				debuffVal.res = Math.min(debuffVal.res, -5);
 				skillNames.push("ムニンの魔卵");
 			}
 			if(this.hasExactly("氷の封印")){
-				debuffVal.atk = -6;
-				debuffVal.spd = -6;
+				debuffVal.atk = Math.min(debuffVal.atk, -5);
+				debuffVal.res = Math.min(debuffVal.res, -5);
 				skillNames.push("氷の封印");
 			}
 			if(this.hasExactly("深き印の風")){
-				debuffVal.atk = -7;
+				debuffVal.atk = Math.min(debuffVal.atk, -7);
 				skillNames.push("深き印の風");
 			}
 			if(this.hasExactly("フォルブレイズ")){
-				debuffVal.res = -7;
+				debuffVal.res = Math.min(debuffVal.res, -7);
 				skillNames.push("フォルブレイズ");
 			}
 			if(this.has("攻撃の封印")){
-				debuffVal.atk = -this.hasAtIndex("攻撃の封印", this.bIndex) * 2 - 1;
+				debuffVal.atk = Math.min(debuffVal.atk, -this.hasAtIndex("攻撃の封印", this.bIndex) * 2 - 1);
 				skillNames.push("攻撃の封印");
 			}
 			if(this.has("速さの封印")){
-				debuffVal.spd = -this.hasAtIndex("速さの封印", this.bIndex) * 2 - 1;
+				debuffVal.spd = Math.min(debuffVal.spd, -this.hasAtIndex("速さの封印", this.bIndex) * 2 - 1);
 				skillNames.push("速さの封印");
 			}
 			if(this.has("守備の封印")){
-				debuffVal.def = -this.hasAtIndex("守備の封印", this.bIndex) * 2 - 1;
+				debuffVal.def = Math.min(debuffVal.def, -this.hasAtIndex("守備の封印", this.bIndex) * 2 - 1);
 				skillNames.push("守備の封印");
 			}
 			if(this.has("魔防の封印")){
-				debuffVal.res = -this.hasAtIndex("魔防の封印", this.bIndex) * 2 - 1;
+				debuffVal.res = Math.min(debuffVal.res, -this.hasAtIndex("魔防の封印", this.bIndex) * 2 - 1);
 				skillNames.push("魔防の封印");
 			}
 		}
@@ -5441,70 +5441,69 @@ function activeHero(hero){
 
 	this.turnStartBuff = function(){
 		var buffText = "";
-		var skillName = "";
-		var statBonus = 0;
+		var skillNames = [];
+		var buffVal = {"atk":0,"spd":0,"def":0,"res":0};
+		var buffValJp = {"攻撃":0,"速さ":0,"守備":0,"魔防":0};
 
-
+		//Odd turn buffs
 		if ((this.challenger && options.odd_buff_challenger) || (!this.challenger && options.odd_buff_enemy)){
 			if(this.has("攻撃の波・奇数")){
-				var bonusAtk = this.has("攻撃の波・奇数") * 2;
-				skillName = data.skills[this.cIndex].name;
+				buffVal.atk = Math.max(buffVal.atk, this.has("攻撃の波・奇数") * 2);
+				skillNames.push(data.skills[this.cIndex].name);
+			}
+			if(this.hasExactly("ビューレイスト")){
+				buffVal.atk = Math.max(buffVal.atk, 4);
+				buffVal.spd = Math.max(buffVal.spd, 4);
+				buffVal.def = Math.max(buffVal.def, 4);
+				buffVal.res = Math.max(buffVal.res, 4);
+				skillNames.push(data.skills[this.weaponIndex].name);
 			}
 		}
-		if(bonusAtk > this.combatBuffs.atk){
-			this.combatBuffs.atk = bonusAtk;
-			buffText += this.name + " は、" + skillName + " の効果で、攻撃 +" + bonusAtk + " 。<br>";
-		}
 
-		//All defiant sklls trigger at or below 50% HP
+		//All defiant skills trigger at or below 50% HP
 		if(this.hp / this.maxHp <= 0.5){
-
-			var defiantAtk = 0;
-			if(this.has("攻撃の覚醒")){
-				defiantAtk = this.has("攻撃の覚醒") * 2 + 1;
-				skillName = data.skills[this.aIndex].name;
-			}
 			if(this.has("フォルクヴァング")){
-				if(defiantAtk<5){
-					defiantAtk = 5;
-					skillName = data.skills[this.weaponIndex].name;
+				buffVal.atk = Math.max(buffVal.atk, 5);
+				skillNames.push(data.skills[this.weaponIndex].name);
+			}
+			if(this.has("攻撃の覚醒")){
+				buffVal.atk = Math.max(buffVal.atk, this.has("攻撃の覚醒") * 2 + 1);
+				skillNames.push(data.skills[this.aIndex].name);
+			}
+			if(this.has("速さの覚醒")){
+				buffVal.spd = Math.max(buffVal.spd, this.has("速さの覚醒") * 2 + 1);
+				skillNames.push(data.skills[this.aIndex].name);
+			}
+			if(this.has("守備の覚醒")){
+				buffVal.def = Math.max(buffVal.def, this.has("守備の覚醒") * 2 + 1);
+				skillNames.push(data.skills[this.aIndex].name);
+			}
+			if(this.has("魔防の覚醒")){
+				buffVal.res = Math.max(buffVal.res, this.has("魔防の覚醒") * 2 + 1);
+				skillNames.push(data.skills[this.aIndex].name);
+			}
+		}
+
+		var statJp;
+
+		if(skillNames.length > 0){
+			var statChanges = [];
+			for(var stat in buffVal){
+				if(stat == "atk")	statJp = "攻撃";
+				if(stat == "spd")	statJp = "速さ";
+				if(stat == "def")	statJp = "守備";
+				if(stat == "res")	statJp = "魔防";
+				if(buffVal[stat] > Math.max(this.buffs[stat], this.combatBuffs[stat])){
+					this.combatBuffs[stat] = buffVal[stat];
+					statChanges.push(statJp + " " + "+" + buffVal[stat]);
 				}
 			}
-			if(defiantAtk > this.combatBuffs.atk){
-				this.combatBuffs.atk = defiantAtk;
-				buffText += this.name + " は、" + skillName + " の効果で、攻撃 +" + defiantAtk + " 。<br>";
-			}
 
-			var defiantSpd = 0;
-			if(this.has("速さの覚醒")){
-				defiantSpd = this.has("速さの覚醒") * 2 + 1;
-				skillName = data.skills[this.aIndex].name;
-			}
-			if(defiantSpd > this.combatBuffs.spd){
-				this.combatBuffs.spd = defiantSpd;
-				buffText += this.name + " は、" + skillName + " の効果で、速さ +" + defiantSpd + " 。<br>";
-			}
-
-			var defiantDef = 0;
-			if(this.has("守備の覚醒")){
-				defiantDef = this.has("守備の覚醒") * 2 + 1;
-				skillName = data.skills[this.aIndex].name;
-			}
-			if(defiantDef > this.combatBuffs.def){
-				this.combatBuffs.def = defiantDef;
-				buffText += this.name + " は、" + skillName + " の効果で、守備 +" + defiantDef + " 。<br>";
-			}
-
-			var defiantRes = 0;
-			if(this.has("魔防の覚醒")){
-				defiantRes = this.has("魔防の覚醒") * 2 + 1;
-				skillName = data.skills[this.aIndex].name;
-			}
-			if(defiantRes > this.combatBuffs.res){
-				this.combatBuffs.res = defiantRes;
-				buffText += this.name + " は、" + skillName + " の効果で、魔防 +" + defiantRes + " 。<br>";
+			if(statChanges.length > 0){
+				buffText += this.name + " は、ターン開始時に " + skillNames.join("、") + " の影響を受ける。<br>" + this.name + " は、" + statChanges.join("、") + " の効果を受ける。<br>";
 			}
 		}
+
 		return buffText;
 	}
 
@@ -5567,6 +5566,17 @@ function activeHero(hero){
 		if (this.hasAtRefineIndex("パルティア・専用", this.refineIndex) && enemy.range == "ranged"){
 			this.combatSpur.atk += 6;
 			boostText += this.name + " は、" + data.refine[this.refineIndex].name + "(錬成) の効果で、遠距離の敵に対して、戦闘中、攻撃 +6 。<br>";
+		}
+
+		//Combat debuff ***does this stack like spurs?***
+		if (enemy.hasExactly("ロプトウス")
+			&& !(this.hasExactly("ファルシオン")	|| this.hasExactly("封剣ファルシオン")
+				|| this.hasExactly("ナーガ")		|| this.hasExactly("聖書ナーガ")
+				|| (this.hasExactly("封印の剣") && this.refineIndex != -1)
+			)
+		){
+			this.combatDebuffs.atk -= 6;
+			boostText += this.name + " は、" + data.skills[enemy.weaponIndex].name + " の効果で、戦闘中、攻撃 -6 。<br>";
 		}
 
 		//Brazen Skills
