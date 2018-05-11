@@ -120,6 +120,7 @@ data.growths = [
 data.heroes.sort(function(a,b){
 	//console.log(a.name + ", " + b.name + ": " + a.name>b.name);
 	return (a.name.toLowerCase() > b.name.toLowerCase())*2-1;
+//	return (a.name_en.toLowerCase() > b.name_en.toLowerCase())*2-1;
 })
 
 //Sort skills array by name
@@ -2271,7 +2272,7 @@ function matchStartRefine(params, data) {
 function changeSkillPic(hero, slot){
 	var htmlPrefix = getHtmlPrefix(hero);
 	if(data.skills[hero[slot]]){
-		var skillname = data.skills[hero[slot]].name;
+		var skillname = data.skills[hero[slot]].name_en;
 		skillname = skillname.replace(/\s/g,"_");
 		$("#" + htmlPrefix + slot + "_picture").attr("src","skills/" + skillname + ".png");
 	}
@@ -3885,16 +3886,16 @@ function fight(enemyIndex,resultIndex){
 		specialName = data.skills[ahEnemy.specialIndex].name;
 	}
 	if(ahEnemy.aIndex != -1){
-		aName = data.skills[ahEnemy.aIndex].name.replace(/\s/g,"_");
+		aName = data.skills[ahEnemy.aIndex].name_en.replace(/\s/g,"_");
 	}
 	if(ahEnemy.bIndex != -1){
-		bName = data.skills[ahEnemy.bIndex].name.replace(/\s/g,"_");
+		bName = data.skills[ahEnemy.bIndex].name_en.replace(/\s/g,"_");
 	}
 	if(ahEnemy.cIndex != -1){
-		cName = data.skills[ahEnemy.cIndex].name.replace(/\s/g,"_");
+		cName = data.skills[ahEnemy.cIndex].name_en.replace(/\s/g,"_");
 	}
 	if(ahEnemy.sIndex != -1){
-		sName = data.skills[ahEnemy.sIndex].name.replace(/\s/g,"_");
+		sName = data.skills[ahEnemy.sIndex].name_en.replace(/\s/g,"_");
 	}
 
 	//Set weapon icon name for dragon
@@ -8241,12 +8242,15 @@ function getIndexFromName(name,dataList,slot){
 	var testSlot;
 	var testIsS;
 	var found = -1;
+
 	do{
 		checkingIndex = Math.round((rightBound - leftBound) / 2 + leftBound);
 		testName = dataList[checkingIndex].name.toLowerCase();
 		testSlot = dataList[checkingIndex].slot || "";
+
 		if(testName + testSlot == name + slot){
 			found = checkingIndex;
+
 			break;
 		}
 		else if(testName + testSlot > name + slot){
