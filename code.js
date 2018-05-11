@@ -155,6 +155,7 @@ data.newHeroesCsvs = [
 	"アレス (5★);Weapon: 魔剣ミストルティン;Special: 竜裂;A: 攻撃守備の大覚醒 3;B: 守備魔防封じ 2;",
 	"リーン (5★);Weapon: 守りの剣+;Assist: 踊る;B: 業火疾風の舞い 2;C: 剣の技量 3;",
 	"イシュタル (5★);Weapon: トールハンマー;Special: 月虹;A: 鬼神飛燕の一撃 2;B: 待ち伏せ 3;C: 攻撃の波・奇数 3;",
+	"ユリウス (5★);Weapon: ロプトウス;Special: 竜裂;B: キャンセル 3;C: 攻撃の謀策 3;",
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
