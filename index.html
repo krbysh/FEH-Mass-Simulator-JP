@@ -24,8 +24,8 @@
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 	<script src="select2/select2.min.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="style.css?v=2018051001"/>
-	<script type="text/javascript" src="code.js?v=2018051001"></script>
+	<link rel="stylesheet" type="text/css" href="style.css?v=2018051101"/>
+	<script type="text/javascript" src="code.js?v=2018051101"></script>
 
 </head>
 
@@ -43,7 +43,7 @@
 				<button class="button button_newheroes" id="2"><img class="newheroes_picture" src="heroes/Ishtar.png"/></button>
 			</div>
 		</div>
-		<div id="frame_updatenotice" data-update="2018042701">新英雄「聖戦の子」に対応しました。<br>フィルター設定保存を追加しました。
+		<div id="frame_updatenotice" data-update="2018051001">新英雄「聖戦の子」に対応しました。<br>フィルター設定保存を追加しました。
 			<div id="update_icon">!</div>
 			<div class="button" id="button_closeupdatenotice" onclick="hideUpdateNotice();">x</div>
 		</div>
@@ -61,11 +61,11 @@
 				<div class="frame_hero_main">
 					<div class="bar_top_list">
 						<!--
-						<select id="cl_enemy_list" data-var="options.customEnemySelected"></select>
-						<div class="button bar_top_button reset_challenger" id="reset_challenger" onclick="addClEnemy();">Add</div>
-						<div class="button bar_top_button reset_challenger" id="reset_challenger" onclick="deleteSelectedClEnemy();">Delete</div>
+						<select id="challenger_list" data-var="options.challengerSelected"></select>
+						<div class="button bar_top_button reset_challenger" id="reset_challenger" onclick="addChallenger();">Add</div>
+						<div class="button bar_top_button reset_challenger" id="reset_challenger" onclick="deleteChallenger();">Delete</div>
 						<div class="bar_top_list_right">
-							<div class=" bar_top_list_ri
+							<div class=" bar_top_list_right button bar_top_button reset_challenger" id="reset_challenger" onclick="removeAllChallengers();">Clear List</div>
 						</div>
 						-->
 					</div>
@@ -77,11 +77,11 @@
 						<div class="frame_hero_picture"><img class="hero_picture" id="challenger_picture" src="heroes/nohero.png" onmouseover="showHeroTooltip('challenger');" onmouseout="hideTooltip();" /><img id="challenger_weapon_icon" class="weaponIcon" src="weapons/noweapon.png"/><img id="challenger_movement_icon" class="movementIcon" src="weapons/noweapon.png"/></div>
 						<div class="frame_stats">
 							<div class="bufflabel">強化</div><div class="debufflabel">弱体</div><div class="spurlabel">紋章</div>
-							<div class="stat_row">ＨＰ <span class="stat_number" id="challenger_hp">-</span><input id="challenger_hp_buff" data-var="challenger.buffs.hp" class="buff_input smallnuminput" type="number" value=0 min=0 max=99 /><input id="challenger_hp_debuff" data-var="challenger.debuffs.hp" class="debuff_input smallnuminput" type="number" value=0 min=-99 max=0 /></div>
-							<div class="stat_row">攻撃 <span class="stat_number" id="challenger_atk">-</span><input id="challenger_atk_buff" data-var="challenger.buffs.atk" class="buff_input smallnuminput" type="number" value=0 min=0 max=99 /><input id="challenger_atk_debuff" data-var="challenger.debuffs.atk" class="debuff_input smallnuminput" type="number" value=0 min=-99 max=0 /><input id="challenger_atk_spur" data-var="challenger.spur.atk" class="spur_input smallnuminput" type="number" value=0 min=0 max=99 /></div>
-							<div class="stat_row">速さ <span class="stat_number" id="challenger_spd">-</span><input id="challenger_spd_buff" data-var="challenger.buffs.spd" class="buff_input smallnuminput" type="number" value=0 min=0 max=99 /><input id="challenger_spd_debuff" data-var="challenger.debuffs.spd" class="debuff_input smallnuminput" type="number" value=0 min=-99 max=0 /><input id="challenger_spd_spur" data-var="challenger.spur.spd" class="spur_input smallnuminput" type="number" value=0 min=0 max=99 /></div>
-							<div class="stat_row">守備 <span class="stat_number" id="challenger_def">-</span><input id="challenger_def_buff" data-var="challenger.buffs.def" class="buff_input smallnuminput" type="number" value=0 min=0 max=99 /><input id="challenger_def_debuff" data-var="challenger.debuffs.def" class="debuff_input smallnuminput" type="number" value=0 min=-99 max=0 /><input id="challenger_def_spur" data-var="challenger.spur.def" class="spur_input smallnuminput" type="number" value=0 min=0 max=99 /></div>
-							<div class="stat_row">魔防 <span class="stat_number" id="challenger_res">-</span><input id="challenger_res_buff" data-var="challenger.buffs.res" class="buff_input smallnuminput" type="number" value=0 min=0 max=99 /><input id="challenger_res_debuff" data-var="challenger.debuffs.res" class="debuff_input smallnuminput" type="number" value=0 min=-99 max=0 /><input id="challenger_res_spur" data-var="challenger.spur.res" class="spur_input smallnuminput" type="number" value=0 min=0 max=99 /></div>
+							<div class="stat_row">ＨＰ <input id="challenger_hp" data-var="challenger.hp" class="stat_number smallnuminput" type="number" value=0 min=0 max=99 /><input id="challenger_hp_buff" data-var="challenger.buffs.hp" class="buff_input smallnuminput" type="number" value=0 min=0 max=99 /><input id="challenger_hp_debuff" data-var="challenger.debuffs.hp" class="debuff_input smallnuminput" type="number" value=0 min=-99 max=0 /></div>
+							<div class="stat_row">攻撃 <input id="challenger_atk" data-var="challenger.atk" class="stat_number smallnuminput" type="number" value=0 min=0 max=99 /><input id="challenger_atk_buff" data-var="challenger.buffs.atk" class="buff_input smallnuminput" type="number" value=0 min=0 max=99 /><input id="challenger_atk_debuff" data-var="challenger.debuffs.atk" class="debuff_input smallnuminput" type="number" value=0 min=-99 max=0 /><input id="challenger_atk_spur" data-var="challenger.spur.atk" class="spur_input smallnuminput" type="number" value=0 min=0 max=99 /></div>
+							<div class="stat_row">速さ <input id="challenger_spd" data-var="challenger.spd" class="stat_number smallnuminput" type="number" value=0 min=0 max=99 /><input id="challenger_spd_buff" data-var="challenger.buffs.spd" class="buff_input smallnuminput" type="number" value=0 min=0 max=99 /><input id="challenger_spd_debuff" data-var="challenger.debuffs.spd" class="debuff_input smallnuminput" type="number" value=0 min=-99 max=0 /><input id="challenger_spd_spur" data-var="challenger.spur.spd" class="spur_input smallnuminput" type="number" value=0 min=0 max=99 /></div>
+							<div class="stat_row">守備 <input id="challenger_def" data-var="challenger.def" class="stat_number smallnuminput" type="number" value=0 min=0 max=99 /><input id="challenger_def_buff" data-var="challenger.buffs.def" class="buff_input smallnuminput" type="number" value=0 min=0 max=99 /><input id="challenger_def_debuff" data-var="challenger.debuffs.def" class="debuff_input smallnuminput" type="number" value=0 min=-99 max=0 /><input id="challenger_def_spur" data-var="challenger.spur.def" class="spur_input smallnuminput" type="number" value=0 min=0 max=99 /></div>
+							<div class="stat_row">魔防 <input id="challenger_res" data-var="challenger.res" class="stat_number smallnuminput" type="number" value=0 min=0 max=99 /><input id="challenger_res_buff" data-var="challenger.buffs.res" class="buff_input smallnuminput" type="number" value=0 min=0 max=99 /><input id="challenger_res_debuff" data-var="challenger.debuffs.res" class="debuff_input smallnuminput" type="number" value=0 min=-99 max=0 /><input id="challenger_res_spur" data-var="challenger.spur.res" class="spur_input smallnuminput" type="number" value=0 min=0 max=99 /></div>
 						</div>
 					</div>
 					<div class="frame_hero_main_bottom">
@@ -563,7 +563,7 @@
 							<div class="includebuttons_row"><div class="button wideincludebutton included" id="include_dragon">竜</div><div class="button wideincludebutton included" id="include_nondragon">竜以外</div></div>
 						</div>
 						<div class="frame_stats">
-							<div class="bufflabel">強化</div><div class="debufflabel">弱体</div><div class="spurlabel">紋章</div>
+							<div class="statlabel">平均</div><div class="bufflabel">強化</div><div class="debufflabel">弱体</div><div class="spurlabel">紋章</div>
 							<div class="stat_row">ＨＰ <span class="stat_number" id="enemies_hp">-</span><input id="enemies_hp_buff" data-var="enemies.fl.buffs.hp" class="buff_input smallnuminput" type="number" value=0 min=0 max=99 /><input id="enemies_hp_debuff" data-var="enemies.fl.debuffs.hp" class="debuff_input smallnuminput" type="number" value=0 min=-99 max=0 /></div>
 							<div class="stat_row">攻撃 <span class="stat_number" id="enemies_atk">-</span><input id="enemies_atk_buff" data-var="enemies.fl.buffs.atk" class="buff_input smallnuminput" type="number" value=0 min=0 max=99 /><input id="enemies_atk_debuff" data-var="enemies.fl.debuffs.atk" class="debuff_input smallnuminput" type="number" value=0 min=-99 max=0 /><input id="enemies_atk_spur" data-var="enemies.fl.spur.atk" class="spur_input smallnuminput" type="number" value=0 min=0 max=99 /></div>
 							<div class="stat_row">速さ <span class="stat_number" id="enemies_spd">-</span><input id="enemies_spd_buff" data-var="enemies.fl.buffs.spd" class="buff_input smallnuminput" type="number" value=0 min=0 max=99 /><input id="enemies_spd_debuff" data-var="enemies.fl.debuffs.spd" class="debuff_input smallnuminput" type="number" value=0 min=-99 max=0 /><input id="enemies_spd_spur" data-var="enemies.fl.spur.spd" class="spur_input smallnuminput" type="number" value=0 min=0 max=99 /></div>
@@ -661,16 +661,16 @@
 				<div id="enemies_custom_list" class="frame_hero_main" style="display:none;">
 					<div id="cl_enemylist">
 						<div id="cl_enemylist_list"></div>
-						<div id="cl_addenemy" class="clbutton button" onclick="addClEnemy();">+Add one</div>
-						<div id="cl_removeall" class="clbutton button" onclick="removeAllClEnemies();">-Clear all</div>
+						<div id="cl_addenemy" class="clbutton button" onclick="addClEnemy();">+追加</div>
+						<div id="cl_removeall" class="clbutton button" onclick="removeAllClEnemies();">-全削除</div>
 					</div>
 					<div class="frame_hero_main_right">
 						<div class="bar_top_list">
 							<select id="cl_enemy_list" data-var="options.customEnemySelected"></select>
-							<div class="button bar_top_button reset_enemies" id="reset_cl_enemy" onclick="addClEnemy();">Add</div>
-							<div class="button bar_top_button reset_enemies" id="reset_cl_enemy" onclick="deleteSelectedClEnemy();">Delete</div>
+							<div class="button bar_top_button reset_enemies" id="add_cl_enemy" onclick="addClEnemy();">追加</div>
+							<div class="button bar_top_button reset_enemies" id="delete_cl_selected" onclick="deleteSelectedClEnemy();">削除</div>
 							<div class="bar_top_list_right">
-								<div class=" bar_top_list_right button bar_top_button reset_enemies" id="reset_cl_enemy" onclick="removeAllClEnemies();">Clear List</div>
+								<div class=" bar_top_list_right button bar_top_button reset_enemies" id="clear_cl_list" onclick="removeAllClEnemies();">全削除</div>
 							</div>
 						</div>
 						<div class="bar_top_options"><select id="cl_enemy_name" data-var="enemies.cl.list.index"></select><div class="bar_top_options_right"><span class="bar_label">★</span><input id="cl_enemy_rarity" data-var="enemies.cl.list.rarity" type="number" class="rarityinput smallnuminput" value=5 min=1 max=5 /><span class="bar_label">Lvl 40+</span><input id="cl_enemy_merge" data-var="enemies.cl.list.merge" class="smallnuminput" type="number" value=0 min=0 max=10 /><div class="button reset_button reset_enemies" id="reset_cl_enemy">初期化</div></div></div>
@@ -682,11 +682,11 @@
 							</div>
 							<div class="frame_stats">
 								<div class="bufflabel">強化</div><div class="debufflabel">弱体</div><div class="spurlabel">紋章</div>
-								<div class="stat_row">ＨＰ <span class="stat_number" id="cl_enemy_hp">-</span><input id="cl_enemy_hp_buff" data-var="enemies.cl.list.buffs.hp" class="buff_input smallnuminput" type="number" value=0 min=0 max=99 /><input id="cl_enemy_hp_debuff" data-var="enemies.cl.list.debuffs.hp" class="debuff_input smallnuminput" type="number" value=0 min=-99 max=0 /></div>
-								<div class="stat_row">攻撃 <span class="stat_number" id="cl_enemy_atk">-</span><input id="cl_enemy_atk_buff" data-var="enemies.cl.list.buffs.atk" class="buff_input smallnuminput" type="number" value=0 min=0 max=99 /><input id="cl_enemy_atk_debuff" data-var="enemies.cl.list.debuffs.atk" class="debuff_input smallnuminput" type="number" value=0 min=-99 max=0 /><input id="cl_enemy_atk_spur" data-var="enemies.cl.list.spur.atk" class="spur_input smallnuminput" type="number" value=0 min=0 max=99 /></div>
-								<div class="stat_row">速さ <span class="stat_number" id="cl_enemy_spd">-</span><input id="cl_enemy_spd_buff" data-var="enemies.cl.list.buffs.spd" class="buff_input smallnuminput" type="number" value=0 min=0 max=99 /><input id="cl_enemy_spd_debuff" data-var="enemies.cl.list.debuffs.spd" class="debuff_input smallnuminput" type="number" value=0 min=-99 max=0 /><input id="cl_enemy_spd_spur" data-var="enemies.cl.list.spur.spd" class="spur_input smallnuminput" type="number" value=0 min=0 max=99 /></div>
-								<div class="stat_row">守備 <span class="stat_number" id="cl_enemy_def">-</span><input id="cl_enemy_def_buff" data-var="enemies.cl.list.buffs.def" class="buff_input smallnuminput" type="number" value=0 min=0 max=99 /><input id="cl_enemy_def_debuff" data-var="enemies.cl.list.debuffs.def" class="debuff_input smallnuminput" type="number" value=0 min=-99 max=0 /><input id="cl_enemy_def_spur" data-var="enemies.cl.list.spur.def" class="spur_input smallnuminput" type="number" value=0 min=0 max=99 /></div>
-								<div class="stat_row">魔防 <span class="stat_number" id="cl_enemy_res">-</span><input id="cl_enemy_res_buff" data-var="enemies.cl.list.buffs.res" class="buff_input smallnuminput" type="number" value=0 min=0 max=99 /><input id="cl_enemy_res_debuff" data-var="enemies.cl.list.debuffs.res" class="debuff_input smallnuminput" type="number" value=0 min=-99 max=0 /><input id="cl_enemy_res_spur" data-var="enemies.cl.list.spur.res" class="spur_input smallnuminput" type="number" value=0 min=0 max=99 /></div>
+								<div class="stat_row">ＨＰ <input id="cl_enemy_hp" data-var="enemies.cl.list.hp" class="stat_number smallnuminput" type="number" value=0 min=0 max=99 /><input id="cl_enemy_hp_buff" data-var="enemies.cl.list.buffs.hp" class="buff_input smallnuminput" type="number" value=0 min=0 max=99 /><input id="cl_enemy_hp_debuff" data-var="enemies.cl.list.debuffs.hp" class="debuff_input smallnuminput" type="number" value=0 min=-99 max=0 /></div>
+								<div class="stat_row">攻撃 <input id="cl_enemy_atk" data-var="enemies.cl.list.atk" class="stat_number smallnuminput" type="number" value=0 min=0 max=99 /><input id="cl_enemy_atk_buff" data-var="enemies.cl.list.buffs.atk" class="buff_input smallnuminput" type="number" value=0 min=0 max=99 /><input id="cl_enemy_atk_debuff" data-var="enemies.cl.list.debuffs.atk" class="debuff_input smallnuminput" type="number" value=0 min=-99 max=0 /><input id="cl_enemy_atk_spur" data-var="enemies.cl.list.spur.atk" class="spur_input smallnuminput" type="number" value=0 min=0 max=99 /></div>
+								<div class="stat_row">速さ <input id="cl_enemy_spd" data-var="enemies.cl.list.spd" class="stat_number smallnuminput" type="number" value=0 min=0 max=99 /><input id="cl_enemy_spd_buff" data-var="enemies.cl.list.buffs.spd" class="buff_input smallnuminput" type="number" value=0 min=0 max=99 /><input id="cl_enemy_spd_debuff" data-var="enemies.cl.list.debuffs.spd" class="debuff_input smallnuminput" type="number" value=0 min=-99 max=0 /><input id="cl_enemy_spd_spur" data-var="enemies.cl.list.spur.spd" class="spur_input smallnuminput" type="number" value=0 min=0 max=99 /></div>
+								<div class="stat_row">守備 <input id="cl_enemy_def" data-var="enemies.cl.list.def" class="stat_number smallnuminput" type="number" value=0 min=0 max=99 /><input id="cl_enemy_def_buff" data-var="enemies.cl.list.buffs.def" class="buff_input smallnuminput" type="number" value=0 min=0 max=99 /><input id="cl_enemy_def_debuff" data-var="enemies.cl.list.debuffs.def" class="debuff_input smallnuminput" type="number" value=0 min=-99 max=0 /><input id="cl_enemy_def_spur" data-var="enemies.cl.list.spur.def" class="spur_input smallnuminput" type="number" value=0 min=0 max=99 /></div>
+								<div class="stat_row">魔防 <input id="cl_enemy_res" data-var="enemies.cl.list.res" class="stat_number smallnuminput" type="number" value=0 min=0 max=99 /><input id="cl_enemy_res_buff" data-var="enemies.cl.list.buffs.res" class="buff_input smallnuminput" type="number" value=0 min=0 max=99 /><input id="cl_enemy_res_debuff" data-var="enemies.cl.list.debuffs.res" class="debuff_input smallnuminput" type="number" value=0 min=-99 max=0 /><input id="cl_enemy_res_spur" data-var="enemies.cl.list.spur.res" class="spur_input smallnuminput" type="number" value=0 min=0 max=99 /></div>
 							</div>
 						</div>
 						<div class="frame_hero_main_bottom">
@@ -912,7 +912,7 @@
 			<div id="winpercentages"><span class="results_stat">勝利 <span id="win_pct">-</span></span><span class="results_stat">敗北 <span id="lose_pct">-</span></span><span class="results_stat">未決着 <span id="inconclusive_pct">-</span></span></div>
 			<div id="results_list"></div>
 		</div>
-		<div id="footer"><a href="https://github.com/Andu2/FEH-Mass-Simulator">本家</a>. Last updated 2018-05-10. バグ等については <a href="https://twitter.com/krbysh_x86">@krbysh_x86</a> までご連絡ください。</div>
+		<div id="footer"><a href="https://github.com/Andu2/FEH-Mass-Simulator">本家</a>. Last updated 2018-05-11. バグ等については <a href="https://twitter.com/krbysh_x86">@krbysh_x86</a> までご連絡ください。</div>
 	</div>
 	<div id="frame_tooltip"></div>
 	<div id="screen_fade"></div>

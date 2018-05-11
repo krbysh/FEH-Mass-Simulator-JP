@@ -374,6 +374,11 @@ function initOptions(){
 	enemies.cl.avgSpd = 0;
 	enemies.cl.avgDef = 0;
 	enemies.cl.avgRes = 0;
+	enemies.cl.hp = 0;
+	enemies.cl.atk = 0;
+	enemies.cl.spd = 0;
+	enemies.cl.def = 0;
+	enemies.cl.res = 0;
 
 	//Custom List Adjustments
 	enemies.cl.merges = 0;
@@ -1753,6 +1758,10 @@ function setSkills(hero){
 		for(var i = 0; i < enemies.fl.list.length;i++){
 			//Set default skills
 			setSkills(enemies.fl.list[i]);
+			//If current enemy does not have a weapon, skip and continue to the next enemy
+			if (!data.skills[enemies.fl.list[i].weapon]){
+				continue;
+			}
 			//Find if skill needs replacement based on inputs
 			data.skillSlots.forEach(function(slot){
 				//For refine slot: Check if enemy weapon matches selected weapon filter
@@ -1806,6 +1815,12 @@ function cloneHero(clone, target){
 		clone.damage = target.damage;
 		clone.precharge = target.precharge;
 		clone.adjacent = target.adjacent;
+		//Clone stats (currently reset by initHero)
+		clone.hp = target.hp;
+		clone.atk = target.atk;
+		clone.spd = target.spd;
+		clone.def = target.def;
+		clone.res = target.res;
 }
 
 function resetHero(hero,blockInit){//also resets fl, despite singular name - pass enemies.fl
@@ -1826,7 +1841,7 @@ function resetHero(hero,blockInit){//also resets fl, despite singular name - pas
 	hero.debuffs = {"hp":0,"atk":0,"spd":0,"def":0,"res":0};
 	hero.spur = {"hp":0,"atk":0,"spd":0,"def":0,"res":0};
 
-	if(hero.index){
+	if(hero.index >= 0){
 		setSkills(hero);
 		setStats(hero);
 	}
@@ -1904,6 +1919,7 @@ function deleteSelectedClEnemy(){
 	}
 	updateEnemyUI();
 	updateClList();
+	calculate();
 }
 
 function deleteClEnemy(event,clEnemyId){
@@ -1914,6 +1930,7 @@ function deleteClEnemy(event,clEnemyId){
 	}
 	updateEnemyUI();
 	updateClList();
+	calculate();
 	event.stopPropagation();
 }
 
@@ -2364,7 +2381,7 @@ function updateEnemyList(){
 		listHTML = "<option value=-1 class=\"hero_option\">新規リスト</option>";
 	}else{
 		for(var i = 0; i < enemies.cl.list.length; i++){
-			if (enemies.cl.list[i].index <= 0){
+			if (enemies.cl.list[i].index < 0){
 					listHTML += "<option value=" + i + ">" + "新規英雄" + "</option>";
 			}else{
 				listHTML += "<option value=" + i + ">" + data.heroes[enemies.cl.list[i].index].name + "</option>";
@@ -2462,21 +2479,24 @@ function updateHeroUI(hero){
 
 	if(typeof hero.index != "undefined" && hero.index != -1){ //cl/challenger-specific stuff
 		$("#" + htmlPrefix + "name").val(hero.index);
-		$("#" + htmlPrefix + "picture").attr("src","heroes/" + data.heroes[hero.index].name_en + ".png");
-		$("#" + htmlPrefix + "hp").html(hero.hp);
+		$("#" + htmlPrefix + "hp").val(hero.hp);
 		$("#" + htmlPrefix + "currenthp").val(hero.hp - hero.damage);
-		$("#" + htmlPrefix + "basehp").html(hero.hp);
+		$("#" + htmlPrefix + "basehp").val(hero.hp);
 		$("#" + htmlPrefix + "adjacent").val(hero.adjacent);
-		$("#" + htmlPrefix + "atk").html(hero.atk);
-		$("#" + htmlPrefix + "spd").html(hero.spd);
-		$("#" + htmlPrefix + "def").html(hero.def);
-		$("#" + htmlPrefix + "res").html(hero.res);
+		$("#" + htmlPrefix + "atk").val(hero.atk);
+		$("#" + htmlPrefix + "spd").val(hero.spd);
+		$("#" + htmlPrefix + "def").val(hero.def);
+		$("#" + htmlPrefix + "res").val(hero.res);
 		$("#" + htmlPrefix + "bst").html(hero.bst + " / " + hero.spt);
 		$("#" + htmlPrefix + "asc").html(Math.round(100*(588.5 + 4*((hero.bst / 8) + (hero.spt / 240) + hero.merge + 5*(hero.rarity - 5)))) * 0.01);
 
 		//Hero portrait
-		if (hero.index == 0){
-			$("#" + htmlPrefix + "picture").attr("src","heroes/generic/" + data.heroes[hero.index].movetype + "_" + data.heroes[hero.index].weapontype + ".png");
+		if (data.heroes[hero.index].name.indexOf("＠") != -1){
+			if(data.heroes[hero.index].weapontype == "dragon" || data.heroes[hero.index].weapontype == "bow" ){
+				$("#" + htmlPrefix + "picture").attr("src","heroes/generic/" + data.heroes[hero.index].movetype + "_" + data.heroes[hero.index].color + data.heroes[hero.index].weapontype + ".png");
+			}else{
+				$("#" + htmlPrefix + "picture").attr("src","heroes/generic/" + data.heroes[hero.index].movetype + "_" + data.heroes[hero.index].weapontype + ".png");
+			}
 		}else{
 			$("#" + htmlPrefix + "picture").attr("src","heroes/" + data.heroes[hero.index].name_en + ".png");
 		}
@@ -2856,8 +2876,16 @@ function copyChallenger(){
 		hero = enemies.cl.list[enemies.cl.list.length - 1];
 		//Copy challenger attributes
 		cloneHero(hero, challenger);
+		var tempStats = {"hp":hero.hp, "atk":hero.atk, "spd":hero.spd, "def":hero.def, "res":hero.res};
 		//Init hero and update enemy UI
 		initHero(hero, true);
+		//Copy stats reset by initHero
+		hero.hp = tempStats.hp;
+		hero.atk = tempStats.atk;
+		hero.spd = tempStats.spd;
+		hero.def = tempStats.def;
+		hero.res = tempStats.res;
+		//Update enemy UI
 		options.customEnemySelected = enemies.cl.list.length - 1;
 		updateEnemyUI();
 		updateClList();
@@ -2877,8 +2905,16 @@ function copyEnemy(){
 		resetHero(challenger);
 		//Copy attributes from enemy
 		cloneHero(challenger, enemies.cl.list[options.customEnemySelected]);
+		var tempStats = {"hp":challenger.hp, "atk":challenger.atk, "spd":challenger.spd, "def":challenger.def, "res":challenger.res};
 		//Init challenger and refresh UI
 		initHero(challenger, true);
+		//Copy stats reset by initHero
+		challenger.hp = tempStats.hp;
+		challenger.atk = tempStats.atk;
+		challenger.spd = tempStats.spd;
+		challenger.def = tempStats.def;
+		challenger.res = tempStats.res;
+		//Update challenger UI
 		updateChallengerUI();
 		$("#challenger_name").trigger('change.select2');
 		validateNumberInputs();
@@ -5790,7 +5826,7 @@ function activeHero(hero){
 				this.combatSpur.atk += 4;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、自分から攻撃時、攻撃 +4 。<br>";
 			}
-			if(this.hasExactly("夜刀神")){
+			if(this.hasExactly("夜刀神") && this.refineIndex == -1){
 				this.combatSpur.spd += 4;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、自分から攻撃時、速さ +4 。<br>";
 			}
@@ -7022,14 +7058,18 @@ function activeHero(hero){
 			var effectiveBonus = 1;
 			if(enemy.moveType == "armored"
 				&& (this.has("ハンマー") || this.has("ハンマー鍛")
-				|| this.has("アーマーキラー") || this.has("アーマーキラー鍛")
-				|| this.has("貫きの槍") || this.has("貫きの槍鍛")
-				|| this.hasExactly("セイニー") || this.hasExactly("ウイングソード")
-				|| this.hasExactly("戦姫の和弓") || this.hasExactly("ロムファイア"))
+					|| this.has("アーマーキラー") || this.has("アーマーキラー鍛")
+					|| this.has("貫きの槍") || this.has("貫きの槍鍛")
+					|| this.hasExactly("セイニー") || this.hasExactly("ウイングソード")
+					|| this.hasExactly("戦姫の和弓") || this.hasExactly("ロムファイア")
+					)
 				){
 				effectiveBonus = (enemy.has("スヴェルの盾")) ? 1 : 1.5;
 			}
-			else if (enemy.moveType == "flying" && (this.hasExactly("エクスカリバー") || this.weaponType=="bow")){
+			else if (enemy.moveType == "flying"
+				&& (this.hasExactly("エクスカリバー") || this.weaponType=="bow"
+					)
+				){
 				effectiveBonus = (enemy.has("アイオテの盾") || enemy.has("邪竜の鱗")) ? 1 : 1.5;
 			}
 			else if (enemy.moveType == "infantry" && (this.has("秘毒の暗器"))){
@@ -7037,9 +7077,10 @@ function activeHero(hero){
 			}
 			else if (enemy.moveType == "cavalry"
 				&& (this.has("斬馬刀") || this.has("ホースキラー") || this.has("ラウアウルフ")
-				|| this.has("ラウアウルフ鍛") || this.has("ブラーウルフ") || this.has("ブラーウルフ鍛")
-				|| this.has("グルンウルフ") || this.has("グルンウルフ鍛") || this.has("ポールアクス")
-				|| this.hasExactly("セイニー") || this.hasExactly("ウイングソード") || this.hasExactly("ロムファイア"))
+					|| this.has("ラウアウルフ鍛") || this.has("ブラーウルフ") || this.has("ブラーウルフ鍛")
+					|| this.has("グルンウルフ") || this.has("グルンウルフ鍛") || this.has("ポールアクス")
+					|| this.hasExactly("セイニー") || this.hasExactly("ウイングソード") || this.hasExactly("ロムファイア")
+					)
 				){
 				effectiveBonus = (enemy.has("グラ二の盾")) ? 1 : 1.5;
 			}
