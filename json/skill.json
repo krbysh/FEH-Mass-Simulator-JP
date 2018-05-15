@@ -6196,7 +6196,7 @@
 		"affectsduel": 1
 	}, {
 		"skill_id": 414,
-		"name_en": "Bow Experience 1",
+		"name_en": "Bow Exp. 1",
 		"name": "弓の経験 1",
 		"slot": "c",
 		"sp": 50,
@@ -6211,7 +6211,7 @@
 		"affectsduel": 0
 	}, {
 		"skill_id": 415,
-		"name_en": "Bow Experience 2",
+		"name_en": "Bow Exp. 2",
 		"name": "弓の経験 2",
 		"slot": "c",
 		"sp": 100,
@@ -6226,7 +6226,7 @@
 		"affectsduel": 0
 	}, {
 		"skill_id": 416,
-		"name_en": "Bow Experience 3",
+		"name_en": "Bow Exp. 3",
 		"name": "弓の経験 3",
 		"slot": "c",
 		"sp": 200,
