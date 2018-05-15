@@ -7131,7 +7131,7 @@ function activeHero(hero){
 				){
 				effectiveBonus = (enemy.has("グラ二の盾")) ? 1 : 1.5;
 			}
-			else if (enemy.weaponType == "dragon" && (this.hasExactly("ファルシオン") || this.hasExactly("封剣ファルシオン") || this.hasExactly("ナーガ") || this.hasExactly("聖書ナーガ") || (this.hasExactly("封印の剣") && this.refineIndex != -1))){
+			else if ((enemy.weaponType == "dragon" || enemy.hasExactly("ロプトウス")) && (this.hasExactly("ファルシオン") || this.hasExactly("封剣ファルシオン") || this.hasExactly("ナーガ") || this.hasExactly("聖書ナーガ") || (this.hasExactly("封印の剣") && this.refineIndex != -1))){
 				effectiveBonus = 1.5;
 			}
 			else if ((enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" || enemy.weaponType == "greentome") && (this.has("猫の暗器"))){
