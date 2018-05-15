@@ -3376,11 +3376,9 @@ function importText(side, customList){
 			}
 		}
 		else if(skillName){
-			//console.log(removeEdgeJunk(keyValue[1]));
-			//console.log(removeEdgeJunk(keyValue[1]).slice(0,1).charCodeAt(0));
 			(removeEdgeJunk(keyValue[1]).slice(0,1).charCodeAt(0) >= 256) ?　value = getIndexFromName(removeEdgeJunk(keyValue[1]),data.skills,key) : value = getIndexFromNameEn(removeEdgeJunk(keyValue[1]),data.skills,key);
 			//value = getIndexFromName(removeEdgeJunk(keyValue[1]),data.skills,key);
-			console.log("Looking for " + key + ", found " + value);
+			//console.log("Looking for " + key + ", found " + value);
 		}
 		else if(key == "refine"){
 			value = searchRefineIndex(keyValue[1].split(" - "));
@@ -8297,33 +8295,20 @@ function getIndexFromNameEn(name,dataList,slot){
 	name = name.toLowerCase();
 	slot = slot || "";
 
-	var leftBound = 0;
-	var rightBound = dataList.length - 1;
-	var checkingIndex;
-	var testName;
+	var testName
 	var testSlot;
-	var testIsS;
 	var found = -1;
+	var i = 0;
 
-	do{
-		checkingIndex = Math.round((rightBound - leftBound) / 2 + leftBound);
-		testName = dataList[checkingIndex].name_en.toLowerCase();
-		testSlot = dataList[checkingIndex].slot || "";
-
+	do {
+		var testName = dataList[i].name_en.toLowerCase();
+		var testSlot = dataList[i].slot || "";
 		if(testName + testSlot == name + slot){
-			found = checkingIndex;
-
+			found = i;
 			break;
 		}
-		else if(testName + testSlot > name + slot){
-			rightBound = checkingIndex - 1;
-		}
-		else{
-			leftBound = checkingIndex + 1;
-		}
-	}
-	while(leftBound <= rightBound);
-
+		i++;
+	} while(i < dataList.length);
 	return found;
 }
 
