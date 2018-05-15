@@ -114,13 +114,16 @@ data.growths = [
 	[8,	10,	13,	15,	17,	19,	22,	24,	26,	28,	30,	33,	35,	37]
 ];
 
+
+//let data_en = Object.assign({}, data);
+//var data_en = $.extend(true, {}, data);
+
 //Remember: heroes, skills, prereqs, and heroskills arrays come from PHP-created script
 
 //Sort hero array by name
 data.heroes.sort(function(a,b){
 	//console.log(a.name + ", " + b.name + ": " + a.name>b.name);
 	return (a.name.toLowerCase() > b.name.toLowerCase())*2-1;
-//	return (a.name_en.toLowerCase() > b.name_en.toLowerCase())*2-1;
 })
 
 //Sort skills array by name
@@ -2988,13 +2991,20 @@ function importText(side, customList){
 
 	var importMode = "none";
 	if(side=="enemies"){
+
+		// New Feature :: Support English Import
+		if(importSplit.slice(startLine)[0].slice(0,1).charCodeAt(0) < 256){
+		}
+
 		var firstLine = parseFirstLine(importSplit[0]);
 		var firstLineHero = (typeof firstLine.index != "undefined")
+
 		if(includesLike(importSplit[0],"CUSTOM LIST") || firstLineHero){
 			var startLine = 1;
 			if(firstLineHero){
 				startLine = 0;
 			}
+
 			importMode = "cl";
 			options.customEnemyList = "1";
 			removeAllClEnemies();
@@ -3009,6 +3019,7 @@ function importText(side, customList){
 			updateEnemyUI();
 			//Scroll to end of list
 			$('#cl_enemylist_list').scrollTop((options.customEnemySelected - 14) * 25 - 10);
+
 		}
 		//else if(includesLike(importSplit[0],"ENEMIES - FILTERED FULL LIST")){
 		else{
@@ -3128,7 +3139,9 @@ function importText(side, customList){
 		//Try all lengths up to 20 characters to find hero name
 		for(var tryLength = 2; tryLength <= 30; tryLength++){
 			var tryString = removeEdgeJunk(line.slice(0,tryLength));
-			var tryIndex = getIndexFromName(tryString,data.heroes);
+			var tryIndex;
+			(tryString.slice(0,1).charCodeAt(0) >= 256) ?　tryIndex = getIndexFromName(tryString,data.heroes) : tryIndex = getIndexFromNameEn(tryString,data.heroes);
+			//var tryIndex = getIndexFromName(tryString,data.heroes);
 			if(tryIndex != -1){
 				//console.log(tryString);
 				dataFound.index = tryIndex;
@@ -3363,8 +3376,11 @@ function importText(side, customList){
 			}
 		}
 		else if(skillName){
-			value = getIndexFromName(removeEdgeJunk(keyValue[1]),data.skills,key);
-			//console.log("Looking for " + key + ", found " + value);
+			//console.log(removeEdgeJunk(keyValue[1]));
+			//console.log(removeEdgeJunk(keyValue[1]).slice(0,1).charCodeAt(0));
+			(removeEdgeJunk(keyValue[1]).slice(0,1).charCodeAt(0) >= 256) ?　value = getIndexFromName(removeEdgeJunk(keyValue[1]),data.skills,key) : value = getIndexFromNameEn(removeEdgeJunk(keyValue[1]),data.skills,key);
+			//value = getIndexFromName(removeEdgeJunk(keyValue[1]),data.skills,key);
+			console.log("Looking for " + key + ", found " + value);
 		}
 		else if(key == "refine"){
 			value = searchRefineIndex(keyValue[1].split(" - "));
@@ -7069,7 +7085,7 @@ function activeHero(hero){
 			//Check weapon effective against
 			var effectiveBonus = 1;
 			if(enemy.moveType == "armored"
-				&& (this.has("ハンマー") || this.has("ハンマー鍛")
+				&& ((this.has("ハンマー") && !(this.hasExactly("トールハンマー"))) || this.has("ハンマー鍛")
 					|| this.has("アーマーキラー") || this.has("アーマーキラー鍛")
 					|| this.has("貫きの槍") || this.has("貫きの槍鍛")
 					|| this.hasExactly("セイニー") || this.hasExactly("ウイングソード")
@@ -8275,6 +8291,42 @@ function getIndexFromName(name,dataList,slot){
 
 	return found;
 }
+
+function getIndexFromNameEn(name,dataList,slot){
+	//Skill/hero array is sorted by name + slot! (only name in case of heroes)
+	name = name.toLowerCase();
+	slot = slot || "";
+
+	var leftBound = 0;
+	var rightBound = dataList.length - 1;
+	var checkingIndex;
+	var testName;
+	var testSlot;
+	var testIsS;
+	var found = -1;
+
+	do{
+		checkingIndex = Math.round((rightBound - leftBound) / 2 + leftBound);
+		testName = dataList[checkingIndex].name_en.toLowerCase();
+		testSlot = dataList[checkingIndex].slot || "";
+
+		if(testName + testSlot == name + slot){
+			found = checkingIndex;
+
+			break;
+		}
+		else if(testName + testSlot > name + slot){
+			rightBound = checkingIndex - 1;
+		}
+		else{
+			leftBound = checkingIndex + 1;
+		}
+	}
+	while(leftBound <= rightBound);
+
+	return found;
+}
+
 
 function getAttackTypeFromWeapon(weaponType){
 	if(data.physicalWeapons.indexOf(weaponType) != -1){
