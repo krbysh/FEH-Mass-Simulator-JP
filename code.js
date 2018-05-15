@@ -179,6 +179,27 @@ for(var i = 0; i < data.heroes.length;i++){
 	}
 }
 
+// Create English index
+var dataListEn = [];
+var dataListSlotEn = [];
+var dataListEnIdx = {};
+
+for (var i = 0; i < data.heroes.length; i++) {
+	var name = data.heroes[i].name_en.toLowerCase();
+	var slot = data.heroes[i].slot || "";
+	dataListEn.push(name);
+	dataListSlotEn.push(slot);
+	dataListEnIdx[name + slot] = i;
+}
+
+for (var i = 0; i < data.skills.length; i++) {
+	var name = data.skills[i].name_en.toLowerCase();
+	var slot = data.skills[i].slot || "";
+	dataListEn.push(name);
+	dataListSlotEn.push(slot);
+	dataListEnIdx[name + slot] = i;
+}
+
 function initOptions(){
 	//Initializes options from localStorage or from scratch
 
@@ -3140,7 +3161,7 @@ function importText(side, customList){
 		for(var tryLength = 2; tryLength <= 30; tryLength++){
 			var tryString = removeEdgeJunk(line.slice(0,tryLength));
 			var tryIndex;
-			(tryString.slice(0,1).charCodeAt(0) >= 256) ?　tryIndex = getIndexFromName(tryString,data.heroes) : tryIndex = getIndexFromNameEn(tryString,data.heroes);
+			(tryString.slice(0,1).charCodeAt(0) >= 256) ?　tryIndex = getIndexFromName(tryString,data.heroes) : tryIndex = getIndexFromNameEn(tryString);
 			//var tryIndex = getIndexFromName(tryString,data.heroes);
 			if(tryIndex != -1){
 				//console.log(tryString);
@@ -3376,7 +3397,7 @@ function importText(side, customList){
 			}
 		}
 		else if(skillName){
-			(removeEdgeJunk(keyValue[1]).slice(0,1).charCodeAt(0) >= 256) ?　value = getIndexFromName(removeEdgeJunk(keyValue[1]),data.skills,key) : value = getIndexFromNameEn(removeEdgeJunk(keyValue[1]),data.skills,key);
+			(removeEdgeJunk(keyValue[1]).slice(0,1).charCodeAt(0) >= 256) ?　value = getIndexFromName(removeEdgeJunk(keyValue[1]),data.skills,key) : value = getIndexFromNameEn(removeEdgeJunk(keyValue[1]),key);
 			//value = getIndexFromName(removeEdgeJunk(keyValue[1]),data.skills,key);
 			//console.log("Looking for " + key + ", found " + value);
 		}
@@ -8290,26 +8311,16 @@ function getIndexFromName(name,dataList,slot){
 	return found;
 }
 
-function getIndexFromNameEn(name,dataList,slot){
+function getIndexFromNameEn(name,slot){
 	//Skill/hero array is sorted by name + slot! (only name in case of heroes)
 	name = name.toLowerCase();
 	slot = slot || "";
 
-	var testName
-	var testSlot;
-	var found = -1;
-	var i = 0;
-
-	do {
-		var testName = dataList[i].name_en.toLowerCase();
-		var testSlot = dataList[i].slot || "";
-		if(testName + testSlot == name + slot){
-			found = i;
-			break;
-		}
-		i++;
-	} while(i < dataList.length);
-	return found;
+	var v = name + slot;
+	if (v in dataListEnIdx) {
+		return dataListEnIdx[v];
+	}
+	return -1;
 }
 
 
