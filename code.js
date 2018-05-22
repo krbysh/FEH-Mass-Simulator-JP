@@ -155,10 +155,10 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"アレス (5★);Weapon: 魔剣ミストルティン;Special: 竜裂;A: 攻撃守備の大覚醒 3;B: 守備魔防封じ 2;",
-	"リーン (5★);Weapon: 守りの剣+;Assist: 踊る;B: 業火疾風の舞い 2;C: 剣の技量 3;",
-	"イシュタル (5★);Weapon: トールハンマー;Special: 月虹;A: 鬼神飛燕の一撃 2;B: 待ち伏せ 3;C: 攻撃の波・奇数 3;",
-	"ユリウス (5★);Weapon: ロプトウス;Special: 竜裂;B: キャンセル 3;C: 攻撃の謀策 3;",
+	"マルス(花嫁たちに捧ぐ花) (5★);Weapon: 愛のケーキサーバ+;Assist: 速さ守備の応援;B: 救援の行路 3;C: 攻撃の大紋章 2;",
+	"ニニアン(花嫁たちに捧ぐ花) (5★);Weapon: 清らかなブーケ+;Assist: 踊る;B: 攻撃の封印 3;C: 速さの大紋章 2;",
+	"サナキ(花嫁たちに捧ぐ花) (5★);Weapon: ニフルの氷花;Assist: 引き寄せ;A: 攻撃魔防の絆 3;B: 守備魔防の連携 3;",
+	"サーリャ(花嫁たちに捧ぐ花) (5★);Weapon: ムスペルの炎花;Assist: 攻撃速さの応援;A: 攻撃速さの絆 3;B: 速さの共謀 3;",
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -5762,6 +5762,13 @@ function activeHero(hero){
 				this.combatSpur.atk += buffVal;
 				this.combatSpur.spd += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果で、騎馬か飛行の味方が２マス以内にいる時、攻撃、速さ +" + buffVal + " 。<br>";
+			}
+			if (this.hasExactly("ニフルの氷花") || this.hasExactly("ムスペルの炎花")){
+				buffVal = 2 * Math.min(3, this.adjacent);
+				skillName = data.skills[this.weaponIndex].name;
+				this.combatSpur.atk += buffVal;
+				this.combatSpur.spd += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で、攻撃、速さ +" + buffVal + " (最大 +6)。<br>";
 			}
 			if (this.hasAtRefineIndex("ファルシオン覚醒・専用", this.refineIndex)){
 				buffVal = 4;
