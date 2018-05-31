@@ -155,6 +155,7 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
+	"リョウマ(覇天の白夜武者) (5★);Weapon: 雷神刀;Special: 凶星;A: 鬼神飛燕の構え 2;B: 武士道;C: 空からの先導 3;",
 	"マルス(花嫁たちに捧ぐ花) (5★);Weapon: 愛のケーキサーバ+;Assist: 速さ守備の応援;B: 救援の行路 3;C: 攻撃の大紋章 2;",
 	"ニニアン(花嫁たちに捧ぐ花) (5★);Weapon: 清らかなブーケ+;Assist: 踊る;B: 攻撃の封印 3;C: 速さの大紋章 2;",
 	"サナキ(花嫁たちに捧ぐ花) (5★);Weapon: ニフルの氷花;Assist: 引き寄せ;A: 攻撃魔防の絆 3;B: 守備魔防の連携 3;",
@@ -6796,6 +6797,10 @@ function activeHero(hero){
 						AOEDamage += 10;
 						damageText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 					}
+					if(this.hasExactly("武士道")){
+						AOEDamage += 10;
+						damageText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
+					}
 					if (this.hasExactly("光の剣")){
 						if (enemy.combatStat.def >= enemy.combatStat.res + 5){
 							AOEDamage += 7;
@@ -6905,6 +6910,10 @@ function activeHero(hero){
 					damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 				}
 				if(this.has("怒り") && (this.hp/this.maxHp <= .25 * this.has("怒り"))){
+					dmgBoostFlat += 10;
+					damageText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
+				}
+				if(this.hasExactly("武士道")){
 					dmgBoostFlat += 10;
 					damageText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
 				}

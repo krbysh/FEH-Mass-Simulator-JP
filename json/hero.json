@@ -4553,6 +4553,24 @@
 		"weapontype": "redtome",
 		"movetype": "infantry",
 		"minrarity": 5
+	}, {
+		"hero_id": 256,
+		"name_en": "Ryoma (Supreme Samurai)",
+		"name": "リョウマ(覇天の白夜武者)",
+		"basehp": 17,
+		"baseatk": 8,
+		"basespd": 11,
+		"basedef": 6,
+		"baseres": 5,
+		"hpgrowth": 7,
+		"atkgrowth": 8,
+		"spdgrowth": 9,
+		"defgrowth": 6,
+		"resgrowth": 3,
+		"color": "red",
+		"weapontype": "sword",
+		"movetype": "flying",
+		"minrarity": 5
 
 
 
