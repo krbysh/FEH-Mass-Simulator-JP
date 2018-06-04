@@ -6738,6 +6738,30 @@ function activeHero(hero){
 		return false;
 	}
 
+	this.getBonusDamage = function(){
+		var damage = 0;
+		var skillNames = [];
+
+		//Weapons
+		if(this.has("倭刀") || this.has("ビッグスプーン") || this.has("ベビーキャロット")
+			|| this.hasExactly("共鳴エクスカリバー") || this.hasExactly("気鋭ワユの剣") || this.has("倭鉾")
+			|| this.hasExactly("オートクレール・専用") || this.hasExactly("無銘の一門の剣・専用")
+			|| (this.has("狂斧アルマーズ") && (this.hp / this.maxHp <= .75))
+		){
+			damage += 10;
+			skillNames.push(data.skills[this.weaponIndex].name);
+		}
+		//B Skills
+		if(this.hasExactly("武士道")
+			|| (this.has("怒り") && (this.hp / this.maxHp <= .25 * this.has("怒り")))
+		){
+			damage += 10;
+			skillNames.push(data.skills[this.bIndex].name);
+		}
+
+		return {"damage":damage, "skillNames":skillNames.join("、").replace(/,(?!.*,)/gmi, '、と')};
+	}
+
 	//represents one attack of combat
 	this.doDamage = function(enemy, brave, AOE, firstAttack){
 		//didAttack variable for checking daggers and pain
@@ -6782,25 +6806,15 @@ function activeHero(hero){
 				if(AOEActivated){
 					this.resetCharge();
 
-					if(this.has("倭刀") || this.has("ビッグスプーン") || this.has("ベビーキャロット") || this.hasExactly("共鳴エクスカリバー")
-					 || this.hasExactly("気鋭ワユの剣") || this.hasExactly("オートクレール・専用") || this.hasExactly("無銘の一門の剣・専用")
-					 || this.has("倭鉾")
-					){
-						AOEDamage += 10;
-						damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
+					//Bonus Special Damage
+					var bonusDamage = this.getBonusDamage();
+
+					if (bonusDamage.damage != 0){
+						AOEDamage += bonusDamage.damage;
+						damageText += this.name + " は、" + bonusDamage.skillNames + " の効果で、奥義発動時 +" + bonusDamage.damage + " ダメージ。<br>";
 					}
-					if(this.has("狂斧アルマーズ") && (this.hp / this.maxHp <= .75)){
-						AOEDamage += 10;
-						damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
-					}
-					if(this.has("怒り") && (this.hp / this.maxHp <= .25 * this.has("怒り"))){
-						AOEDamage += 10;
-						damageText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
-					}
-					if(this.hasExactly("武士道")){
-						AOEDamage += 10;
-						damageText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
-					}
+
+					//Bonus Flat Damage
 					if (this.hasExactly("光の剣")){
 						if (enemy.combatStat.def >= enemy.combatStat.res + 5){
 							AOEDamage += 7;
@@ -6897,26 +6911,14 @@ function activeHero(hero){
 				this.resetCharge();
 				damageText += this.name + " は、" + data.skills[this.specialIndex].name + " を発動。<br>";
 
-				if(this.has("倭刀") || this.has("ビッグスプーン") || this.has("ベビーキャロット") || this.hasExactly("共鳴エクスカリバー")
-				 || this.hasExactly("気鋭ワユの剣") || this.hasExactly("オートクレール・専用") || this.hasExactly("無銘の一門の剣・専用")
-				 || this.has("倭鉾")
-				){
-					dmgBoostFlat += 10;
-					damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
+
+				var bonusDamage = this.getBonusDamage();
+
+				if (bonusDamage.damage != 0){
+					dmgBoostFlat += bonusDamage.damage;
+					damageText += this.name + " は、" + bonusDamage.skillNames + " の効果で、奥義発動時 +" + bonusDamage.damage + " ダメージ。<br>";
 				}
-				//Wrath damage is checked when special is activated
-				if(this.has("狂斧アルマーズ") && (this.hp/this.maxHp <= .75)){
-					dmgBoostFlat += 10;
-					damageText += this.name + " は、" + data.skills[hero.weapon].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
-				}
-				if(this.has("怒り") && (this.hp/this.maxHp <= .25 * this.has("怒り"))){
-					dmgBoostFlat += 10;
-					damageText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
-				}
-				if(this.hasExactly("武士道")){
-					dmgBoostFlat += 10;
-					damageText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で、奥義発動時 +10 ダメージ。<br>";
-				}
+
 				//Solar Brace
 				//***Does it activate with defensive specials? Does it stack with Absorb?***
 				if (!AOE && this.hasExactly("太陽の腕輪")){
