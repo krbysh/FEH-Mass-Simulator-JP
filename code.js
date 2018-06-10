@@ -155,11 +155,11 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"リョウマ(覇天の白夜武者) (5★);Weapon: 雷神刀;Special: 凶星;A: 鬼神飛燕の構え 2;B: 武士道;C: 空からの先導 3;",
-	"マルス(花嫁たちに捧ぐ花) (5★);Weapon: 愛のケーキサーバ+;Assist: 速さ守備の応援;B: 救援の行路 3;C: 攻撃の大紋章 2;",
-	"ニニアン(花嫁たちに捧ぐ花) (5★);Weapon: 清らかなブーケ+;Assist: 踊る;B: 攻撃の封印 3;C: 速さの大紋章 2;",
-	"サナキ(花嫁たちに捧ぐ花) (5★);Weapon: ニフルの氷花;Assist: 引き寄せ;A: 攻撃魔防の絆 3;B: 守備魔防の連携 3;",
-	"サーリャ(花嫁たちに捧ぐ花) (5★);Weapon: ムスペルの炎花;Assist: 攻撃速さの応援;A: 攻撃速さの絆 3;B: 速さの共謀 3;",
+	"ライナス (5★);Weapon: バシリコス;Special: 月光;A: 攻撃速さの大覚醒 3;C: 守備の大紋章 2;",
+	"カナス (5★);Weapon: ラウアアウル+;Assist: 相互援助;A: ＨＰ魔防 2;C: 魔防の指揮 3;",
+	"カアラ (5★);Weapon: 剣姫の刀;Special: 竜裂;B: 怒り 3;C: 速さの波・偶数 3;",
+	"ラガルト (5★);Weapon: 粛清の暗器+;Special: 凶星;A: 飛燕明鏡の一撃 2;C: 攻撃の指揮 3;",
+	"ニノ(失われし【牙】) (5★);Weapon: ギガスカリバー;Special: 月虹;A: 鬼神飛燕の一撃 2;B: 曲技飛行 3;C: 速さの紫煙 3;",
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -1148,7 +1148,7 @@ function getCDChange(skill, slot){
 			|| skillName.indexOf("ミストルティン") != -1	|| skillName.indexOf("オートクレール") != -1	|| skillName.indexOf("ウルヴァン") != -1
 			|| skillName.indexOf("アウドムラ") != -1 || skillName.indexOf("鏡餅") != -1 || skillName.indexOf("バシリコス") != -1
 			|| skillName.indexOf("狂斧アルマーズ") != -1 || skillName.indexOf("無銘の一門の剣") != -1 || skillName.indexOf("暗殺手裏剣") != -1
-			|| skillName.indexOf("トールハンマー") != -1
+			|| skillName.indexOf("トールハンマー") != -1 || skillName.indexOf("剣姫の刀") != -1
 			){
 				return -1;
 		}
@@ -5482,8 +5482,9 @@ function activeHero(hero){
 		var buffVal = {"atk":0,"spd":0,"def":0,"res":0};
 		var buffValJp = {"攻撃":0,"速さ":0,"守備":0,"魔防":0};
 
-		//Odd turn buffs
+		//Odd/Even turn buffs
 		if ((this.challenger && options.odd_buff_challenger) || (!this.challenger && options.odd_buff_enemy)){
+			//Odd
 			if(this.has("攻撃の波・奇数")){
 				buffVal.atk = Math.max(buffVal.atk, this.has("攻撃の波・奇数") * 2);
 				skillNames.push(data.skills[this.cIndex].name);
@@ -5494,6 +5495,11 @@ function activeHero(hero){
 				buffVal.def = Math.max(buffVal.def, 4);
 				buffVal.res = Math.max(buffVal.res, 4);
 				skillNames.push(data.skills[this.weaponIndex].name);
+			}
+			//Even
+			if(this.has("速さの波・偶数")){
+				buffVal.spd = Math.max(buffVal.atk, this.has("速さの波・偶数") * 2);
+				skillNames.push(data.skills[this.cIndex].name);
 			}
 		}
 
@@ -6249,8 +6255,14 @@ function activeHero(hero){
 		}
 
 		//Blizzard bonus
-		if(this.has("ブリザード")){
+		if (this.has("ブリザード")){
 			var atkbonus = -1 * (enemy.combatDebuffs.atk + enemy.combatDebuffs.spd + enemy.combatDebuffs.def + enemy.combatDebuffs.res);
+			this.combatStat.atk += atkbonus;
+			if (atkbonus != 0){statText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、攻撃 +" + atkbonus + " 。<br>";}
+		}
+		//Cleaner bonus
+		if (this.has("粛清の暗器")){
+			var atkbonus = enemy.combatBuffs.atk + enemy.combatBuffs.spd + enemy.combatBuffs.def + enemy.combatBuffs.res;
 			this.combatStat.atk += atkbonus;
 			if (atkbonus != 0){statText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、攻撃 +" + atkbonus + " 。<br>";}
 		}
@@ -6815,10 +6827,18 @@ function activeHero(hero){
 					}
 
 					//Bonus Flat Damage
+					//TODO: Merge duplicate flat damage code into one function
 					if (this.hasExactly("光の剣")){
 						if (enemy.combatStat.def >= enemy.combatStat.res + 5){
 							AOEDamage += 7;
 							damageText += this.name + " は、光の剣 の効果で、奥義発動時 +7 ダメージ。<br>";
+						}
+					}
+					if(this.hasExactly("剣姫の刀") || this.hasExactly("ギガスカリバー")){
+						var damageBonus = Math.min((this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd) * 0.7 | 0, 7);
+						if(damageBonus > 0){
+							AOEDamage += damageBonus;
+							damageText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、奥義発動時 +" + damageBonus + " ダメージ。<br>";
 						}
 					}
 					if(enemy.has("エンブラの加護")){
@@ -7306,7 +7326,13 @@ function activeHero(hero){
 					damageText += this.name + " は、光の剣 の効果でダメージ +7 。<br>";
 				}
 			}
-
+			if(this.hasExactly("剣姫の刀") || this.hasExactly("ギガスカリバー")){
+				var damageBonus = Math.min((this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd) * 0.7 | 0, 7);
+				if(damageBonus > 0){
+					dmgBoostFlat += damageBonus;
+					damageText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、ダメージ +" + damageBonus + " 。<br>";
+				}
+			}
 			//Release charged damage
 			if (this.chargedDamage > 0){
 				dmgBoostFlat += this.chargedDamage;
