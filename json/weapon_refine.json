@@ -842,8 +842,8 @@
 		"spd": 0,
 		"def": 0,
 		"res": 0,
-		"prereq": "Slaying Bow+,Refreshing Bolt+,Tomato Tome+,Sealife Tome+,Hibiscus Tome+,Dancer's Score+,Dancer's Ring+,Guard Bow+,Candelabra+,Hama Ya+,Kagami Mochi+,Fujin Yumi,Felicia's Plate,Green Gift+,Blue Gift+,Gratia+,Wind's Brand,Blarserpent+,Lethal Carrot+,Forblaze,Barb Shuriken+,Fresh Bouquet+",
-		"prereq": "キラーボウ鍛+,氷菓子の弓+,トマトの本+,熱帯魚の本+,ハイビスカスの本+,舞踏祭の楽譜+,舞踏祭の輪+,遠距離防御の弓+,燭台+,破魔矢+,鏡餅+,風神弓,フェリシアの氷皿,緑のプレゼント箱+,青のプレゼント箱+,グラーティア+,深き印の風,ブラーサーペント+,ベビーキャロット+,フォルブレイズ,暗殺手裏剣+,清らかなブーケ+",
+		"prereq": "Slaying Bow+,Refreshing Bolt+,Tomato Tome+,Sealife Tome+,Hibiscus Tome+,Dancer's Score+,Dancer's Ring+,Guard Bow+,Candelabra+,Hama Ya+,Kagami Mochi+,Fujin Yumi,Felicia's Plate,Green Gift+,Blue Gift+,Gratia+,Wind's Brand,Blarserpent+,Lethal Carrot+,Forblaze,Barb Shuriken+,Fresh Bouquet+,The Cleaner+",
+		"prereq": "キラーボウ鍛+,氷菓子の弓+,トマトの本+,熱帯魚の本+,ハイビスカスの本+,舞踏祭の楽譜+,舞踏祭の輪+,遠距離防御の弓+,燭台+,破魔矢+,鏡餅+,風神弓,フェリシアの氷皿,緑のプレゼント箱+,青のプレゼント箱+,グラーティア+,深き印の風,ブラーサーペント+,ベビーキャロット+,フォルブレイズ,暗殺手裏剣+,清らかなブーケ+,粛清の暗器+",
 		"exclusive": ""
 	},	{
 		"category": "Advanced Ranged",
@@ -856,8 +856,8 @@
 		"spd": 2,
 		"def": 0,
 		"res": 0,
-		"prereq": "Slaying Bow+,Refreshing Bolt+,Tomato Tome+,Sealife Tome+,Hibiscus Tome+,Dancer's Score+,Dancer's Ring+,Guard Bow+,Candelabra+,Hama Ya+,Kagami Mochi+,Fujin Yumi,Felicia's Plate,Green Gift+,Blue Gift+,Gratia+,Wind's Brand,Blarserpent+,Lethal Carrot+,Forblaze,Barb Shuriken+,Fresh Bouquet+",
-		"prereq": "キラーボウ鍛+,氷菓子の弓+,トマトの本+,熱帯魚の本+,ハイビスカスの本+,舞踏祭の楽譜+,舞踏祭の輪+,遠距離防御の弓+,燭台+,破魔矢+,鏡餅+,風神弓,フェリシアの氷皿,緑のプレゼント箱+,青のプレゼント箱+,グラーティア+,深き印の風,ブラーサーペント+,ベビーキャロット+,フォルブレイズ,暗殺手裏剣+,清らかなブーケ+",
+		"prereq": "Slaying Bow+,Refreshing Bolt+,Tomato Tome+,Sealife Tome+,Hibiscus Tome+,Dancer's Score+,Dancer's Ring+,Guard Bow+,Candelabra+,Hama Ya+,Kagami Mochi+,Fujin Yumi,Felicia's Plate,Green Gift+,Blue Gift+,Gratia+,Wind's Brand,Blarserpent+,Lethal Carrot+,Forblaze,Barb Shuriken+,Fresh Bouquet+,The Cleaner+",
+		"prereq": "キラーボウ鍛+,氷菓子の弓+,トマトの本+,熱帯魚の本+,ハイビスカスの本+,舞踏祭の楽譜+,舞踏祭の輪+,遠距離防御の弓+,燭台+,破魔矢+,鏡餅+,風神弓,フェリシアの氷皿,緑のプレゼント箱+,青のプレゼント箱+,グラーティア+,深き印の風,ブラーサーペント+,ベビーキャロット+,フォルブレイズ,暗殺手裏剣+,清らかなブーケ+,粛清の暗器+",
 		"exclusive": ""
 	},	{
 		"category": "Advanced Ranged",
@@ -870,8 +870,8 @@
 		"spd": 0,
 		"def": 3,
 		"res": 0,
-		"prereq": "Slaying Bow+,Refreshing Bolt+,Tomato Tome+,Sealife Tome+,Hibiscus Tome+,Dancer's Score+,Dancer's Ring+,Guard Bow+,Candelabra+,Hama Ya+,Kagami Mochi+,Fujin Yumi,Felicia's Plate,Green Gift+,Blue Gift+,Gratia+,Wind's Brand,Blarserpent+,Lethal Carrot+,Forblaze,Barb Shuriken+,Fresh Bouquet+",
-		"prereq": "キラーボウ鍛+,氷菓子の弓+,トマトの本+,熱帯魚の本+,ハイビスカスの本+,舞踏祭の楽譜+,舞踏祭の輪+,遠距離防御の弓+,燭台+,破魔矢+,鏡餅+,風神弓,フェリシアの氷皿,緑のプレゼント箱+,青のプレゼント箱+,グラーティア+,深き印の風,ブラーサーペント+,ベビーキャロット+,フォルブレイズ,暗殺手裏剣+,清らかなブーケ+",
+		"prereq": "Slaying Bow+,Refreshing Bolt+,Tomato Tome+,Sealife Tome+,Hibiscus Tome+,Dancer's Score+,Dancer's Ring+,Guard Bow+,Candelabra+,Hama Ya+,Kagami Mochi+,Fujin Yumi,Felicia's Plate,Green Gift+,Blue Gift+,Gratia+,Wind's Brand,Blarserpent+,Lethal Carrot+,Forblaze,Barb Shuriken+,Fresh Bouquet+,The Cleaner+",
+		"prereq": "キラーボウ鍛+,氷菓子の弓+,トマトの本+,熱帯魚の本+,ハイビスカスの本+,舞踏祭の楽譜+,舞踏祭の輪+,遠距離防御の弓+,燭台+,破魔矢+,鏡餅+,風神弓,フェリシアの氷皿,緑のプレゼント箱+,青のプレゼント箱+,グラーティア+,深き印の風,ブラーサーペント+,ベビーキャロット+,フォルブレイズ,暗殺手裏剣+,清らかなブーケ+,粛清の暗器+",
 		"exclusive": ""
 	},	{
 		"category": "Advanced Ranged",
@@ -884,8 +884,8 @@
 		"spd": 0,
 		"def": 0,
 		"res": 3,
-		"prereq": "Slaying Bow+,Refreshing Bolt+,Tomato Tome+,Sealife Tome+,Hibiscus Tome+,Dancer's Score+,Dancer's Ring+,Guard Bow+,Candelabra+,Hama Ya+,Kagami Mochi+,Fujin Yumi,Felicia's Plate,Green Gift+,Blue Gift+,Gratia+,Wind's Brand,Blarserpent+,Lethal Carrot+,Forblaze,Barb Shuriken+,Fresh Bouquet+",
-		"prereq": "キラーボウ鍛+,氷菓子の弓+,トマトの本+,熱帯魚の本+,ハイビスカスの本+,舞踏祭の楽譜+,舞踏祭の輪+,遠距離防御の弓+,燭台+,破魔矢+,鏡餅+,風神弓,フェリシアの氷皿,緑のプレゼント箱+,青のプレゼント箱+,グラーティア+,深き印の風,ブラーサーペント+,ベビーキャロット+,フォルブレイズ,暗殺手裏剣+,清らかなブーケ+",
+		"prereq": "Slaying Bow+,Refreshing Bolt+,Tomato Tome+,Sealife Tome+,Hibiscus Tome+,Dancer's Score+,Dancer's Ring+,Guard Bow+,Candelabra+,Hama Ya+,Kagami Mochi+,Fujin Yumi,Felicia's Plate,Green Gift+,Blue Gift+,Gratia+,Wind's Brand,Blarserpent+,Lethal Carrot+,Forblaze,Barb Shuriken+,Fresh Bouquet+,The Cleaner+",
+		"prereq": "キラーボウ鍛+,氷菓子の弓+,トマトの本+,熱帯魚の本+,ハイビスカスの本+,舞踏祭の楽譜+,舞踏祭の輪+,遠距離防御の弓+,燭台+,破魔矢+,鏡餅+,風神弓,フェリシアの氷皿,緑のプレゼント箱+,青のプレゼント箱+,グラーティア+,深き印の風,ブラーサーペント+,ベビーキャロット+,フォルブレイズ,暗殺手裏剣+,清らかなブーケ+,粛清の暗器+",
 		"exclusive": ""
 	},	{
 		"category": "Dark Ranged",
