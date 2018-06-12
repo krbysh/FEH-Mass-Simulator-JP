@@ -386,7 +386,7 @@
 		"prereq": "無銘の一門の剣",
 		"exclusive": ""
 	},	{
-		"category": "カミラの艶斧",
+		"category": "Camilla's Axe",
 		"name_en": "Drive Mounted Atk Spd",
 		"name": "カミラの艶斧・専用",
 		"sp": 400,
@@ -400,6 +400,20 @@
 		"prereq": "カミラの艶斧",
 		"exclusive": ""
 	},	{
+		"category": "Breath of Fog",
+		"name_en": "Dragon & Sword Atk Def Bond",
+		"name": "霧のブレス・専用",
+		"sp": 400,
+		"description": "If unit is within 2 spaces of a sword or dragon ally, grants Atk/Def+5 during combat.",
+		"hp": 3,
+		"atk": 0,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"prereq": "Breath of Fog",
+		"prereq": "霧のブレス",
+		"exclusive": ""
+	},	{
 		"category": "Advanced Melee",
 		"name_en": "Atk Bonus",
 		"name": "攻撃",
@@ -410,8 +424,8 @@
 		"spd": 0,
 		"def": 0,
 		"res": 0,
-		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+,Camilla's Axe,Rhomphaia,Ardent Service+",
-		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+,カミラの艶斧,ロムファイア,愛のケーキサーバ+",
+		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+,Camilla's Axe,Rhomphaia,Ardent Service+,Breath of Fog",
+		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+,カミラの艶斧,ロムファイア,愛のケーキサーバ+,霧のブレス",
 		"exclusive": ""
 	},	{
 		"category": "Advanced Melee",
@@ -424,8 +438,8 @@
 		"spd": 3,
 		"def": 0,
 		"res": 0,
-		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+,Camilla's Axe,Rhomphaia,Ardent Service+",
-		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+,カミラの艶斧,ロムファイア,愛のケーキサーバ+",
+		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+,Camilla's Axe,Rhomphaia,Ardent Service+,Breath of Fog",
+		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+,カミラの艶斧,ロムファイア,愛のケーキサーバ+,霧のブレス",
 		"exclusive": ""
 	},	{
 		"category": "Advanced Melee",
@@ -438,8 +452,8 @@
 		"spd": 0,
 		"def": 4,
 		"res": 0,
-		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+,Camilla's Axe,Rhomphaia,Ardent Service+",
-		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+,カミラの艶斧,ロムファイア,愛のケーキサーバ+",
+		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+,Camilla's Axe,Rhomphaia,Ardent Service+,Breath of Fog",
+		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+,カミラの艶斧,ロムファイア,愛のケーキサーバ+,霧のブレス",
 		"exclusive": ""
 	},	{
 		"category": "Advanced Melee",
@@ -452,8 +466,8 @@
 		"spd": 0,
 		"def": 0,
 		"res": 4,
-		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+,Camilla's Axe,Rhomphaia,Ardent Service+",
-		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+,カミラの艶斧,ロムファイア,愛のケーキサーバ+",
+		"prereq": "Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+,Camilla's Axe,Rhomphaia,Ardent Service+,Breath of Fog",
+		"prereq": "キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+,カミラの艶斧,ロムファイア,愛のケーキサーバ+,霧のブレス",
 		"exclusive": ""
 	},	{
 		"category": "Wedding Melee",
@@ -2378,6 +2392,147 @@
 		"res": 4,
 		"prereq": "Binding Blade",
 		"prereq": "封印の剣",
+		"exclusive": ""
+	},	{
+		"category": "Cooldown Decrease Ranged",
+		"name_en": "Magic & Staff Atk Spd Bond",
+		"name": "エクスカリバー・専用",
+		"sp": 400,
+		"description": "Accelerates Special trigger (cooldown count-1) If unit is within 2 spaces of a magic or staff ally, grants Atk/Spd+5 during combat.",
+		"hp": 0,
+		"atk": 0,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"prereq": "Excalibur",
+		"prereq": "エクスカリバー",
+		"exclusive": "Merric",
+		"exclusive": "マリク"
+	},	{
+		"category": "Cooldown Decrease Ranged",
+		"name_en": "Atk Bonus",
+		"name": "攻撃",
+		"sp": 400,
+		"description": "Accelerates Special trigger (cooldown count-1)",
+		"hp": 2,
+		"atk": 1,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"prereq": "Excalibur",
+		"prereq": "エクスカリバー",
+		"exclusive": ""
+	},	{
+		"category": "Cooldown Decrease Ranged",
+		"name_en": "Spd Bonus",
+		"name": "速さ",
+		"sp": 400,
+		"description": "Accelerates Special trigger (cooldown count-1)",
+		"hp": 2,
+		"atk": 0,
+		"spd": 2,
+		"def": 0,
+		"res": 0,
+		"prereq": "Excalibur",
+		"prereq": "エクスカリバー",
+		"exclusive": ""
+	},	{
+		"category": "Cooldown Decrease Ranged",
+		"name_en": "Def Bonus",
+		"name": "守備",
+		"sp": 400,
+		"description": "Accelerates Special trigger (cooldown count-1)",
+		"hp": 2,
+		"atk": 0,
+		"spd": 0,
+		"def": 3,
+		"res": 0,
+		"prereq": "Excalibur",
+		"prereq": "エクスカリバー",
+		"exclusive": ""
+	},	{
+		"category": "Cooldown Decrease Ranged",
+		"name_en": "Res Bonus",
+		"name": "魔防",
+		"sp": 400,
+		"description": "Accelerates Special trigger (cooldown count-1)",
+		"hp": 2,
+		"atk": 0,
+		"spd": 0,
+		"def": 0,
+		"res": 3,
+		"prereq": "Excalibur",
+		"prereq": "エクスカリバー",
+		"exclusive": ""
+	},	{
+		"category": "Aura",
+		"name_en": "Magic & Staff Atk Spd Bond",
+		"name": "オーラ・専用",
+		"sp": 400,
+		"description": "At start of turn, grants Atk+6 to adjacent magic and staff allies for 1 turn. If unit is within 2 spaces of a magic or staff ally, grants Atk/Spd+5 during combat.",
+		"hp": 0,
+		"atk": 0,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"prereq": "Aura",
+		"prereq": "オーラ",
+		"exclusive": ""
+    },	{
+		"category": "Aura",
+		"name_en": "Atk Bonus",
+		"name": "攻撃",
+		"sp": 400,
+		"description": "At start of turn, grants Atk+6 to adjacent magic and staff allies for 1 turn.",
+		"hp": 2,
+		"atk": 1,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"prereq": "Aura",
+		"prereq": "オーラ",
+		"exclusive": ""
+	},	{
+		"category": "Aura",
+		"name_en": "Spd Bonus",
+		"name": "速さ",
+		"sp": 400,
+		"description": "At start of turn, grants Atk+6 to adjacent magic and staff allies for 1 turn.",
+		"hp": 2,
+		"atk": 0,
+		"spd": 2,
+		"def": 0,
+		"res": 0,
+		"prereq": "Aura",
+		"prereq": "オーラ",
+		"exclusive": ""
+	},	{
+		"category": "Aura",
+		"name_en": "Def Bonus",
+		"name": "守備",
+		"sp": 400,
+		"description": "At start of turn, grants Atk+6 to adjacent magic and staff allies for 1 turn.",
+		"hp": 2,
+		"atk": 0,
+		"spd": 0,
+		"def": 3,
+		"res": 0,
+		"prereq": "Aura",
+		"prereq": "オーラ",
+		"exclusive": ""
+	},	{
+		"category": "Aura",
+		"name_en": "Res Bonus",
+		"name": "魔防",
+		"sp": 400,
+		"description": "At start of turn, grants Atk+6 to adjacent magic and staff allies for 1 turn.",
+		"hp": 2,
+		"atk": 0,
+		"spd": 0,
+		"def": 0,
+		"res": 3,
+		"prereq": "Aura",
+		"prereq": "オーラ",
 		"exclusive": ""
 	}
 ]

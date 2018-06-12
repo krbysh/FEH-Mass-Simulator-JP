@@ -1163,6 +1163,9 @@ function getCDChange(skill, slot){
 	//Refine
 	if	(slot == "refine"){
 		//Refinement changes to cooldown go here
+		if (skill.category == 'Cooldown Decrease Ranged') {
+		return -1;
+		}
 	}
 
 	//Assist
@@ -5124,7 +5127,7 @@ function activeHero(hero){
 		//***Important: Append a slot whenever a new slot gains a skill that affects CD***
 		this.charge = 0;
 		this.charge += -1 * getCDChange(data.skills[this.weaponIndex], "weapon");
-		this.charge += -1 * getCDChange(data.skills[this.refineIndex], "refine");
+		this.charge += -1 * getCDChange(data.refine[this.refineIndex], "refine");
 		this.charge += -1 * getCDChange(data.skills[this.assistIndex], "assist");
 	}
 
@@ -5321,6 +5324,15 @@ function activeHero(hero){
 					this.hp += 99;
 				}
 				startText += this.name + " は Ｓドリンク の効果で ＨＰ 99 回復。<br>";
+			}
+			if (this.has("霧のブレス")){
+				//Every other turn
+				if(this.hp + 10 > this.maxHp){
+					this.hp = this.maxHp;
+				} else{
+					this.hp += 10;
+				}
+				startText += this.name + " は " + data.skills[this.weaponIndex].name + " の効果で ＨＰ 10 回復。<br>";
 			}
 			if (this.hasExactly("ファルシオン")){
 				//Not refined - every third turn - if(turn % 3 == 0){
@@ -5785,6 +5797,20 @@ function activeHero(hero){
 				this.combatSpur.def += buffVal;
 				this.combatSpur.res += buffVal;
 				boostText += this.name + " は、" + skillName + "(錬成) の効果で味方と隣接しているため、攻撃、速さ、守備、魔防 +" + buffVal + " 。<br>";
+			}
+			if (this.hasAtRefineIndex("オーラ・専用", this.refineIndex) || this.hasAtRefineIndex("エクスカリバー・専用", this.refineIndex)){
+				buffVal = 5;
+				skillName = data.skills[this.weaponIndex].name;
+				this.combatSpur.atk += buffVal;
+				this.combatSpur.spd += buffVal;
+				boostText += this.name + " は、" + skillName + "(錬成) の効果で、魔法か杖の味方が２マス以内にいる時、攻撃、速さ +" + buffVal + " 。<br>";
+			}
+			if (this.hasAtRefineIndex("霧のブレス・専用", this.refineIndex)){
+				buffVal = 5;
+				skillName = data.skills[this.weaponIndex].name;
+				this.combatSpur.atk += buffVal;
+				this.combatSpur.def += buffVal;
+				boostText += this.name + " は、" + skillName + "(錬成) の効果で、剣か竜の味方が２マス以内にいる時、攻撃、守備 +" + buffVal + " 。<br>";
 			}
 
 			//Owl Tomes
@@ -6738,7 +6764,9 @@ function activeHero(hero){
 			return true;
 		}
 		if (enemy.range == "ranged"){
-			if (this.hasExactly("神炎のブレス") || this.hasExactly("邪竜のブレス") || this.has("水のブレス")){
+			if (this.hasExactly("神炎のブレス") || this.hasExactly("邪竜のブレス")
+			 || this.has("水のブレス") || this.hasExactly("霧のブレス")
+			){
 				return true;
 			}
 			if (this.weaponType == "dragon" && (this.refineIndex != -1)){
@@ -7169,7 +7197,13 @@ function activeHero(hero){
 				){
 				effectiveBonus = (enemy.has("グラ二の盾")) ? 1 : 1.5;
 			}
-			else if ((enemy.weaponType == "dragon" || enemy.hasExactly("ロプトウス")) && (this.hasExactly("ファルシオン") || this.hasExactly("封剣ファルシオン") || this.hasExactly("ナーガ") || this.hasExactly("聖書ナーガ") || (this.hasExactly("封印の剣") && this.refineIndex != -1))){
+			else if ((enemy.weaponType == "dragon" || enemy.hasExactly("ロプトウス"))
+				&& (this.hasExactly("ファルシオン") || this.hasExactly("封剣ファルシオン")
+				|| this.hasExactly("ナーガ") || this.hasExactly("聖書ナーガ")
+				|| this.hasExactly("霧のブレス")
+				|| (this.hasExactly("封印の剣") && this.refineIndex != -1)
+				)
+			){
 				effectiveBonus = 1.5;
 			}
 			else if ((enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" || enemy.weaponType == "greentome") && (this.has("猫の暗器"))){
