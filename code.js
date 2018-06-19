@@ -5539,8 +5539,20 @@ function activeHero(hero){
 			}
 		}
 
-		var statJp;
 
+		//Adjacent skills
+		if (this.adjacent > 0){
+			if (this.has("愛のケーキサーバ")){
+				buffVal.atk = Math.max(buffVal.atk, 4);
+				skillNames.push(data.skills[this.weaponIndex].name);
+			}
+			if (this.has("清らかなブーケ")){
+				buffVal.spd = Math.max(buffVal.spd, 4);
+				skillNames.push(data.skills[this.weaponIndex].name);
+			}
+		}
+
+		var statJp;
 		if(skillNames.length > 0){
 			var statChanges = [];
 			for(var stat in buffVal){
