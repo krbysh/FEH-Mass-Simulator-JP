@@ -155,11 +155,10 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"ライナス (5★);Weapon: バシリコス;Special: 月光;A: 攻撃速さの大覚醒 3;C: 守備の大紋章 2;",
-	"カナス (5★);Weapon: ラウアアウル+;Assist: 相互援助;A: ＨＰ魔防 2;C: 魔防の指揮 3;",
-	"カアラ (5★);Weapon: 剣姫の刀;Special: 竜裂;B: 怒り 3;C: 速さの波・偶数 3;",
-	"ラガルト (5★);Weapon: 粛清の暗器+;Special: 凶星;A: 飛燕明鏡の一撃 2;C: 攻撃の指揮 3;",
-	"ニノ(失われし【牙】) (5★);Weapon: ギガスカリバー;Special: 月虹;A: 鬼神飛燕の一撃 2;B: 曲技飛行 3;C: 速さの紫煙 3;",
+	"ティアモ(夏、来たる) (5★);Weapon: 貝殻の槍+;Assist: 一喝;A: 鬼神金剛の一撃 2;B: 強化無効・近距離 3;",
+	"ノワール(夏、来たる) (5★);Weapon: ヤシの実の弓+;Assist: 献身;A: 攻撃速さ 2;C: 歩行の剛撃 3;",
+	"ヒーニアス(夏、来たる) (5★);Weapon: ビーチフラッグ+;Assist: 攻撃守備の応援;B: 守備の共謀 3;C: 飛刃の紋章;",
+	"ターナ(夏、来たる) (5★);Weapon: イズンの果実;Assist: 速さ魔防の応援;A: 攻撃速さの渾身 3;B: 回復 3;C: 攻撃守備の紋章 2;",
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -228,6 +227,8 @@ function initOptions(){
 	options.chilled_enemy = false;
 	options.panic_challenger = false;
 	options.panic_enemy = false;
+	options.rush_challenger = false;
+	options.rush_enemy = false;
 	options.harsh_command_challenger = false;
 	options.harsh_command_enemy = false;
 	options.candlelight_challenger = false;
@@ -5031,6 +5032,7 @@ function activeHero(hero){
 	this.charge = 0;
 	this.initiator = false;
 	this.panicked = false;
+	this.rushed = false;
 	this.harshed = false;
 	this.lit = false;
 	this.didAttack = false;
@@ -5707,13 +5709,50 @@ function activeHero(hero){
 				this.combatSpur.res += 4;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で ＨＰ が 100% のため、攻撃、速さ、守備、魔防 +4 。<br>";
 			}
-			if(this.has("貝殻") || this.has("氷菓子の弓") || this.has("魚を突いた銛") || this.has("スイカ割りの棍棒")){
+			if((this.has("貝殻") && !(this.has("貝殻の槍")))	 || this.has("氷菓子の弓") || this.has("魚を突いた銛") || this.has("スイカ割りの棍棒")){
 				this.combatSpur.atk += 2;
 				this.combatSpur.spd += 2;
 				this.combatSpur.def += 2;
 				this.combatSpur.res += 2;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果でＨＰが 100% のため、攻撃、速さ、守備、魔防 +2 。<br>";
 			}
+			if(this.has("攻撃速さの渾身")){
+				statBonus = this.has("攻撃速さの渾身") + 2;
+				this.combatSpur.atk += statBonus;
+				this.combatSpur.spd += statBonus;
+				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果でＨＰが 100% のため、攻撃、速さ +" + statBonus+ " 。<br>";
+			}
+			if(this.has("攻撃守備の渾身")){
+				statBonus = this.has("攻撃守備の渾身") + 2;
+				this.combatSpur.atk += statBonus;
+				this.combatSpur.def += statBonus;
+				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果でＨＰが 100% のため、攻撃、守備 +" + statBonus+ " 。<br>";
+			}
+			if(this.has("攻撃魔防の渾身")){
+				statBonus = this.has("攻撃魔防の渾身") + 2;
+				this.combatSpur.atk += statBonus;
+				this.combatSpur.res += statBonus;
+				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果でＨＰが 100% のため、攻撃、魔防 +" + statBonus+ " 。<br>";
+			}
+			if(this.has("速さ守備の渾身")){
+				statBonus = this.has("速さ守備の渾身") + 2;
+				this.combatSpur.spd += statBonus;
+				this.combatSpur.def += statBonus;
+				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果でＨＰが 100% のため、速さ、守備 +" + statBonus+ " 。<br>";
+			}
+			if(this.has("速さ魔防の渾身")){
+				statBonus = this.has("速さ魔防の渾身") + 2;
+				this.combatSpur.spd += statBonus;
+				this.combatSpur.res += statBonus;
+				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果でＨＰが 100% のため、速さ、魔防 +" + statBonus+ " 。<br>";
+			}
+			if(this.has("守備魔防の渾身")){
+				statBonus = this.has("守備魔防の渾身") + 2;
+				this.combatSpur.def += statBonus;
+				this.combatSpur.res += statBonus;
+				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果でＨＰが 100% のため、守備、魔防 +" + statBonus+ " 。<br>";
+			}
+		//Not Full Health Skills
 		}else {
 			if(this.hasExactly("封剣ファルシオン")){
 				this.combatSpur.atk += 5;
@@ -5921,6 +5960,13 @@ function activeHero(hero){
 			var buffVal = 0;
 
 			//Weapons
+			if(this.has("貝殻の槍") || this.has("ビーチフラッグ") || this.has("ヤシの実の弓")){
+				this.combatSpur.atk += 2;
+				this.combatSpur.spd += 2;
+				this.combatSpur.def += 2;
+				this.combatSpur.res += 2;
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、自分から攻撃時、攻撃、速さ、守備、魔防 +2 。<br>";
+			}
 			if(this.hasExactly("デュランダル")){
 				this.combatSpur.atk += 4;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、自分から攻撃時、攻撃 +4 。<br>";
@@ -6421,6 +6467,15 @@ function activeHero(hero){
 					totalDamage += damage;
 				}
 
+				//Push Skills
+				if(this.hasAtIndex("攻撃速さの渾身", this.aIndex) || this.hasAtIndex("攻撃守備の渾身", this.aIndex) || this.hasAtIndex("攻撃魔防の渾身", this.aIndex)
+					|| this.hasAtIndex("速さ守備の渾身", this.aIndex) || this.hasAtIndex("速さ魔防の渾身", this.aIndex) || this.hasAtIndex("守備魔防の渾身", this.aIndex)){
+					damage = 1;
+					skillName = data.skills[this.aIndex].name;
+					damageText += this.name + " は、"  + skillName + " の効果で、戦闘後、" + damage + " ダメージ。<br>";
+					totalDamage += damage;
+				}
+
 				//Refinement
 				damage = 0;
 				if (this.initiator && this.hasAtRefineIndex("ファルシオン外伝・専用", this.refineIndex) && (this.combatStartHp / this.maxHp == 1)){
@@ -6763,6 +6818,13 @@ function activeHero(hero){
 			if (opponent.has("強化無効・遠距離") == 3){
 				return true;
 			}else if (opponent.hp >= opponent.maxHp / opponent.has("強化無効・遠距離")){
+				return true;
+			}
+		}
+		if (opponent.has("強化無効・近距離") && hero.range == "melee"){
+			if (opponent.has("強化無効・近距離") == 3){
+				return true;
+			}else if (opponent.hp >= opponent.maxHp / opponent.has("強化無効・近距離")){
 				return true;
 			}
 		}
@@ -7469,84 +7531,91 @@ function activeHero(hero){
 			}
 
 			//Special charge does not increase if special was used on this attack
-			if(!offensiveSpecialActivated){
+			if (!offensiveSpecialActivated){
 				var gainCharge = 0;	//For possible >1 gains
 				var loseCharge = 0;
 				var skillNames = [];
 
 				//-Breath: Initiator has
-				if(!this.initiator && this.has("鬼神の呼吸")){
+				if (!this.initiator && this.has("鬼神の呼吸")){
 					gainCharge = Math.max(gainCharge, 1);
 					skillNames.push(data.skills[this.aIndex].name);
 				}
-				if(!this.initiator && this.has("飛燕の呼吸")){
+				if (!this.initiator && this.has("飛燕の呼吸")){
 					gainCharge = Math.max(gainCharge, 1);
 					skillNames.push(data.skills[this.aIndex].name);
 				}
-				if(!this.initiator && this.has("金剛の呼吸")){
+				if (!this.initiator && this.has("金剛の呼吸")){
 					gainCharge = Math.max(gainCharge, 1);
 					skillNames.push(data.skills[this.aIndex].name);
 				}
-				if(!this.initiator && this.has("明鏡の呼吸")){
+				if (!this.initiator && this.has("明鏡の呼吸")){
 					gainCharge = Math.max(gainCharge, 1);
 					skillNames.push(data.skills[this.aIndex].name);
 				}
-				if(this.initiator && this.has("攻撃隊形")){
+				if (this.initiator && this.has("攻撃隊形")){
 					if (this.hasAtIndex("攻撃隊形", this.bIndex) == 3 || this.combatStartHp / this.maxHp >= 1.0 / this.hasAtIndex("攻撃隊形", this.bIndex)){
 						gainCharge = Math.max(gainCharge, 1);
 						skillNames.push(data.skills[this.bIndex].name);
 					}
 				}
-				if(!this.initiator && this.has("迎撃隊形")){
+				if (!this.initiator && this.has("迎撃隊形")){
 					if (this.combatStartHp / this.maxHp >= (1.0 - (this.hasAtIndex("迎撃隊形", this.bIndex) * 0.1) - ((this.hasAtIndex("迎撃隊形", this.bIndex) - 1) * 0.1))){
 						gainCharge = Math.max(gainCharge, 1);
 						skillNames.push(data.skills[this.bIndex].name);
 					}
 				}
-				if(this.hasAtIndex("剛剣", this.aIndex)){
-					if(this.combatStat.atk- enemy.combatStat.atk >= 7 - (this.hasAtIndex("剛剣", this.aIndex) * 2)){
+				//TODO: Change Rush skill name to a generic name
+				if (this.rushed && (this.moveType == "infantry")){
+					if (this.combatStat.atk - enemy.combatStat.atk >= 1){
+						gainCharge = Math.max(gainCharge, 1);
+						skillNames.push("歩行の剛撃 3");
+					}
+				}
+				if (this.hasAtIndex("剛剣", this.aIndex)){
+					if (this.combatStat.atk - enemy.combatStat.atk >= 7 - (this.hasAtIndex("剛剣", this.aIndex) * 2)){
 						gainCharge = Math.max(gainCharge, 1);
 						skillNames.push(data.skills[this.aIndex].name);
 					}
 				}
-				if(this.hasAtIndex("剛剣", this.sIndex)){
-					if(this.combatStat.atk- enemy.combatStat.atk >= 7 - (this.hasAtIndex("剛剣", this.sIndex) * 2)){
+				if (this.hasAtIndex("剛剣", this.sIndex)){
+					if (this.combatStat.atk- enemy.combatStat.atk >= 7 - (this.hasAtIndex("剛剣", this.sIndex) * 2)){
 						gainCharge = Math.max(gainCharge, 1);
 						skillNames.push(data.skills[this.sIndex].name + "(聖印)");
 					}
 				}
-				if(this.hasExactly("烈剣デュランダル")){
-					if(this.combatStat.atk- enemy.combatStat.atk >= 1){
+				if (this.hasExactly("烈剣デュランダル")){
+					if (this.combatStat.atk- enemy.combatStat.atk >= 1){
 						gainCharge = Math.max(gainCharge, 1);
 						skillNames.push(data.skills[this.weaponIndex].name);
 					}
 				}
-				if(this.hasAtIndex("柔剣", this.aIndex)){
-					if(this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd >= 7 - (this.hasAtIndex("柔剣", this.aIndex) * 2)){
+				if (this.hasAtIndex("柔剣", this.aIndex)){
+					if (this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd >= 7 - (this.hasAtIndex("柔剣", this.aIndex) * 2)){
 						gainCharge = Math.max(gainCharge, 1);
 						skillNames.push(data.skills[this.aIndex].name);
 					}
 				}
-				if(this.hasAtRefineIndex("ウイングソード・専用", this.refineIndex)){
-					if(this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd >= 1){
+				if (this.hasAtRefineIndex("ウイングソード・専用", this.refineIndex)){
+					if (this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd >= 1){
 						gainCharge = Math.max(gainCharge, 1);
 						skillNames.push(data.skills[this.weaponIndex].name + "(錬成)");
 					}
 				}
-				if(this.hasAtRefineIndex("ロムファイア・専用", this.refineIndex)){
-					if(this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd >= 1){
+				if (this.hasAtRefineIndex("ロムファイア・専用", this.refineIndex)){
+					if (this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd >= 1){
 						gainCharge = Math.max(gainCharge, 1);
 						skillNames.push(data.skills[this.weaponIndex].name + "(錬成)");
 					}
 				}
-				if(this.hasExactly("瞬閃アイラの剣")){
-					if(this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd >= 1){
+				if (this.hasExactly("瞬閃アイラの剣")){
+					if (this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd >= 1){
 						gainCharge = Math.max(gainCharge, 1);
 						skillNames.push(data.skills[this.weaponIndex].name);
 					}
 				}
-				if(this.hasAtRefineIndex("フェリシアの氷皿・専用", this.refineIndex)){
-					if(enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" || enemy.weaponType == "greentome"){
+				if (this.hasAtRefineIndex("フェリシアの氷皿・専用", this.refineIndex)){
+					if (enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" || enemy.weaponType == "greentome"){
 						gainCharge = Math.max(gainCharge, 1);
 						skillNames.push(data.skills[this.weaponIndex].name + "(錬成)");
 					}
@@ -7560,14 +7629,14 @@ function activeHero(hero){
 				//Reset skillNames
 				skillNames = [];
 
-				if(enemy.hasAtIndex("キャンセル", enemy.bIndex)){
-					if(enemy.combatStartHp / enemy.maxHp >= 1.1 - enemy.hasAtIndex("キャンセル", enemy.bIndex) * 0.1){
+				if (enemy.hasAtIndex("キャンセル", enemy.bIndex)){
+					if (enemy.combatStartHp / enemy.maxHp >= 1.1 - enemy.hasAtIndex("キャンセル", enemy.bIndex) * 0.1){
 						loseCharge = Math.max(loseCharge, 1);
 						skillNames.push(data.skills[enemy.bIndex].name);
 					}
 				}
 
-				if(loseCharge > 0){
+				if (loseCharge > 0){
 					this.charge -= loseCharge;
 					damageText += this.name + " は、" + skillNames.join("、") + " の効果で、奥義カウント変動量 -" + loseCharge + " 。<br>";
 				}
@@ -7697,6 +7766,12 @@ function activeHero(hero){
 				}
 				if(options.panic_enemy){
 					enemy.challenger ? this.panicked = true : enemy.panicked = true;
+				}
+				if(options.rush_challenger){
+					this.challenger ? this.rushed = true : enemy.rushed = true;
+				}
+				if(options.rush_enemy){
+					enemy.challenger ? this.rushed = true : enemy.rushed = true;
 				}
 				if(options.harsh_command_challenger){
 					this.challenger ? this.harshed = true : enemy.harshed = true;

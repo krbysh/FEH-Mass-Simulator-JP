@@ -38,14 +38,13 @@
 			<img src="ui/logo.png" style="margin-right:20px;"/>
 			<div id="maintitle" style="display:inline-block;">FEH Mass Simulator JP</div>
 			<div id="subtitle">
-				<button class="button button_newheroes" id="0"><img class="newheroes_picture" src="heroes/Linus.png"/></button>
-				<button class="button button_newheroes" id="1"><img class="newheroes_picture" src="heroes/Canas.png"/></button>
-				<button class="button button_newheroes" id="2"><img class="newheroes_picture" src="heroes/Karla.png"/></button>
-				<button class="button button_newheroes" id="3"><img class="newheroes_picture" src="heroes/Legault.png"/></button>
-				<button class="button button_newheroes" id="4"><img class="newheroes_picture" src="heroes/Nino (Pale Flower).png"/></button>
+				<button class="button button_newheroes" id="0"><img class="newheroes_picture" src="heroes/Cordelia (Summer's Arrival).png"/></button>
+				<button class="button button_newheroes" id="1"><img class="newheroes_picture" src="heroes/Noire (Summer's Arrival).png"/></button>
+				<button class="button button_newheroes" id="2"><img class="newheroes_picture" src="heroes/Innes (Summer's Arrival).png"/></button>
+				<button class="button button_newheroes" id="3"><img class="newheroes_picture" src="heroes/Tana (Summer's Arrival).png"/></button>
 			</div>
 		</div>
-		<div id="frame_updatenotice" data-update="2018061301">v2.6.0 に対応しました。<br>フィルター設定保存を追加しました。
+		<div id="frame_updatenotice" data-update="2018062202">超英雄に対応しました。<br>歩行の剛撃は設定メニューから選択してください	。
 			<div id="update_icon">!</div>
 			<div class="button" id="button_closeupdatenotice" onclick="hideUpdateNotice();">x</div>
 		</div>
@@ -226,6 +225,11 @@
 					<div class="status_challenger"><input type="checkbox" data-var="options.chilled_challenger" id="chilled_challenger"/></div>
 					<div class="status_title">封印</div>
 					<div class="status_enemy"><input type="checkbox" data-var="options.chilled_enemy" id="chilled_enemy"/></div>
+				</div>
+				<div class="adj_status">
+					<div class="status_challenger"><input type="checkbox" data-var="options.rush_challenger" id="rush_challenger"/></div>
+					<div class="status_title">歩行の剛撃</div>
+					<div class="status_enemy"><input type="checkbox" data-var="options.rush_enemy" id="rush_enemy"/></div>
 				</div>
 				<div class="adj_status">
 					<div class="status_challenger"><input type="checkbox" data-var="options.harsh_command_challenger" id="harsh_command_challenger"/></div>
