@@ -7288,6 +7288,28 @@ function activeHero(hero){
 				damageText += this.name + " の攻撃は、武器の特効の効果で、" + (effectiveBonus * 100 - 100) + "% 上昇。<br>";
 			}
 
+			//Flat damage
+			//*** Is Light Brand damage bonus flat damage or bonus attack? ***
+			if (this.hasExactly("光の剣")){
+				if (enemy.combatStat.def >= enemy.combatStat.res + 5){
+					dmgBoostFlat += 7;
+					damageText += this.name + " は、光の剣 の効果でダメージ +7 。<br>";
+				}
+			}
+			if(this.hasExactly("剣姫の刀") || this.hasExactly("ギガスカリバー")){
+				var damageBonus = Math.min((this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd) * 0.7 | 0, 7);
+				if(damageBonus > 0){
+					dmgBoostFlat += damageBonus;
+					damageText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、ダメージ +" + damageBonus + " 。<br>";
+				}
+			}
+			//Release charged damage
+			if (this.chargedDamage > 0){
+				dmgBoostFlat += this.chargedDamage;
+				damageText += this.name + " は、蓄積したダメージを開放し、追加で +" + this.chargedDamage + " ダメージ。<br>";
+				this.chargedDamage = 0;
+			}
+
 			//Class modifier
 			var weaponModifier = 1;
 			//Healers
@@ -7424,28 +7446,6 @@ function activeHero(hero){
 			//Absorb check
 			if(this.has("アブゾーブ")){
 				absorbPct = 0.5;
-			}
-
-			//Flat damage
-			//*** Is Light Brand damage bonus flat damage or bonus attack? ***
-			if (this.hasExactly("光の剣")){
-				if (enemy.combatStat.def >= enemy.combatStat.res + 5){
-					dmgBoostFlat += 7;
-					damageText += this.name + " は、光の剣 の効果でダメージ +7 。<br>";
-				}
-			}
-			if(this.hasExactly("剣姫の刀") || this.hasExactly("ギガスカリバー")){
-				var damageBonus = Math.min((this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd) * 0.7 | 0, 7);
-				if(damageBonus > 0){
-					dmgBoostFlat += damageBonus;
-					damageText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、ダメージ +" + damageBonus + " 。<br>";
-				}
-			}
-			//Release charged damage
-			if (this.chargedDamage > 0){
-				dmgBoostFlat += this.chargedDamage;
-				damageText += this.name + " は、蓄積したダメージを開放し、追加で +" + this.chargedDamage + " ダメージ。<br>";
-				this.chargedDamage = 0;
 			}
 
 			//Defensive Terrain
