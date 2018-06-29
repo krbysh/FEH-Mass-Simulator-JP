@@ -38,13 +38,14 @@
 			<img src="ui/logo.png" style="margin-right:20px;"/>
 			<div id="maintitle" style="display:inline-block;">FEH Mass Simulator JP</div>
 			<div id="subtitle">
-				<button class="button button_newheroes" id="0"><img class="newheroes_picture" src="heroes/Cordelia (Summer's Arrival).png"/></button>
-				<button class="button button_newheroes" id="1"><img class="newheroes_picture" src="heroes/Noire (Summer's Arrival).png"/></button>
-				<button class="button button_newheroes" id="2"><img class="newheroes_picture" src="heroes/Innes (Summer's Arrival).png"/></button>
-				<button class="button button_newheroes" id="3"><img class="newheroes_picture" src="heroes/Tana (Summer's Arrival).png"/></button>
+				<button class="button button_newheroes" id="0"><img class="newheroes_picture" src="heroes/Hector (Marquess of Ostia).png"/></button>
+				<button class="button button_newheroes" id="1"><img class="newheroes_picture" src="heroes/Cordelia (Summer's Arrival).png"/></button>
+				<button class="button button_newheroes" id="2"><img class="newheroes_picture" src="heroes/Noire (Summer's Arrival).png"/></button>
+				<button class="button button_newheroes" id="3"><img class="newheroes_picture" src="heroes/Innes (Summer's Arrival).png"/></button>
+				<button class="button button_newheroes" id="4"><img class="newheroes_picture" src="heroes/Tana (Summer's Arrival).png"/></button>
 			</div>
 		</div>
-		<div id="frame_updatenotice" data-update="2018062201">超英雄に対応しました。<br>歩行の剛撃は設定メニューから選択してください。
+		<div id="frame_updatenotice" data-update="2018062901">伝承英雄に対応しました。<br>オスティアの鼓動は設定メニューから選択してください。隣接の数が設定可能になりました。
 			<div id="update_icon">!</div>
 			<div class="button" id="button_closeupdatenotice" onclick="hideUpdateNotice();">x</div>
 		</div>
@@ -175,7 +176,56 @@
 								</select>
 							</div>
 							<div class="misc_row">隣接の味方
-								<input type="number" id="challenger_adjacent" data-var="challenger.adjacent" class="misc_input smallnuminput" value=1 min=0 max=4 />
+								<select class="misc_input_small_center" data-var="challenger.adjacent" id="challenger_adjacent">
+									<option value="adj" disabled>１マス以内</option>
+									<option value="0">0</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+								</select>
+								<select class="misc_input_small_right" data-var="challenger.adjacent2" id="challenger_adjacent2">
+									<option value="adj" disabled>２マス以内</option>
+									<option value="0">0</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+									<option value="11">11</option>
+									<option value="12">12</option>
+								</select>
+							</div>
+							<div class="misc_row">隣接の敵
+								<select class="misc_input_small_center" data-var="challenger.adjacent_foe" id="challenger_adjacent_foe">
+									<option value="adj" disabled>１マス以内</option>
+									<option value="0">0</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+								</select>
+								<select class="misc_input_small_right" data-var="challenger.adjacent2_foe" id="challenger_adjacent2_foe">
+									<option value="adj" disabled>２マス以内</option>
+									<option value="0">0</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+									<option value="11">11</option>
+									<option value="12">12</option>
+								</select>
 							</div>
 							<div class="misc_row">
 								ＨＰ
@@ -227,14 +277,19 @@
 					<div class="status_enemy"><input type="checkbox" data-var="options.chilled_enemy" id="chilled_enemy"/></div>
 				</div>
 				<div class="adj_status">
+					<div class="status_challenger"><input type="checkbox" data-var="options.harsh_command_challenger" id="harsh_command_challenger"/></div>
+					<div class="status_title">一喝</div>
+					<div class="status_enemy"><input type="checkbox" data-var="options.harsh_command_enemy" id="harsh_command_enemy"/></div>
+				</div>
+				<div class="adj_status">
 					<div class="status_challenger"><input type="checkbox" data-var="options.rush_challenger" id="rush_challenger"/></div>
 					<div class="status_title">歩行の剛撃</div>
 					<div class="status_enemy"><input type="checkbox" data-var="options.rush_enemy" id="rush_enemy"/></div>
 				</div>
 				<div class="adj_status">
-					<div class="status_challenger"><input type="checkbox" data-var="options.harsh_command_challenger" id="harsh_command_challenger"/></div>
-					<div class="status_title">一喝</div>
-					<div class="status_enemy"><input type="checkbox" data-var="options.harsh_command_enemy" id="harsh_command_enemy"/></div>
+					<div class="status_challenger"><input type="checkbox" data-var="options.pulse_challenger" id="pulse_challenger"/></div>
+					<div class="status_title">オスティアの鼓動</div>
+					<div class="status_enemy"><input type="checkbox" data-var="options.pulse_enemy" id="pulse_enemy"/></div>
 				</div>
 				<div style="line-height:40%;"><br></div>
 				<div id="adj_title">特殊</div>
@@ -657,7 +712,56 @@
 								</select>
 							</div>
 							<div class="misc_row">隣接の味方
-								<input type="number" id="enemies_adjacent" data-var="enemies.fl.adjacent" class="misc_input smallnuminput" value=1 min=0 max=4 />
+								<select class="misc_input_small_center" data-var="enemies.fl.adjacent" id="enemies_adjacent">
+									<option value="adj" disabled>１マス以内</option>
+									<option value="0">0</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+								</select>
+								<select class="misc_input_small_right" data-var="enemies.fl.adjacent2" id="enemies_adjacent2">
+									<option value="adj" disabled>２マス以内</option>
+									<option value="0">0</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+									<option value="11">11</option>
+									<option value="12">12</option>
+								</select>
+							</div>
+							<div class="misc_row">隣接の敵
+								<select class="misc_input_small_center" data-var="enemies.fl.adjacent_foe" id="enemies_adjacent_foe">
+									<option value="adj" disabled>１マス以内</option>
+									<option value="0">0</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+								</select>
+								<select class="misc_input_small_right" data-var="enemies.fl.adjacent2_foe" id="enemies_adjacent2_foe">
+									<option value="adj" disabled>２マス以内</option>
+									<option value="0">0</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+									<option value="11">11</option>
+									<option value="12">12</option>
+								</select>
 							</div>
 							<div class="misc_row">被ダメージ<input id="enemies_damage" data-var="enemies.fl.damage" class="misc_input smallnuminput" type="number" value=0 min=0 max=99 /></div>
 							<div class="misc_row">奥義カウント<input type="number" id="enemies_precharge" data-var="enemies.fl.precharge" class="misc_input smallnuminput" value=0 min=0 max=6 /></div>
@@ -760,7 +864,56 @@
 									</select>
 								</div>
 								<div class="misc_row">隣接の味方
-									<input type="number" id="cl_enemies_adjacent" data-var="enemies.cl.list.adjacent" class="misc_input smallnuminput" value=1 min=0 max=4 />
+									<select class="misc_input_small_center" data-var="enemies.cl.list.adjacent" id="cl_enemy_adjacent">
+										<option value="adj" disabled>１マス以内</option>
+										<option value="0">0</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+									</select>
+									<select class="misc_input_small_right" data-var="enemies.cl.list.adjacent2" id="cl_enemy_adjacent2">
+										<option value="adj" disabled>２マス以内</option>
+										<option value="0">0</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8">8</option>
+										<option value="9">9</option>
+										<option value="10">10</option>
+										<option value="11">11</option>
+										<option value="12">12</option>
+									</select>
+								</div>
+								<div class="misc_row">隣接の敵
+									<select class="misc_input_small_center" data-var="enemies.cl.list.adjacent_foe" id="cl_enemy_adjacent_foe">
+										<option value="adj" disabled>１マス以内</option>
+										<option value="0">0</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+									</select>
+									<select class="misc_input_small_right" data-var="enemies.cl.list.adjacent2_foe" id="cl_enemy_adjacent2_foe">
+										<option value="adj" disabled>２マス以内</option>
+										<option value="0">0</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8">8</option>
+										<option value="9">9</option>
+										<option value="10">10</option>
+										<option value="11">11</option>
+										<option value="12">12</option>
+									</select>
 								</div>
 								<div class="misc_row">
 									ＨＰ
@@ -918,7 +1071,7 @@
 			<div id="winpercentages"><span class="results_stat">勝利 <span id="win_pct">-</span></span><span class="results_stat">敗北 <span id="lose_pct">-</span></span><span class="results_stat">未決着 <span id="inconclusive_pct">-</span></span></div>
 			<div id="results_list"></div>
 		</div>
-		<div id="footer"><a href="https://github.com/Andu2/FEH-Mass-Simulator">本家</a>. Last updated 2018-06-22. <a href="https://www.krbysh.net">リリースノート他</a>. バグ等については <a href="https://twitter.com/krbysh_x86">@krbysh_x86</a> までご連絡ください.</div>
+		<div id="footer"><a href="https://github.com/Andu2/FEH-Mass-Simulator">本家</a>. Last updated 2018-06-29. <a href="https://www.krbysh.net">リリースノート他</a>. バグ等については <a href="https://twitter.com/krbysh_x86">@krbysh_x86</a> までご連絡ください.</div>
 	</div>
 	<div id="frame_tooltip"></div>
 	<div id="screen_fade"></div>

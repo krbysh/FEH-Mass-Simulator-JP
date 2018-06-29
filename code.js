@@ -155,6 +155,7 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
+	"ヘクトル(オスティア候) (5★);Weapon: 天雷アルマーズ;Special: 竜裂;A: 遠距離反撃;B: 迎撃隊形 3;C: オスティアの鼓動;",
 	"ティアモ(夏、来たる) (5★);Weapon: 貝殻の槍+;Assist: 一喝;A: 鬼神金剛の一撃 2;B: 強化無効・近距離 3;",
 	"ノワール(夏、来たる) (5★);Weapon: ヤシの実の弓+;Assist: 献身;A: 攻撃速さ 2;C: 歩行の剛撃 3;",
 	"ヒーニアス(夏、来たる) (5★);Weapon: ビーチフラッグ+;Assist: 攻撃守備の応援;B: 守備の共謀 3;C: 飛刃の紋章;",
@@ -229,6 +230,8 @@ function initOptions(){
 	options.panic_enemy = false;
 	options.rush_challenger = false;
 	options.rush_enemy = false;
+	options.pulse_challenger = false;
+	options.pulse_enemy = false;
 	options.harsh_command_challenger = false;
 	options.harsh_command_enemy = false;
 	options.candlelight_challenger = false;
@@ -333,6 +336,9 @@ function initOptions(){
 	challenger.HpPercent = 4;
 	challenger.precharge = 0;
 	challenger.adjacent = 1;
+	challenger.adjacent2 = 1;
+	challenger.adjacent_foe = 1;
+	challenger.adjacent2_foe = 1;
 	challenger.movementbuff = "hone";
 
 	//Holder for enemy options and pre-calculated stats
@@ -393,6 +399,9 @@ function initOptions(){
 	enemies.fl.damage = 0;
 	enemies.fl.precharge = 0;
 	enemies.fl.adjacent = 1;
+	enemies.fl.adjacent2 = 1;
+	enemies.fl.adjacent_foe = 1;
+	enemies.fl.adjacent2_foe = 1;
 
 	enemies.cl = {}; //Custom list
 	enemies.cl.list = [];
@@ -542,7 +551,7 @@ $(document).ready(function(){
 				"enemies.fl.assist","enemies.fl.special","enemies.fl.a","enemies.fl.b","enemies.fl.c","enemies.fl.s"
 			];
 			var varsThatUpdateFl = [
-				".boon",".bane",".summoner",".ally",".bless_1",".bless_2",".bless_3",".precharge",".adjacent",".damage",".rarity",".merge"
+				".boon",".bane",".summoner",".ally",".bless_1",".bless_2",".bless_3",".precharge",".adjacent",".adjacent2",".adjacent_foe",".adjacent2_foe",".damage",".rarity",".merge"
 			]
 
 			var newVal = $(this).val();
@@ -710,8 +719,21 @@ $(document).ready(function(){
 			}
 
 			//Update health
-			if(endsWith(dataVar,".currenthp") && hero){
+			if (endsWith(dataVar,".currenthp") && hero){
 				updateHealth(newVal, hero);
+			}
+
+			//Update adjacent units values
+			if (endsWith(dataVar, ".adjacent") || endsWith(dataVar, ".adjacent2") || endsWith(dataVar, ".adjacent_foe") || endsWith(dataVar, ".adjacent2_foe")){
+				updateAdjacentValues(dataVar, hero);
+			}
+
+			//Update special charge
+			if (endsWith(dataVar, ".pulse_challenger") && challenger){
+				updateChallengerUI();
+			}
+			if (endsWith(dataVar, ".pulse_enemy")){
+				updateEnemyUI();
 			}
 
 			if(hero && hero.challenger){
@@ -1520,6 +1542,26 @@ function updateHealth(value, hero){
 	}
 }
 
+//Calculate possible adjacent unit combinations
+function updateAdjacentValues(dataVar, hero){
+	if (endsWith(dataVar, ".adjacent")){
+		hero.adjacent2 = Math.max(hero.adjacent, hero.adjacent2);
+		hero.adjacent2 = Math.min(hero.adjacent + 8, hero.adjacent2)
+	}
+	if (endsWith(dataVar, ".adjacent2")){
+		hero.adjacent = Math.min(hero.adjacent, hero.adjacent2);
+		hero.adjacent = Math.max(0, hero.adjacent, hero.adjacent2 - 8);
+	}
+	if (endsWith(dataVar, ".adjacent_foe")){
+		hero.adjacent2_foe = Math.max(hero.adjacent_foe, hero.adjacent2_foe);
+		hero.adjacent2_foe = Math.min(hero.adjacent_foe + 8, hero.adjacent2_foe)
+	}
+	if (endsWith(dataVar, ".adjacent2_foe")){
+		hero.adjacent_foe = Math.min(hero.adjacent_foe, hero.adjacent2_foe);
+		hero.adjacent_foe = Math.max(0, hero.adjacent_foe, hero.adjacent2_foe - 8);
+	}
+}
+
 //Calculate total SP cost for hero
 function updateSpt(hero){
 	hero.spt = 0;
@@ -1864,10 +1906,13 @@ function resetHero(hero,blockInit){//also resets fl, despite singular name - pas
 	hero.bless_1 = "none";
 	hero.bless_2 = "none";
 	hero.bless_3 = "none";
+	hero.adjacent = 1;
+	hero.adjacent2 = 1;
+	hero.adjacent_foe = 1;
+	hero.adjacent2_foe = 1;
 
 	hero.damage = 0;
 	hero.precharge = 0;
-	hero.adjacent = 1;
 	hero.buffs = {"hp":0,"atk":0,"spd":0,"def":0,"res":0};
 	hero.debuffs = {"hp":0,"atk":0,"spd":0,"def":0,"res":0};
 	hero.spur = {"hp":0,"atk":0,"spd":0,"def":0,"res":0};
@@ -1924,7 +1969,8 @@ function addClEnemy(index){
 	enemies.cl.list.push({
 		"index":index,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"assist":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
 		"buffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "spur": {"hp":0,"atk":0,"spd":0,"def":0,"res":0},
-		"boon": "none", "bane":"none", "summoner":"none", "ally":"none", "bless_1":"none", "bless_2":"none", "bless_3":"none", "merge":0, "rarity":5, "precharge":0, "adjacent":1, "damage":0
+		"boon": "none", "bane":"none", "summoner":"none", "ally":"none", "bless_1":"none", "bless_2":"none", "bless_3":"none", "merge":0, "rarity":5, "precharge":0,
+		"adjacent":1, "adjacent2":1, "adjacent_foe":1, "adjacent2_foe":1, "damage":0
 	});
 	options.customEnemySelected = newCustomEnemyId;
 	updateEnemyUI();
@@ -1984,7 +2030,8 @@ function setFlEnemies(){
 			enemies.fl.list.push({"index":i,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"assist":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
 				"buffs": enemies.fl.buffs, "debuffs": enemies.fl.debuffs, "spur": enemies.fl.spur,
 				"boon": enemies.fl.boon, "bane": enemies.fl.bane, "summoner": enemies.fl.summoner, "ally": enemies.fl.ally, "bless_1": enemies.fl.bless_1, "bless_2": enemies.fl.bless_2, "bless_3": enemies.fl.bless_3,
-				"merge": enemies.fl.merge, "rarity": enemies.fl.rarity, "precharge": enemies.fl.precharge, "adjacent": enemies.fl.adjacent, "damage": enemies.fl.damage
+				"merge": enemies.fl.merge, "rarity": enemies.fl.rarity, "precharge": enemies.fl.precharge,
+				"adjacent": enemies.fl.adjacent, "adjacent2": enemies.fl.adjacent2, "adjacent_foe": enemies.fl.adjacent_foe, "adjacent2_foe": enemies.fl.adjacent2_foe, "damage": enemies.fl.damage
 			});
 		}
 
@@ -2054,6 +2101,9 @@ function updateFlEnemies(){
 		enemies.fl.list[i].rarity =  enemies.fl.rarity;
 		enemies.fl.list[i].precharge =  enemies.fl.precharge;
 		enemies.fl.list[i].adjacent =  enemies.fl.adjacent;
+		enemies.fl.list[i].adjacent2 =  enemies.fl.adjacent2;
+		enemies.fl.list[i].adjacent_foe =  enemies.fl.adjacent_foe;
+		enemies.fl.list[i].adjacent2_foe =  enemies.fl.adjacent2_foe;
 		enemies.fl.list[i].damage =  enemies.fl.damage;
 	}
 	setSkills(enemies.fl);
@@ -2455,7 +2505,8 @@ function updateHeroUI(hero){
 		hero = {
 			"index":-1,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"assist":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
 			"buffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "spur": {"hp":0,"atk":0,"spd":0,"def":0,"res":0},
-			"boon": "none", "bane":"none", "summoner":"none", "ally":"none", "bless_1":"none", "bless_2":"none", "bless_3":"none", "merge":0, "rarity":5, "precharge":0, "adjacent":1, "damage":0
+			"boon": "none", "bane":"none", "summoner":"none", "ally":"none", "bless_1":"none", "bless_2":"none", "bless_3":"none", "merge":0, "rarity":5, "precharge":0,
+			"adjacent":1, "adjacent2":1, "adjacent_foe":1, "adjacent2_foe":1, "damage":0
 		}
 	}
 	var htmlPrefix = getHtmlPrefix(hero);
@@ -2465,6 +2516,9 @@ function updateHeroUI(hero){
 	//$("#" + htmlPrefix + "damage").val(hero.damage);
 	$("#" + htmlPrefix + "precharge").val(hero.precharge);
 	$("#" + htmlPrefix + "adjacent").val(hero.adjacent);
+	$("#" + htmlPrefix + "adjacent2").val(hero.adjacent2);
+	$("#" + htmlPrefix + "adjacent_foe").val(hero.adjacent_foe);
+	$("#" + htmlPrefix + "adjacent2_foe").val(hero.adjacent2_foe);
 	$("#" + htmlPrefix + "merge").val(hero.merge);
 	$("#" + htmlPrefix + "rarity").val(hero.rarity);
 
@@ -2514,6 +2568,9 @@ function updateHeroUI(hero){
 		$("#" + htmlPrefix + "currenthp").val(hero.hp - hero.damage);
 		$("#" + htmlPrefix + "basehp").val(hero.hp);
 		$("#" + htmlPrefix + "adjacent").val(hero.adjacent);
+		$("#" + htmlPrefix + "adjacent2").val(hero.adjacent2);
+		$("#" + htmlPrefix + "adjacent_foe").val(hero.adjacent_foe);
+		$("#" + htmlPrefix + "adjacent2_foe").val(hero.adjacent2_foe);
 		$("#" + htmlPrefix + "atk").val(hero.atk);
 		$("#" + htmlPrefix + "spd").val(hero.spd);
 		$("#" + htmlPrefix + "def").val(hero.def);
@@ -2562,6 +2619,8 @@ function updateHeroUI(hero){
 				specialCharge += getCDChange(data.skills[hero.assist], "assist");
 			}
 
+			//Precharge
+			//TODO: Combine this from hero intialization
 			//B Skill
 			if(hero.b != -1){
 				var bName = data.skills[hero.b].name;
@@ -2580,6 +2639,14 @@ function updateHeroUI(hero){
 			if(hero.s != -1){
 				specialCharge += getCDChange(data.skills[hero.s], "s");
 				precharge += getPrechargeChange(data.skills[hero.s], "s");
+			}
+
+			//Buffs
+			if (hero.challenger && options.pulse_challenger){
+				precharge++;
+			}
+			if (!hero.challenger && options.pulse_enemy){
+				precharge++;
 			}
 
 			//Display before precharge calculation to ignore precharge changes on UI (Old UI includes precharge changes for displayed value)
@@ -2902,7 +2969,8 @@ function copyChallenger(){
 		enemies.cl.list.push({
 			"index":-1,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"assist":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
 			"buffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "spur": {"hp":0,"atk":0,"spd":0,"def":0,"res":0},
-			"boon":"none", "bane":"none", "summoner":"none", "ally":"none", "bless_1":"none", "bless_2":"none", "bless_3":"none", "merge":0, "rarity":5, "precharge":0, "adjacent":1, "damage":0
+			"boon":"none", "bane":"none", "summoner":"none", "ally":"none", "bless_1":"none", "bless_2":"none", "bless_3":"none", "merge":0, "rarity":5, "precharge":0,
+			"adjacent":1, "adjacent2":1, "adjacent_foe":1, "adjacent2_foe":1, "damage":0
 		});
 		hero = enemies.cl.list[enemies.cl.list.length - 1];
 		//Copy challenger attributes
@@ -3096,7 +3164,8 @@ function importText(side, customList){
 			enemies.cl.list.push({
 				"index":-1,"hp":0,"atk":0,"spd":0,"def":0,"res":0,"weapon":-1,"refine":-1,"assist":-1,"special":-1,"a":-1,"b":-1,"c":-1,"s":-1,
 				"buffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "debuffs": {"hp":0,"atk":0,"spd":0,"def":0,"res":0}, "spur": {"hp":0,"atk":0,"spd":0,"def":0,"res":0},
-				"boon":"none", "bane":"none", "summoner":"none", "ally":"none", "bless_1":"none", "bless_2":"none", "bless_3":"none", "merge":0, "rarity":5, "precharge":0, "adjacent":1, "damage":0
+				"boon":"none", "bane":"none", "summoner":"none", "ally":"none", "bless_1":"none", "bless_2":"none", "bless_3":"none", "merge":0, "rarity":5, "precharge":0,
+				"adjacent":1, "adjacent2":1, "adjacent_foe":1, "adjacent2_foe":1, "damage":0
 			});
 			hero = enemies.cl.list[enemies.cl.list.length-1];
 		}
@@ -3319,6 +3388,7 @@ function importText(side, customList){
 		else if(includesLike(keyValue[0],"charge")){
 			key = "precharge";
 		}
+		//TODO: Implement Adjacent Import/Export
 		else if(includesLike(keyValue[0],"adjacent")){
 			key = "adjacent";
 		}
@@ -3618,6 +3688,7 @@ function getExportText(side){
 		if(enemies.fl.precharge != 0){
 			statusText += "Charge: " + enemies.fl.precharge + delimiter;
 		}
+		//TODO: Implement Adjacent Import/Export
 		if(enemies.fl.adjacent != 1){
 			statusText += "Adjacent: " + enemies.fl.adjacent + delimiter;
 		}
@@ -3682,6 +3753,7 @@ function getExportText(side){
 			if(hero.precharge != 0){
 				statusText += "Charge: " + hero.precharge + delimiter;
 			}
+			//TODO: Implement Adjacent Import/Export
 			if(hero.adjacent != 1){
 				statusText += "Adjacent: " + hero.adjacent + delimiter;
 			}
@@ -4988,6 +5060,9 @@ function activeHero(hero){
 	this.hp = Math.max(this.maxHp - hero.damage,1);
 	this.precharge = hero.precharge;
 	this.adjacent = hero.adjacent;
+	this.adjacent2 = hero.adjacent2;
+	this.adjacent_foe = hero.adjacent_foe;
+	this.adjacent2_foe = hero.adjacent2_foe;
 
 	//Make a list of skill names for easy reference
 	if(this.weaponIndex != -1){
@@ -5031,10 +5106,11 @@ function activeHero(hero){
 
 	this.charge = 0;
 	this.initiator = false;
+	this.lit = false;
 	this.panicked = false;
 	this.rushed = false;
+	this.pulsed = this.challenger ? options.pulse_challenger : options.pulse_enemy;
 	this.harshed = false;
-	this.lit = false;
 	this.didAttack = false;
 
 	this.has = function(skill){
@@ -5123,6 +5199,8 @@ function activeHero(hero){
 		}
 	}
 
+	//Calculate current special charge held
+	//***This is separate from the UI update that is done to show correct UI values***
 	this.resetCharge = function(){
 		//Reset charge based on weapon
 		//For weapons that would reduce charge, you gain a charge instead, and vice versa
@@ -5133,26 +5211,33 @@ function activeHero(hero){
 		this.charge += -1 * getCDChange(data.skills[this.assistIndex], "assist");
 	}
 
-	//Set charge at beginning
-	this.resetCharge();
-	this.charge += this.precharge;
-
-	//***Precharge is confusing here: Why is it added into charge first then added again from skills?***
-	if(this.has("奥義の鼓動")){
-		this.charge++;
-	}
-	if(this.has("Ｓドリンク")){
-		this.charge++;
-	}
-
-	//Shield Pulse charge at beginning
-	if (getSpecialType(data.skills[this.specialIndex]) == "defensive"){
-		if(this.has("盾の鼓動 3")){
-			this.charge += 2;
-		} else if(this.has("盾の鼓動 1") || this.has("盾の鼓動 2")){
-			this.charge += 1;
+	//TODO: Combine this with precharge from UI change
+	this.resetPrecharge = function(){
+		//***Precharge is confusing here: Why is it added into charge first then added again from skills?***
+		if(this.has("奥義の鼓動")){
+			this.precharge++;
+		}
+		if(this.has("Ｓドリンク")){
+			this.precharge++;
+		}
+		//Shield Pulse charge at beginning
+		if (getSpecialType(data.skills[this.specialIndex]) == "defensive"){
+			if(this.has("盾の鼓動 3")){
+				this.precharge += 2;
+			} else if(this.has("盾の鼓動 1") || this.has("盾の鼓動 2")){
+				this.precharge++;
+			}
+		}
+		//Other Pulse skills
+		if (this.pulsed){
+			this.precharge++;
 		}
 	}
+
+	//Set charge at beginning
+	this.resetCharge();
+	this.resetPrecharge();
+	this.charge += this.precharge;
 
 	this.threaten = function(enemy){
 		//Thhhhhhhhrreats!
@@ -5818,6 +5903,15 @@ function activeHero(hero){
 			var skillName = "";
 			var buffVal = 0;
 
+			//Comparative Adjacent Skills
+			if (this.hasAtIndex("疾弓ミュルグレ", this.weaponIndex) && this.adjacent2 > this.adjacent2_foe){
+				buffVal = 5;
+				skillName = data.skills[this.weaponIndex].name;
+				this.combatSpur.atk += buffVal;
+				this.combatSpur.spd += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で、周囲２マス以内の味方の数が敵の数より多い時、攻撃、速さ +" + buffVal + " 。<br>";
+			}
+
 			//Weapons
 			if (this.hasExactly("ヒノカの紅薙刀")){
 				buffVal = 4;
@@ -5834,7 +5928,7 @@ function activeHero(hero){
 				boostText += this.name + " は、" + skillName + " の効果で、騎馬か飛行の味方が２マス以内にいる時、攻撃、速さ +" + buffVal + " 。<br>";
 			}
 			if (this.hasExactly("ニフルの氷花") || this.hasExactly("ムスペルの炎花")){
-				buffVal = 2 * Math.min(3, this.adjacent);
+				buffVal = 2 * Math.min(3, this.adjacent2);
 				skillName = data.skills[this.weaponIndex].name;
 				this.combatSpur.atk += buffVal;
 				this.combatSpur.spd += buffVal;
@@ -5942,15 +6036,6 @@ function activeHero(hero){
 				this.combatSpur.def += buffVal;
 				this.combatSpur.res += buffVal;
 				boostText += this.name + " は、" + skillName + "(錬成) の効果で、魔法かつ歩行の味方が２マス以内にいる時、攻撃、速さ、守備、魔防 +" + buffVal + " 。<br>";
-			}
-
-			//Comparative Adjacent Skills
-			if (this.hasAtIndex("疾弓ミュルグレ", this.weaponIndex) && this.adjacent > enemy.adjacent){
-				buffVal = 5;
-				skillName = data.skills[this.weaponIndex].name;
-				this.combatSpur.atk += buffVal;
-				this.combatSpur.spd += buffVal;
-				boostText += this.name + " は、" + skillName + " の効果で、２マス以内の敵の数より味方の数が多い時、攻撃、速さ +" + buffVal + " 。<br>";
 			}
 		}
 
@@ -6073,7 +6158,7 @@ function activeHero(hero){
 
 			//Skills
 			//Multiple Adjacent Skills
-			if (this.hasAtIndex("サカの掟", this.aIndex) && this.adjacent >= 2){
+			if (this.hasAtIndex("サカの掟", this.aIndex) && this.adjacent2 >= 2){
 				buffVal = 4;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.atk += buffVal;
@@ -8049,7 +8134,7 @@ function activeHero(hero){
 			}
 		}
 		if (this.hasExactly("炎槍ジークムント")){
-			if (this.adjacent <= 1){
+			if (this.adjacent2_foe >= this.adjacent2){
 				thisAttackRank++;
 				thisAttackRankChanged = true;
 			}
@@ -8093,23 +8178,23 @@ function activeHero(hero){
 			}
 		}
 		if (enemy.hasExactly("炎槍ジークムント")){
-			if (enemy.adjacent <= 1){
+			if (enemy.adjacent2_foe >= enemy.adjacent2){
 				enemyAttackRank++;
 				enemyAttackRankChanged = true;
 			}
 		}
 
 		//Check for Wary Fighter
-		if(this.has("守備隊形")){
-			if(this.hp/this.maxHp >= 1.1 - 0.2 * this.has("守備隊形")){
+		if (this.has("守備隊形")){
+			if (this.hp/this.maxHp >= 1.1 - 0.2 * this.has("守備隊形")){
 				thisAttackRank--;
 				enemyAttackRank--;
 				thisAttackRankChanged = true;
 				enemyAttackRankChanged = true;
 			}
 		}
-		if(enemy.has("守備隊形")){
-			if(enemy.hp/enemy.maxHp >= 1.1 - 0.2 * enemy.has("守備隊形")){
+		if (enemy.has("守備隊形")){
+			if (enemy.hp/enemy.maxHp >= 1.1 - 0.2 * enemy.has("守備隊形")){
 				thisAttackRank--;
 				enemyAttackRank--;
 				thisAttackRankChanged = true;
@@ -8117,19 +8202,27 @@ function activeHero(hero){
 			}
 		}
 
-		if(this.hasExactly("神炎のブレス") && this.combatStat.def >= enemy.combatStat.def + 5){
+		if (this.hasExactly("神炎のブレス") && this.combatStat.def >= enemy.combatStat.def + 5){
 			enemyAttackRank--;
 			enemyAttackRankChanged = true;
 		}
-		if(enemy.hasExactly("神炎のブレス") && enemy.combatStat.def >= this.combatStat.def + 5){
+		if (enemy.hasExactly("神炎のブレス") && enemy.combatStat.def >= this.combatStat.def + 5){
 			thisAttackRank--;
 			thisAttackRankChanged = true;
 		}
-		if(this.hasAtRefineIndex("ブリュンヒルデ・専用", this.refineIndex) && enemy.range == "ranged" && this.combatStat.def >= enemy.combatStat.def + 1){
+		if (this.hasExactly("天雷アルマーズ") && this.adjacent2 > this.adjacent2_foe){
 			enemyAttackRank--;
 			enemyAttackRankChanged = true;
 		}
-		if(enemy.hasAtRefineIndex("ブリュンヒルデ・専用", enemy.refineIndex) && this.range == "ranged" && enemy.combatStat.def >= this.combatStat.def + 1){
+		if (enemy.hasExactly("天雷アルマーズ") && enemy.adjacent2 > enemy.adjacent2_foe){
+			thisAttackRank--;
+			thisAttackRankChanged = true;
+		}
+		if (this.hasAtRefineIndex("ブリュンヒルデ・専用", this.refineIndex) && enemy.range == "ranged" && this.combatStat.def >= enemy.combatStat.def + 1){
+			enemyAttackRank--;
+			enemyAttackRankChanged = true;
+		}
+		if (enemy.hasAtRefineIndex("ブリュンヒルデ・専用", enemy.refineIndex) && this.range == "ranged" && enemy.combatStat.def >= this.combatStat.def + 1){
 			thisAttackRank--;
 			thisAttackRankChanged = true;
 		}
