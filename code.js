@@ -155,11 +155,14 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"ヘクトル(オスティア候) (5★);Weapon: 天雷アルマーズ;Special: 竜裂;A: 遠距離反撃;B: 迎撃隊形 3;C: オスティアの鼓動;",
-	"ティアモ(夏、来たる) (5★);Weapon: 貝殻の槍+;Assist: 一喝;A: 鬼神金剛の一撃 2;B: 強化無効・近距離 3;",
-	"ノワール(夏、来たる) (5★);Weapon: ヤシの実の弓+;Assist: 献身;A: 攻撃速さ 2;C: 歩行の剛撃 3;",
-	"ヒーニアス(夏、来たる) (5★);Weapon: ビーチフラッグ+;Assist: 攻撃守備の応援;B: 守備の共謀 3;C: 飛刃の紋章;",
-	"ターナ(夏、来たる) (5★);Weapon: イズンの果実;Assist: 速さ魔防の応援;A: 攻撃速さの渾身 3;B: 回復 3;C: 攻撃守備の紋章 2;",
+	"カミラ(夏、再び) (5★);Weapon: 南国のジュース+;Special: 竜裂;A: 鬼神の一撃 3;B: 編隊飛行 3;C: 飛刃の鼓舞;",
+	"リンダ(夏、再び) (5★);Weapon: ヒトデ+;Assist: 献身;A: 攻撃魔防の大覚醒 3;B: 相性相殺 3;",
+	"チキ(子供)(夏、再び) (5★);Weapon: 真夏のブレス;Special: 月虹;A: 攻撃守備の絆 3;B: 一撃離脱;C: 竜の技量 3;",
+	"タクミ(夏、再び) (5★);Weapon: 魚の弓+;Special: 凶星;A: 獅子奮迅 3;C: 魔防の波・奇数 3;",
+	"ティアマト (5★);Weapon: 傭兵団の戦斧;Assist: 相互援助;A: 金剛の一撃 3;B: キャンセル 3;",
+	"ネフェニー (5★);Weapon: 義勇の槍;Special: 月虹;A: 攻撃速さ 2;B: 怒り 3;",
+	"カタリナ (5★);Weapon: カタリナの書;Special: 氷華;A: 鬼神飛燕の一撃 2;C: 攻撃の謀策 3;",
+	"エルトシャン (5★);Weapon: 魔剣ミストルティン;Special: 爆光;A: 獅子奮迅 3;B: 切り込み;",
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -242,6 +245,8 @@ function initOptions(){
 	options.threaten_enemy = false;
 	options.galeforce_challenger = true;
 	options.galeforce_enemy = true;
+	options.sweep_challenger = true;
+	options.sweep_enemy = true;
 	options.odd_buff_challenger = true;
 	options.odd_buff_enemy = true;
 
@@ -1171,7 +1176,7 @@ function getCDChange(skill, slot){
 			|| skillName.indexOf("ミストルティン") != -1	|| skillName.indexOf("オートクレール") != -1	|| skillName.indexOf("ウルヴァン") != -1
 			|| skillName.indexOf("アウドムラ") != -1 || skillName.indexOf("鏡餅") != -1 || skillName.indexOf("バシリコス") != -1
 			|| skillName.indexOf("狂斧アルマーズ") != -1 || skillName.indexOf("無銘の一門の剣") != -1 || skillName.indexOf("暗殺手裏剣") != -1
-			|| skillName.indexOf("トールハンマー") != -1 || skillName.indexOf("剣姫の刀") != -1
+			|| skillName.indexOf("トールハンマー") != -1 || skillName.indexOf("剣姫の刀") != -1 || skillName.indexOf("義勇の槍") != -1
 			){
 				return -1;
 		}
@@ -1306,10 +1311,10 @@ function setStats(hero){
 	else if(typeof hero.index != "undefined" && hero.index != -1){
 		var growthValMod = {"hp":0,"atk":0,"spd":0,"def":0,"res":0};
 		if(hero.boon != "none"){
-			growthValMod[hero.boon]+=1;
+			growthValMod[hero.boon] += 1;
 		}
 		if(hero.bane != "none"){
-			growthValMod[hero.bane]-=1;
+			growthValMod[hero.bane] -= 1;
 		}
 
 		var base = {};
@@ -2208,7 +2213,6 @@ function matchStartHeroes(params, data) {
 		return data;
 	}
 
-
 	if (data.id != -1){
 		//BST Search: If search term is a number, match with BST that are greater than the input
 		if (isNaN(params.term) == false){
@@ -2566,7 +2570,7 @@ function updateHeroUI(hero){
 		$("#" + htmlPrefix + "name").val(hero.index);
 		$("#" + htmlPrefix + "hp").val(hero.hp);
 		$("#" + htmlPrefix + "currenthp").val(hero.hp - hero.damage);
-		$("#" + htmlPrefix + "basehp").val(hero.hp);
+		$("#" + htmlPrefix + "basehp").html(hero.hp);
 		$("#" + htmlPrefix + "adjacent").val(hero.adjacent);
 		$("#" + htmlPrefix + "adjacent2").val(hero.adjacent2);
 		$("#" + htmlPrefix + "adjacent_foe").val(hero.adjacent_foe);
@@ -4532,6 +4536,8 @@ function exportCalc(){
 			csvString += options.debuffstartTurn + ",";
 			csvString += options.galeforce_challenger + ",";
 			csvString += options.galeforce_enemy + ",";
+			csvString += options.sweep_challenger + ",";
+			csvString += options.sweep_enemy + ",";
 			for(var rnd = 0; rnd < 4;rnd++){
 				if(!!options.roundInitiators[rnd]){
 					csvString += options.roundInitiators[rnd].substring(0,options.roundInitiators[rnd].length-10) + ",";
@@ -5265,6 +5271,11 @@ function activeHero(hero){
 					threatDebuffs.spd = Math.min(threatDebuffs.spd, -5);
 					skillNames.push(data.skills[this.weaponIndex].name);
 				}
+				if (this.hasExactly("カタリナの書")){
+					threatDebuffs.spd = Math.min(threatDebuffs.spd, -4);
+					threatDebuffs.res = Math.min(threatDebuffs.res, -4);
+					skillNames.push("カタリナの書");
+				}
 				//Passive C Skills
 				if(this.hasAtIndex("攻撃の謀策", this.cIndex)){
 					threatDebuffs.atk = Math.min(threatDebuffs.atk,-this.hasAtIndex("攻撃の謀策", this.cIndex)-2);
@@ -5588,6 +5599,19 @@ function activeHero(hero){
 				buffVal.atk = Math.max(buffVal.atk, this.has("攻撃の波・奇数") * 2);
 				skillNames.push(data.skills[this.cIndex].name);
 			}
+			if(this.has("速さの波・奇数")){
+				buffVal.spd = Math.max(buffVal.atk, this.has("速さの波・奇数") * 2);
+				skillNames.push(data.skills[this.cIndex].name);
+			}
+			if(this.has("守備の波・奇数")){
+				buffVal.def = Math.max(buffVal.atk, this.has("守備の波・奇数") * 2);
+				skillNames.push(data.skills[this.cIndex].name);
+			}
+			if(this.has("魔防の波・奇数")){
+				buffVal.res = Math.max(buffVal.atk, this.has("魔防の波・奇数") * 2);
+				skillNames.push(data.skills[this.cIndex].name);
+			}
+
 			if(this.hasExactly("ビューレイスト")){
 				buffVal.atk = Math.max(buffVal.atk, 4);
 				buffVal.spd = Math.max(buffVal.spd, 4);
@@ -5959,7 +5983,7 @@ function activeHero(hero){
 			}
 
 			//Owl Tomes
-			if (this.has("ブラーアウル") || this.has("グルンアウル") || this.has("ラウアアウル") || this.hasExactly("ニーズヘッグ")){
+			if (this.has("ブラーアウル") || this.has("グルンアウル") || this.has("ラウアアウル") || this.hasExactly("ニーズヘッグ") || this.hasExactly("カタリナの書")){
 				buffVal = this.adjacent * 2;
 				skillName = data.skills[this.weaponIndex].name;
 				this.combatSpur.atk += buffVal;
@@ -6250,6 +6274,11 @@ function activeHero(hero){
 				this.combatSpur.atk += 4;
 				this.combatSpur.def += 4;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、攻撃、守備 +4 。<br>";
+			}
+			if(this.has("義勇の槍・専用")){
+				this.combatSpur.spd += 4;
+				this.combatSpur.def += 4;
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) の効果で、敵から攻撃された時、速さ、守備 +4 。<br>";
 			}
 			if(this.has("水のブレス")){
 				this.combatSpur.def += 4;
@@ -6705,11 +6734,13 @@ function activeHero(hero){
 				sealStats(data.skills[this.weaponIndex].name, ["spd"], [-6, -7]);
 			}
 
+
 			//Daggers
-			if (this.hasExactly("死神の暗器") || this.has("ベビーキャロット")){
+			if (this.hasExactly("死神の暗器")){
 				sealStats(data.skills[this.weaponIndex].name, ["def","res"], [-7]);
 			}
-			if (this.has("銀の暗器") || this.has("貝殻") || this.has("舞踏祭の扇子") || this.has("鏡餅") || this.has("暗殺手裏剣") || this.has("フェリシアの氷皿")){
+			if (this.has("銀の暗器") || this.has("貝殻") || this.has("舞踏祭の扇子") || this.has("鏡餅")
+				|| this.has("暗殺手裏剣") || this.has("フェリシアの氷皿") || this.has("ベビーキャロット") || this.has("ヒトデ")){
 				sealStats(data.skills[this.weaponIndex].name, ["def","res"], [-5, -7]);
 			}
 			if (this.has("猫の暗器") && (enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" || enemy.weaponType == "greentome")){
@@ -6923,8 +6954,8 @@ function activeHero(hero){
 			return true;
 		}
 		if (enemy.range == "ranged"){
-			if (this.hasExactly("神炎のブレス") || this.hasExactly("邪竜のブレス")
-			 || this.has("水のブレス") || this.hasExactly("霧のブレス")
+			if (this.hasExactly("神炎のブレス") || this.hasExactly("邪竜のブレス") || this.has("水のブレス")
+			 || this.hasExactly("霧のブレス") || this.has("真夏のブレス")
 			){
 				return true;
 			}
@@ -7206,12 +7237,15 @@ function activeHero(hero){
 			*/
 
 			var extraWeaponAdvantage = 0;
+			var thisHasGemWeapon = (this.has("旭日の剣") || this.has("蒼海の槍") || this.has("深緑の斧") || this.has("傭兵団の戦斧")) ? true : false;
+			var enemyHasGemWeapon = ( enemy.has("旭日の剣") || enemy.has("蒼海の槍") || enemy.has("深緑の斧") || enemy.has("傭兵団の戦斧")) ? true : false;
+
 
 			//If weapon advantage is not neutral, and Attacker and Defender do not both have Cancel Affinity
 			if (weaponAdvantage !=0 && !(this.has("相性相殺") && enemy.has("相性相殺"))){
 
 				//Calculate base weapon advantage bonus
-				if(this.has("旭日の剣") || this.has("蒼海の槍") || this.has("深緑の斧") || enemy.has("旭日の剣") || enemy.has("蒼海の槍") || enemy.has("深緑の斧")){
+				if(thisHasGemWeapon || enemyHasGemWeapon){
 					extraWeaponAdvantage = 0.2;
 				}
 				else{
@@ -7227,18 +7261,18 @@ function activeHero(hero){
 				if (this.has("相性相殺")){
 
 					//Attacker with Gem Weapon or 相性激化: No extra advantage or disadvantage
-					if(this.has("旭日の剣") || this.has("蒼海の槍") || this.has("深緑の斧") || this.has("相性激化")){
+					if(thisHasGemWeapon || this.has("相性激化")){
 						extraWeaponAdvantage = 0;
 					}
 
 					//Defender with Gem Weapon or 相性激化
-					if (enemy.has("旭日の剣") || enemy.has("蒼海の槍") || enemy.has("深緑の斧") || enemy.has("相性激化")){
+					if (enemyHasGemWeapon || enemy.has("相性激化")){
 						//Defender at disadvantage: Cancel Affinity 1 = negate, Cancel Affinity 2 = keep, Cancel Affinity 3 = keep
 						if (weaponAdvantage == 1){
 							if (this.has("相性相殺 1")){
 								extraWeaponAdvantage = 0;
 							} else{
-								if (enemy.has("旭日の剣") || enemy.has("蒼海の槍") || enemy.has("深緑の斧")){
+								if (enemyHasGemWeapon){
 									extraWeaponAdvantage = 0.2;
 								} else{
 									extraWeaponAdvantage = 0.05 + 0.05 * enemy.has("相性激化");
@@ -7249,7 +7283,7 @@ function activeHero(hero){
 						//***Note the double negative for weaponAdvantageBonus formula***
 						else{
 							if (this.has("相性相殺 3")){
-								if (enemy.has("旭日の剣") || enemy.has("蒼海の槍") || enemy.has("深緑の斧")){
+								if (enemyHasGemWeapon){
 									extraWeaponAdvantage = -0.2;
 								} else{
 									extraWeaponAdvantage = (0.05 + 0.05 * enemy.has("相性激化")) * -1;
@@ -7264,16 +7298,16 @@ function activeHero(hero){
 				else if (enemy.has("相性相殺")){
 
 					//Defender with Gem Weapon or 相性激化: No extra advantage or disadvantage
-					if(enemy.has("旭日の剣") || enemy.has("蒼海の槍") || enemy.has("深緑の斧") || enemy.has("相性激化")){
+					if(enemyHasGemWeapon || enemy.has("相性激化")){
 						extraWeaponAdvantage = 0;
 					}
 
 					//Attacker with Gem Weapon or 相性激化
-					if(this.has("旭日の剣") || this.has("蒼海の槍") || this.has("深緑の斧") || this.has("相性激化")){
+					if(thisHasGemWeapon || this.has("相性激化")){
 						//Attacker at advantage: Cancel Affinity 1 = negate, Cancel Affinity 2 = negate, Cancel Affinity 3 = reverse
 						if (weaponAdvantage == 1){
 							if (enemy.has("相性相殺 3")){
-								if (this.has("旭日の剣") || this.has("蒼海の槍") || this.has("深緑の斧")){
+								if (thisHasGemWeapon){
 									extraWeaponAdvantage = -0.2;
 								} else{
 									extraWeaponAdvantage = (0.05 + 0.05 * this.has("相性激化")) * -1;
@@ -7287,7 +7321,7 @@ function activeHero(hero){
 							if (enemy.has("相性相殺 1")){
 								extraWeaponAdvantage = 0;
 							} else{
-								if (this.has("旭日の剣") || this.has("蒼海の槍") || this.has("深緑の斧")){
+								if (thisHasGemWeapon){
 									extraWeaponAdvantage = 0.2;
 								} else{
 									extraWeaponAdvantage = 0.05 + 0.05 * this.has("相性激化");
@@ -7319,7 +7353,7 @@ function activeHero(hero){
 
 			if(weaponAdvantage != 0){
 				if (weaponAdvantageBonus == 0){
-					damageText += this.name + "の三竦み " + ((weaponAdvantage == 1) ? "有利" : "不利") + " は 相性相殺 によって無効化。<br>";
+					damageText += this.name + " の三竦み " + ((weaponAdvantage == 1) ? "有利" : "不利") + " は 相性相殺 によって無効化。<br>";
 				}
 				else{
 					damageText += this.name + " の攻撃は、三竦み " + ((weaponAdvantage == 1) ? "有利" : "不利") + " のため、" + Math.round((1 + weaponAdvantageBonus)*10)/10 + " 倍。<br>";
@@ -7333,7 +7367,7 @@ function activeHero(hero){
 					|| this.has("アーマーキラー") || this.has("アーマーキラー鍛")
 					|| this.has("貫きの槍") || this.has("貫きの槍鍛")
 					|| this.hasExactly("セイニー") || this.hasExactly("ウイングソード")
-					|| this.hasExactly("戦姫の和弓") || this.hasExactly("ロムファイア")
+					|| this.hasExactly("戦姫の和弓") || this.hasExactly("ロムファイア") || this.hasExactly("義勇の槍")
 					)
 				){
 				effectiveBonus = (enemy.has("スヴェルの盾")) ? 1 : 1.5;
@@ -7359,7 +7393,7 @@ function activeHero(hero){
 			else if ((enemy.weaponType == "dragon" || enemy.hasExactly("ロプトウス"))
 				&& (this.hasExactly("ファルシオン") || this.hasExactly("封剣ファルシオン")
 				|| this.hasExactly("ナーガ") || this.hasExactly("聖書ナーガ")
-				|| this.hasExactly("霧のブレス")
+				|| this.hasExactly("霧のブレス") || this.hasExactly("真夏のブレス")
 				|| (this.hasExactly("封印の剣") && this.refineIndex != -1)
 				)
 			){
@@ -7622,6 +7656,10 @@ function activeHero(hero){
 				var skillNames = [];
 
 				//-Breath: Initiator has
+				if (!this.initiator && this.has("真夏のブレス")){
+					gainCharge = Math.max(gainCharge, 1);
+					skillNames.push(data.skills[this.weaponIndex].name);
+				}
 				if (!this.initiator && this.has("鬼神の呼吸")){
 					gainCharge = Math.max(gainCharge, 1);
 					skillNames.push(data.skills[this.aIndex].name);
@@ -7638,18 +7676,19 @@ function activeHero(hero){
 					gainCharge = Math.max(gainCharge, 1);
 					skillNames.push(data.skills[this.aIndex].name);
 				}
-				if (this.initiator && this.has("攻撃隊形")){
-					if (this.hasAtIndex("攻撃隊形", this.bIndex) == 3 || this.combatStartHp / this.maxHp >= 1.0 / this.hasAtIndex("攻撃隊形", this.bIndex)){
-						gainCharge = Math.max(gainCharge, 1);
-						skillNames.push(data.skills[this.bIndex].name);
-					}
-				}
 				if (!this.initiator && this.has("迎撃隊形")){
 					if (this.combatStartHp / this.maxHp >= (1.0 - (this.hasAtIndex("迎撃隊形", this.bIndex) * 0.1) - ((this.hasAtIndex("迎撃隊形", this.bIndex) - 1) * 0.1))){
 						gainCharge = Math.max(gainCharge, 1);
 						skillNames.push(data.skills[this.bIndex].name);
 					}
 				}
+				if (this.initiator && this.has("攻撃隊形")){
+					if (this.hasAtIndex("攻撃隊形", this.bIndex) == 3 || this.combatStartHp / this.maxHp >= 1.0 / this.hasAtIndex("攻撃隊形", this.bIndex)){
+						gainCharge = Math.max(gainCharge, 1);
+						skillNames.push(data.skills[this.bIndex].name);
+					}
+				}
+
 				//TODO: Change Rush skill name to a generic name
 				if (this.rushed && (this.moveType == "infantry")){
 					if (this.combatStat.atk - enemy.combatStat.atk >= 1){
@@ -7679,6 +7718,12 @@ function activeHero(hero){
 					if (this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd >= 7 - (this.hasAtIndex("柔剣", this.aIndex) * 2)){
 						gainCharge = Math.max(gainCharge, 1);
 						skillNames.push(data.skills[this.aIndex].name);
+					}
+				}
+				if (this.hasAtIndex("柔剣", this.sIndex)){
+					if (this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd >= 7 - (this.hasAtIndex("柔剣", this.sIndex) * 2)){
+						gainCharge = Math.max(gainCharge, 1);
+						skillNames.push(data.skills[this.sIndex].name + "(聖印)");
 					}
 				}
 				if (this.hasAtRefineIndex("ウイングソード・専用", this.refineIndex)){
@@ -7989,7 +8034,7 @@ function activeHero(hero){
 		//Check for Desperation
 		//***Does Desperation + Sol Katti override Hardy Bearing?***
 		var desperation = false;
-		if(this.has("攻め立て")){
+		if (this.has("攻め立て")){
 			if(this.hp/this.maxHp <= .25 * this.has("攻め立て")){
 				desperation = true;
 			}
@@ -7998,6 +8043,11 @@ function activeHero(hero){
 			if (this.refineIndex != -1 && this.hp/this.maxHp <= .75){
 				desperation = true;
 			} else if (this.hp/this.maxHp <= .5){
+				desperation = true;
+			}
+		}
+		if (this.has("南国のジュース") || this.has("ヒトデ") || this.has("魚の弓")){
+			if(this.hp/this.maxHp <= .75 ){
 				desperation = true;
 			}
 		}
@@ -8022,28 +8072,36 @@ function activeHero(hero){
 		var windsweep = 0;
 		var watersweep = 0;
 
-		if(this.has("火薙ぎ") || enemy.has("火薙ぎ")){
-			firesweep = true;
-		}
-		if(this.has("風薙ぎ")){
-			windsweep = (this.has("風薙ぎ") * -2) + 7;
-			if(this.has("速さの虚勢")){
-				windsweep += -2 + (this.has("速さの虚勢") * -3);
+		//Sweep Effects are toggable through menu options
+		if (this.challenger ? options.sweep_challenger : options.sweep_enemy){
+			if(this.has("火薙ぎ")){
+				firesweep = true;
+			}
+			if(this.has("風薙ぎ")){
+				windsweep = (this.has("風薙ぎ") * -2) + 7;
+				if(this.has("速さの虚勢")){
+					windsweep += -2 + (this.has("速さの虚勢") * -3);
+				}
+			}
+			if(this.has("水薙ぎ")){
+				watersweep = (this.has("水薙ぎ") * -2) + 7;
+				if(this.has("速さの虚勢")){
+					watersweep += -2 + (this.has("速さの虚勢") * -3);
+				}
+			}
+			if(windsweep){
+				thisAttackRank--;
+				thisAttackRankChanged = true;
+			}
+			if(watersweep){
+				thisAttackRank--;
+				thisAttackRankChanged = true;
 			}
 		}
-		if(this.has("水薙ぎ")){
-			watersweep = (this.has("水薙ぎ") * -2) + 7;
-			if(this.has("速さの虚勢")){
-				watersweep += -2 + (this.has("速さの虚勢") * -3);
+		if (enemy.challenger ? options.sweep_challenger : options.sweep_enemy){
+			if(enemy.has("火薙ぎ")){
+				firesweep = true;
 			}
-		}
-		if(windsweep){
-			thisAttackRank--;
-			thisAttackRankChanged = true;
-		}
-		if(watersweep){
-			thisAttackRank--;
-			thisAttackRankChanged = true;
 		}
 
 		//Check for any-distance counterattack
