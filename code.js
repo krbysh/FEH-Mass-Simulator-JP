@@ -155,14 +155,10 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"カミラ(夏、再び) (5★);Weapon: 南国のジュース+;Special: 竜裂;A: 鬼神の一撃 3;B: 編隊飛行 3;C: 飛刃の鼓舞;",
-	"リンダ(夏、再び) (5★);Weapon: ヒトデ+;Assist: 献身;A: 攻撃魔防の大覚醒 3;B: 相性相殺 3;",
-	"チキ(子供)(夏、再び) (5★);Weapon: 真夏のブレス;Special: 月虹;A: 攻撃守備の絆 3;B: 一撃離脱;C: 竜の技量 3;",
-	"タクミ(夏、再び) (5★);Weapon: 魚の弓+;Special: 凶星;A: 獅子奮迅 3;C: 魔防の波・奇数 3;",
-	"ティアマト (5★);Weapon: 傭兵団の戦斧;Assist: 相互援助;A: 金剛の一撃 3;B: キャンセル 3;",
-	"ネフェニー (5★);Weapon: 義勇の槍;Special: 月虹;A: 攻撃速さ 2;B: 怒り 3;",
-	"カタリナ (5★);Weapon: カタリナの書;Special: 氷華;A: 鬼神飛燕の一撃 2;C: 攻撃の謀策 3;",
-	"エルトシャン (5★);Weapon: 魔剣ミストルティン;Special: 爆光;A: 獅子奮迅 3;B: 切り込み;",
+	"スミア (5★);Weapon: 反攻の槍+;Assist: 引き戻し;A: 近距離防御 3;B: 攻撃守備の連携 3;",
+	"マリアベル (5★);Weapon: トリレンマ+;Special: 祈り;B: 幻惑の杖 3;C: 杖の技量 3;",
+	"オリヴィエ(聖王国と踊り子) (5★);Weapon: スクルド;Assist: 踊る;A: 金剛明鏡の構え 2;B: 速さの封印 3;C: 空からの先導 3;",
+	"リベラ (5★);Weapon: 倭棍+;Special: 夕陽;B: 回復 3;C: 攻撃魔防の紋章 2;",
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -6296,9 +6292,12 @@ function activeHero(hero){
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、弓、暗器、魔法、杖の敵から敵から攻撃された時、守備、魔防 +6 。<br>";
 			}
 			if(this.has("守りの剣")){
-				buffVal = 7;
-				this.combatSpur.def += buffVal;
+				this.combatSpur.def += 7;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、守備 +7 。<br>";
+			}
+			if(this.has("反攻の槍")){
+				this.combatSpur.atk += 6;
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、攻撃 +6 。<br>";
 			}
 
 			//Skills
@@ -6975,7 +6974,7 @@ function activeHero(hero){
 		//Weapons
 		if(this.has("倭刀") || this.has("ビッグスプーン") || this.has("ベビーキャロット")
 			|| this.hasExactly("共鳴エクスカリバー") || this.hasExactly("気鋭ワユの剣") || this.has("倭鉾")
-			|| this.hasExactly("オートクレール・専用") || this.hasExactly("無銘の一門の剣・専用")
+			|| this.hasExactly("オートクレール・専用") || this.hasExactly("無銘の一門の剣・専用") || this.has("倭棍")
 			|| (this.has("狂斧アルマーズ") && (this.hp / this.maxHp <= .75))
 		){
 			damage += 10;

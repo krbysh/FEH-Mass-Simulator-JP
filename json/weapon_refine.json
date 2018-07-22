@@ -10,8 +10,8 @@
 		"spd": 0,
 		"def": 0,
 		"res": 0,
-		"prereq": "Silver Sword+,Silver Axe+,Silver Lance+,Wo Dao+,Giant Spoon+,Harmonic Lance+",
-		"prereq": "銀の剣+,銀の斧+,銀の槍+,倭刀+,ビッグスプーン+,倭鉾+",
+		"prereq": "Silver Sword+,Silver Axe+,Silver Lance+,Wo Dao+,Giant Spoon+,Harmonic Lance+,Reprisal Lance+,Wo Gun+",
+		"prereq": "銀の剣+,銀の斧+,銀の槍+,倭刀+,ビッグスプーン+,倭鉾+,反攻の槍+,倭棍+",
 		"exclusive": ""
 	},	{
 		"category": "Standard Melee",
@@ -24,8 +24,8 @@
 		"spd": 3,
 		"def": 0,
 		"res": 0,
-		"prereq": "Silver Sword+,Silver Axe+,Silver Lance+,Wo Dao+,Giant Spoon+,Harmonic Lance+",
-		"prereq": "銀の剣+,銀の斧+,銀の槍+,倭刀+,ビッグスプーン+,倭鉾+",
+		"prereq": "Silver Sword+,Silver Axe+,Silver Lance+,Wo Dao+,Giant Spoon+,Harmonic Lance+,Reprisal Lance+,Wo Gun+",
+		"prereq": "銀の剣+,銀の斧+,銀の槍+,倭刀+,ビッグスプーン+,倭鉾+,反攻の槍+,倭棍+",
 		"exclusive": ""
 	},	{
 		"category": "Standard Melee",
@@ -38,8 +38,8 @@
 		"spd": 0,
 		"def": 4,
 		"res": 0,
-		"prereq": "Silver Sword+,Silver Axe+,Silver Lance+,Wo Dao+,Giant Spoon+,Harmonic Lance+",
-		"prereq": "銀の剣+,銀の斧+,銀の槍+,倭刀+,ビッグスプーン+,倭鉾+",
+		"prereq": "Silver Sword+,Silver Axe+,Silver Lance+,Wo Dao+,Giant Spoon+,Harmonic Lance+,Reprisal Lance+,Wo Gun+",
+		"prereq": "銀の剣+,銀の斧+,銀の槍+,倭刀+,ビッグスプーン+,倭鉾+,反攻の槍+,倭棍+",
 		"exclusive": ""
 	},	{
 		"category": "Standard Melee",
@@ -52,8 +52,8 @@
 		"spd": 0,
 		"def": 0,
 		"res": 4,
-		"prereq": "Silver Sword+,Silver Axe+,Silver Lance+,Wo Dao+,Giant Spoon+,Harmonic Lance+",
-		"prereq": "銀の剣+,銀の斧+,銀の槍+,倭刀+,ビッグスプーン+,倭鉾+",
+		"prereq": "Silver Sword+,Silver Axe+,Silver Lance+,Wo Dao+,Giant Spoon+,Harmonic Lance+,Reprisal Lance+,Wo Gun+",
+		"prereq": "銀の剣+,銀の斧+,銀の槍+,倭刀+,ビッグスプーン+,倭鉾+,反攻の槍+,倭棍+",
 		"exclusive": ""
 	},	{
 		"category": "Spring Melee",
@@ -1698,8 +1698,8 @@
 		"spd": 0,
 		"def": 0,
 		"res": 0,
-		"prereq": "Absorb+,Fear+,Slow+,Gravity+,Pain+,Panic+,Candlelight+",
-		"prereq": "アブソーブ+,フィアー+,スロウ+,グラビティ+,ペイン+,パニック+,キャンドル+",
+		"prereq": "Absorb+,Fear+,Slow+,Gravity+,Pain+,Panic+,Candlelight+,Trilemma+",
+		"prereq": "アブソーブ+,フィアー+,スロウ+,グラビティ+,ペイン+,パニック+,キャンドル+,トリレンマ+",
 		"exclusive": ""
 	},	{
 		"category": "Staves",
@@ -1713,8 +1713,8 @@
 		"spd": 0,
 		"def": 0,
 		"res": 0,
-		"prereq": "Absorb+,Fear+,Slow+,Gravity+,Pain+,Panic+,Candlelight+",
-		"prereq": "アブソーブ+,フィアー+,スロウ+,グラビティ+,ペイン+,パニック+,キャンドル+",
+		"prereq": "Absorb+,Fear+,Slow+,Gravity+,Pain+,Panic+,Candlelight+,Trilemma+",
+		"prereq": "アブソーブ+,フィアー+,スロウ+,グラビティ+,ペイン+,パニック+,キャンドル+,トリレンマ+",
 		"exclusive": ""
 	},	{
 		"category": "Dragonstone",
