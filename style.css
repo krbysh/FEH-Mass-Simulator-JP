@@ -1152,9 +1152,9 @@ svg > g > g:last-child { pointer-events: none }
 
 #rules_bar_top{
 	text-align:center;
-	height:34px;
-	font-size:19px;
-	line-height:34px;
+	height:25px;
+	font-size:18px;
+	line-height:25px;
 	text-align:center;
 	background-color: #000000;
 	color:#ffffff;

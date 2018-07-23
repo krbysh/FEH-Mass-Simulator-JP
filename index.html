@@ -38,13 +38,13 @@
 			<img src="ui/logo.png" style="margin-right:20px;"/>
 			<div id="maintitle" style="display:inline-block;">FEH Mass Simulator JP</div>
 			<div id="subtitle">
-				<button class="button button_newheroes" id="0"><img class="newheroes_picture" src="heroes/Sumia.png"/></button>
-				<button class="button button_newheroes" id="1"><img class="newheroes_picture" src="heroes/Maribelle.png"/></button>
+				<button class="button button_newheroes" id="0"><img class="newheroes_picture" src="heroes/Sumia (Ylissean Travelers).png"/></button>
+				<button class="button button_newheroes" id="1"><img class="newheroes_picture" src="heroes/Maribelle (Ylissean Travelers).png"/></button>
 				<button class="button button_newheroes" id="2"><img class="newheroes_picture" src="heroes/Olivia (Ylissean Travelers).png"/></button>
-				<button class="button button_newheroes" id="3"><img class="newheroes_picture" src="heroes/Libra.png"/></button>
+				<button class="button button_newheroes" id="3"><img class="newheroes_picture" src="heroes/Libra (Ylissean Travelers).png"/></button>
 			</div>
 		</div>
-		<div id="frame_updatenotice" data-update="2018072201">新英雄「聖王国と踊り子」に対応しました。トリレンマは未実装です。<br>薙ぎスキルは設定メニューから有効化してください。
+		<div id="frame_updatenotice" data-update="2018072201">新英雄「聖王国と踊り子」に対応しました。<br>トリレンマ、薙ぎスキルは設定メニューから有効化してください。
 			<div id="update_icon">!</div>
 			<div class="button" id="button_closeupdatenotice" onclick="hideUpdateNotice();">x</div>
 		</div>
@@ -266,6 +266,11 @@
 					<div class="status_enemy"><input type="checkbox" data-var="options.candlelight_enemy" id="candlelight_enemy"/></div>
 				</div>
 				<div class="adj_status">
+					<div class="status_challenger"><input type="checkbox" data-var="options.triangled_challenger" id="triangled_challenger"/></div>
+					<div class="status_title">トリレンマ</div>
+					<div class="status_enemy"><input type="checkbox" data-var="options.triangled_enemy" id="triangled_enemy"/></div>
+				</div>
+				<div class="adj_status">
 					<div class="status_challenger"><input type="checkbox" data-var="options.panic_challenger" id="panic_challenger"/></div>
 					<div class="status_title">パニック</div>
 					<div class="status_enemy"><input type="checkbox" data-var="options.panic_enemy" id="panic_enemy"/></div>
@@ -334,7 +339,7 @@
 					</div>
 				</div>
 				<div style="line-height:40%;"><br></div>
-				<div id="adj_title">シミュ―レーター</div>
+				<div id="adj_title">シミュレータ</div>
 				<div class="adj_status">
 					<div class="status_desc_long">最大レベルのみ表示</div>
 					<div class="status_select_long">

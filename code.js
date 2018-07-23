@@ -155,10 +155,10 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"スミア (5★);Weapon: 反攻の槍+;Assist: 引き戻し;A: 近距離防御 3;B: 攻撃守備の連携 3;",
-	"マリアベル (5★);Weapon: トリレンマ+;Special: 祈り;B: 幻惑の杖 3;C: 杖の技量 3;",
+	"スミア(聖王国と踊り子) (5★);Weapon: 反攻の槍+;Assist: 引き戻し;A: 近距離防御 3;B: 攻撃守備の連携 3;",
+	"マリアベル(聖王国と踊り子) (5★);Weapon: トリレンマ+;Special: 祈り;B: 幻惑の杖 3;C: 杖の技量 3;",
 	"オリヴィエ(聖王国と踊り子) (5★);Weapon: スクルド;Assist: 踊る;A: 金剛明鏡の構え 2;B: 速さの封印 3;C: 空からの先導 3;",
-	"リベラ (5★);Weapon: 倭棍+;Special: 夕陽;B: 回復 3;C: 攻撃魔防の紋章 2;",
+	"リベラ(聖王国と踊り子) (5★);Weapon: 倭棍+;Special: 夕陽;B: 回復 3;C: 攻撃魔防の紋章 2;",
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -5109,6 +5109,7 @@ function activeHero(hero){
 	this.charge = 0;
 	this.initiator = false;
 	this.lit = false;
+	this.triangled = false;
 	this.panicked = false;
 	this.rushed = false;
 	this.pulsed = this.challenger ? options.pulse_challenger : options.pulse_enemy;
@@ -6256,6 +6257,10 @@ function activeHero(hero){
 				this.combatSpur.def += 4;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、ＨＰ 50% 以下の時、守備 +4 。<br>";
 			}
+			if(this.has("反攻の槍")){
+				this.combatSpur.atk += 6;
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、攻撃 +6 。<br>";
+			}
 			if(this.has("ベルクトの槍")){
 				if(this.hasExactly("ベルクトの槍+") && this.refineIndex != -1){
 					this.combatSpur.res += 7;
@@ -6294,10 +6299,6 @@ function activeHero(hero){
 			if(this.has("守りの剣")){
 				this.combatSpur.def += 7;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、守備 +7 。<br>";
-			}
-			if(this.has("反攻の槍")){
-				this.combatSpur.atk += 6;
-				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、攻撃 +6 。<br>";
 			}
 
 			//Skills
@@ -7236,8 +7237,8 @@ function activeHero(hero){
 			*/
 
 			var extraWeaponAdvantage = 0;
-			var thisHasGemWeapon = (this.has("旭日の剣") || this.has("蒼海の槍") || this.has("深緑の斧") || this.has("傭兵団の戦斧")) ? true : false;
-			var enemyHasGemWeapon = ( enemy.has("旭日の剣") || enemy.has("蒼海の槍") || enemy.has("深緑の斧") || enemy.has("傭兵団の戦斧")) ? true : false;
+			var thisHasGemWeapon = (this.triangled || this.has("旭日の剣") || this.has("蒼海の槍") || this.has("深緑の斧") || this.has("傭兵団の戦斧")) ? true : false;
+			var enemyHasGemWeapon = (enemy.triangled || enemy.has("旭日の剣") || enemy.has("蒼海の槍") || enemy.has("深緑の斧") || enemy.has("傭兵団の戦斧")) ? true : false;
 
 
 			//If weapon advantage is not neutral, and Attacker and Defender do not both have Cancel Affinity
@@ -7918,6 +7919,12 @@ function activeHero(hero){
 				if(options.candlelight_enemy){
 					enemy.challenger ? this.lit = true : enemy.lit = true;
 				}
+				if(options.triangled_challenger){
+					this.challenger ? this.triangled = true : enemy.triangled = true;
+				}
+				if(options.triangled_enemy){
+					enemy.challenger ? this.triangled = true : enemy.triangled = true;
+				}
 				if(this.challenger ? options.threaten_enemy : options.threaten_challenger){
 					roundText += enemy.threaten(this);
 				}
@@ -8454,6 +8461,7 @@ function activeHero(hero){
 		this.combatDebuffs = {"atk":0,"spd":0,"def":0,"res":0};
 		this.panicked = false;
 		this.lit = false;
+		this.triangled = false;
 
 		//Post-Combat Buffs
 		//Rogue dagger works on enemy turn, but buffs are reset at beginning of player turn,
@@ -8492,6 +8500,16 @@ function activeHero(hero){
 			if(enemy.has("キャンドルサービス")){
 				this.lit = true;
 				roundText += enemy.name + " は、" + this.name + " に、反撃不可 を付与。<br>";
+			}
+
+			//Trilemma
+			if(this.has("トリレンマ")){
+				enemy.triangled = true;
+				roundText += this.name + " は、 " + enemy.name + " に相性激化の効果を影響を与える。<br>";
+			}
+			if(enemy.has("トリレンマ")){
+				this.triangled = true;
+				roundText += enemy.name + " は、 " + this.name + " に相性激化の効果を影響を与える。<br>";
 			}
 
 			//Finally, Galeforce!
