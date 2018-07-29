@@ -155,6 +155,7 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
+	"ヴァルハルト (5★);Weapon: ヴォルフベルグ;Special: 月光;A: グラ二の盾;B: 守備の封印 3;",
 	"スミア(聖王国と踊り子) (5★);Weapon: 反攻の槍+;Assist: 引き戻し;A: 近距離防御 3;B: 攻撃守備の連携 3;",
 	"マリアベル(聖王国と踊り子) (5★);Weapon: トリレンマ+;Special: 祈り;B: 幻惑の杖 3;C: 杖の技量 3;",
 	"オリヴィエ(聖王国と踊り子) (5★);Weapon: スクルド;Assist: 踊る;A: 金剛明鏡の構え 2;B: 速さの封印 3;C: 空からの先導 3;",
@@ -2205,7 +2206,7 @@ function matchStartHeroes(params, data) {
     }
 
 	//If search term appears in the beginning of data's text
-	if (data.text.toUpperCase().indexOf(params.term.toUpperCase()) == 0) {
+	if (data.text.toUpperCase().indexOf(params.term.toUpperCase()) > -1) {
 		return data;
 	}
 
@@ -2254,7 +2255,7 @@ function matchStartHeroesList(params, data) {
     }
 
 	//If search term appears in the beginning of data's text
-	if (data.text.toUpperCase().indexOf(params.term.toUpperCase()) == 0) {
+	if (data.text.toUpperCase().indexOf(params.term.toUpperCase()) > -1) {
 		return data;
 	}
 
@@ -3231,8 +3232,8 @@ function importText(side, customList){
 
 	function parseFirstLine(line){
 		var dataFound = {};
-		//Try all lengths up to 20 characters to find hero name
-		for(var tryLength = 2; tryLength <= 30; tryLength++){
+		//Try all lengths up to 50 characters to find hero name
+		for(var tryLength = 2; tryLength <= 50; tryLength++){
 			var tryString = removeEdgeJunk(line.slice(0,tryLength));
 			var tryIndex;
 			(tryString.slice(0,1).charCodeAt(0) >= 256) ?　tryIndex = getIndexFromName(tryString,data.heroes) : tryIndex = getIndexFromNameEn(tryString);
@@ -5917,6 +5918,17 @@ function activeHero(hero){
 				this.combatSpur.res += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果でＨＰが " + enemy.name + " のＨＰより 3 以上高いため、魔防 +" + buffVal + " 。<br>";
 			}
+		}
+
+		//Adjacent Foe Buffs
+		if (this.hasExactly("ヴォルフベルグ") && this.adjacent2_foe - 1 >= this.adjacent2){
+			var buffVal = 4;
+			var skillName = data.skills[this.weaponIndex].name;
+			this.combatSpur.atk += buffVal;
+			this.combatSpur.spd += buffVal;
+			this.combatSpur.def += buffVal;
+			this.combatSpur.res += buffVal;
+			boostText += this.name + " は、" + skillName + " の効果で、周囲２マス以内の敵の数が味方の数より多い時、攻撃、速さ、守備、魔防 +" + buffVal + " 。<br>";
 		}
 
 		//Adjacent Buffs
