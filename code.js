@@ -5928,7 +5928,7 @@ function activeHero(hero){
 			this.combatSpur.spd += buffVal;
 			this.combatSpur.def += buffVal;
 			this.combatSpur.res += buffVal;
-			boostText += this.name + " は、" + skillName + " の効果で、周囲２マス以内の敵と味方の数と同じか敵の方が多い時、攻撃、速さ、守備、魔防 +" + buffVal + " 。<br>";
+			boostText += this.name + " は、" + skillName + " の効果で、周囲２マス以内の敵と味方の数が同じか敵の方が多い時、攻撃、速さ、守備、魔防 +" + buffVal + " 。<br>";
 		}
 
 		//Adjacent Buffs
