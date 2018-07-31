@@ -11657,7 +11657,7 @@
 	}, {
 		"skill_id": 778,
 		"name_en": "Absorb+",
-		"name": "アブソーブ+",
+		"name": "アブゾーブ+",
 		"slot": "weapon",
 		"sp": 300,
 		"description": "Recovers HP = 50% of damage dealt. After combat, restores 7 HP to allies within 2 spaces of unit.",

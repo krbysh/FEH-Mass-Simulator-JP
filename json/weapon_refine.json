@@ -1699,7 +1699,7 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Absorb+,Fear+,Slow+,Gravity+,Pain+,Panic+,Candlelight+,Trilemma+",
-		"prereq": "アブソーブ+,フィアー+,スロウ+,グラビティ+,ペイン+,パニック+,キャンドル+,トリレンマ+",
+		"prereq": "アブゾーブ+,フィアー+,スロウ+,グラビティ+,ペイン+,パニック+,キャンドル+,トリレンマ+",
 		"exclusive": ""
 	},	{
 		"category": "Staves",
@@ -1714,7 +1714,7 @@
 		"def": 0,
 		"res": 0,
 		"prereq": "Absorb+,Fear+,Slow+,Gravity+,Pain+,Panic+,Candlelight+,Trilemma+",
-		"prereq": "アブソーブ+,フィアー+,スロウ+,グラビティ+,ペイン+,パニック+,キャンドル+,トリレンマ+",
+		"prereq": "アブゾーブ+,フィアー+,スロウ+,グラビティ+,ペイン+,パニック+,キャンドル+,トリレンマ+",
 		"exclusive": ""
 	},	{
 		"category": "Dragonstone",
