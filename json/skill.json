@@ -17010,7 +17010,81 @@
 		"charge": 0,
 		"inheritrule": "unique",
 		"affectsduel": 1
-
+	}, {
+		"skill_id": 1135,
+		"name_en": "Thogn",
+		"name": "ソグン",
+		"slot": "weapon",
+		"sp": 400,
+		"description": "Grants Spd+3. If unit initiates combat and foe uses sword, lance, axe, or dragonstone, grants Atk\/Spd\/Def\/Res+4 during combat.",
+		"hp": 0,
+		"atk": 14,
+		"spd": 3,
+		"def": 0,
+		"res": 0,
+		"charge": 0,
+		"inheritrule": "unique",
+		"affectsduel": 1
+	}, {
+		"skill_id": 1136,
+		"name_en": "Future Vision",
+		"name": "未来を映す瞳",
+		"slot": "assist",
+		"sp": 400,
+		"description": "Unit and target ally swap spaces. Grants another action to unit. (Additional action granted once per turn only.)",
+		"hp": 0,
+		"atk": 0,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"charge": 0,
+		"inheritrule": "unique",
+		"affectsduel": 0
+	}, {
+		"skill_id": 1137,
+		"name_en": "Distant Guard 1",
+		"name": "遠距離警戒 1",
+		"slot": "c",
+		"sp": 60,
+		"description": "Allies within 2 spaces gain: \"If foe uses bow, dagger, magic, or staff, grants Def\/Res+2 during combat.\"",
+		"hp": 0,
+		"atk": 0,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"charge": 0,
+		"inheritrule": "",
+		"affectsduel": 0
+	}, {
+		"skill_id": 1138,
+		"name_en": "Distant Guard 2",
+		"name": "遠距離警戒 2",
+		"slot": "c",
+		"sp": 120,
+		"description": "Allies within 2 spaces gain: \"If foe uses bow, dagger, magic, or staff, grants Def\/Res+3 during combat.\"",
+		"hp": 0,
+		"atk": 0,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"charge": 0,
+		"inheritrule": "",
+		"affectsduel": 0
+	}, {
+		"skill_id": 1139,
+		"name_en": "Distant Guard 3",
+		"name": "遠距離警戒 3",
+		"slot": "c",
+		"sp": 240,
+		"description": "Allies within 2 spaces gain: \"If foe uses bow, dagger, magic, or staff, grants Def\/Res+4 during combat.\"",
+		"hp": 0,
+		"atk": 0,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"charge": 0,
+		"inheritrule": "",
+		"affectsduel": 0
 
 
 

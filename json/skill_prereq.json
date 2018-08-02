@@ -2630,6 +2630,12 @@
 	}, {
 		"skill_id": 1134,
 		"required_id": 43
+	}, {
+		"skill_id": 1138,
+		"required_id": 1137
+	}, {
+		"skill_id": 1137,
+		"required_id": 1136
 
 
 

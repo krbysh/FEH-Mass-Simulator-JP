@@ -155,6 +155,7 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
+	"ルキナ(神威の射手) (5★);Weapon: ソグン;Assist: 未来を映す瞳;A: 鬼神飛燕の一撃 2;B: 救援の行路 3;C: 遠距離警戒 3;",
 	"ヴァルハルト (5★);Weapon: ヴォルフベルグ;Special: 月光;A: グラ二の盾;B: 守備の封印 3;",
 	"スミア(聖王国と踊り子) (5★);Weapon: 反攻の槍+;Assist: 引き戻し;A: 近距離防御 3;B: 攻撃守備の連携 3;",
 	"マリアベル(聖王国と踊り子) (5★);Weapon: トリレンマ+;Special: 祈り;B: 幻惑の杖 3;C: 杖の技量 3;",
@@ -6110,10 +6111,20 @@ function activeHero(hero){
 				this.combatSpur.spd += 4;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、自分から攻撃時、攻撃、速さ +4 。<br>"
 			}
-			if (this.hasAtRefineIndex("フォルブレイズ・専用", this.refineIndex)){
+			if(this.hasAtRefineIndex("フォルブレイズ・専用", this.refineIndex)){
 				this.combatSpur.atk += 6;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) の効果で、自分から攻撃時、攻撃 +6 。<br>"
 			}
+			if(enemy.range == "melee"){
+				if(this.hasExactly("ソグン")){
+					this.combatSpur.atk += 4;
+					this.combatSpur.spd += 4;
+					this.combatSpur.def += 4;
+					this.combatSpur.res += 4;
+					boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、自分から攻撃時、攻撃、速さ、守備、魔防 +4 。<br>";
+				}
+			}
+
 			//Skills
 			if(this.has("鬼神飛燕の一撃")){
 				buffVal = this.has("鬼神飛燕の一撃") * 2;
