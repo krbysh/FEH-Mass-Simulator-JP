@@ -1237,6 +1237,17 @@ function getPrechargeChange(skill, slot){
 	return 0;
 }
 
+function isDragonEffective(hero){
+	if (hero.hasExactly("ファルシオン") 		|| hero.hasExactly("封剣ファルシオン")
+		|| hero.hasExactly("ナーガ") 			|| hero.hasExactly("聖書ナーガ")
+		|| hero.hasExactly("霧のブレス")	|| hero.hasExactly("真夏のブレス")
+		|| (hero.hasExactly("封印の剣") && hero.refineIndex != -1)
+		){
+		return true;
+	}
+	return false;
+}
+
 //Return type of special skill
 function getSpecialType(skill){
 
@@ -5746,13 +5757,8 @@ function activeHero(hero){
 		}
 
 		//Combat debuff ***does this stack like spurs?***
-		if (enemy.hasExactly("ロプトウス")
-			&& !(this.hasExactly("ファルシオン")	|| this.hasExactly("封剣ファルシオン")
-				|| this.hasExactly("ナーガ")		|| this.hasExactly("聖書ナーガ")
-				|| (this.hasExactly("封印の剣") && this.refineIndex != -1)
-			)
-		){
-			this.combatDebuffs.atk -= 6;
+		if (enemy.hasExactly("ロプトウス")	&& !isDragonEffective(this)){
+			this.combatSpur.atk -= 6;
 			boostText += this.name + " は、" + data.skills[enemy.weaponIndex].name + " の効果で、戦闘中、攻撃 -6 。<br>";
 		}
 
@@ -6086,9 +6092,21 @@ function activeHero(hero){
 				this.combatSpur.res += 2;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、自分から攻撃時、攻撃、速さ、守備、魔防 +2 。<br>";
 			}
+			if(this.has("ソグン") && enemy.range == "melee"){
+				this.combatSpur.atk += 4;
+				this.combatSpur.spd += 4;
+				this.combatSpur.def += 4;
+				this.combatSpur.res += 4;
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、自分から攻撃時、攻撃、速さ、守備、魔防 +4 。<br>";
+			}
 			if(this.hasExactly("デュランダル")){
 				this.combatSpur.atk += 4;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、自分から攻撃時、攻撃 +4 。<br>";
+			}
+			if(this.hasExactly("黒き血の大剣")){
+				this.combatSpur.atk += 4;
+				this.combatSpur.spd += 4;
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、自分から攻撃時、攻撃、速さ +4 。<br>"
 			}
 			if(this.hasExactly("夜刀神") && this.refineIndex == -1){
 				this.combatSpur.spd += 4;
@@ -6106,23 +6124,9 @@ function activeHero(hero){
 				this.combatSpur.res += 4;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、自分から攻撃時、魔防 +4 。<br>";
 			}
-			if(this.hasExactly("黒き血の大剣")){
-				this.combatSpur.atk += 4;
-				this.combatSpur.spd += 4;
-				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、自分から攻撃時、攻撃、速さ +4 。<br>"
-			}
 			if(this.hasAtRefineIndex("フォルブレイズ・専用", this.refineIndex)){
 				this.combatSpur.atk += 6;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) の効果で、自分から攻撃時、攻撃 +6 。<br>"
-			}
-			if(enemy.range == "melee"){
-				if(this.hasExactly("ソグン")){
-					this.combatSpur.atk += 4;
-					this.combatSpur.spd += 4;
-					this.combatSpur.def += 4;
-					this.combatSpur.res += 4;
-					boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、自分から攻撃時、攻撃、速さ、守備、魔防 +4 。<br>";
-				}
 			}
 
 			//Skills
@@ -7413,13 +7417,7 @@ function activeHero(hero){
 				){
 				effectiveBonus = (enemy.has("グラ二の盾")) ? 1 : 1.5;
 			}
-			else if ((enemy.weaponType == "dragon" || enemy.hasExactly("ロプトウス"))
-				&& (this.hasExactly("ファルシオン") || this.hasExactly("封剣ファルシオン")
-				|| this.hasExactly("ナーガ") || this.hasExactly("聖書ナーガ")
-				|| this.hasExactly("霧のブレス") || this.hasExactly("真夏のブレス")
-				|| (this.hasExactly("封印の剣") && this.refineIndex != -1)
-				)
-			){
+			else if ((enemy.weaponType == "dragon" || enemy.hasExactly("ロプトウス")) && isDragonEffective(this)){
 				effectiveBonus = 1.5;
 			}
 			else if ((enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" || enemy.weaponType == "greentome") && (this.has("猫の暗器"))){
