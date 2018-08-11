@@ -90,10 +90,10 @@ data.lists = loadJSON('json/custom_lists.json')
 
 var debug = true;
 
-data.weaponTypes = ["sword","lance","axe","redtome","bluetome","greentome","dragon","redbow","bluebow","greenbow","graybow","bow","dagger","staff"];
-data.rangedWeapons = ["redtome","bluetome","greentome","redbow","bluebow","greenbow","graybow","bow","dagger","staff"];
+data.weaponTypes = ["sword","lance","axe","redtome","bluetome","greentome","dragon","redbow","bluebow","greenbow","graybow","bow","reddagger","bluedagger","greendagger","graydagger","dagger","staff"];
+data.rangedWeapons = ["redtome","bluetome","greentome","redbow","bluebow","greenbow","graybow","bow","reddagger","bluedagger","greendagger","graydagger","dagger","staff"];
 data.meleeWeapons = ["sword","lance","axe","dragon"];
-data.physicalWeapons = ["sword","lance","axe","redbow","bluebow","greenbow","graybow","bow","dagger"];
+data.physicalWeapons = ["sword","lance","axe","redbow","bluebow","greenbow","graybow","bow","reddagger","bluedagger","greendagger","graydagger","dagger"];
 data.magicalWeapons = ["redtome","bluetome","greentome","dragon","staff"];
 data.moveTypes = ["infantry","armored","flying","cavalry","mounted"];
 data.colors = ["red","blue","green","gray"];
@@ -155,12 +155,13 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"ルキナ(神威の射手) (5★);Weapon: ソグン;Assist: 未来を映す瞳;A: 鬼神飛燕の一撃 2;B: 救援の行路 3;C: 遠距離警戒 3;",
-	"ヴァルハルト (5★);Weapon: ヴォルフベルグ;Special: 月光;A: グラ二の盾;B: 守備の封印 3;",
-	"スミア(聖王国と踊り子) (5★);Weapon: 反攻の槍+;Assist: 引き戻し;A: 近距離防御 3;B: 攻撃守備の連携 3;",
-	"マリアベル(聖王国と踊り子) (5★);Weapon: トリレンマ+;Special: 祈り;B: 幻惑の杖 3;C: 杖の技量 3;",
-	"オリヴィエ(聖王国と踊り子) (5★);Weapon: スクルド;Assist: 踊る;A: 金剛明鏡の構え 2;B: 速さの封印 3;C: 空からの先導 3;",
-	"リベラ(聖王国と踊り子) (5★);Weapon: 倭棍+;Special: 夕陽;B: 回復 3;C: 攻撃魔防の紋章 2;",
+	"ミカヤ(白夜の夏祭り) (5★);Weapon: 暁天の神楽鈴;Assist: 踊る;A: 攻撃魔防の絆 3;B: 業火静水の舞い 2;C: 魔防の謀策 3;",
+	"エリンシア(白夜の夏祭り) (5★);Weapon: 緑雲の舞扇+;Assist: 踊る;A: 攻撃速さの渾身 3;B: 疾風大地の舞い 2;C: 魔防の大紋章 2;",
+	"リョウマ(白夜の夏祭り) (5★);Weapon: 青天の舞扇+;Assist: 踊る;A: 相性激化 3;B: 守備の封印 3;C: 速さ魔防の紋章 2;",
+	"マークス(白夜の夏祭り) (5★);Weapon: 宵闇の団扇+;Assist: 踊る;A: 近距離反撃;B: 切り返し 3;C: 守備の波・奇数 3;",
+	"アルフォンス (5★);Weapon: フォルクヴァング ;Special: 太陽;A: 鬼神の一撃 3;C: 攻撃の紋章 3;",
+	"シャロン (5★);Weapon: フェンサリル;Assist: 攻撃の応援;A: 速さ 3;C: 守備の鼓舞 3;",
+	"アンナ (5★);Weapon: ノーアトゥーン;Special: 流星;B: 待ち伏せ 3;C: 魔防の紋章 3;",
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -1241,6 +1242,7 @@ function isDragonEffective(hero){
 	if (hero.hasExactly("ファルシオン") 		|| hero.hasExactly("封剣ファルシオン")
 		|| hero.hasExactly("ナーガ") 			|| hero.hasExactly("聖書ナーガ")
 		|| hero.hasExactly("霧のブレス")	|| hero.hasExactly("真夏のブレス")
+		|| hero.has("緑雲の舞扇")
 		|| (hero.hasExactly("封印の剣") && hero.refineIndex != -1)
 		){
 		return true;
@@ -2603,7 +2605,7 @@ function updateHeroUI(hero){
 		}
 
 		//Weapon and movement icons
-		if(data.heroes[hero.index].weapontype == "dragon" || data.heroes[hero.index].weapontype == "bow" ){
+		if(data.heroes[hero.index].weapontype == "dragon" || data.heroes[hero.index].weapontype == "bow" || data.heroes[hero.index].weapontype == "dagger"){
 			$("#" + htmlPrefix + "weapon_icon").attr("src","weapons/" + data.heroes[hero.index].color + data.heroes[hero.index].weapontype + ".png");
 		}
 		else{
@@ -4035,6 +4037,11 @@ function fight(enemyIndex,resultIndex){
 		weaponTypeName = ahEnemy.color + "bow";
 	}
 
+	//Set weapon icon name for dagger
+	if (weaponTypeName == "dagger"){
+		weaponTypeName = ahEnemy.color + "dagger";
+	}
+
 	if(typeof enemyList[enemyIndex].lastFightResult == "undefined"){
 		enemyList[enemyIndex].lastFightResult = "";
 	}
@@ -4043,11 +4050,11 @@ function fight(enemyIndex,resultIndex){
 	passFilters.push(outcome);
 
 	//Filter Color
-	if (weaponTypeName == "sword" || weaponTypeName == "redtome" || weaponTypeName == "redbow" ||weaponTypeName == "reddragon"){
+	if (weaponTypeName == "sword" || weaponTypeName == "redtome" || weaponTypeName == "redbow" || weaponTypeName == "reddagger" || weaponTypeName == "reddragon"){
 		passFilters.push("red");
-	}else if (weaponTypeName == "lance" || weaponTypeName == "bluetome" || weaponTypeName == "bluebow" ||weaponTypeName == "bluedragon"){
+	}else if (weaponTypeName == "lance" || weaponTypeName == "bluetome" || weaponTypeName == "bluebow" || weaponTypeName == "bluedagger" || weaponTypeName == "bluedragon"){
 		passFilters.push("blue");
-	}else if (weaponTypeName == "axe" || weaponTypeName == "greentome" || weaponTypeName == "greenbow" ||weaponTypeName == "greendragon"){
+	}else if (weaponTypeName == "axe" || weaponTypeName == "greentome" || weaponTypeName == "greenbow" || weaponTypeName == "greendagger" || weaponTypeName == "greendragon"){
 		passFilters.push("green");
 	}else{
 		passFilters.push("gray");
@@ -5928,7 +5935,7 @@ function activeHero(hero){
 		}
 
 		//Adjacent Foe Buffs
-		if (this.hasExactly("ヴォルフベルグ") && this.adjacent2_foe >= this.adjacent2){
+		if (this.hasExactly("ヴォルフベルグ") && this.adjacent2_foe - 1 >= this.adjacent2){
 			var buffVal = 4;
 			var skillName = data.skills[this.weaponIndex].name;
 			this.combatSpur.atk += buffVal;
@@ -6767,7 +6774,9 @@ function activeHero(hero){
 				sealStats(data.skills[this.weaponIndex].name, ["def","res"], [-7]);
 			}
 			if (this.has("銀の暗器") || this.has("貝殻") || this.has("舞踏祭の扇子") || this.has("鏡餅")
-				|| this.has("暗殺手裏剣") || this.has("フェリシアの氷皿") || this.has("ベビーキャロット") || this.has("ヒトデ")){
+				|| this.has("暗殺手裏剣") || this.has("フェリシアの氷皿") || this.has("ベビーキャロット") || this.has("ヒトデ")
+				|| this.has("緑雲の舞扇") || this.has("青天の舞扇") || this.has("宵闇の団扇")
+			){
 				sealStats(data.skills[this.weaponIndex].name, ["def","res"], [-5, -7]);
 			}
 			if (this.has("猫の暗器") && (enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" || enemy.weaponType == "greentome")){
@@ -7395,6 +7404,7 @@ function activeHero(hero){
 					|| this.has("貫きの槍") || this.has("貫きの槍鍛")
 					|| this.hasExactly("セイニー") || this.hasExactly("ウイングソード")
 					|| this.hasExactly("戦姫の和弓") || this.hasExactly("ロムファイア") || this.hasExactly("義勇の槍")
+					|| this.has("青天の舞扇") || this.hasExactly("暁天の神楽鈴")
 					)
 				){
 				effectiveBonus = (enemy.has("スヴェルの盾")) ? 1 : 1.5;
@@ -7413,6 +7423,7 @@ function activeHero(hero){
 					|| this.has("ラウアウルフ鍛") || this.has("ブラーウルフ") || this.has("ブラーウルフ鍛")
 					|| this.has("グルンウルフ") || this.has("グルンウルフ鍛") || this.has("ポールアクス")
 					|| this.hasExactly("セイニー") || this.hasExactly("ウイングソード") || this.hasExactly("ロムファイア")
+					|| this.has("宵闇の団扇") || this.hasExactly("暁天の神楽鈴")
 					)
 				){
 				effectiveBonus = (enemy.has("グラ二の盾")) ? 1 : 1.5;
@@ -8083,9 +8094,20 @@ function activeHero(hero){
 			}
 		}
 
-		//Check for 不動の姿勢, affects all skills that change attack priority
-		if(this.has("不動の姿勢") || (enemy.has("不動の姿勢") && (enemy.combatStartHp / enemy.maxHp >= (1.5 - enemy.has("不動の姿勢") * 0.5)))){
+		//Check for skills that disable change in attack priority
+		if (this.has("不動の姿勢") 		|| (enemy.has("不動の姿勢") && (enemy.combatStartHp / enemy.maxHp >= (1.5 - enemy.has("不動の姿勢") * 0.5)))
+			|| this.has("緑雲の舞扇") 	|| enemy.has("緑雲の舞扇")
+			|| this.hasExactly("暁天の神楽鈴")	|| enemy.hasExactly("暁天の神楽鈴")
+			|| this.has("青天の舞扇") 		|| enemy.has("青天の舞扇")
+			|| this.has("宵闇の団扇") 		|| enemy.has("宵闇の団扇")
+			){
+			if (vantage){
+				roundText += enemy.name + " の 待ち伏せ 関連スキルの効果は無効化される。<br>";
+			}
 			vantage = false;
+			if (desperation){
+				roundText += this.name + " の 攻め立て 関連スキルの効果は無効化される。<br>";
+			}
 			desperation = false;
 		}
 
@@ -8339,7 +8361,7 @@ function activeHero(hero){
 		else if(this.weaponType=="bow" && this.color=="gray" && enemy.has("弓殺し")){
 			thisBreakLevel = 1.1 - enemy.has("弓殺し") * 0.2;
 		}
-		else if(this.weaponType=="dagger" && enemy.has("暗器殺し")){
+		else if(this.weaponType=="dagger" && this.color=="gray" && enemy.has("暗器殺し")){
 			thisBreakLevel = 1.1 - enemy.has("暗器殺し") * 0.2;
 		}
 
@@ -8365,7 +8387,7 @@ function activeHero(hero){
 		else if(enemy.weaponType=="bow" && enemy.color=="gray" && this.has("弓殺し")){
 			enemyBreakLevel = 1.1 - this.has("弓殺し") * 0.2;
 		}
-		else if(enemy.weaponType=="dagger" && this.has("暗器殺し")){
+		else if(enemy.weaponType=="dagger" && enemy.color=="gray" && this.has("暗器殺し")){
 			enemyBreakLevel = 1.1 - this.has("暗器殺し") * 0.2;
 		}
 
