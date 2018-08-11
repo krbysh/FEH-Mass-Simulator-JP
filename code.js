@@ -5376,7 +5376,7 @@ function activeHero(hero){
 		}
 
 		//Weapons
-		if (this.has("フェンサリル")){
+		if (this.has("フェンサリル" && hero.refineIndex == -1)){
 			threatDebuffs.atk = Math.min(threatDebuffs.atk,-4);
 			skillNames.push(data.skills[this.weaponIndex].name);
 		}
@@ -5644,29 +5644,28 @@ function activeHero(hero){
 		}
 
 		//All defiant skills trigger at or below 50% HP
-		if(this.hp / this.maxHp <= 0.5){
-			if(this.has("フォルクヴァング")){
+		if (this.hp / this.maxHp <= 0.5){
+			if (this.has("フォルクヴァング") && hero.refineIndex == -1){
 				buffVal.atk = Math.max(buffVal.atk, 5);
 				skillNames.push(data.skills[this.weaponIndex].name);
 			}
-			if(this.has("攻撃の覚醒")){
+			if (this.has("攻撃の覚醒")){
 				buffVal.atk = Math.max(buffVal.atk, this.has("攻撃の覚醒") * 2 + 1);
 				skillNames.push(data.skills[this.aIndex].name);
 			}
-			if(this.has("速さの覚醒")){
+			if (this.has("速さの覚醒")){
 				buffVal.spd = Math.max(buffVal.spd, this.has("速さの覚醒") * 2 + 1);
 				skillNames.push(data.skills[this.aIndex].name);
 			}
-			if(this.has("守備の覚醒")){
+			if (this.has("守備の覚醒")){
 				buffVal.def = Math.max(buffVal.def, this.has("守備の覚醒") * 2 + 1);
 				skillNames.push(data.skills[this.aIndex].name);
 			}
-			if(this.has("魔防の覚醒")){
+			if (this.has("魔防の覚醒")){
 				buffVal.res = Math.max(buffVal.res, this.has("魔防の覚醒") * 2 + 1);
 				skillNames.push(data.skills[this.aIndex].name);
 			}
 		}
-
 
 		//Adjacent skills
 		if (this.adjacent > 0){
@@ -5761,6 +5760,13 @@ function activeHero(hero){
 		if (this.hasAtRefineIndex("パルティア・専用", this.refineIndex) && enemy.range == "ranged"){
 			this.combatSpur.atk += 6;
 			boostText += this.name + " は、" + data.refine[this.refineIndex].name + "(錬成) の効果で、遠距離の敵に対して、戦闘中、攻撃 +6 。<br>";
+		}
+
+		if (this.has("フォルクヴァング") && this.refineIndex != -1 && this.hp / this.maxHp <= 0.8){
+			statBonus = 7;
+			this.combatSpur.atk += statBonus;
+			this.combatSpur.def += statBonus;
+			boostText += this.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) の効果で、戦闘中、攻撃、守備 +" + statBonus + " 。<br>";
 		}
 
 		//Combat debuff ***does this stack like spurs?***
@@ -6075,6 +6081,13 @@ function activeHero(hero){
 				this.combatSpur.res += buffVal;
 				boostText += this.name + " は、" + skillName + "(錬成) の効果で、飛行の味方が２マス以内にいる時、攻撃、魔防 +" + buffVal + " 。<br>";
 			}
+			if (this.hasAtRefineIndex("フェンサリル・専用", this.refineIndex)){
+				buffVal = 5;
+				skillName = "フェンサリル・専用";
+				this.combatSpur.spd += buffVal;
+				this.combatSpur.def += buffVal;
+				boostText += this.name + " は、" + skillName + "(錬成) の効果で、味方と隣接している時、速さ、守備 +" + buffVal + " 。<br>";
+			}
 			if (this.hasAtRefineIndex("リガルブレイド・専用", this.refineIndex)){
 				buffVal = 3;
 				skillName = "リガルブレイド・専用";
@@ -6142,66 +6155,66 @@ function activeHero(hero){
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.atk += buffVal;
 				this.combatSpur.spd += buffVal;
-				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、攻撃、速さ +" + buffVal + " 。<br>";
+				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、戦闘中、攻撃、速さ +" + buffVal + " 。<br>";
 			}
 			else if(this.has("鬼神金剛の一撃")){
 				buffVal = this.has("鬼神金剛の一撃") * 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.atk += buffVal;
 				this.combatSpur.def += buffVal;
-				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、攻撃、守備 +" + buffVal + " 。<br>";
+				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、戦闘中、攻撃、守備 +" + buffVal + " 。<br>";
 			}
 			else if(this.has("鬼神明鏡の一撃")){
 				buffVal = this.has("鬼神明鏡の一撃") * 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.atk += buffVal;
 				this.combatSpur.res += buffVal;
-				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、攻撃、魔防 +" + buffVal + " 。<br>";
+				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、戦闘中、攻撃、魔防 +" + buffVal + " 。<br>";
 			}
 			else if(this.has("飛燕金剛の一撃")){
 				buffVal = this.has("飛燕金剛の一撃") * 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.spd += buffVal;
 				this.combatSpur.def += buffVal;
-				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、速さ、守備 +" + buffVal + " 。<br>";
+				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、戦闘中、速さ、守備 +" + buffVal + " 。<br>";
 			}
 			else if(this.has("飛燕明鏡の一撃")){
 				buffVal = this.has("飛燕明鏡の一撃") * 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.spd += buffVal;
 				this.combatSpur.res += buffVal;
-				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、速さ、魔防 +" + buffVal + " 。<br>";
+				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、戦闘中、速さ、魔防 +" + buffVal + " 。<br>";
 			}
 			else if(this.has("金剛明鏡の一撃")){
 				buffVal = this.has("金剛明鏡の一撃") * 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.def += buffVal;
 				this.combatSpur.res += buffVal;
-				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、守備、魔防 +" + buffVal + " 。<br>";
+				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、戦闘中、守備、魔防 +" + buffVal + " 。<br>";
 			}
 			else if(this.hasAtIndex("鬼神の一撃", this.aIndex)){
 				buffVal = this.hasAtIndex("鬼神の一撃", this.aIndex) * 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.atk += buffVal;
-				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、攻撃 +" + buffVal + " 。<br>";
+				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、戦闘中、攻撃 +" + buffVal + " 。<br>";
 			}
 			else if(this.has("飛燕の一撃")){
 				buffVal = this.has("飛燕の一撃") * 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.spd += buffVal;
-				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、速さ +" + buffVal + " 。<br>";
+				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、戦闘中、速さ +" + buffVal + " 。<br>";
 			}
 			else if(this.has("金剛の一撃")){
 				buffVal = this.has("金剛の一撃") * 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.def += buffVal;
-				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、守備 +" + buffVal + " 。<br>";
+				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、戦闘中、守備 +" + buffVal + " 。<br>";
 			}
 			else if(this.has("明鏡の一撃")){
 				buffVal = this.has("明鏡の一撃") * 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.res += buffVal;
-				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、魔防 +" + buffVal + " 。<br>";
+				boostText += this.name + " は、" + skillName + " の効果で、自分から攻撃時、戦闘中、魔防 +" + buffVal + " 。<br>";
 			}
 			return boostText;
 		}
@@ -6946,7 +6959,9 @@ function activeHero(hero){
 	//Checks if hero's buffs are cancelled by opponent
 	function isBuffCancelled(hero, opponent){
 		//Weapon
-		if (opponent.hasExactly("聖書ナーガ")){
+		if (opponent.hasExactly("聖書ナーガ")
+		|| (opponent.hasExactly("フェンサリル") && opponent.refineIndex != -1)
+		){
 			return true;
 		}
 		if ((opponent.has("カサブランカ") || opponent.has("青のプレゼント箱") || opponent.has("緑のプレゼント箱") || opponent.has("グラーティア")) && hero.range == "ranged"){
@@ -7273,25 +7288,26 @@ function activeHero(hero){
 			*/
 
 			var extraWeaponAdvantage = 0;
-			var thisHasGemWeapon = (this.triangled || this.has("旭日の剣") || this.has("蒼海の槍") || this.has("深緑の斧") || this.has("傭兵団の戦斧")) ? true : false;
-			var enemyHasGemWeapon = (enemy.triangled || enemy.has("旭日の剣") || enemy.has("蒼海の槍") || enemy.has("深緑の斧") || enemy.has("傭兵団の戦斧")) ? true : false;
+			var thisHasGemWeapon = (this.triangled || this.hasAtRefineIndex("フォルクヴァング・専用", this.refineIndex) || this.has("旭日の剣") || this.has("蒼海の槍") || this.has("深緑の斧") || this.has("傭兵団の戦斧")) ? true : false;
+			var enemyHasGemWeapon = (enemy.triangled || enemy.hasAtRefineIndex("フォルクヴァング・専用", enemy.refineIndex) || enemy.has("旭日の剣") || enemy.has("蒼海の槍") || enemy.has("深緑の斧") || enemy.has("傭兵団の戦斧")) ? true : false;
 
 
 			//If weapon advantage is not neutral, and Attacker and Defender do not both have Cancel Affinity
 			if (weaponAdvantage !=0 && !(this.has("相性相殺") && enemy.has("相性相殺"))){
 
-				//Calculate base weapon advantage bonus
-				if(thisHasGemWeapon || enemyHasGemWeapon){
+				//Calculate base weapon advantage bonus (Assume 0.2 is max.)
+				if (thisHasGemWeapon || enemyHasGemWeapon){
 					extraWeaponAdvantage = 0.2;
 				}
 				else{
-					if(this.has("相性激化")){
-						extraWeaponAdvantage = 0.05 + 0.05 * this.has("相性激化");
+					if (this.hasAtIndex("相性激化", this.aIndex)){
+						extraWeaponAdvantage = 0.05 + 0.05 * this.hasAtIndex("相性激化", this.aIndex);
 					}
-					if(enemy.has("相性激化")){
-						extraWeaponAdvantage = Math.max(extraWeaponAdvantage, 0.05 + 0.05 * enemy.has("相性激化"));
+					if (enemy.hasAtIndex("相性激化", enemy.aIndex)){
+						extraWeaponAdvantage = Math.max(extraWeaponAdvantage, 0.05 + 0.05 * enemy.hasAtIndex("相性激化", enemy.aIndex));
 					}
 				}
+
 
 				//If Attacker has Cancel Affinity
 				if (this.has("相性相殺")){
@@ -7311,7 +7327,7 @@ function activeHero(hero){
 								if (enemyHasGemWeapon){
 									extraWeaponAdvantage = 0.2;
 								} else{
-									extraWeaponAdvantage = 0.05 + 0.05 * enemy.has("相性激化");
+									extraWeaponAdvantage = 0.05 + 0.05 * enemy.hasAtIndex("相性激化", enemy.aIndex);
 								}
 							}
 						}
@@ -7322,7 +7338,7 @@ function activeHero(hero){
 								if (enemyHasGemWeapon){
 									extraWeaponAdvantage = -0.2;
 								} else{
-									extraWeaponAdvantage = (0.05 + 0.05 * enemy.has("相性激化")) * -1;
+									extraWeaponAdvantage = (0.05 + 0.05 * enemy.hasAtIndex("相性激化", enemy.aIndex)) * -1;
 								}
 							} else{
 								extraWeaponAdvantage = 0;
@@ -7435,7 +7451,7 @@ function activeHero(hero){
 				effectiveBonus = 1.5;
 			}
 
-			if (effectiveBonus > 1 ){
+			if (effectiveBonus > 1){
 				damageText += this.name + " の攻撃は、武器の特効の効果で、" + (effectiveBonus * 100 - 100) + "% 上昇。<br>";
 			}
 

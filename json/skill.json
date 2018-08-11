@@ -32,7 +32,7 @@
 	}, {
 		"skill_id": 3,
 		"name_en": "Silver Sword",
-		"name": "銀の剣 ",
+		"name": "銀の剣",
 		"slot": "weapon",
 		"sp": 200,
 		"description": "",
@@ -257,7 +257,7 @@
 	}, {
 		"skill_id": 18,
 		"name_en": "Folkvangr",
-		"name": "フォルクヴァング ",
+		"name": "フォルクヴァング",
 		"slot": "weapon",
 		"sp": 400,
 		"description": "Grants Atk+5 at start of turn if unit's HP<50%",
