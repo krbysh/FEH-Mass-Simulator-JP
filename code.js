@@ -5766,7 +5766,8 @@ function activeHero(hero){
 			statBonus = 7;
 			this.combatSpur.atk += statBonus;
 			this.combatSpur.def += statBonus;
-			boostText += this.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) の効果で、戦闘中、攻撃、守備 +" + statBonus + " 。<br>";
+			skillName = data.skills[this.weaponIndex].name + "(錬成)";
+			boostText += this.name + " は、" + skillName + " の効果で、戦闘中、攻撃、守備 +" + statBonus + " 。<br>";
 		}
 
 		//Combat debuff ***does this stack like spurs?***
