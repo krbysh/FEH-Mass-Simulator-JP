@@ -146,7 +146,7 @@ data.skillPrereqExceptions = [
 	125, 137, 162, 168, 170, 193,
 	6, 10, 38, 74, 76, 87,
 	50, 52, 64,	107, 111, 424,
-	14, 28
+	14, 28, 231
 	];
 
 data.enemyPrompts = {
@@ -155,13 +155,10 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"ミカヤ(白夜の夏祭り) (5★);Weapon: 暁天の神楽鈴;Assist: 踊る;A: 攻撃魔防の絆 3;B: 業火静水の舞い 2;C: 魔防の謀策 3;",
-	"エリンシア(白夜の夏祭り) (5★);Weapon: 緑雲の舞扇+;Assist: 踊る;A: 攻撃速さの渾身 3;B: 疾風大地の舞い 2;C: 魔防の大紋章 2;",
-	"リョウマ(白夜の夏祭り) (5★);Weapon: 青天の舞扇+;Assist: 踊る;A: 相性激化 3;B: 守備の封印 3;C: 速さ魔防の紋章 2;",
-	"マークス(白夜の夏祭り) (5★);Weapon: 宵闇の団扇+;Assist: 踊る;A: 近距離反撃;B: 切り返し 3;C: 守備の波・奇数 3;",
-	"アルフォンス (5★);Weapon: フォルクヴァング ;Special: 太陽;A: 鬼神の一撃 3;C: 攻撃の紋章 3;",
-	"シャロン (5★);Weapon: フェンサリル;Assist: 攻撃の応援;A: 速さ 3;C: 守備の鼓舞 3;",
-	"アンナ (5★);Weapon: ノーアトゥーン;Special: 流星;B: 待ち伏せ 3;C: 魔防の紋章 3;",
+	"ヴェロニカ(大いなる者、顕現す) (5★);Weapon: フリズスキャルヴ;Assist: リカバー+;Special: 業火疾風の祝福+;B: 神罰の杖 3;C: 近距離警戒 3;",
+	"エフラム(大いなる者、顕現す) (5★);Weapon: ガルム;Special: 竜裂;A: 近距離防御 3;B: 奥義隊形 3;C: 重装の行軍 3;",
+	"セリカ(大いなる者、顕現す) (5★);Weapon: 王家の剣;Special: 疾風迅雷;A: 鬼神の一撃 4;B: 獅子連斬;C: 攻撃の指揮 3;",
+	"ヘクトル(大いなる者、顕現す) (5★);Weapon: マルテ;Special: 華炎;A: オスティアの反撃;B: 攻撃隊形 3;C: 魔防の波・偶数 3;",
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -1176,6 +1173,7 @@ function getCDChange(skill, slot){
 			|| skillName.indexOf("アウドムラ") != -1 || skillName.indexOf("鏡餅") != -1 || skillName.indexOf("バシリコス") != -1
 			|| skillName.indexOf("狂斧アルマーズ") != -1 || skillName.indexOf("無銘の一門の剣") != -1 || skillName.indexOf("暗殺手裏剣") != -1
 			|| skillName.indexOf("トールハンマー") != -1 || skillName.indexOf("剣姫の刀") != -1 || skillName.indexOf("義勇の槍") != -1
+			|| skillName.indexOf("マルテ") != -1
 			){
 				return -1;
 		}
@@ -1282,7 +1280,7 @@ function canCounterAnyRange(hero){
 	if(hero.has("近距離反撃") || hero.has("遠距離反撃") || hero.has("雷のブレス")
 		|| hero.has("雷神刀") || hero.has("ジークフリート") || hero.has("ラグネル")
 		|| hero.has("グラディウス") || hero.has("エタルド") || hero.has("剛斧トマホーク")
-		|| hero.has("レイプト") || hero.has("邪竜のブレス")){
+		|| hero.has("レイプト") || hero.has("邪竜のブレス") || hero.hasExactly("オスティアの反撃")){
 		return true;
 	}
 	return false;
@@ -5617,15 +5615,15 @@ function activeHero(hero){
 				skillNames.push(data.skills[this.cIndex].name);
 			}
 			if(this.has("速さの波・奇数")){
-				buffVal.spd = Math.max(buffVal.atk, this.has("速さの波・奇数") * 2);
+				buffVal.spd = Math.max(buffVal.spd, this.has("速さの波・奇数") * 2);
 				skillNames.push(data.skills[this.cIndex].name);
 			}
 			if(this.has("守備の波・奇数")){
-				buffVal.def = Math.max(buffVal.atk, this.has("守備の波・奇数") * 2);
+				buffVal.def = Math.max(buffVal.def, this.has("守備の波・奇数") * 2);
 				skillNames.push(data.skills[this.cIndex].name);
 			}
 			if(this.has("魔防の波・奇数")){
-				buffVal.res = Math.max(buffVal.atk, this.has("魔防の波・奇数") * 2);
+				buffVal.res = Math.max(buffVal.res, this.has("魔防の波・奇数") * 2);
 				skillNames.push(data.skills[this.cIndex].name);
 			}
 
@@ -5637,8 +5635,20 @@ function activeHero(hero){
 				skillNames.push(data.skills[this.weaponIndex].name);
 			}
 			//Even
+			if(this.has("攻撃の波・偶数")){
+				buffVal.atk = Math.max(buffVal.atk, this.has("攻撃の波・偶数") * 2);
+				skillNames.push(data.skills[this.cIndex].name);
+			}
 			if(this.has("速さの波・偶数")){
-				buffVal.spd = Math.max(buffVal.atk, this.has("速さの波・偶数") * 2);
+				buffVal.spd = Math.max(buffVal.spd, this.has("速さの波・偶数") * 2);
+				skillNames.push(data.skills[this.cIndex].name);
+			}
+			if(this.has("守備の波・偶数")){
+				buffVal.def = Math.max(buffVal.def, this.has("守備の波・偶数") * 2);
+				skillNames.push(data.skills[this.cIndex].name);
+			}
+			if(this.has("魔防の波・偶数")){
+				buffVal.res = Math.max(buffVal.res, this.has("速さの波・偶数") * 2);
 				skillNames.push(data.skills[this.cIndex].name);
 			}
 		}
@@ -6350,6 +6360,11 @@ function activeHero(hero){
 			}
 
 			//Skills
+			if(this.hasExactly("オスティアの反撃")){
+				this.combatSpur.atk += 4;
+				this.combatSpur.def += 4;
+				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、攻撃、守備 +4 。<br>";
+			}
 			if(this.has("鬼神の呼吸")){
 				this.combatSpur.atk += 4;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、攻撃 +4 。<br>";
@@ -6630,10 +6645,16 @@ function activeHero(hero){
 				}
 
 				//Push Skills
-				if(this.hasAtIndex("攻撃速さの渾身", this.aIndex) || this.hasAtIndex("攻撃守備の渾身", this.aIndex) || this.hasAtIndex("攻撃魔防の渾身", this.aIndex)
+				if (this.hasAtIndex("攻撃速さの渾身", this.aIndex) || this.hasAtIndex("攻撃守備の渾身", this.aIndex) || this.hasAtIndex("攻撃魔防の渾身", this.aIndex)
 					|| this.hasAtIndex("速さ守備の渾身", this.aIndex) || this.hasAtIndex("速さ魔防の渾身", this.aIndex) || this.hasAtIndex("守備魔防の渾身", this.aIndex)){
 					damage = 1;
 					skillName = data.skills[this.aIndex].name;
+					damageText += this.name + " は、"  + skillName + " の効果で、戦闘後、" + damage + " ダメージ。<br>";
+					totalDamage += damage;
+				}
+				if (this.hasExactly("獅子連斬")){
+					damage = 1;
+					skillName = data.skills[this.bIndex].name;
 					damageText += this.name + " は、"  + skillName + " の効果で、戦闘後、" + damage + " ダメージ。<br>";
 					totalDamage += damage;
 				}
@@ -6816,6 +6837,9 @@ function activeHero(hero){
 			}
 
 			//Other
+			if (this.hasExactly("フリズスキャルヴ")){
+				sealStats(data.skills[this.weaponIndex].name, ["atk","spd","def","res"], [-4]);
+			}
 			if (this.hasExactly("魔書ギムレー")){
 				sealStats(data.skills[this.weaponIndex].name, ["atk","spd"], [-5]);
 			}
@@ -6894,10 +6918,12 @@ function activeHero(hero){
 			if(this.hasExactly("魔書ギムレー")){
 				buffStat(data.skills[this.weaponIndex].name, ["atk", "spd"], 5);
 			}
+			if (this.hasExactly("フリズスキャルヴ")){
+				buffStat(data.skills[this.weaponIndex].name, ["atk","spd","def","res"], 4);
+			}
 			if (this.hasExactly("ペシュカド")){
 				buffStat(data.skills[this.weaponIndex].name, ["atk","spd","def","res"], 4);
 			}
-
 			if((this.hasExactly("光のブレス+")) && this.refineIndex != -1){
 				buffStat(data.skills[this.weaponIndex].name + "(錬成)", ["atk", "spd", "def", "res"], 5);
 			}
@@ -7737,6 +7763,12 @@ function activeHero(hero){
 						skillNames.push(data.skills[this.bIndex].name);
 					}
 				}
+				if (this.initiator && this.has("奥義隊形")){
+					if (this.combatStartHp / this.maxHp >= 1 - (0.2 * this.hasAtIndex("奥義隊形", this.bIndex) + 0.1)){
+						gainCharge = Math.max(gainCharge, 1);
+						skillNames.push(data.skills[this.bIndex].name);
+					}
+				}
 
 				//TODO: Change Rush skill name to a generic name
 				if (this.rushed && (this.moveType == "infantry")){
@@ -7810,6 +7842,12 @@ function activeHero(hero){
 
 				if (enemy.hasAtIndex("キャンセル", enemy.bIndex)){
 					if (enemy.combatStartHp / enemy.maxHp >= 1.1 - enemy.hasAtIndex("キャンセル", enemy.bIndex) * 0.1){
+						loseCharge = Math.max(loseCharge, 1);
+						skillNames.push(data.skills[enemy.bIndex].name);
+					}
+				}
+				if (enemy.hasAtIndex("奥義隊形", enemy.bIndex)){
+					if (enemy.combatStartHp / enemy.maxHp >= 1 - (0.2 * enemy.hasAtIndex("奥義隊形", enemy.bIndex) + 0.1)){
 						loseCharge = Math.max(loseCharge, 1);
 						skillNames.push(data.skills[enemy.bIndex].name);
 					}
@@ -8072,6 +8110,9 @@ function activeHero(hero){
 		if (this.hasAtRefineIndex("ファルシオン外伝・専用", this.refineIndex) && (this.combatStartHp / this.maxHp == 1)){
 			doubleInitiate = true;
 		}
+		if (this.hasExactly("獅子連斬") && (this.combatStartHp / this.maxHp == 1)){
+			doubleInitiate = true;
+		}
 		if (enemy.hasExactly("マスターソード")){
 			doubleCounter = true;
 		}
@@ -8209,6 +8250,10 @@ function activeHero(hero){
 			roundText += enemy.name + " は、幻惑の効果で反撃不可。<br>";
 			enemyCanCounter = false;
 		}
+		if (this.hasExactly("フリズスキャルヴ") && enemyCanCounter){
+			roundText += enemy.name + " は、フリズスキャルヴの効果で反撃不可。<br>";
+			enemyCanCounter = false;
+		}
 		if (enemy.lit && enemyCanCounter){
 			roundText += enemy.name + " は、キャンドルサービス の効果で反撃不可。<br>";
 			enemyCanCounter = false;
@@ -8295,6 +8340,12 @@ function activeHero(hero){
 		}
 		if (enemy.hasExactly("アルマーズ")){
 			if (enemy.combatStartHp/enemy.maxHp >= .8){
+				enemyAttackRank++;
+				enemyAttackRankChanged = true;
+			}
+		}
+		if (enemy.hasExactly("マルテ")){
+			if (enemy.combatStartHp/enemy.maxHp >= .5){
 				enemyAttackRank++;
 				enemyAttackRankChanged = true;
 			}
