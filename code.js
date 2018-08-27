@@ -231,12 +231,18 @@ function initOptions(){
 	options.rush_enemy = false;
 	options.pulse_challenger = false;
 	options.pulse_enemy = false;
+	options.movement_challenger = false;
+	options.movement_enemy = false;
 	options.harsh_command_challenger = false;
 	options.harsh_command_enemy = false;
 	options.candlelight_challenger = false;
 	options.candlelight_enemy = false;
 	options.defensive_challenger = false;
 	options.defensive_enemy = false;
+	options.close_def_challenger = false;
+	options.close_def_enemy = false;
+	options.distant_def_challenger = false;
+	options.distant_def_enemy = false;
 	options.threaten_challenger = false;
 	options.threaten_enemy = false;
 	options.galeforce_challenger = true;
@@ -5132,6 +5138,9 @@ function activeHero(hero){
 	this.rushed = false;
 	this.pulsed = this.challenger ? options.pulse_challenger : options.pulse_enemy;
 	this.harshed = false;
+	this.close_defed = false;
+	this.distant_defed = false;
+	this.moveBuffed = false;
 	this.didAttack = false;
 
 	this.has = function(skill){
@@ -6249,19 +6258,25 @@ function activeHero(hero){
 
 			////Close/Distant Def
 			if(enemy.range == "ranged"){
-				if(this.hasAtIndex("遠距離防御", this.aIndex)){
+				if (this.distant_defed){
+					buffVal = 4;
+					this.combatSpur.def += buffVal;
+					this.combatSpur.res += buffVal;
+					boostText += this.name + " は、遠距離警戒 3 の効果で遠距離の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
+				}
+				if (this.hasAtIndex("遠距離防御", this.aIndex)){
 					buffVal = this.hasAtIndex("遠距離防御", this.aIndex) * 2;
 					this.combatSpur.def += buffVal;
 					this.combatSpur.res += buffVal;
 					boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で遠距離の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
 				}
-				if(this.hasAtIndex("遠距離防御", this.sIndex)){
+				if (this.hasAtIndex("遠距離防御", this.sIndex)){
 					buffVal = this.hasAtIndex("遠距離防御", this.sIndex) * 2;
 					this.combatSpur.def += buffVal;
 					this.combatSpur.res += buffVal;
 					boostText += this.name + " は、" + data.skills[this.sIndex].name + "(聖印) の効果で遠距離の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
 				}
-				if(this.hasAtRefineIndex("エッケザックス・専用", this.refineIndex)){
+				if (this.hasAtRefineIndex("エッケザックス・専用", this.refineIndex)){
 					buffVal = 6;
 					this.combatSpur.def += buffVal;
 					this.combatSpur.res += buffVal;
@@ -6269,13 +6284,19 @@ function activeHero(hero){
 				}
 			}
 			if(enemy.range == "melee"){
-				if(this.hasAtIndex("近距離防御", this.aIndex)){
+				if (this.close_defed){
+					buffVal = 4;
+					this.combatSpur.def += buffVal;
+					this.combatSpur.res += buffVal;
+					boostText += this.name + " は、近距離警戒 3 の効果で遠距離の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
+				}
+				if (this.hasAtIndex("近距離防御", this.aIndex)){
 					buffVal = this.hasAtIndex("近距離防御", this.aIndex) * 2;
 					this.combatSpur.def += buffVal;
 					this.combatSpur.res += buffVal;
 					boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で近距離の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
 				}
-				if(this.hasAtIndex("近距離防御", this.sIndex)){
+				if (this.hasAtIndex("近距離防御", this.sIndex)){
 					buffVal = this.hasAtIndex("近距離防御", this.sIndex) * 2;
 					this.combatSpur.def += buffVal;
 					this.combatSpur.res += buffVal;
@@ -6360,11 +6381,6 @@ function activeHero(hero){
 			}
 
 			//Skills
-			if(this.hasExactly("オスティアの反撃")){
-				this.combatSpur.atk += 4;
-				this.combatSpur.def += 4;
-				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、攻撃、守備 +4 。<br>";
-			}
 			if(this.has("鬼神の呼吸")){
 				this.combatSpur.atk += 4;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、攻撃 +4 。<br>";
@@ -6443,6 +6459,12 @@ function activeHero(hero){
 				this.combatSpur.def += buffVal;
 				this.combatSpur.res += buffVal;
 				boostText += this.name + "は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、守備、魔防 +" + buffVal + " 。<br>";
+			}
+			if(this.hasExactly("オスティアの反撃")){
+				buffVal = 4;
+				this.combatSpur.atk += buffVal;
+				this.combatSpur.def += buffVal;
+				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、攻撃、守備 +4 。<br>";
 			}
 
 			return boostText;
@@ -6644,17 +6666,18 @@ function activeHero(hero){
 					totalDamage += damage;
 				}
 
-				//Push Skills
+				//Skills
+				damage = 0;
 				if (this.hasAtIndex("攻撃速さの渾身", this.aIndex) || this.hasAtIndex("攻撃守備の渾身", this.aIndex) || this.hasAtIndex("攻撃魔防の渾身", this.aIndex)
 					|| this.hasAtIndex("速さ守備の渾身", this.aIndex) || this.hasAtIndex("速さ魔防の渾身", this.aIndex) || this.hasAtIndex("守備魔防の渾身", this.aIndex)){
-					damage = 1;
 					skillName = data.skills[this.aIndex].name;
-					damageText += this.name + " は、"  + skillName + " の効果で、戦闘後、" + damage + " ダメージ。<br>";
-					totalDamage += damage;
-				}
-				if (this.hasExactly("獅子連斬")){
 					damage = 1;
+				}
+				if (this.hasExactly("獅子連斬") && this.initiator){
 					skillName = data.skills[this.bIndex].name;
+					damage = 1;
+				}
+				if (damage != 0){
 					damageText += this.name + " は、"  + skillName + " の効果で、戦闘後、" + damage + " ダメージ。<br>";
 					totalDamage += damage;
 				}
@@ -6837,9 +6860,6 @@ function activeHero(hero){
 			}
 
 			//Other
-			if (this.hasExactly("フリズスキャルヴ")){
-				sealStats(data.skills[this.weaponIndex].name, ["atk","spd","def","res"], [-4]);
-			}
 			if (this.hasExactly("魔書ギムレー")){
 				sealStats(data.skills[this.weaponIndex].name, ["atk","spd"], [-5]);
 			}
@@ -6848,6 +6868,9 @@ function activeHero(hero){
 			}
 			if (this.hasExactly("闇のブレス+") && this.refineIndex != -1){
 				sealStats(data.skills[this.weaponIndex].name, ["atk","spd"], [-7]);
+			}
+			if (this.hasExactly("フリズスキャルヴ")){
+				sealStats(data.skills[this.weaponIndex].name, ["atk","spd","def","res"], [-4]);
 			}
 		}
 
@@ -6903,28 +6926,28 @@ function activeHero(hero){
 		}
 
 		//Daggers only take effect if the unit performed an attack
-		if(this.didAttack){
-			if(this.hasExactly("盗賊の暗器+")){
+		if (this.didAttack){
+			if (this.hasExactly("盗賊の暗器+")){
 				buffStat(data.skills[this.weaponIndex].name, ["def", "res"], 5);
 			}
-			else if(this.hasExactly("盗賊の暗器")){
+			else if (this.hasExactly("盗賊の暗器")){
 				buffStat(data.skills[this.weaponIndex].name, ["def", "res"], 3);
 			}
 
-			if((this.hasExactly("ファーストバイト+") || this.hasExactly("キューピッドの矢+") || this.hasExactly("聖なるブーケ+")) && this.refineIndex != -1){
+			if ((this.hasExactly("ファーストバイト+") || this.hasExactly("キューピッドの矢+") || this.hasExactly("聖なるブーケ+")) && this.refineIndex != -1){
 				buffStat(data.skills[this.weaponIndex].name + "(錬成)", ["def", "res"], 5);
 			}
 
-			if(this.hasExactly("魔書ギムレー")){
+			if (this.hasExactly("魔書ギムレー")){
 				buffStat(data.skills[this.weaponIndex].name, ["atk", "spd"], 5);
-			}
-			if (this.hasExactly("フリズスキャルヴ")){
-				buffStat(data.skills[this.weaponIndex].name, ["atk","spd","def","res"], 4);
 			}
 			if (this.hasExactly("ペシュカド")){
 				buffStat(data.skills[this.weaponIndex].name, ["atk","spd","def","res"], 4);
 			}
-			if((this.hasExactly("光のブレス+")) && this.refineIndex != -1){
+			if (this.hasExactly("フリズスキャルヴ")){
+				buffStat(data.skills[this.weaponIndex].name, ["atk","spd","def","res"], 4);
+			}
+			if ((this.hasExactly("光のブレス+")) && this.refineIndex != -1){
 				buffStat(data.skills[this.weaponIndex].name + "(錬成)", ["atk", "spd", "def", "res"], 5);
 			}
 		}
@@ -7763,12 +7786,6 @@ function activeHero(hero){
 						skillNames.push(data.skills[this.bIndex].name);
 					}
 				}
-				if (this.initiator && this.has("奥義隊形")){
-					if (this.combatStartHp / this.maxHp >= 1 - (0.2 * this.hasAtIndex("奥義隊形", this.bIndex) + 0.1)){
-						gainCharge = Math.max(gainCharge, 1);
-						skillNames.push(data.skills[this.bIndex].name);
-					}
-				}
 
 				//TODO: Change Rush skill name to a generic name
 				if (this.rushed && (this.moveType == "infantry")){
@@ -7825,10 +7842,20 @@ function activeHero(hero){
 						skillNames.push(data.skills[this.weaponIndex].name);
 					}
 				}
+				if (this.hasExactly("王家の剣") && this.adjacent > 0){
+					gainCharge = Math.max(gainCharge, 1);
+					skillNames.push(data.skills[this.weaponIndex].name);
+				}
 				if (this.hasAtRefineIndex("フェリシアの氷皿・専用", this.refineIndex)){
 					if (enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" || enemy.weaponType == "greentome"){
 						gainCharge = Math.max(gainCharge, 1);
 						skillNames.push(data.skills[this.weaponIndex].name + "(錬成)");
+					}
+				}
+				if (this.has("奥義隊形")){
+					if (this.combatStartHp/this.maxHp >= 1.1 - this.has("奥義隊形") * 0.2){
+						gainCharge = Math.max(gainCharge, 1);
+						skillNames.push(data.skills[this.bIndex].name);
 					}
 				}
 
@@ -7846,8 +7873,8 @@ function activeHero(hero){
 						skillNames.push(data.skills[enemy.bIndex].name);
 					}
 				}
-				if (enemy.hasAtIndex("奥義隊形", enemy.bIndex)){
-					if (enemy.combatStartHp / enemy.maxHp >= 1 - (0.2 * enemy.hasAtIndex("奥義隊形", enemy.bIndex) + 0.1)){
+				if (enemy.has("奥義隊形")){
+					if (enemy.combatStartHp/enemy.maxHp >= 1.1 - enemy.has("奥義隊形") * 0.2){
 						loseCharge = Math.max(loseCharge, 1);
 						skillNames.push(data.skills[enemy.bIndex].name);
 					}
@@ -7894,7 +7921,12 @@ function activeHero(hero){
 						skillNames.push(data.skills[enemy.weaponIndex].name + "(錬成)");
 					}
 				}
-
+				if (enemy.has("奥義隊形")){
+					if (enemy.combatStartHp/enemy.maxHp >= 1.1 - enemy.has("奥義隊形") * 0.2){
+						gainCharge = Math.max(gainCharge, 1);
+						skillNames.push(data.skills[enemy.bIndex].name);
+					}
+				}
 				if (gainCharge > 0){
 					enemy.charge += gainCharge;
 					damageText += enemy.name + " は、" + skillNames.join("、") + " により、奥義カウント変動量 +" + gainCharge + " 。<br>";
@@ -7905,6 +7937,12 @@ function activeHero(hero){
 
 				if(this.hasAtIndex("キャンセル", this.bIndex)){
 					if(this.combatStartHp / this.maxHp >= 1.1 - this.hasAtIndex("キャンセル", this.bIndex) * 0.1){
+						loseCharge = Math.max(loseCharge, 1);
+						skillNames.push(data.skills[this.bIndex].name);
+					}
+				}
+				if (this.has("奥義隊形")){
+					if (this.combatStartHp/this.maxHp >= 1.1 - this.has("奥義隊形") * 0.2){
 						loseCharge = Math.max(loseCharge, 1);
 						skillNames.push(data.skills[this.bIndex].name);
 					}
@@ -7999,6 +8037,24 @@ function activeHero(hero){
 				}
 				if(options.harsh_command_enemy){
 					enemy.challenger ? this.harshed = true : enemy.harshed = true;
+				}
+				if(options.close_def_challenger){
+					this.challenger ? this.close_defed = true : enemy.close_defed = true;
+				}
+				if(options.close_def_enemy){
+					enemy.challenger ? this.close_defed = true : enemy.close_defed = true;
+				}
+				if(options.distant_def_challenger){
+					this.challenger ? this.distant_defed = true : enemy.distant_defed = true;
+				}
+				if(options.distant_def_enemy){
+					enemy.challenger ? this.distant_defed = true : enemy.distant_defed = true;
+				}
+				if(options.movement_challenger){
+					this.challenger ? this.moveBuffed = true : enemy.moveBuffed = true;
+				}
+				if(options.movement_enemy){
+					enemy.challenger ? this.moveBuffed = true : enemy.moveBuffed = true;
 				}
 				if(options.candlelight_challenger){
 					this.challenger ? this.lit = true : enemy.lit = true;
@@ -8107,10 +8163,10 @@ function activeHero(hero){
 			|| this.hasExactly("ダイムサンダ") || this.hasExactly("アミーテ") || this.hasExactly("マスターソード")){
 			doubleInitiate = true;
 		}
-		if (this.hasAtRefineIndex("ファルシオン外伝・専用", this.refineIndex) && (this.combatStartHp / this.maxHp == 1)){
+		if (this.hasExactly("獅子連斬") && this.hp/this.maxHp == 1){
 			doubleInitiate = true;
 		}
-		if (this.hasExactly("獅子連斬") && (this.combatStartHp / this.maxHp == 1)){
+		if (this.hasAtRefineIndex("ファルシオン外伝・専用", this.refineIndex) && (this.combatStartHp / this.maxHp == 1)){
 			doubleInitiate = true;
 		}
 		if (enemy.hasExactly("マスターソード")){
@@ -8250,10 +8306,6 @@ function activeHero(hero){
 			roundText += enemy.name + " は、幻惑の効果で反撃不可。<br>";
 			enemyCanCounter = false;
 		}
-		if (this.hasExactly("フリズスキャルヴ") && enemyCanCounter){
-			roundText += enemy.name + " は、フリズスキャルヴの効果で反撃不可。<br>";
-			enemyCanCounter = false;
-		}
 		if (enemy.lit && enemyCanCounter){
 			roundText += enemy.name + " は、キャンドルサービス の効果で反撃不可。<br>";
 			enemyCanCounter = false;
@@ -8264,6 +8316,10 @@ function activeHero(hero){
 		}
 		if (this.has("死神の暗器・専用") && (enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" ||enemy.weaponType == "greentome")){
 			roundText += enemy.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) の効果で反撃不可。<br>";
+			enemyCanCounter = false;
+		}
+		if (this.hasExactly("フリズスキャルヴ") && enemyCanCounter){
+			roundText += enemy.name + " は、フリズスキャルヴの効果で反撃不可。<br>";
 			enemyCanCounter = false;
 		}
 
@@ -8312,6 +8368,15 @@ function activeHero(hero){
 				thisAttackRankChanged = true;
 			}
 		}
+		if (this.hasExactly("ガルム")){
+			if (this.buffs.atk != 0 || this.buffs.spd != 0 || this.buffs.def != 0 || this.buffs.res != 0
+				|| (this.hasExactly("重装のブーツ") && this.combatStartHp/this.maxHp == 1)
+				|| this.moveBuffed
+				){
+				thisAttackRank++;
+				thisAttackRankChanged = true;
+			}
+		}
 
 		//Check for auto follow-up counters
 		if (enemy.hasAtIndex("切り返し", enemy.bIndex)){
@@ -8338,20 +8403,20 @@ function activeHero(hero){
 				enemyAttackRankChanged = true;
 			}
 		}
-		if (enemy.hasExactly("アルマーズ")){
-			if (enemy.combatStartHp/enemy.maxHp >= .8){
+		if (enemy.hasExactly("マルテ")){
+			if (enemy.combatStartHp/enemy.maxHp >= 0.5){
 				enemyAttackRank++;
 				enemyAttackRankChanged = true;
 			}
 		}
-		if (enemy.hasExactly("マルテ")){
-			if (enemy.combatStartHp/enemy.maxHp >= .5){
+		if (enemy.hasExactly("アルマーズ")){
+			if (enemy.combatStartHp/enemy.maxHp >= 0.8){
 				enemyAttackRank++;
 				enemyAttackRankChanged = true;
 			}
 		}
 		if (enemy.has("追撃リング")){
-			if (enemy.combatStartHp/enemy.maxHp >= .5){
+			if (enemy.combatStartHp/enemy.maxHp >= 0.5){
 				enemyAttackRank++;
 				enemyAttackRankChanged = true;
 			}

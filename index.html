@@ -25,7 +25,7 @@
 	<script src="select2/select2.min.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="style.css?v=2018071101"/>
-	<script type="text/javascript" src="code.js?v=2018082401"></script>
+	<script type="text/javascript" src="code.js?v=2018082701"></script>
 
 </head>
 
@@ -44,7 +44,7 @@
 				<button class="button button_newheroes" id="3"><img class="newheroes_picture" src="heroes/Hector (Arrival of the Brave).png"/></button>
 			</div>
 		</div>
-		<div id="frame_updatenotice" data-update="2018082401">新英雄「大いなる者、顕現す」に仮対応しました。追撃系新スキルは未実装。後日オプションで対応予定。<br>トリレンマ、薙ぎスキルは設定メニューから有効化してください。
+		<div id="frame_updatenotice" data-update="2018082701">新英雄「大いなる者、顕現す」に対応しました。<br>重装の行軍や警戒スキルは設定メニューから有効化してください。
 			<div id="update_icon">!</div>
 			<div class="button" id="button_closeupdatenotice" onclick="hideUpdateNotice();">x</div>
 		</div>
@@ -261,6 +261,16 @@
 					<div class="status_enemy"><input type="checkbox" data-var="options.defensive_enemy" id="defensive_enemy"/></div>
 				</div>
 				<div class="adj_status">
+					<div class="status_challenger"><input type="checkbox" data-var="options.close_def_challenger" id="close_def_challenger"/></div>
+					<div class="status_title">近距離警戒</div>
+					<div class="status_enemy"><input type="checkbox" data-var="options.close_def_enemy" id="close_def_enemy"/></div>
+				</div>
+				<div class="adj_status">
+					<div class="status_challenger"><input type="checkbox" data-var="options.distant_def_challenger" id="distant_def_challenger"/></div>
+					<div class="status_title">遠距離警戒</div>
+					<div class="status_enemy"><input type="checkbox" data-var="options.distant_def_enemy" id="distant_def_enemy"/></div>
+				</div>
+				<div class="adj_status">
 					<div class="status_challenger"><input type="checkbox" data-var="options.candlelight_challenger" id="candlelight_challenger"/></div>
 					<div class="status_title">キャンドル</div>
 					<div class="status_enemy"><input type="checkbox" data-var="options.candlelight_enemy" id="candlelight_enemy"/></div>
@@ -294,6 +304,11 @@
 					<div class="status_challenger"><input type="checkbox" data-var="options.pulse_challenger" id="pulse_challenger"/></div>
 					<div class="status_title">オスティアの鼓動</div>
 					<div class="status_enemy"><input type="checkbox" data-var="options.pulse_enemy" id="pulse_enemy"/></div>
+				</div>
+				<div class="adj_status">
+					<div class="status_challenger"><input type="checkbox" data-var="options.movement_challenger" id="movement_challenger"/></div>
+					<div class="status_title">移動力追加</div>
+					<div class="status_enemy"><input type="checkbox" data-var="options.movement_enemy" id="movement_enemy"/></div>
 				</div>
 				<div style="line-height:40%;"><br></div>
 				<div id="adj_title">特殊</div>
@@ -1080,7 +1095,7 @@
 			<div id="winpercentages"><span class="results_stat">勝利 <span id="win_pct">-</span></span><span class="results_stat">敗北 <span id="lose_pct">-</span></span><span class="results_stat">未決着 <span id="inconclusive_pct">-</span></span></div>
 			<div id="results_list"></div>
 		</div>
-		<div id="footer"><a href="https://github.com/Andu2/FEH-Mass-Simulator">本家</a>. Last updated 2018-08-24. <a href="http://feh-blog.krbysh.net">メモ</a>. バグ等については <a href="https://twitter.com/krbysh_x86">@krbysh_x86</a> までご連絡ください.</div>
+		<div id="footer"><a href="https://github.com/Andu2/FEH-Mass-Simulator">本家</a>. Last updated 2018-08-27. <a href="http://feh-blog.krbysh.net">メモ</a>. バグ等については <a href="https://twitter.com/krbysh_x86">@krbysh_x86</a> までご連絡ください.</div>
 	</div>
 	<div id="frame_tooltip"></div>
 	<div id="screen_fade"></div>
