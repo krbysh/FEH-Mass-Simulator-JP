@@ -155,6 +155,7 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
+	"マルス(伝承の英雄王) (5★);Weapon: 神剣ファルシオン;Special: 炎の紋章;A: 攻撃速さの絆 3;B: 封印の盾;C: 歩行の柔撃 3;",
 	"ヴェロニカ(大いなる者、顕現す) (5★);Weapon: フリズスキャルヴ;Assist: リカバー+;Special: 業火疾風の祝福+;B: 神罰の杖 3;C: 近距離警戒 3;",
 	"エフラム(大いなる者、顕現す) (5★);Weapon: ガルム;Special: 竜裂;A: 近距離防御 3;B: 奥義隊形 3;C: 重装の行軍 3;",
 	"セリカ(大いなる者、顕現す) (5★);Weapon: 王家の剣;Special: 疾風迅雷;A: 鬼神の一撃 4;B: 獅子連斬;C: 攻撃の指揮 3;",
@@ -229,6 +230,8 @@ function initOptions(){
 	options.panic_enemy = false;
 	options.rush_challenger = false;
 	options.rush_enemy = false;
+	options.flash_challenger = false;
+	options.flash_enemy = false;
 	options.pulse_challenger = false;
 	options.pulse_enemy = false;
 	options.movement_challenger = false;
@@ -1243,8 +1246,8 @@ function getPrechargeChange(skill, slot){
 }
 
 function isDragonEffective(hero){
-	if (hero.hasExactly("ファルシオン") 		|| hero.hasExactly("封剣ファルシオン")
-		|| hero.hasExactly("ナーガ") 			|| hero.hasExactly("聖書ナーガ")
+	if (hero.hasExactly("ファルシオン") || hero.hasExactly("封剣ファルシオン") || hero.hasExactly("神剣ファルシオン")
+		|| hero.hasExactly("ナーガ") || hero.hasExactly("聖書ナーガ")
 		|| hero.hasExactly("霧のブレス")	|| hero.hasExactly("真夏のブレス")
 		|| hero.has("緑雲の舞扇")
 		|| (hero.hasExactly("封印の剣") && hero.refineIndex != -1)
@@ -5136,6 +5139,7 @@ function activeHero(hero){
 	this.triangled = false;
 	this.panicked = false;
 	this.rushed = false;
+	this.flashed = false;
 	this.pulsed = this.challenger ? options.pulse_challenger : options.pulse_enemy;
 	this.harshed = false;
 	this.close_defed = false;
@@ -5788,8 +5792,30 @@ function activeHero(hero){
 			skillName = data.skills[this.weaponIndex].name + "(錬成)";
 			boostText += this.name + " は、" + skillName + " の効果で、戦闘中、攻撃、守備 +" + statBonus + " 。<br>";
 		}
+		if (this.hasExactly("神剣ファルシオン") && (this.buffs.atk > 0 || this.buffs.spd > 0 || this.buffs.def > 0 || this.buffs.res > 0)){
+			boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、";
+			if (this.buffs.atk > 0){
+				boostText += "攻撃 +" + this.buffs.atk + " 、";
+				this.combatSpur.atk += this.buffs.atk;
+			}
+			if (this.buffs.spd > 0){
+				boostText += "速さ +" + this.buffs.spd + " 、";
+				this.combatSpur.spd += this.buffs.spd;
+			}
+			if (this.buffs.def > 0){
+				boostText += "守備 +" + this.buffs.def + " 、";
+				this.combatSpur.def += this.buffs.def;
+			}
+			if (this.buffs.res > 0){
+				boostText += "魔防 +" + this.buffs.res + " 、";
+				this.combatSpur.res += this.buffs.res;
+			}
+			boostText = boostText.substring(0, boostText.length - 1);
+			boostText += "。<br>"
+		}
 
-		//Combat debuff ***does this stack like spurs?***
+
+		//Combat debuff ***does this stack like spurs? does negative combatSpur work correctly?***
 		if (enemy.hasExactly("ロプトウス")	&& !isDragonEffective(this)){
 			this.combatSpur.atk -= 6;
 			boostText += this.name + " は、" + data.skills[enemy.weaponIndex].name + " の効果で、戦闘中、攻撃 -6 。<br>";
@@ -6950,6 +6976,9 @@ function activeHero(hero){
 			if ((this.hasExactly("光のブレス+")) && this.refineIndex != -1){
 				buffStat(data.skills[this.weaponIndex].name + "(錬成)", ["atk", "spd", "def", "res"], 5);
 			}
+			if (this.hasExactly("炎の紋章") && this.triggered){
+				buffStat(data.skills[this.specialIndex].name, ["atk","spd","def","res"], 4);
+			}
 		}
 
 		//Set buff values
@@ -7225,6 +7254,10 @@ function activeHero(hero){
 				}
 				else if(this.hasExactly("氷華")){
 					dmgBoost += this.combatStat.res * 0.8;
+					offensiveSpecialActivated = true;
+				}
+				else if(this.hasExactly("炎の紋章")){
+					dmgBoost += this.combatStat.spd * 0.3;
 					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("剣姫の流星")){
@@ -7812,6 +7845,12 @@ function activeHero(hero){
 						skillNames.push(data.skills[this.weaponIndex].name);
 					}
 				}
+				if (this.flashed && this.moveType == "infantry"){
+					if (this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd >= 1){
+						gainCharge = Math.max(gainCharge, 1);
+						skillNames.push("歩行の柔撃 3");
+					}
+				}
 				if (this.hasAtIndex("柔剣", this.aIndex)){
 					if (this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd >= 7 - (this.hasAtIndex("柔剣", this.aIndex) * 2)){
 						gainCharge = Math.max(gainCharge, 1);
@@ -8031,6 +8070,12 @@ function activeHero(hero){
 				}
 				if(options.rush_enemy){
 					enemy.challenger ? this.rushed = true : enemy.rushed = true;
+				}
+				if(options.flash_challenger){
+					this.challenger ? this.flashed = true : enemy.flashed = true;
+				}
+				if(options.flash_enemy){
+					enemy.challenger ? this.flashed = true : enemy.flashed = true;
 				}
 				if(options.harsh_command_challenger){
 					this.challenger ? this.harshed = true : enemy.harshed = true;
@@ -8322,6 +8367,10 @@ function activeHero(hero){
 			roundText += enemy.name + " は、フリズスキャルヴの効果で反撃不可。<br>";
 			enemyCanCounter = false;
 		}
+		if (this.hasExactly("封印の盾") && enemy.weaponType == "dragon" && enemyCanCounter){
+			roundText += enemy.name + " は、封印の盾の効果で反撃不可。<br>";
+			enemyCanCounter = false;
+		}
 
 		//Check for auto follow-up skills
 		if (enemyCanCounter){
@@ -8377,6 +8426,10 @@ function activeHero(hero){
 				thisAttackRankChanged = true;
 			}
 		}
+		if (this.hasExactly("封印の盾") && enemy.weaponType == "dragon"){
+			thisAttackRank++;
+			thisAttackRankChanged = true;
+		}
 
 		//Check for auto follow-up counters
 		if (enemy.hasAtIndex("切り返し", enemy.bIndex)){
@@ -8427,6 +8480,19 @@ function activeHero(hero){
 				enemyAttackRankChanged = true;
 			}
 		}
+		if (enemy.hasExactly("ガルム")){
+			if (enemy.buffs.atk != 0 || enemy.buffs.spd != 0 || enemy.buffs.def != 0 || enemy.buffs.res != 0
+				|| (enemy.hasExactly("重装のブーツ") && enemy.combatStartHp/enemy.maxHp == 1)
+				|| enemy.moveBuffed
+				){
+				enemyAttackRank++;
+				enemyAttackRankChanged = true;
+			}
+		}
+		if (enemy.hasExactly("封印の盾") && this.weaponType == "dragon"){
+			enemyAttackRank++;
+			enemyAttackRankChanged = true;
+		}
 
 		//Check for Wary Fighter
 		if (this.has("守備隊形")){
@@ -8467,6 +8533,10 @@ function activeHero(hero){
 			enemyAttackRankChanged = true;
 		}
 		if (enemy.hasAtRefineIndex("ブリュンヒルデ・専用", enemy.refineIndex) && this.range == "ranged" && enemy.combatStat.def >= this.combatStat.def + 1){
+			thisAttackRank--;
+			thisAttackRankChanged = true;
+		}
+		if (enemy.hasExactly("封印の盾") && this.weaponType == "dragon"){
 			thisAttackRank--;
 			thisAttackRankChanged = true;
 		}
