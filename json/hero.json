@@ -5093,7 +5093,24 @@
 		"weapontype": "sword",
 		"movetype": "infantry",
 		"minrarity": 5
-
+	}, {
+		"hero_id": 286,
+		"name_en": "Jamke",
+		"name": "ジャムカ",
+		"basehp": 16,
+		"baseatk": 8,
+		"basespd": 10,
+		"basedef": 7,
+		"baseres": 4,
+		"hpgrowth": 6,
+		"atkgrowth": 9,
+		"spdgrowth": 6,
+		"defgrowth": 6,
+		"resgrowth": 2,
+		"color": "gray",
+		"weapontype": "bow",
+		"movetype": "infantry",
+		"minrarity": 3
 
 
 
