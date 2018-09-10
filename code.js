@@ -6864,6 +6864,9 @@ function activeHero(hero){
 			){
 				sealStats(data.skills[this.weaponIndex].name, ["def","res"], [-5, -7]);
 			}
+			if (this.hasExactly("フェリシアの氷皿")){
+				sealStats(data.skills[this.weaponIndex].name, ["def","res"], [-7]);
+			}
 			if (this.has("猫の暗器") && (enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" || enemy.weaponType == "greentome")){
 				sealStats(data.skills[this.weaponIndex].name, ["def","res"], [-5, -7]);
 			}
@@ -8419,7 +8422,7 @@ function activeHero(hero){
 			}
 		}
 		if (this.hasExactly("ガルム")){
-			if (this.buffs.atk != 0 || this.buffs.spd != 0 || this.buffs.def != 0 || this.buffs.res != 0
+			if (this.combatBuffs.atk != 0 || this.combatBuffs.spd != 0 || this.combatBuffs.def != 0 || this.combatBuffs.res != 0
 				|| (this.hasExactly("重装のブーツ") && this.combatStartHp/this.maxHp == 1)
 				|| this.moveBuffed
 				){
@@ -8482,7 +8485,7 @@ function activeHero(hero){
 			}
 		}
 		if (enemy.hasExactly("ガルム")){
-			if (enemy.buffs.atk != 0 || enemy.buffs.spd != 0 || enemy.buffs.def != 0 || enemy.buffs.res != 0
+			if (enemy.combatBuffs.atk != 0 || enemy.combatBuffs.spd != 0 || enemy.combatBuffs.def != 0 || enemy.combatBuffs.res != 0
 				|| (enemy.hasExactly("重装のブーツ") && enemy.combatStartHp/enemy.maxHp == 1)
 				|| enemy.moveBuffed
 				){
