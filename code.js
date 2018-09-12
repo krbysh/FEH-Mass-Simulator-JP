@@ -155,12 +155,13 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"ジャムカ (5★);Weapon: キラーボウ鍛+;Special: 流星;A: 剛剣 3;B: 相性相殺 3;",
-	"マルス(伝承の英雄王) (5★);Weapon: 神剣ファルシオン;Special: 炎の紋章;A: 攻撃速さの絆 3;B: 封印の盾;C: 歩行の柔撃 3;",
-	"ヴェロニカ(大いなる者、顕現す) (5★);Weapon: フリズスキャルヴ;Assist: リカバー+;Special: 業火疾風の祝福+;B: 神罰の杖 3;C: 近距離警戒 3;",
-	"エフラム(大いなる者、顕現す) (5★);Weapon: ガルム;Special: 竜裂;A: 近距離防御 3;B: 奥義隊形 3;C: 重装の行軍 3;",
-	"セリカ(大いなる者、顕現す) (5★);Weapon: 王家の剣;Special: 疾風迅雷;A: 鬼神の一撃 4;B: 獅子連斬;C: 攻撃の指揮 3;",
-	"ヘクトル(大いなる者、顕現す) (5★);Weapon: マルテ;Special: 華炎;A: オスティアの反撃;B: 攻撃隊形 3;C: 魔防の波・偶数 3;",
+	"エスリン (5★);Weapon: フィアー+;Assist: リブロー+;Special: 天照;A: 速さ守備の絆 3;B: ご奉仕の喜び 3;",
+	"キュアン (5★);Weapon: ゲイボルグ;Assist: 速さ守備の応援+;Special: 竜裂;A: 飛燕金剛の構え 2;C: 攻撃の大紋章 2;",
+	"レヴィン (5★);Weapon: フォルセティ;Special: 凶星;A: 鬼神飛燕の一撃 2;B: 奥義の螺旋 3;C: 攻撃の波・奇数 3;",
+	"シルヴィア (5★);Weapon: バリアの剣+;Assist: 踊る;A: 鬼神明鏡の構え 2;B: 疾風静水の舞い 2;",
+	"セリカ (5★);Weapon: ライナロック;Refine: ライナロック - ライナロック・専用;Special: 烈光;A: 遠距離防御 3;C: 守備の紋章 3;",
+	"セルジュ (5★);Weapon: セルジュの恐斧;Refine: セルジュの恐斧 - セルジュの恐斧・専用;Assist: 回り込み;A: 攻撃 3;C: 守備の鼓舞 3;",
+	"オーディン (5★);Weapon: オーディンの黒書;Refine: オーディンの黒書 - オーディンの黒書;Special: 月虹;A: 攻撃の覚醒 3;B: 赤魔殺し 3;",
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -5350,6 +5351,11 @@ function activeHero(hero){
 				enemy.panicked = true;
 				threatenText += this.name + " は、" + data.skills[this.sIndex].name + "(聖印) を発動、" + enemy.name + "に、パニック の効果を付与。<br>";
 			}
+			//Panic Ploy Refinement
+			if(this.hasAtRefineIndex("セルジュの恐斧・専用", this.refineIndex) && this.hp > enemy.hp){
+				enemy.panicked = true;
+				threatenText += this.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) を発動、" + enemy.name + "に、パニック の効果を付与。<br>";
+			}
 		}
 
 
@@ -5785,14 +5791,6 @@ function activeHero(hero){
 			this.combatSpur.atk += 6;
 			boostText += this.name + " は、" + data.refine[this.refineIndex].name + "(錬成) の効果で、遠距離の敵に対して、戦闘中、攻撃 +6 。<br>";
 		}
-
-		if (this.has("フォルクヴァング") && this.refineIndex != -1 && this.hp / this.maxHp <= 0.8){
-			statBonus = 7;
-			this.combatSpur.atk += statBonus;
-			this.combatSpur.def += statBonus;
-			skillName = data.skills[this.weaponIndex].name + "(錬成)";
-			boostText += this.name + " は、" + skillName + " の効果で、戦闘中、攻撃、守備 +" + statBonus + " 。<br>";
-		}
 		if (this.hasExactly("神剣ファルシオン") && (this.buffs.atk > 0 || this.buffs.spd > 0 || this.buffs.def > 0 || this.buffs.res > 0)){
 			boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、";
 			if (this.buffs.atk > 0){
@@ -5814,7 +5812,20 @@ function activeHero(hero){
 			boostText = boostText.substring(0, boostText.length - 1);
 			boostText += "。<br>"
 		}
-
+		if (this.hasExactly("ゲイボルグ") && enemy.moveType != "flying"){
+			statBonus = 5;
+			this.combatSpur.atk += statBonus;
+			this.combatSpur.def += statBonus;
+			skillName = data.skills[this.weaponIndex].name;
+			boostText += this.name + " は、" + skillName + " の効果で、飛行以外の敵に対して、戦闘中、攻撃、守備 +" + statBonus + " 。<br>";
+		}
+		if(this.didAttack && this.hasExactly("ライナロック") && this.refineIndex != -1){
+			statBonus = 5;
+			this.combatSpur.atk += statBonus;
+			this.combatSpur.spd += statBonus;
+			skillName = data.skills[this.weaponIndex].name + "(錬成)";
+			boostText += this.name + " は、" + skillName + " の効果で、戦闘中、攻撃、速さ +" + statBonus + " 。<br>";
+		}
 
 		//Combat debuff ***does this stack like spurs? does negative combatSpur work correctly?***
 		if (enemy.hasExactly("ロプトウス")	&& !isDragonEffective(this)){
@@ -5824,6 +5835,20 @@ function activeHero(hero){
 
 		//Brazen Skills
 		if(this.combatStartHp / this.maxHp <= 0.8){
+			if (this.has("フォルクヴァング") && this.refineIndex != -1){
+				statBonus = 7;
+				this.combatSpur.atk += statBonus;
+				this.combatSpur.def += statBonus;
+				skillName = data.skills[this.weaponIndex].name + " (Refined)";
+				boostText += this.name + " activates " + skillName + " and gets +" + statBonus + " Atk/Def.<br>";
+			}
+			if(this.has("攻撃速さの大覚醒")){
+				statBonus = 1 + 2 * this.has("攻撃速さの大覚醒");
+				this.combatSpur.atk += statBonus;
+				this.combatSpur.spd += statBonus;
+				skillName = data.skills[this.aIndex].name;
+				boostText += this.name + " は、" + skillName + " の効果で、攻撃、速さ +" + statBonus + " 。<br>";
+			}
 			if(this.has("攻撃速さの大覚醒")){
 				statBonus = 1 + 2 * this.has("攻撃速さの大覚醒");
 				this.combatSpur.atk += statBonus;
@@ -5870,7 +5895,7 @@ function activeHero(hero){
 
 		//Full Health Skills
 		if(this.combatStartHp / this.maxHp >= 1){
-			if(this.hasExactly("ライナロック")){
+			if(this.hasExactly("ライナロック") && this.refineIndex == -1){
 				//Does this take effect when defending? Answer: yes
 				this.combatSpur.atk += 5;
 				this.combatSpur.spd += 5;
@@ -6332,7 +6357,7 @@ function activeHero(hero){
 			}
 
 			//weapon
-			if(this.hasExactly("封印の剣")){
+			if (this.hasExactly("封印の剣")){
 				if (this.refineIndex == -1) {
 					this.combatSpur.def += 2;
 					this.combatSpur.res += 2;
@@ -6343,27 +6368,27 @@ function activeHero(hero){
 					boostText += this.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) の効果で、敵から攻撃された時、守備、魔防 +4 。<br>";
 				}
 			}
-			if(this.hasExactly("ナーガ")){
+			if (this.hasExactly("ナーガ")){
 				this.combatSpur.def += 2;
 				this.combatSpur.res += 2;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、守備、魔防 +2 。<br>";
 			}
-			if(this.has("プレゼント袋") || this.has("ハンドベル") || this.has("聖樹") || this.has("燭台")){
+			if (this.has("プレゼント袋") || this.has("ハンドベル") || this.has("聖樹") || this.has("燭台")){
 				this.combatSpur.atk += 2;
 				this.combatSpur.spd += 2;
 				this.combatSpur.def += 2;
 				this.combatSpur.res += 2;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、攻撃された時、攻撃、速さ、守備、魔防 +2 。<br>";
 			}
-			if(this.hasExactly("ヴィドフニル") && (enemy.weaponType == "sword" || enemy.weaponType == "axe" ||enemy.weaponType == "lance" )){
+			if (this.hasExactly("ヴィドフニル") && (enemy.weaponType == "sword" || enemy.weaponType == "axe" ||enemy.weaponType == "lance" )){
 				this.combatSpur.def += 7;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、剣、槍、斧の敵から攻撃された時、守備 +7 。<br>";
 			}
-			if(this.hasExactly("ティルフィング") && this.hp / this.maxHp <= 0.5){
+			if (this.hasExactly("ティルフィング") && this.hp / this.maxHp <= 0.5){
 				this.combatSpur.def += 4;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、ＨＰ 50% 以下の時、守備 +4 。<br>";
 			}
-			if(this.has("反攻の槍")){
+			if (this.has("反攻の槍")){
 				this.combatSpur.atk += 6;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、攻撃 +6 。<br>";
 			}
@@ -6377,117 +6402,126 @@ function activeHero(hero){
 					boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、魔防 +4 。<br>";
 				}
 			}
-			if(this.hasExactly("白き血の薙刀")){
+			if (this.hasExactly("白き血の薙刀")){
 				this.combatSpur.atk += 4;
 				this.combatSpur.def += 4;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、攻撃、守備 +4 。<br>";
 			}
-			if(this.has("義勇の槍・専用")){
+			if (this.has("義勇の槍・専用")){
 				this.combatSpur.spd += 4;
 				this.combatSpur.def += 4;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) の効果で、敵から攻撃された時、速さ、守備 +4 。<br>";
 			}
-			if(this.has("水のブレス")){
+			if (this.has("水のブレス")){
 				this.combatSpur.def += 4;
 				this.combatSpur.res += 4;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、守備、魔防 +4 。<br>";
 			}
-			if(this.has("遠距離防御の弓") && enemy.range == "ranged"){
+			if (this.has("遠距離防御の弓") && enemy.range == "ranged"){
 				this.combatSpur.def += 6;
 				this.combatSpur.res += 6;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、弓、暗器、魔法、杖の敵から敵から攻撃された時、守備、魔防 +6 。<br>";
 			}
-			if(this.has("ブラーサーペント") && enemy.range == "ranged"){
+			if (this.has("ブラーサーペント") && enemy.range == "ranged"){
 				this.combatSpur.def += 6;
 				this.combatSpur.res += 6;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、弓、暗器、魔法、杖の敵から敵から攻撃された時、守備、魔防 +6 。<br>";
 			}
-			if(this.has("守りの剣")){
+			if (this.has("守りの剣")){
 				this.combatSpur.def += 7;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、守備 +7 。<br>";
 			}
-
+			if (this.hasExactly("バリアの剣")){
+				buffVal = 4
+				this.combatSpur.res += buffVal;
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、魔防 +" + buffVal +" 。<br>";
+			}
+			if (this.hasExactly("バリアの剣+")){
+				buffVal = 7
+				this.combatSpur.res += buffVal;
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、敵から攻撃された時、魔防 +" + buffVal +" 。<br>";
+			}
 			//Skills
-			if(this.has("鬼神の呼吸")){
+			if (this.has("鬼神の呼吸")){
 				this.combatSpur.atk += 4;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、攻撃 +4 。<br>";
 			}
-			if(this.has("飛燕の呼吸")){
+			if (this.has("飛燕の呼吸")){
 				this.combatSpur.spd += 4;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、速さ +4 。<br>";
 			}
-			if(this.has("金剛の呼吸")){
+			if (this.has("金剛の呼吸")){
 				this.combatSpur.def += 4;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、守備 +4 。<br>";
 			}
-			if(this.has("明鏡の呼吸")){
+			if (this.has("明鏡の呼吸")){
 				this.combatSpur.res += 4;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、魔防 +4 。<br>";
 			}
 
-			if(this.has("鬼神飛燕の構え")){
+			if (this.has("鬼神飛燕の構え")){
 				buffVal = this.has("鬼神飛燕の構え") * 2;
 				this.combatSpur.atk += buffVal;
 				this.combatSpur.spd += buffVal;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、攻撃、速さ +" + buffVal + " 。<br>";
 			}
-			else if(this.has("鬼神金剛の構え")){
+			else if (this.has("鬼神金剛の構え")){
 				buffVal = this.has("鬼神金剛の構え") * 2;
 				this.combatSpur.atk += buffVal;
 				this.combatSpur.def += buffVal;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、攻撃、守備 +" + buffVal + " 。<br>";
 			}
-			else if(this.has("鬼神明鏡の構え")){
+			else if (this.has("鬼神明鏡の構え")){
 				buffVal = this.has("鬼神明鏡の構え") * 2;
 				this.combatSpur.atk += buffVal;
 				this.combatSpur.res += buffVal;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、攻撃、魔防 +" + buffVal + " 。<br>";
 			}
-			else if(this.has("飛燕金剛の構え")){
+			else if (this.has("飛燕金剛の構え")){
 				buffVal = this.has("飛燕金剛の構え") * 2;
 				this.combatSpur.spd += buffVal;
 				this.combatSpur.def += buffVal;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、速さ、守備 +" + buffVal + " 。<br>";
 			}
-			else if(this.has("飛燕明鏡の構え")){
+			else if (this.has("飛燕明鏡の構え")){
 				buffVal = this.has("飛燕明鏡の構え") * 2;
 				this.combatSpur.spd += buffVal;
 				this.combatSpur.res += buffVal;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、速さ、魔防 +" + buffVal + " 。<br>";
 			}
-			else if(this.has("金剛明鏡の構え")){
+			else if (this.has("金剛明鏡の構え")){
 				buffVal = this.has("金剛明鏡の構え") * 2;
 				this.combatSpur.def += buffVal;
 				this.combatSpur.res += buffVal;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、守備、魔防 +" + buffVal + " 。<br>";
 			}
-			else if(this.has("鬼神の構え")){
+			else if (this.has("鬼神の構え")){
 				buffVal = this.has("鬼神の構え") * 2;
 				this.combatSpur.atk += buffVal;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、攻撃 +" + buffVal + " 。<br>";
 			}
-			else if(this.has("飛燕の構え")){
+			else if (this.has("飛燕の構え")){
 				buffVal = this.has("飛燕の構え") * 2;
 				this.combatSpur.spd += buffVal;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、速さ +" + buffVal + " 。<br>";
 			}
-			else if(this.has("金剛の構え")){
+			else if (this.has("金剛の構え")){
 				buffVal = this.has("金剛の構え") * 2;
 				this.combatSpur.def += buffVal;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、守備 +" + buffVal + " 。<br>";
 			}
-			else if(this.has("明鏡の構え")){
+			else if (this.has("明鏡の構え")){
 				buffVal = this.has("明鏡の構え") * 2;
 				this.combatSpur.res += buffVal;
 				boostText += this.name + "は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、魔防 +" + buffVal + " 。<br>";
 			}
-			if(this.has("邪竜の鱗")){
+			if (this.has("邪竜の鱗")){
 				buffVal = 4;
 				this.combatSpur.def += buffVal;
 				this.combatSpur.res += buffVal;
 				boostText += this.name + "は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、守備、魔防 +" + buffVal + " 。<br>";
 			}
-			if(this.hasExactly("オスティアの反撃")){
+			if (this.hasExactly("オスティアの反撃")){
 				buffVal = 4;
 				this.combatSpur.atk += buffVal;
 				this.combatSpur.def += buffVal;
@@ -6558,7 +6592,7 @@ function activeHero(hero){
 		this.combatStat.res = Math.max(0, this.combatStat.res + this.spur.res + this.combatSpur.res);
 
 		//Bladetome bonus
-		if (this.has("ラウアブレード") || this.has("ブラーブレード") || this.has("グルンブレード") || this.hasExactly("雷旋の書")){
+		if (this.has("ラウアブレード") || this.has("ブラーブレード") || this.has("グルンブレード") || this.hasExactly("雷旋の書") || this.hasExactly("オーディンの黒書")){
 			var atkbonus = this.combatBuffs.atk + this.combatBuffs.spd + this.combatBuffs.def + this.combatBuffs.res;
 			this.combatStat.atk += atkbonus;
 			if (atkbonus != 0){statText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、攻撃 +" + atkbonus + " 。<br>";}
@@ -6665,6 +6699,12 @@ function activeHero(hero){
 				damageText += this.name + " は、"  + skillName + "(錬成) の効果で、戦闘後、" + damage + " ダメージ。<br>";
 				totalDamage += damage;
 			}
+			if(this.hasExactly("ライナロック") && this.refineIndex != -1){
+				damage = 5;
+				skillName = data.skills[this.weaponIndex].name;
+				damageText += this.name + " は、"  + skillName + "(錬成) の効果で、戦闘後、" + damage + " ダメージ。<br>";
+				totalDamage += damage;
+			}
 
 			//Cursed Lance
 			if(this.has("魔性の槍")){
@@ -6684,7 +6724,7 @@ function activeHero(hero){
 				if (this.hasExactly("宝剣ソフィア")){
 					damage = 4;
 				}
-				if (this.hasExactly("ライナロック")){
+				if (this.hasExactly("ライナロック") && this.refineIndex == -1){
 					damage = 5;
 				}
 				if (damage != 0){
@@ -6947,14 +6987,6 @@ function activeHero(hero){
 			}
 		}
 
-		//Post-combat buff for special triggered during combat
-		if (this.triggered){
-			if (this.hasExactly("魔剣ミストルティン")){
-				this.charge = this.charge + 2;
-				postCombatBuffText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で戦闘後、奥義カウント -2。<br>";
-			}
-		}
-
 		//Daggers only take effect if the unit performed an attack
 		if (this.didAttack){
 			if (this.hasExactly("盗賊の暗器+")){
@@ -7007,8 +7039,23 @@ function activeHero(hero){
 			}
 		}
 
-
-//				postCombatBuffTex += this.name + " は、" + skillName + " の効果で、戦闘後、攻撃 +" + buffAtk + " 。<br>";
+		//Post-combat buff for special triggered during combat
+		if (this.triggered){
+			var gainValue = 0;
+			if (this.hasExactly("魔剣ミストルティン")){
+				gainValue = 2
+				this.charge = this.charge + gainValue;
+				postCombatBuffText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で戦闘後、奥義カウント -" + gainValue + " 。<br>";
+			}
+			if (this.has("奥義の螺旋")){
+				if (this.has("奥義の螺旋") != 1){
+					gainValue = this.has("奥義の螺旋") - 1;
+				}else if (this.challenger){
+					gainValue = 1;
+				}
+				postCombatBuffText += this.name + " は、" + data.skills[this.bIndex].name + " の効果で戦闘後、奥義カウント -" + gainValue + " 。<br>";
+			}
+		}
 		return postCombatBuffText;
 	}
 
@@ -8209,7 +8256,9 @@ function activeHero(hero){
 		var doubleInitiate = false;
 		var doubleCounter = false;
 		if (this.has("勇者の剣") || this.has("勇者の槍") || this.has("勇者の斧") || this.has("勇者の弓")
-			|| this.hasExactly("ダイムサンダ") || this.hasExactly("アミーテ") || this.hasExactly("マスターソード")){
+			|| this.hasExactly("ダイムサンダ") || this.hasExactly("アミーテ") || this.hasExactly("マスターソード")
+			|| this.hasExactly("セルジュの恐斧")
+		){
 			doubleInitiate = true;
 		}
 		if (this.hasExactly("獅子連斬") && this.hp/this.maxHp == 1){
@@ -8255,6 +8304,9 @@ function activeHero(hero){
 			if(this.hp/this.maxHp <= .75 ){
 				desperation = true;
 			}
+		}
+		if (this.has("フォルセティ") && this.hp/this.maxHp >= .5){
+			desperation = true;
 		}
 
 		//Check for skills that disable change in attack priority
