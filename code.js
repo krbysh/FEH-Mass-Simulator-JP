@@ -5394,7 +5394,7 @@ function activeHero(hero){
 		}
 
 		//Weapons
-		if (this.has("フェンサリル" && hero.refineIndex == -1)){
+		if (this.has("フェンサリル" && this.refineIndex == -1)){
 			threatDebuffs.atk = Math.min(threatDebuffs.atk,-4);
 			skillNames.push(data.skills[this.weaponIndex].name);
 		}
@@ -8783,12 +8783,12 @@ function activeHero(hero){
 			roundText += enemy.seal(this);
 
 			//panic
-			if(this.has("パニック") || this.has("ローローの斧")
+			if(this.hasExactly("パニック") || this.hasExactly("パニック+") || this.has("ローローの斧")
 				|| ((this.hasExactly("怪物の弓+") || this.hasExactly("ゴーストの魔道書+")) && this.refineIndex != -1)){
 				enemy.panicked = true;
 				roundText += this.name + " は、" + enemy.name + " に、パニック を付与。<br>";
 			}
-			if(enemy.has("パニック") || enemy.has("ローローの斧")
+			if(enemy.hasExactly("パニック") || enemy.hasExactly("パニック+") || enemy.has("ローローの斧")
 				|| ((enemy.hasExactly("怪物の弓+") || enemy.hasExactly("ゴーストの魔道書+")) && this.refineIndex != -1)){
 				this.panicked = true;
 				roundText += enemy.name + " は、" + this.name + " に、パニック を付与。<br>";
