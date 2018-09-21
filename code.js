@@ -5491,7 +5491,11 @@ function activeHero(hero){
 
 		//Effects that apply every turn
 		if (this.hasExactly("リカバーリング")){
-			this.hp += 10;
+			if(this.hp + 10 > this.maxHp){
+				this.hp = this.maxHp;
+			} else{
+				this.hp += 10;
+			}
 			startText += this.name + " は、リカバーリング の効果で ＨＰ 10 回復。<br>";
 		}
 		return startText;
@@ -8783,13 +8787,15 @@ function activeHero(hero){
 			roundText += enemy.seal(this);
 
 			//panic
-			if(this.hasExactly("パニック") || this.hasExactly("パニック+") || this.has("ローローの斧")
-				|| ((this.hasExactly("怪物の弓+") || this.hasExactly("ゴーストの魔道書+")) && this.refineIndex != -1)){
+			if(this.attacked && (this.hasExactly("パニック") || this.hasExactly("パニック+") || this.has("ローローの斧")
+				|| ((this.hasExactly("怪物の弓+") || this.hasExactly("ゴーストの魔道書+")) && this.refineIndex != -1)
+			 )){
 				enemy.panicked = true;
 				roundText += this.name + " は、" + enemy.name + " に、パニック を付与。<br>";
 			}
-			if(enemy.hasExactly("パニック") || enemy.hasExactly("パニック+") || enemy.has("ローローの斧")
-				|| ((enemy.hasExactly("怪物の弓+") || enemy.hasExactly("ゴーストの魔道書+")) && this.refineIndex != -1)){
+			if(enemy.attacked && (enemy.hasExactly("パニック") || enemy.hasExactly("パニック+") || enemy.has("ローローの斧")
+				|| ((enemy.hasExactly("怪物の弓+") || enemy.hasExactly("ゴーストの魔道書+")) && this.refineIndex != -1)
+			 )){
 				this.panicked = true;
 				roundText += enemy.name + " は、" + this.name + " に、パニック を付与。<br>";
 			}
