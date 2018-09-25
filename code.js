@@ -156,7 +156,7 @@ data.enemyPrompts = {
 
 data.newHeroesCsvs = [
 	"フローラ (5★);Weapon: 霧氷のナイフ;Special: 氷蒼;A: 攻撃魔防の孤軍 3;B: 切り返し 3;C: 守備の謀策 3;",
-	"キュアン (5★);Weapon: ゲイボルグ;Assist: 速さ守備の応援+;Special: 竜裂;A: 飛燕金剛の構え 2;C: 攻撃の大紋章 2;",
+	"エポニーヌ (5★);Weapon: シャイニングボウ+;Assist: 引き寄せ;Special: 月虹;B: 速さ魔防の連携 3;C: 弓の技量 3;",
 	"レヴィン (5★);Weapon: フォルセティ;Special: 凶星;A: 鬼神飛燕の一撃 2;B: 奥義の螺旋 3;C: 攻撃の波・奇数 3;",
 	"シルヴィア (5★);Weapon: バリアの剣+;Assist: 踊る;A: 鬼神明鏡の構え 2;B: 疾風静水の舞い 2;",
 	"セリカ (5★);Weapon: ライナロック;Refine: ライナロック - ライナロック・専用;Special: 烈光;A: 遠距離防御 3;C: 守備の紋章 3;",
@@ -7205,7 +7205,8 @@ function activeHero(hero){
 		return false;
 	}
 
-	this.getBonusDamage = function(){
+	//Return bonus damage for specials
+	this.getBonusDamage = function(enemy){
 		var damage = 0;
 		var skillNames = [];
 
@@ -7228,6 +7229,34 @@ function activeHero(hero){
 
 		return {"damage":damage, "skillNames":skillNames.join("、").replace(/,(?!.*,)/gmi, '、と')};
 	}
+
+
+	//Return bonus flat damage
+	this.getFlatBonus = function(enemy){
+		var damage = 0;
+		var skillNames = [];
+
+		if (this.hasExactly("光の剣")){
+			if (enemy.combatStat.def >= enemy.combatStat.res + 5){
+				damage += 7;
+				skillNames.push(data.skills[this.weaponIndex].name);
+			}
+		}
+		if (this.hasExactly("剣姫の刀") || this.hasExactly("ギガスカリバー")){
+			var damageBonus = Math.min((this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd) * 0.7 | 0, 7);
+			if(damageBonus > 0){
+				damage += damageBonus;
+				skillNames.push(data.skills[this.weaponIndex].name);
+			}
+		}
+		if (this.has("シャイニングボウ") && (enemy.combatStat.def >= enemy.combatStat.res + 5)){
+			damage += 7;
+			skillNames.push(data.skills[this.weaponIndex].name);
+		}
+
+		return {"damage":damage, "skillNames":skillNames.join("、").replace(/,(?!.*,)/gmi, '、と')};
+	}
+
 
 	//represents one attack of combat
 	this.doDamage = function(enemy, brave, AOE, firstAttack){
@@ -7274,7 +7303,7 @@ function activeHero(hero){
 					this.resetCharge();
 
 					//Bonus Special Damage
-					var bonusDamage = this.getBonusDamage();
+					var bonusDamage = this.getBonusDamage(enemy);
 
 					if (bonusDamage.damage != 0){
 						AOEDamage += bonusDamage.damage;
@@ -7282,19 +7311,11 @@ function activeHero(hero){
 					}
 
 					//Bonus Flat Damage
-					//TODO: Merge duplicate flat damage code into one function
-					if (this.hasExactly("光の剣")){
-						if (enemy.combatStat.def >= enemy.combatStat.res + 5){
-							AOEDamage += 7;
-							damageText += this.name + " は、光の剣 の効果で、奥義発動時 +7 ダメージ。<br>";
-						}
-					}
-					if(this.hasExactly("剣姫の刀") || this.hasExactly("ギガスカリバー")){
-						var damageBonus = Math.min((this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd) * 0.7 | 0, 7);
-						if(damageBonus > 0){
-							AOEDamage += damageBonus;
-							damageText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、奥義発動時 +" + damageBonus + " ダメージ。<br>";
-						}
+					var bonusFlatDamage = this.getFlatBonus(enemy);
+
+					if (bonusFlatDamage.damage != 0){
+						AOEDamage += bonusFlatDamage.damage;
+						damageText += this.name + " は、" + bonusFlatDamage.skillNames + " の効果で、ダメージ +" + bonusFlatDamage.damage + " 。<br>";
 					}
 					if(enemy.has("エンブラの加護")){
 						AOEDamage = 0;
@@ -7391,7 +7412,7 @@ function activeHero(hero){
 				damageText += this.name + " は、" + data.skills[this.specialIndex].name + " を発動。<br>";
 
 
-				var bonusDamage = this.getBonusDamage();
+				var bonusDamage = this.getBonusDamage(enemy);
 
 				if (bonusDamage.damage != 0){
 					dmgBoostFlat += bonusDamage.damage;
@@ -7647,18 +7668,11 @@ function activeHero(hero){
 
 			//Flat damage
 			//*** Is Light Brand damage bonus flat damage or bonus attack? ***
-			if (this.hasExactly("光の剣")){
-				if (enemy.combatStat.def >= enemy.combatStat.res + 5){
-					dmgBoostFlat += 7;
-					damageText += this.name + " は、光の剣 の効果でダメージ +7 。<br>";
-				}
-			}
-			if(this.hasExactly("剣姫の刀") || this.hasExactly("ギガスカリバー")){
-				var damageBonus = Math.min((this.combatStat.spd + (this.has("速さの虚勢") ? (2 + this.has("速さの虚勢") * 3) : 0) - enemy.combatStat.spd) * 0.7 | 0, 7);
-				if(damageBonus > 0){
-					dmgBoostFlat += damageBonus;
-					damageText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、ダメージ +" + damageBonus + " 。<br>";
-				}
+			var bonusFlatDamage = this.getFlatBonus(enemy);
+
+			if (bonusFlatDamage.damage != 0){
+				dmgBoostFlat += bonusFlatDamage.damage;
+				damageText += this.name + " は、" + bonusFlatDamage.skillNames + " の効果で、ダメージ +" + bonusFlatDamage.damage + " 。<br>";
 			}
 			//Release charged damage
 			if (this.chargedDamage > 0){
