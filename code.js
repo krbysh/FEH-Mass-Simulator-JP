@@ -155,13 +155,11 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
+	"ガロン (5★);Weapon: 暗夜竜のブレス;Special: 竜穿;A: 遠距離防御 3;C: 恐慌の奇策 3;",
 	"フローラ (5★);Weapon: 霧氷のナイフ;Special: 氷蒼;A: 攻撃魔防の孤軍 3;B: 切り返し 3;C: 守備の謀策 3;",
 	"エポニーヌ (5★);Weapon: シャイニングボウ+;Assist: 引き寄せ;Special: 月虹;B: 速さ魔防の連携 3;C: 弓の技量 3;",
-	"レヴィン (5★);Weapon: フォルセティ;Special: 凶星;A: 鬼神飛燕の一撃 2;B: 奥義の螺旋 3;C: 攻撃の波・奇数 3;",
-	"シルヴィア (5★);Weapon: バリアの剣+;Assist: 踊る;A: 鬼神明鏡の構え 2;B: 疾風静水の舞い 2;",
-	"セリカ (5★);Weapon: ライナロック;Refine: ライナロック - ライナロック・専用;Special: 烈光;A: 遠距離防御 3;C: 守備の紋章 3;",
-	"セルジュ (5★);Weapon: セルジュの恐斧;Refine: セルジュの恐斧 - セルジュの恐斧・専用;Assist: 回り込み;A: 攻撃 3;C: 守備の鼓舞 3;",
-	"オーディン (5★);Weapon: オーディンの黒書;Refine: オーディンの黒書 - オーディンの黒書;Special: 月虹;A: 攻撃の覚醒 3;B: 赤魔殺し 3;",
+	"オフェリア (5★);Weapon: 魔書ミステルトィン;Assist: 攻撃の大応援+;Special: 烈光;A: 鬼神金剛の一撃 2;B: 魔防の封印 3;",
+	"サイラス (5★);Weapon: 貫きの槍鍛+;Assist: 引き戻し;A: 金剛の構え 3;C: 守備の波・偶数 3;",
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -1184,7 +1182,7 @@ function getCDChange(skill, slot){
 			|| skillName.indexOf("アウドムラ") != -1 || skillName.indexOf("鏡餅") != -1 || skillName.indexOf("バシリコス") != -1
 			|| skillName.indexOf("狂斧アルマーズ") != -1 || skillName.indexOf("無銘の一門の剣") != -1 || skillName.indexOf("暗殺手裏剣") != -1
 			|| skillName.indexOf("トールハンマー") != -1 || skillName.indexOf("剣姫の刀") != -1 || skillName.indexOf("義勇の槍") != -1
-			|| skillName.indexOf("マルテ") != -1 || skillName.indexOf("霧氷のナイフ") != -1
+			|| skillName.indexOf("マルテ") != -1 || skillName.indexOf("霧氷のナイフ") != -1 || skillName.indexOf("魔書ミステルトィン") != -1
 			){
 				return -1;
 		}
@@ -1228,6 +1226,13 @@ function getPrechargeChange(skill, slot){
 	}
 
 	var skillName = skill.name;
+
+	//Weapon Skill
+	if (slot == "weapon"){
+		if (skillName.indexOf("魔書ミステルトィン") != -1){
+			return 1;
+		}
+	}
 
 	//B Skill
 	if (slot == "b"){
@@ -2644,7 +2649,11 @@ function updateHeroUI(hero){
 			}
 
 			//Precharge
-			//TODO: Combine this from hero intialization
+			//TODO: Combine this from hero
+			//Weapon
+			if (hero.weapon != -1){
+				precharge += getPrechargeChange(data.skills[hero.weapon], "weapon");
+			}
 			//B Skill
 			if(hero.b != -1){
 				var bName = data.skills[hero.b].name;
@@ -5505,14 +5514,27 @@ function activeHero(hero){
 		var startText = "";
 		var skillName = "";
 		var damage = 0;
+		var healAmount = 0;
 
-		//TODO: Fix round counting for skadi effects
+		//TODO: Fix round counting for skadi/blight effects
 		if (debuffRound == 1){
 			if (this.has("スカディ")){
-				skillName = "スカディ";
+				skillName = data.skills[this.weaponIndex].name;
 				damage = 10;
 				enemy.panicked = true;
-				startText += this.name + " は、" + data.skills[this.weaponIndex].name + " を発動、" + enemy.name + " にパニックの効果。<br>";
+				startText += this.name + " は、" + skillName + " を発動、" + enemy.name + " にパニックの効果。<br>";
+			}
+			if (this.hasExactly("暗夜竜のブレス")){
+				skillName = data.skills[this.weaponIndex].name;
+				damage = 10;
+				healAmount = this.adjacent2_foe * 5;
+				if(this.hp + healAmount > this.maxHp){
+					this.hp = this.maxHp;
+				} else{
+					this.hp += healAmount;
+				}
+				startText += this.name + " は、" + skillName + " を発動、ＨＰ " + healAmount + " 回復。<br>";
+
 			}
 		}
 
@@ -7192,7 +7214,7 @@ function activeHero(hero){
 		}
 		if (enemy.range == "ranged"){
 			if (this.hasExactly("神炎のブレス") || this.hasExactly("邪竜のブレス") || this.has("水のブレス")
-			 || this.hasExactly("霧のブレス") || this.has("真夏のブレス")
+			 || this.hasExactly("霧のブレス") || this.hasExactly("真夏のブレス") || this.hasExactly("暗夜竜のブレス")
 			){
 				return true;
 			}
@@ -7656,7 +7678,7 @@ function activeHero(hero){
 				effectiveBonus = (enemy.has("グラ二の盾")) ? 1 : 1.5;
 			}
 			else if ((enemy.weaponType == "dragon" || enemy.hasExactly("ロプトウス")) && isDragonEffective(this)){
-				effectiveBonus = 1.5;
+				effectiveBonus = (enemy.has("暗夜竜のブレス")) ? 1 : 1.5;
 			}
 			else if ((enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" || enemy.weaponType == "greentome") && (this.has("猫の暗器"))){
 				effectiveBonus = 1.5;
