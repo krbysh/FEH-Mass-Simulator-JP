@@ -155,7 +155,7 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"エスリン (5★);Weapon: フィアー+;Assist: リブロー+;Special: 天照;A: 速さ守備の絆 3;B: ご奉仕の喜び 3;",
+	"フローラ (5★);Weapon: 霧氷のナイフ;Special: 氷蒼;A: 攻撃魔防の孤軍 3;B: 切り返し 3;C: 守備の謀策 3;",
 	"キュアン (5★);Weapon: ゲイボルグ;Assist: 速さ守備の応援+;Special: 竜裂;A: 飛燕金剛の構え 2;C: 攻撃の大紋章 2;",
 	"レヴィン (5★);Weapon: フォルセティ;Special: 凶星;A: 鬼神飛燕の一撃 2;B: 奥義の螺旋 3;C: 攻撃の波・奇数 3;",
 	"シルヴィア (5★);Weapon: バリアの剣+;Assist: 踊る;A: 鬼神明鏡の構え 2;B: 疾風静水の舞い 2;",
@@ -1184,7 +1184,7 @@ function getCDChange(skill, slot){
 			|| skillName.indexOf("アウドムラ") != -1 || skillName.indexOf("鏡餅") != -1 || skillName.indexOf("バシリコス") != -1
 			|| skillName.indexOf("狂斧アルマーズ") != -1 || skillName.indexOf("無銘の一門の剣") != -1 || skillName.indexOf("暗殺手裏剣") != -1
 			|| skillName.indexOf("トールハンマー") != -1 || skillName.indexOf("剣姫の刀") != -1 || skillName.indexOf("義勇の槍") != -1
-			|| skillName.indexOf("マルテ") != -1
+			|| skillName.indexOf("マルテ") != -1 || skillName.indexOf("霧氷のナイフ") != -1
 			){
 				return -1;
 		}
@@ -5837,14 +5837,61 @@ function activeHero(hero){
 			boostText += this.name + " は、" + data.skills[enemy.weaponIndex].name + " の効果で、戦闘中、攻撃 -6 。<br>";
 		}
 
+
+		//Solo Skills
+		if (this.adjacent == 0){
+			if (this.has("攻撃速さの孤軍")){
+				statBonus = this.has("攻撃速さの孤軍") * 2;
+				this.combatSpur.atk += statBonus;
+				this.combatSpur.spd += statBonus;
+				skillName = data.skills[this.aIndex].name;
+				boostText += this.name + " は、" + skillName + " の効果で１マス以内に味方がない時、攻撃、速さ +" + statBonus + " 。<br>";
+			}
+			if (this.has("攻撃守備の孤軍")){
+				statBonus = this.has("攻撃守備の孤軍") * 2;
+				this.combatSpur.atk += statBonus;
+				this.combatSpur.def += statBonus;
+				skillName = data.skills[this.aIndex].name;
+				boostText += this.name + " は、" + skillName + " の効果で１マス以内に味方がない時、攻撃、守備 +" + statBonus + " 。<br>";
+			}
+			if (this.has("攻撃魔防の孤軍")){
+				statBonus = this.has("攻撃魔防の孤軍") * 2;
+				this.combatSpur.atk += statBonus;
+				this.combatSpur.res += statBonus;
+				skillName = data.skills[this.aIndex].name;
+				boostText += this.name + " は、" + skillName + " の効果で１マス以内に味方がない時、攻撃、魔防 +" + statBonus + " 。<br>";
+			}
+			if (this.has("速さ守備の孤軍")){
+				statBonus = this.has("速さ守備の孤軍") * 2;
+				this.combatSpur.spd += statBonus;
+				this.combatSpur.def += statBonus;
+				skillName = data.skills[this.aIndex].name;
+				boostText += this.name + " は、" + skillName + " の効果で１マス以内に味方がない時、速さ、守備 +" + statBonus + " 。<br>";
+			}
+			if (this.has("速さ魔防の孤軍")){
+				statBonus = this.has("速さ魔防の孤軍") * 2;
+				this.combatSpur.atk += statBonus;
+				this.combatSpur.res += statBonus;
+				skillName = data.skills[this.aIndex].name;
+				boostText += this.name + " は、" + skillName + " の効果で１マス以内に味方がない時、速さ、魔防 +" + statBonus + " 。<br>";
+			}
+			if (this.has("守備魔防の孤軍")){
+				statBonus = this.has("守備魔防の孤軍") * 2;
+				this.combatSpur.def += statBonus;
+				this.combatSpur.res += statBonus;
+				skillName = data.skills[this.aIndex].name;
+				boostText += this.name + " は、" + skillName + " の効果で１マス以内に味方がない時、守備、魔防 +" + statBonus + " 。<br>";
+			}
+		}
+
 		//Brazen Skills
-		if(this.combatStartHp / this.maxHp <= 0.8){
+		if (this.combatStartHp / this.maxHp <= 0.8){
 			if (this.has("フォルクヴァング") && this.refineIndex != -1){
 				statBonus = 7;
 				this.combatSpur.atk += statBonus;
 				this.combatSpur.def += statBonus;
-				skillName = data.skills[this.weaponIndex].name + " (Refined)";
-				boostText += this.name + " activates " + skillName + " and gets +" + statBonus + " Atk/Def.<br>";
+				skillName = data.skills[this.weaponIndex].name + "(錬成)";
+				boostText += this.name + " は、" + skillName + " の効果で、攻撃、守備 +" + statBonus + " 。<br>";
 			}
 			if(this.has("攻撃速さの大覚醒")){
 				statBonus = 1 + 2 * this.has("攻撃速さの大覚醒");
@@ -6224,7 +6271,12 @@ function activeHero(hero){
 				this.combatSpur.atk += 6;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) の効果で、自分から攻撃時、攻撃 +6 。<br>"
 			}
+			if (this.hasExactly("霧氷のナイフ") && enemy.range == "melee"){
+				this.combatSpur.def += 20;
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + "の効果で、近距離の敵に対して自分から攻撃時、守備 +20 。<br>"
+			}
 
+			//TODO: Combine skills with separated parts such as Swift Sparrow into one if statement
 			//Skills
 			if(this.has("鬼神飛燕の一撃")){
 				buffVal = this.has("鬼神飛燕の一撃") * 2;
@@ -6356,7 +6408,7 @@ function activeHero(hero){
 					buffVal = this.hasAtIndex("近距離防御", this.sIndex) * 2;
 					this.combatSpur.def += buffVal;
 					this.combatSpur.res += buffVal;
-					boostText += this.name + " は、" + data.skills[this.sIndex].name + "(聖印) の効果で近距離の敵近距離から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
+					boostText += this.name + " は、" + data.skills[this.sIndex].name + "(聖印) の効果で近距離の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
 				}
 			}
 
@@ -6908,7 +6960,7 @@ function activeHero(hero){
 			){
 				sealStats(data.skills[this.weaponIndex].name, ["def","res"], [-5, -7]);
 			}
-			if (this.hasExactly("フェリシアの氷皿")){
+			if (this.hasExactly("フェリシアの氷皿") || this.has("霧氷のナイフ")){
 				sealStats(data.skills[this.weaponIndex].name, ["def","res"], [-7]);
 			}
 			if (this.has("猫の暗器") && (enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" || enemy.weaponType == "greentome")){
@@ -8451,6 +8503,10 @@ function activeHero(hero){
 					thisAttackRank++;
 					thisAttackRankChanged = true;
 				}
+			}
+			if (this.hasExactly("霧氷のナイフ") && enemy.range == "melee"){
+				thisAttackRank++;
+				thisAttackRankChanged = true;
 			}
 		}
 		if (this.hasAtIndex("攻撃隊形", this.bIndex)){
