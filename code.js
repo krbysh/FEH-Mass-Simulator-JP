@@ -155,11 +155,10 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"ガロン (5★);Weapon: 暗夜竜のブレス;Special: 竜穿;A: 遠距離防御 3;C: 恐慌の奇策 3;",
-	"フローラ (5★);Weapon: 霧氷のナイフ;Special: 氷蒼;A: 攻撃魔防の孤軍 3;B: 切り返し 3;C: 守備の謀策 3;",
-	"エポニーヌ (5★);Weapon: シャイニングボウ+;Assist: 引き寄せ;Special: 月虹;B: 速さ魔防の連携 3;C: 弓の技量 3;",
-	"オフェリア (5★);Weapon: 魔書ミステルトィン;Assist: 攻撃の大応援+;Special: 烈光;A: 鬼神金剛の一撃 2;B: 魔防の封印 3;",
-	"サイラス (5★);Weapon: 貫きの槍鍛+;Assist: 引き戻し;A: 金剛の構え 3;C: 守備の波・偶数 3;",
+	"チキ(伝承の竜王女) (5★);Weapon: 神霧のブレス;Special: 月虹;A: 鬼神の呼吸;B: 攻撃隊形 3;C: みんなと一緒に;",
+	"レーギャルン (5★);Weapon: ニーウ;Special: 緋炎;A: 赤の死闘・飛行 3;B: 攻撃の封印 3;C: 遠距離警戒 3;",
+	"レーヴァテイン (5★);Weapon: レーヴァテイン;Assist: 入れ替え;A: 獅子奮迅 3;B: 攻撃守備の連携 3;C: 速さの波・奇数 3;",
+	"ヘルビンディ (5★);Weapon: ビューレイスト;Special: 復讐;A: 緑の死闘・歩行 3;B: キャンセル 3;C: 歩行の鼓動 3;",
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -1052,6 +1051,12 @@ function getValidSkills(hero,slot){
 							}
 						}
 					}
+					//inherit if is a certain color
+					else if(data.colors.indexOf(inheritRules[ruleNum])!=-1){
+						if(data.heroes[hero.index].color == inheritRules[ruleNum]){
+							inheritRuleMatches++;
+						}
+					}
 					//inherit if not a certain color
 					else if(data.colors.indexOf(inheritRules[ruleNum].replace("non",""))!=-1){
 						if(data.heroes[hero.index].color!=inheritRules[ruleNum].replace("non","")){
@@ -1254,7 +1259,7 @@ function getPrechargeChange(skill, slot){
 
 function isDragonEffective(hero){
 	if (hero.hasExactly("ファルシオン") || hero.hasExactly("封剣ファルシオン") || hero.hasExactly("神剣ファルシオン")
-		|| hero.hasExactly("ナーガ") || hero.hasExactly("聖書ナーガ")
+		|| hero.hasExactly("ナーガ") || hero.hasExactly("聖書ナーガ") || hero.hasExactly("神霧のブレス")
 		|| hero.hasExactly("霧のブレス")	|| hero.hasExactly("真夏のブレス")
 		|| hero.has("緑雲の舞扇")
 		|| (hero.hasExactly("封印の剣") && hero.refineIndex != -1)
@@ -1296,7 +1301,9 @@ function canCounterAnyRange(hero){
 	if(hero.has("近距離反撃") || hero.has("遠距離反撃") || hero.has("雷のブレス")
 		|| hero.has("雷神刀") || hero.has("ジークフリート") || hero.has("ラグネル")
 		|| hero.has("グラディウス") || hero.has("エタルド") || hero.has("剛斧トマホーク")
-		|| hero.has("レイプト") || hero.has("邪竜のブレス") || hero.hasExactly("オスティアの反撃")){
+		|| hero.has("レイプト") || hero.has("邪竜のブレス") || hero.has("オスティアの反撃")
+		|| hero.has("神霧のブレス")
+	){
 		return true;
 	}
 	return false;
@@ -5594,7 +5601,7 @@ function activeHero(hero){
 				debuffVal.res = Math.min(debuffVal.res, -5);
 				skillNames.push("ムニンの魔卵");
 			}
-			if(this.hasExactly("氷の封印")){
+			if(this.hasExactly("氷の封印") && this.hp / this.maxHp >= 0.5){
 				debuffVal.atk = Math.min(debuffVal.atk, -5);
 				debuffVal.res = Math.min(debuffVal.res, -5);
 				skillNames.push("氷の封印");
@@ -5732,6 +5739,11 @@ function activeHero(hero){
 			if (this.has("清らかなブーケ")){
 				buffVal.spd = Math.max(buffVal.spd, 4);
 				skillNames.push(data.skills[this.weaponIndex].name);
+			}
+			if (this.hasExactly("みんなと一緒に")){
+				buffVal.def = Math.max(buffVal.def, 5);
+				buffVal.res = Math.max(buffVal.res, 5);
+				skillNames.push(data.skills[this.cIndex].name);
 			}
 		}
 
@@ -6669,22 +6681,25 @@ function activeHero(hero){
 		this.combatStat.def = Math.max(0, this.combatStat.def + this.spur.def + this.combatSpur.def);
 		this.combatStat.res = Math.max(0, this.combatStat.res + this.spur.res + this.combatSpur.res);
 
-		//Bladetome bonus
-		if (this.has("ラウアブレード") || this.has("ブラーブレード") || this.has("グルンブレード") || this.hasExactly("雷旋の書") || this.hasExactly("オーディンの黒書")){
+		//Self Buff Atk bonus
+		if (this.has("ラウアブレード") || this.has("ブラーブレード") || this.has("グルンブレード")
+		  || this.hasExactly("雷旋の書") || this.hasExactly("オーディンの黒書")	|| this.hasExactly("レーヴァテイン")
+		){
 			var atkbonus = this.combatBuffs.atk + this.combatBuffs.spd + this.combatBuffs.def + this.combatBuffs.res;
 			this.combatStat.atk += atkbonus;
 			if (atkbonus != 0){statText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、攻撃 +" + atkbonus + " 。<br>";}
 		}
 
-		//Blizzard bonus
+		//Enemy Debuff Atk bonus
 		if (this.has("ブリザード")){
 			var atkbonus = -1 * (enemy.combatDebuffs.atk + enemy.combatDebuffs.spd + enemy.combatDebuffs.def + enemy.combatDebuffs.res);
 			this.combatStat.atk += atkbonus;
 			if (atkbonus != 0){statText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、攻撃 +" + atkbonus + " 。<br>";}
 		}
-		//Cleaner bonus
-		if (this.has("粛清の暗器")){
+		//Enemy Buff Atk bonus
+		if (this.has("粛清の暗器") || this.hasExactly("ニーウ")){
 			var atkbonus = enemy.combatBuffs.atk + enemy.combatBuffs.spd + enemy.combatBuffs.def + enemy.combatBuffs.res;
+			if (this.hasExactly("ニーウ")){atkbonus = Math.floor(atkbonus/2);}
 			this.combatStat.atk += atkbonus;
 			if (atkbonus != 0){statText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、攻撃 +" + atkbonus + " 。<br>";}
 		}
@@ -7215,6 +7230,7 @@ function activeHero(hero){
 		if (enemy.range == "ranged"){
 			if (this.hasExactly("神炎のブレス") || this.hasExactly("邪竜のブレス") || this.has("水のブレス")
 			 || this.hasExactly("霧のブレス") || this.hasExactly("真夏のブレス") || this.hasExactly("暗夜竜のブレス")
+			 || this.hasExactly("神霧のブレス")
 			){
 				return true;
 			}
@@ -7475,49 +7491,48 @@ function activeHero(hero){
 			Cancel Affinity Rules for Attacker
 
 			Attacker with Cancel Affinity:
-				Attacker with Gem Weapon or 相性激化 = no extra advantage or disadvantage
+				Attacker with Gem Weapon or Triangle Adept = no extra advantage or disadvantage
 
 				Defender with:
-					Advantaged Gem Weapon or 相性激化:									(Base -20%)
+					Advantaged Gem Weapon or Triangle Adept:									(Base -20%)
 						Cancel Affinity 1 = negate extra disadvantage	(Extra -20% to 0%)		(Total -20%)
 						Cancel Affinity 2 = negate extra disadvantage	(Extra -20% to 0%)		(Total -20%)
 						Cancel Affinity 3 = reverse extra disadvantage	(Extra -20% to +20%)	(Total 0%)
-					Disadvantaged Gem Weapon or 相性激化:								(Base +20%)
+					Disadvantaged Gem Weapon or Triangle Adept:									(Base +20%)
 						Cancel Affinity 1 = negate extra advantage		(Extra +20% to 0%)		(Total +20%)
 						Cancel Affinity 2 = keep extra advantage		(Extra +20% to +20%)	(Total +40%)
 						Cancel Affinity 3 = keep extra advantage		(Extra +20% to +20%)	(Total +40%)
 
 				Attacker with -raven Tome against Gray Defender:								(Base +20%)
-					Attacker with 相性激化 = no extra advantage or disadvantage			(Total +20%)
-					Defender with 相性激化:
+					Attacker with Triangle Adept = no extra advantage or disadvantage			(Total +20%)
+					Defender with Triangle Adept:
 						Cancel Affinity 1 = negate extra advantage		(Extra +20% to 0%)		(Total +20%)
 						Cancel Affinity 2 = keep extra advantage		(Extra +20% to +20%)	(Total +40%)
 						Cancel Affinity 3 = keep extra advantage		(Extra +20% to +20%)	(Total +40%)
 
-
 			Defender with Cancel Affinity:
 				Attacker with:
-					Advantaged Gem Weapon or 相性激化:									(Base +20%)
+					Advantaged Gem Weapon or Triangle Adept:									(Base +20%)
 						Cancel Affinity 1 = negate extra disadvantage	(Extra +20% to 0%)		(Total +20%)
 						Cancel Affinity 2 = negate extra disadvantage	(Extra +20% to 0%)		(Total +20%)
 						Cancel Affinity 3 = reverse extra disadvantage	(Extra +20% to -20%)	(Total 0%)
-					Disadvantaged Gem Weapon or 相性激化:									(Base -20%)
+					Disadvantaged Gem Weapon or Triangle Adept:									(Base -20%)
 						Cancel Affinity 1 = negate extra advantage		(Extra -20% to 0%)		(Total -20%)
 						Cancel Affinity 2 = keep extra advantage		(Extra -20% to -20%)	(Total -40%)
 						Cancel Affinity 3 = keep extra advantage		(Extra -20% to -20%)	(Total -40%)
 
-				Defender with Gem Weapon or 相性激化 = no extra advantage or disadvantage
+				Defender with Gem Weapon or Triangle Adept = no extra advantage or disadvantage
 
 				Attacker with -raven Tome against Gray Defender:								(Base +20%)
-					Attacker with 相性激化:
+					Attacker with Triangle Adept:
 						Cancel Affinity 1 = negate extra disadvantage	(Extra +20% to 0%)		(Total +20%)
 						Cancel Affinity 2 = negate extra disadvantage	(Extra +20% to 0%)		(Total +20%)
 						Cancel Affinity 3 = reverse extra disadvantage	(Extra +20% to -20%)	(Total 0%)
-					Defender with 相性激化 = no extra advantage or disadvantage			(Total +20%)
+					Defender with Triangle Adept = no extra advantage or disadvantage			(Total +20%)
 
 			Attacker and Defender with Cancel Affinity:
-				Attacker with Gem Weapon or 相性激化 = no extra advantage or disadvantage
-				Defender with Gem Weapon or 相性激化 = no extra advantage or disadvantage
+				Attacker with Gem Weapon or Triangle Adept = no extra advantage or disadvantage
+				Defender with Gem Weapon or Triangle Adept = no extra advantage or disadvantage
 			*/
 
 			var extraWeaponAdvantage = 0;
@@ -7923,13 +7938,16 @@ function activeHero(hero){
 				damageText += this.name + " は、ＨＰ " + absorbHp + " 回復。<br>";
 			}
 
-			//Special charge does not increase if special was used on this attack
+
+			//Charge changes for attacker
+			//***Special charge does not increase if special was used on this attack***
+			//TODO: This area is really confusing with duplicate code for !offensiveSpecialActivated, !defenseSpecialActivated, initator, and !initiator.
+			//		Clean or add better annotation.
 			if (!offensiveSpecialActivated){
 				var gainCharge = 0;	//For possible >1 gains
 				var loseCharge = 0;
 				var skillNames = [];
 
-				//-Breath: Initiator has
 				if (!this.initiator && this.has("真夏のブレス")){
 					gainCharge = Math.max(gainCharge, 1);
 					skillNames.push(data.skills[this.weaponIndex].name);
@@ -8066,16 +8084,16 @@ function activeHero(hero){
 					this.charge -= loseCharge;
 					damageText += this.name + " は、" + skillNames.join("、") + " の効果で、奥義カウント変動量 -" + loseCharge + " 。<br>";
 				}
-				//Initiator gains a charge after attacking
+				//Attacker gains a charge after attacking
 				this.charge++;
 			}
 
+			//Charge changes for defender
 			if(!defensiveSpecialActivated){
 				var gainCharge = 0;
 				var loseCharge = 0;
 				var skillNames = [];
 
-				//-Breath: Enemy has
 				if(this.initiator && enemy.has("真夏のブレス")){
 					gainCharge = Math.max(gainCharge, 1);
 					skillNames.push(data.skills[enemy.aIndex].name);
@@ -8135,7 +8153,7 @@ function activeHero(hero){
 					damageText += enemy.name + " は、" + skillNames.join("、") + " により、奥義カウント変動量 -" + loseCharge + " 。<br>";
 				}
 
-				//Enemy gains a charge when attacked
+				//Defender gains a charge when attacked
 				enemy.charge++;
 			}
 
