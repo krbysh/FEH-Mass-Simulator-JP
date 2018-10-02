@@ -24,7 +24,7 @@
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 	<script src="select2/select2.min.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="style.css?v=2018071101"/>
+	<link rel="stylesheet" type="text/css" href="style.css?v=20180100201"/>
 	<script type="text/javascript" src="code.js?v=2018100201"></script>
 
 </head>
@@ -255,7 +255,7 @@
 				<div id="rules_bar_top">
 					設定
 				</div>
-				<div id="adj_title">ステータス</div>
+				<div id="adj_title">強化</div>
 				<div class="adj_status">
 					<div class="status_challenger"><input type="checkbox" data-var="options.defensive_challenger" id="defensive_challenger"/></div>
 					<div class="status_title">防御地形</div>
@@ -272,31 +272,6 @@
 					<div class="status_enemy"><input type="checkbox" data-var="options.distant_def_enemy" id="distant_def_enemy"/></div>
 				</div>
 				<div class="adj_status">
-					<div class="status_challenger"><input type="checkbox" data-var="options.candlelight_challenger" id="candlelight_challenger"/></div>
-					<div class="status_title">キャンドル</div>
-					<div class="status_enemy"><input type="checkbox" data-var="options.candlelight_enemy" id="candlelight_enemy"/></div>
-				</div>
-				<div class="adj_status">
-					<div class="status_challenger"><input type="checkbox" data-var="options.triangled_challenger" id="triangled_challenger"/></div>
-					<div class="status_title">トリレンマ</div>
-					<div class="status_enemy"><input type="checkbox" data-var="options.triangled_enemy" id="triangled_enemy"/></div>
-				</div>
-				<div class="adj_status">
-					<div class="status_challenger"><input type="checkbox" data-var="options.panic_challenger" id="panic_challenger"/></div>
-					<div class="status_title">パニック</div>
-					<div class="status_enemy"><input type="checkbox" data-var="options.panic_enemy" id="panic_enemy"/></div>
-				</div>
-				<div class="adj_status">
-					<div class="status_challenger"><input type="checkbox" data-var="options.chilled_challenger" id="chilled_challenger"/></div>
-					<div class="status_title">封印</div>
-					<div class="status_enemy"><input type="checkbox" data-var="options.chilled_enemy" id="chilled_enemy"/></div>
-				</div>
-				<div class="adj_status">
-					<div class="status_challenger"><input type="checkbox" data-var="options.harsh_command_challenger" id="harsh_command_challenger"/></div>
-					<div class="status_title">一喝</div>
-					<div class="status_enemy"><input type="checkbox" data-var="options.harsh_command_enemy" id="harsh_command_enemy"/></div>
-				</div>
-				<div class="adj_status">
 					<div class="status_challenger"><input type="checkbox" data-var="options.rush_challenger" id="rush_challenger"/></div>
 					<div class="status_title">歩行の剛撃</div>
 					<div class="status_enemy"><input type="checkbox" data-var="options.rush_enemy" id="rush_enemy"/></div>
@@ -307,6 +282,16 @@
 					<div class="status_enemy"><input type="checkbox" data-var="options.flash_enemy" id="flash_enemy"/></div>
 				</div>
 				<div class="adj_status">
+					<div class="status_challenger"><input type="checkbox" data-var="options.harsh_command_challenger" id="harsh_command_challenger"/></div>
+					<div class="status_title">一喝</div>
+					<div class="status_enemy"><input type="checkbox" data-var="options.harsh_command_enemy" id="harsh_command_enemy"/></div>
+				</div>
+				<div class="adj_status">
+					<div class="status_challenger"><input type="checkbox" data-var="options.triangled_challenger" id="triangled_challenger"/></div>
+					<div class="status_title">トリレンマ</div>
+					<div class="status_enemy"><input type="checkbox" data-var="options.triangled_enemy" id="triangled_enemy"/></div>
+				</div>
+				<div class="adj_status">
 					<div class="status_challenger"><input type="checkbox" data-var="options.pulse_challenger" id="pulse_challenger"/></div>
 					<div class="status_title">オスティアの鼓動</div>
 					<div class="status_enemy"><input type="checkbox" data-var="options.pulse_enemy" id="pulse_enemy"/></div>
@@ -315,6 +300,23 @@
 					<div class="status_challenger"><input type="checkbox" data-var="options.movement_challenger" id="movement_challenger"/></div>
 					<div class="status_title">移動力追加</div>
 					<div class="status_enemy"><input type="checkbox" data-var="options.movement_enemy" id="movement_enemy"/></div>
+				</div>
+				<div style="line-height:40%;"><br></div>
+				<div id="adj_title">弱体</div>
+				<div class="adj_status">
+					<div class="status_challenger"><input type="checkbox" data-var="options.candlelight_challenger" id="candlelight_challenger"/></div>
+					<div class="status_title">キャンドル</div>
+					<div class="status_enemy"><input type="checkbox" data-var="options.candlelight_enemy" id="candlelight_enemy"/></div>
+				</div>
+				<div class="adj_status">
+					<div class="status_challenger"><input type="checkbox" data-var="options.chilled_challenger" id="chilled_challenger"/></div>
+					<div class="status_title">封印</div>
+					<div class="status_enemy"><input type="checkbox" data-var="options.chilled_enemy" id="chilled_enemy"/></div>
+				</div>
+				<div class="adj_status">
+					<div class="status_challenger"><input type="checkbox" data-var="options.panic_challenger" id="panic_challenger"/></div>
+					<div class="status_title">パニック</div>
+					<div class="status_enemy"><input type="checkbox" data-var="options.panic_enemy" id="panic_enemy"/></div>
 				</div>
 				<div style="line-height:40%;"><br></div>
 				<div id="adj_title">特殊</div>
@@ -360,37 +362,6 @@
 					</div>
 				</div>
 				<div style="line-height:40%;"><br></div>
-				<div id="adj_title">シミュレータ</div>
-				<div class="adj_status">
-					<div class="status_desc_long">最大レベルのみ表示</div>
-					<div class="status_select_long">
-						<input class="status_select" type="checkbox" data-var="options.showOnlyMaxSkills" id="rules_prereqs" checked="checked" />
-					</div>
-				</div>
-				<div class="adj_status">
-					<div class="status_desc_long">無影響なスキルを非表示</div>
-					<div class="status_select_long">
-						<input class="status_select" type="checkbox" data-var="options.hideUnaffectingSkills" id="rules_hideunaffecting" checked="checked" />
-					</div>
-				</div>
-				<div class="adj_status">
-					<div class="status_desc_long">自動計算</div>
-					<div class="status_select_long">
-						<input class="status_select" type="checkbox" data-var="options.autoCalculate" id="autocalculate" checked="checked"/>
-					</div>
-				</div>
-				<div class="adj_status">
-					<div class="status_desc_long">シミュレータ設定保存</div>
-					<div class="status_select_long">
-						<input class="status_select" type="checkbox" data-var="options.saveSettings" id="saveSettings" checked="checked"/>
-					</div>
-				</div>
-				<div class="adj_status">
-					<div class="status_desc_long">フィルター設定保存</div>
-					<div class="status_select_long">
-						<input class="status_select" type="checkbox" data-var="options.saveFilters" id="saveFilters" />
-					</div>
-				</div>
 			</div>
 			<div id="frame_adjustments" style="display: none;">
 				<div id="rules_bar_top">
@@ -1035,6 +1006,38 @@
 						<input type="radio" name="menu" class="menu_button" value="adjustments">調整<br>
 						<input type="radio" name="menu" class="menu_button" value="statistics">統計<br>
 						<input type="radio" name="menu" class="menu_button" value="close">コンパクト
+					</div>
+					<div class="menu_settings">
+						<div class="adj_status">
+							<div class="status_desc_long">最大レベルのみ表示</div>
+							<div class="status_select_long">
+								<input class="status_select" type="checkbox" data-var="options.showOnlyMaxSkills" id="rules_prereqs" checked="checked" />
+							</div>
+						</div>
+						<div class="adj_status">
+							<div class="status_desc_long">無影響なスキルを非表示</div>
+							<div class="status_select_long">
+								<input class="status_select" type="checkbox" data-var="options.hideUnaffectingSkills" id="rules_hideunaffecting" checked="checked" />
+							</div>
+						</div>
+						<div class="adj_status">
+							<div class="status_desc_long">自動計算</div>
+							<div class="status_select_long">
+								<input class="status_select" type="checkbox" data-var="options.autoCalculate" id="autocalculate" checked="checked"/>
+							</div>
+						</div>
+						<div class="adj_status">
+							<div class="status_desc_long">シミュレータ設定保存</div>
+							<div class="status_select_long">
+								<input class="status_select" type="checkbox" data-var="options.saveSettings" id="saveSettings" checked="checked"/>
+							</div>
+						</div>
+						<div class="adj_status">
+							<div class="status_desc_long">フィルター設定保存</div>
+							<div class="status_select_long">
+								<input class="status_select" type="checkbox" data-var="options.saveFilters" id="saveFilters" />
+							</div>
+						</div>
 					</div>
 					<div class="menu_filler"></div>
 				</div>
