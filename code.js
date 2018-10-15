@@ -155,10 +155,11 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"チキ(伝承の竜王女) (5★);Weapon: 神霧のブレス;Special: 月虹;A: 鬼神の呼吸;B: 攻撃隊形 3;C: みんなと一緒に;",
-	"レーギャルン (5★);Weapon: ニーウ;Special: 緋炎;A: 赤の死闘・飛行 3;B: 攻撃の封印 3;C: 遠距離警戒 3;",
-	"レーヴァテイン (5★);Weapon: レーヴァテイン;Assist: 入れ替え;A: 獅子奮迅 3;B: 攻撃守備の連携 3;C: 速さの波・奇数 3;",
-	"ヘルビンディ (5★);Weapon: ビューレイスト;Special: 復讐;A: 緑の死闘・歩行 3;B: キャンセル 3;C: 歩行の鼓動 3;",
+	"ドルカス(懐かしき顔) (5★);Weapon: カボチャの斧+;Assist: 入れ替え;A: 鬼神金剛の構え 2;B: 守備隊形 3;",
+	"カゲロウ(大地の恵みに) (5★);Weapon: 果汁のボトル+;Special: 竜裂;A: 鬼神明鏡の一撃 2;B: 攻撃隊形 3;C: 攻撃の波・偶数 3;",
+	"ゼロ(大地の恵みに) (5★);Weapon: コウモリの弓+;Assist: ぶちかまし;A: 鬼神飛燕の一撃 2;B: 攻撃速さの連携 3;C: 重盾の鼓舞;",
+	"ミルラ(大地の恵みに) (5★);Weapon: 精霊のブレス;Special: 緋炎;A: 守備魔防 2;B: 迎撃隊形 3;C: 重装の行軍 3;",
+	"ワユ(大地の恵みに) (5★);Weapon: キャンディの杖+;Assist: リカバー+;Special: 天照;A: 速さ魔防の絆 3;C: 飛刃の鼓舞;",
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -2951,7 +2952,9 @@ function showSkillTooltip(heroType, skillType){
 			tooltipText = "<span class=\"bold\">" + data.skills[skillID].name + "</span>";
 			tooltipText += (skillType == "weapon") ? " Mt: <font color=\"#fefec8\">" + data.skills[skillID].atk + "</font>" : "";
 			tooltipText += (skillType == "special") ? " CD: <font color=\"#fefec8\">" + data.skills[skillID].charge + "</font>" : "";
-			tooltipText += " SP: <font color=\"#fefec8\">" + data.skills[skillID].sp + "</font><br>";
+			tooltipText += " SP: <font color=\"#fefec8\">" + data.skills[skillID].sp + "</font>";
+			tooltipText += (skillType != "weapon" && skillType != "assist" && skillType != "special") ? (data.skills[skillID].affectsduel ? "" : " <font color=\"#dcdcdc\">(non-duel)</font>") : "";
+			tooltipText += "<br>";
 			tooltipText += data.skills[skillID].description;
 		}
 
@@ -5155,6 +5158,7 @@ function activeHero(hero){
 	this.initiator = false;
 	this.lit = false;
 	this.triangled = false;
+	this.bewitched = false;
 	this.panicked = false;
 	this.rushed = false;
 	this.flashed = false;
@@ -5829,6 +5833,18 @@ function activeHero(hero){
 			this.combatSpur.atk += 6;
 			boostText += this.name + " は、" + data.refine[this.refineIndex].name + "(錬成) の効果で、遠距離の敵に対して、戦闘中、攻撃 +6 。<br>";
 		}
+		if (this.close_defed && enemy.range == "melee"){
+					buffVal = 4;
+					this.combatSpur.def += buffVal;
+					this.combatSpur.res += buffVal;
+					boostText += this.name + " は、近距離警戒 3 の効果で遠距離の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
+		}
+		if (this.distant_defed && enemy.range == "ranged"){
+					buffVal = 4;
+					this.combatSpur.def += buffVal;
+					this.combatSpur.res += buffVal;
+					boostText += this.name + " は、遠距離警戒 3 の効果で遠距離の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
+		}
 		if (this.hasExactly("神剣ファルシオン") && (this.buffs.atk > 0 || this.buffs.spd > 0 || this.buffs.def > 0 || this.buffs.res > 0)){
 			boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、";
 			if (this.buffs.atk > 0){
@@ -6400,12 +6416,6 @@ function activeHero(hero){
 
 			////Close/Distant Def
 			if(enemy.range == "ranged"){
-				if (this.distant_defed){
-					buffVal = 4;
-					this.combatSpur.def += buffVal;
-					this.combatSpur.res += buffVal;
-					boostText += this.name + " は、遠距離警戒 3 の効果で遠距離の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
-				}
 				if (this.hasAtIndex("遠距離防御", this.aIndex)){
 					buffVal = this.hasAtIndex("遠距離防御", this.aIndex) * 2;
 					this.combatSpur.def += buffVal;
@@ -6426,12 +6436,6 @@ function activeHero(hero){
 				}
 			}
 			if(enemy.range == "melee"){
-				if (this.close_defed){
-					buffVal = 4;
-					this.combatSpur.def += buffVal;
-					this.combatSpur.res += buffVal;
-					boostText += this.name + " は、近距離警戒 3 の効果で遠距離の敵から攻撃された場合、守備、魔防 +"+ buffVal + " 。<br>";
-				}
 				if (this.hasAtIndex("近距離防御", this.aIndex)){
 					buffVal = this.hasAtIndex("近距離防御", this.aIndex) * 2;
 					this.combatSpur.def += buffVal;
@@ -6992,7 +6996,7 @@ function activeHero(hero){
 				sealStats(data.skills[this.weaponIndex].name, ["def","res"], [-7]);
 			}
 			if (this.has("銀の暗器") || this.has("貝殻") || this.has("舞踏祭の扇子") || this.has("鏡餅")
-				|| this.has("暗殺手裏剣") || this.has("フェリシアの氷皿") || this.has("ベビーキャロット") || this.has("ヒトデ")
+				|| this.has("暗殺手裏剣") || this.has("フェリシアの氷皿") || this.has("ベビーキャロット") || this.has("ヒトデ") || this.has("果汁のボトル")
 				|| this.has("緑雲の舞扇") || this.has("青天の舞扇") || this.has("宵闇の団扇")
 			){
 				sealStats(data.skills[this.weaponIndex].name, ["def","res"], [-5, -7]);
@@ -7230,7 +7234,7 @@ function activeHero(hero){
 		if (enemy.range == "ranged"){
 			if (this.hasExactly("神炎のブレス") || this.hasExactly("邪竜のブレス") || this.has("水のブレス")
 			 || this.hasExactly("霧のブレス") || this.hasExactly("真夏のブレス") || this.hasExactly("暗夜竜のブレス")
-			 || this.hasExactly("神霧のブレス")
+			 || this.hasExactly("神霧のブレス") || this.hasExactly("精霊のブレス")
 			){
 				return true;
 			}
@@ -8073,6 +8077,10 @@ function activeHero(hero){
 						skillNames.push(data.skills[enemy.bIndex].name);
 					}
 				}
+				if (enemy.has("コウモリの弓") || enemy.has("果汁のジュース") || enemy.has("カボチャの斧")){
+					loseCharge = Math.max(loseCharge, 1);
+					skillNames.push(data.skills[enemy.weaponIndex].name);
+				}
 				if (enemy.has("奥義隊形")){
 					if (enemy.combatStartHp/enemy.maxHp >= 1.1 - enemy.has("奥義隊形") * 0.2){
 						loseCharge = Math.max(loseCharge, 1);
@@ -8085,7 +8093,11 @@ function activeHero(hero){
 					damageText += this.name + " は、" + skillNames.join("、") + " の効果で、奥義カウント変動量 -" + loseCharge + " 。<br>";
 				}
 				//Attacker gains a charge after attacking
-				this.charge++;
+				if (!this.bewitched){
+					this.charge++;
+				} else{
+					damageText += this.name + " は、キャンディの杖 による 奥義発動カウント変動量 -1 の効果で奥義カウントの変動がしない。<br>";
+				}
 			}
 
 			//Charge changes for defender
@@ -8121,6 +8133,10 @@ function activeHero(hero){
 						skillNames.push(data.skills[enemy.weaponIndex].name + "(錬成)");
 					}
 				}
+				if (enemy.has("コウモリの弓") || enemy.has("果汁のジュース") || enemy.has("カボチャの斧")){
+					loseCharge = Math.max(loseCharge, 1);
+					skillNames.push(data.skills[this.weaponIndex].name);
+				}
 				if (enemy.has("奥義隊形")){
 					if (enemy.combatStartHp/enemy.maxHp >= 1.1 - enemy.has("奥義隊形") * 0.2){
 						gainCharge = Math.max(gainCharge, 1);
@@ -8141,6 +8157,10 @@ function activeHero(hero){
 						skillNames.push(data.skills[this.bIndex].name);
 					}
 				}
+				if (this.has("コウモリの弓") || this.has("果汁のジュース") || this.has("カボチャの斧")){
+					loseCharge = Math.max(loseCharge, 1);
+					skillNames.push(data.skills[this.weaponIndex].name);
+				}
 				if (this.has("奥義隊形")){
 					if (this.combatStartHp/this.maxHp >= 1.1 - this.has("奥義隊形") * 0.2){
 						loseCharge = Math.max(loseCharge, 1);
@@ -8154,7 +8174,11 @@ function activeHero(hero){
 				}
 
 				//Defender gains a charge when attacked
-				enemy.charge++;
+				if (!enemy.bewitched){
+					enemy.charge++;
+				} else{
+					damageText += enemy.name + " は、キャンディの杖 による 奥義発動カウント変動量 -1 の効果で奥義カウントの変動がしない。<br>";
+				}
 			}
 
 			//Show hp
@@ -8273,6 +8297,12 @@ function activeHero(hero){
 				}
 				if(options.triangled_enemy){
 					enemy.challenger ? this.triangled = true : enemy.triangled = true;
+				}
+				if(options.bewitched_challenger){
+					this.challenger ? this.bewitched = true : enemy.bewitched = true;
+				}
+				if(options.bewitched_enemy){
+					enemy.challenger ? this.bewitched = true : enemy.bewitched = true;
 				}
 				if(this.challenger ? options.threaten_enemy : options.threaten_challenger){
 					roundText += enemy.threaten(this);
@@ -8587,6 +8617,10 @@ function activeHero(hero){
 				thisAttackRankChanged = true;
 			}
 		}
+		if (this.initiate && this.hasExactly("精霊のブレス") && this.combatStat.def >= enemy.combatStat.def + 5){
+			thisAttackRank++;
+			thisAttackRankChanged = true;
+		}
 		if (this.hasExactly("ガルム")){
 			if (this.combatBuffs.atk != 0 || this.combatBuffs.spd != 0 || this.combatBuffs.def != 0 || this.combatBuffs.res != 0
 				|| (this.hasExactly("重装のブーツ") && this.combatStartHp/this.maxHp == 1)
@@ -8878,6 +8912,7 @@ function activeHero(hero){
 		this.panicked = false;
 		this.lit = false;
 		this.triangled = false;
+		this.bewitched = false;
 
 		//Post-Combat Buffs
 		//Rogue dagger works on enemy turn, but buffs are reset at beginning of player turn,
@@ -8890,44 +8925,60 @@ function activeHero(hero){
 			roundText += enemy.postCombatBuff();
 			roundText += enemy.postCombatHeal();
 		}
-
+		//Post-combat Debuffs
 		if(this.hp > 0 && enemy.hp > 0){
 			//Apply post-combat debuffs (seal)
 			roundText += this.seal(enemy);
 			roundText += enemy.seal(this);
 
-			//panic
-			if(this.attacked && (this.hasExactly("パニック") || this.hasExactly("パニック+") || this.has("ローローの斧")
-				|| ((this.hasExactly("怪物の弓+") || this.hasExactly("ゴーストの魔道書+")) && this.refineIndex != -1)
-			 )){
-				enemy.panicked = true;
-				roundText += this.name + " は、" + enemy.name + " に、パニック を付与。<br>";
-			}
-			if(enemy.attacked && (enemy.hasExactly("パニック") || enemy.hasExactly("パニック+") || enemy.has("ローローの斧")
-				|| ((enemy.hasExactly("怪物の弓+") || enemy.hasExactly("ゴーストの魔道書+")) && this.refineIndex != -1)
-			 )){
-				this.panicked = true;
-				roundText += enemy.name + " は、" + this.name + " に、パニック を付与。<br>";
+			//Status
+			//TODO: Refactor skill check for this.attacked and enemy.attacked into one function so that skills don't have to be written twice
+			if (this.didAttack){
+				if (this.hasExactly("パニック")					|| this.hasExactly("パニック+") 	|| this.has("ローローの斧")
+					|| ((this.hasExactly("怪物の弓+") 	|| this.hasExactly("ゴーストの魔道書+")) && this.refineIndex != -1)
+				){
+					enemy.panicked = true;
+					roundText += this.name + " は、" + enemy.name + " に、パニック を付与。<br>";
+				}
+				if (this.has("キャンドルサービス") || this.hasExactly("キャンドル+")){
+					enemy.lit = true;
+					roundText += this.name + " は、" + enemy.name + " に、反撃不可 を付与。<br>";
+				}
+				if (this.has("トリレンマ")){
+					enemy.triangled = true;
+					roundText += this.name + " は、 " + enemy.name + " に 相性激化 を付与。<br>";
+				}
+				if (this.has("キャンディの杖")){
+					enemy.resetCharge();
+					roundText += this.name + " は、 " + data.skills[this.weaponIndex].name + " の効果で、" + enemy.name + " の奥義カウントを最大値に戻す。<br>";
+					enemy.bewitched = true;
+					roundText += this.name + " は、 " + enemy.name + " に 奥義発動カウント変動量 -1 を付与。<br>";
+				}
 			}
 
-			//candlelight
-			if(this.has("キャンドルサービス")){
-				enemy.lit = true;
-				roundText += this.name + " は、" + enemy.name + " に、反撃不可 を付与。<br>";
-			}
-			if(enemy.has("キャンドルサービス")){
-				this.lit = true;
-				roundText += enemy.name + " は、" + this.name + " に、反撃不可 を付与。<br>";
-			}
+			if (enemy.didAttack){
+				if (enemy.hasExactly("パニック") 				|| enemy.hasExactly("パニック+") 	|| enemy.has("ローローの斧")
+					|| ((enemy.hasExactly("怪物の弓+") || enemy.hasExactly("ゴーストの魔道書+")) && enemy.refineIndex != -1)
+				){
+					this.panicked = true;
+					roundText += enemy.name + " は、" + this.name + " に、パニック を付与。<br>";
+				}
+				if (enemy.has("キャンドルサービス") || enemy.hasExactly("キャンドル+")){
+					this.lit = true;
+					roundText += enemy.name + " は、" + this.name + " に、反撃不可 を付与。<br>";
+				}
 
-			//Trilemma
-			if(this.has("トリレンマ")){
-				enemy.triangled = true;
-				roundText += this.name + " は、 " + enemy.name + " に相性激化の効果を影響を与える。<br>";
-			}
-			if(enemy.has("トリレンマ")){
-				this.triangled = true;
-				roundText += enemy.name + " は、 " + this.name + " に相性激化の効果を影響を与える。<br>";
+				if (enemy.has("トリレンマ")){
+					this.triangled = true;
+					roundText += enemy.name + " は、 " + this.name + " に 相性激化 を付与。<br>";
+				}
+
+				if (enemy.has("キャンディの杖")){
+					this.resetCharge();
+					roundText += enemy.name + " は、 " + data.skills[enemy.weaponIndex].name + " の効果で、" + this.name + " の奥義カウントを最大値に戻す。<br>";
+					this.bewitched = true;
+					roundText += enemy.name + " は、 " + this.name + " に 奥義発動カウント変動量 -1 を付与。<br>";
+				}
 			}
 
 			//Finally, Galeforce!
