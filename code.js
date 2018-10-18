@@ -8617,7 +8617,7 @@ function activeHero(hero){
 				thisAttackRankChanged = true;
 			}
 		}
-		if (this.initiate && this.hasExactly("精霊のブレス") && this.combatStat.def >= enemy.combatStat.def + 5){
+		if (this.hasExactly("精霊のブレス") && this.combatStat.def >= enemy.combatStat.def + 5){
 			thisAttackRank++;
 			thisAttackRankChanged = true;
 		}
