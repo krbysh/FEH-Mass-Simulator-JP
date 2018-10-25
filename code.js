@@ -6183,6 +6183,14 @@ function activeHero(hero){
 				this.combatSpur.def += buffVal;
 				boostText += this.name + " は、" + skillName + "(錬成) の効果で、剣か竜の味方が２マス以内にいる時、攻撃、守備 +" + buffVal + " 。<br>";
 			}
+			if (this.hasAtRefineIndex("ヴィドフニル・専用", this.refineIndex)){
+				buffVal = 4;
+				skillName = data.skills[this.weaponIndex].name;
+				this.combatSpur.atk += buffVal;
+				this.combatSpur.spd += buffVal;
+				boostText += this.name + " は、" + skillName + "(錬成) の効果で、歩行か重装の味方が２マス以内にいる時、攻撃、速さ +" + buffVal + " 。<br>";
+			}
+
 
 			//Owl Tomes
 			if (this.has("ブラーアウル") || this.has("グルンアウル") || this.has("ラウアアウル") || this.hasExactly("ニーズヘッグ") || this.hasExactly("カタリナの書")){
@@ -6249,21 +6257,21 @@ function activeHero(hero){
 			}
 			if (this.hasAtRefineIndex("シムベリン・専用", this.refineIndex)){
 				buffVal = 5;
-				skillName = "シムベリン・専用";
+				skillName = data.skills[this.weaponIndex].name;
 				this.combatSpur.atk += buffVal;
 				this.combatSpur.res += buffVal;
 				boostText += this.name + " は、" + skillName + "(錬成) の効果で、飛行の味方が２マス以内にいる時、攻撃、魔防 +" + buffVal + " 。<br>";
 			}
 			if (this.hasAtRefineIndex("フェンサリル・専用", this.refineIndex)){
 				buffVal = 5;
-				skillName = "フェンサリル・専用";
+				skillName = data.skills[this.weaponIndex].name;
 				this.combatSpur.spd += buffVal;
 				this.combatSpur.def += buffVal;
 				boostText += this.name + " は、" + skillName + "(錬成) の効果で、味方と隣接している時、速さ、守備 +" + buffVal + " 。<br>";
 			}
 			if (this.hasAtRefineIndex("リガルブレイド・専用", this.refineIndex)){
 				buffVal = 3;
-				skillName = "リガルブレイド・専用";
+				skillName = data.skills[this.weaponIndex].name;
 				this.combatSpur.atk += buffVal;
 				this.combatSpur.spd += buffVal;
 				this.combatSpur.def += buffVal;
@@ -6474,9 +6482,15 @@ function activeHero(hero){
 				this.combatSpur.res += 2;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、攻撃された時、攻撃、速さ、守備、魔防 +2 。<br>";
 			}
-			if (this.hasExactly("ヴィドフニル") && (enemy.weaponType == "sword" || enemy.weaponType == "axe" ||enemy.weaponType == "lance" )){
-				this.combatSpur.def += 7;
-				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、剣、槍、斧の敵から攻撃された時、守備 +7 。<br>";
+			if (this.hasExactly("ヴィドフニル")) {
+				if (this.refineIndex != -1 && (enemy.weaponType == "sword" || enemy.weaponType == "axe" || enemy.weaponType == "lance"  || enemy.weaponType == "dragon" )) {
+					this.combatSpur.def += 7;
+					this.combatSpur.res += 7;
+					boostText += this.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) の効果で、剣、槍、斧、竜の敵から攻撃された時、守備、魔防 +7 。<br>";
+				} else if (this.refineIndex == -1 && (enemy.weaponType == "sword" || enemy.weaponType == "axe" || enemy.weaponType == "lance")) {
+					this.combatSpur.def += 7;
+					boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、剣、槍、斧の敵から攻撃された時、守備 +7 。<br>";
+				}
 			}
 			if (this.hasExactly("ティルフィング") && this.hp / this.maxHp <= 0.5){
 				this.combatSpur.def += 4;
