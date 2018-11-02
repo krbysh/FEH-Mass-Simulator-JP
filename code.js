@@ -155,11 +155,11 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"ドルカス(懐かしき顔) (5★);Weapon: カボチャの斧+;Assist: 入れ替え;A: 鬼神金剛の構え 2;B: 守備隊形 3;",
-	"カゲロウ(大地の恵みに) (5★);Weapon: 果汁のボトル+;Special: 竜裂;A: 鬼神明鏡の一撃 2;B: 攻撃隊形 3;C: 攻撃の波・偶数 3;",
-	"ゼロ(大地の恵みに) (5★);Weapon: コウモリの弓+;Assist: ぶちかまし;A: 鬼神飛燕の一撃 2;B: 攻撃速さの連携 3;C: 重盾の鼓舞;",
-	"ミルラ(大地の恵みに) (5★);Weapon: 精霊のブレス;Special: 緋炎;A: 守備魔防 2;B: 迎撃隊形 3;C: 重装の行軍 3;",
-	"ワユ(大地の恵みに) (5★);Weapon: キャンディの杖+;Assist: リカバー+;Special: 天照;A: 速さ魔防の絆 3;C: 飛刃の鼓舞;",
+	"エイリーク(可憐な決意) (5★);Weapon: 雷剣ジークリンデ;Special: 月虹;A: 攻撃速さの孤軍 3;B: 月の腕輪;C: 守備の波・奇数 3;",
+	"インバース (5★);Weapon: インバースの暗闇;Special: 竜穿;A: ＨＰ速さ 2;C: 魔防の波・奇数 3;",
+	"ウード (5★);Weapon: ミステルトィン;Special: ブルーフレイム;A: 攻撃守備の絆 3;B: 怒り 3;C: 速さ守備の紋章 2;",
+	"ロキ (5★);Weapon: セック;Assist: レスト+;Special: 大地静水の祝福+;A: 無の死闘・歩行 3;C: 攻撃の波・奇数 3;",
+	"クリフ (5★);Weapon: アロー;Special: 爆光;A: 守備魔防の城塞 3;B: 速さの封印 3;C: 魔防の鼓舞 3;",
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -1213,6 +1213,14 @@ function getCDChange(skill, slot){
 		//Cooldown increase
 		if (skillName == "セインツ" || skillName == "リバース" || skillName == "リカバー"){
 				return 1;
+		}
+	}
+
+	//B
+	if (slot == "b"){
+		//Cooldown increase
+		if (skillName.indexOf("月の腕輪") != -1){
+			return 1;
 		}
 	}
 
@@ -2655,6 +2663,10 @@ function updateHeroUI(hero){
 			if(hero.assist != -1){
 				specialCharge += getCDChange(data.skills[hero.assist], "assist");
 			}
+			//B Skill
+			if(hero.b != -1){
+				specialCharge += getCDChange(data.skills[hero.b], "b");
+			}
 
 			//Precharge
 			//TODO: Combine this from hero
@@ -2678,7 +2690,6 @@ function updateHeroUI(hero){
 
 			//Special Item
 			if(hero.s != -1){
-				specialCharge += getCDChange(data.skills[hero.s], "s");
 				precharge += getPrechargeChange(data.skills[hero.s], "s");
 			}
 
@@ -5265,6 +5276,7 @@ function activeHero(hero){
 		this.charge += -1 * getCDChange(data.skills[this.weaponIndex], "weapon");
 		this.charge += -1 * getCDChange(data.refine[this.refineIndex], "refine");
 		this.charge += -1 * getCDChange(data.skills[this.assistIndex], "assist");
+		this.charge += -1 * getCDChange(data.skills[this.bIndex], "b");
 	}
 
 	//TODO: Combine this with precharge from UI change
@@ -5376,6 +5388,10 @@ function activeHero(hero){
 				enemy.panicked = true;
 				threatenText += this.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) を発動、" + enemy.name + "に、パニック の効果を付与。<br>";
 			}
+			if (this.hasExactly("インバースの暗闇") && (enemy.hp <= this.hp -3) && (enemy.adjacent > 0)){
+				enemy.panicked = true;
+				threatenText += this.name + " は、" + data.skills[this.weaponIndex].name + " を発動、" + enemy.name + "に、パニック の効果を付与。<br>";
+			}
 		}
 
 
@@ -5426,6 +5442,14 @@ function activeHero(hero){
 				threatDebuffs.def = Math.min(threatDebuffs.def, -6);
 				skillNames.push("エッケザックス(錬成)");
 			}
+		}
+		if (this.hasExactly("インバースの暗闇") && (enemy.hp <= this.hp -3) && (enemy.adjacent > 0)){
+			//Panic effect is added into debuff since panic is calculated before combat buffs
+			threatDebuffs.atk = Math.min(threatDebuffs.atk,-3);
+			threatDebuffs.spd = Math.min(threatDebuffs.spd,-3);
+			threatDebuffs.def = Math.min(threatDebuffs.def,-3);
+			threatDebuffs.res = Math.min(threatDebuffs.res,-3);
+			skillNames.push("インバースの暗闇");
 		}
 
 		if (skillNames.length > 0){
@@ -5879,6 +5903,22 @@ function activeHero(hero){
 			this.combatSpur.spd += statBonus;
 			skillName = data.skills[this.weaponIndex].name + "(錬成)";
 			boostText += this.name + " は、" + skillName + " の効果で、戦闘中、攻撃、速さ +" + statBonus + " 。<br>";
+		}
+		if (this.hasExactly("アロー") && (enemy.combatStat.atk >= this.combatStat.atk + 5)){
+			statBonus = 5;
+			this.combatSpur.atk += 5;
+			this.combatSpur.spd += 5;
+			this.combatSpur.def += 5;
+			this.combatSpur.res += 5;
+			skillName = data.skills[this.weaponIndex].name;
+			boostText += this.name + " は、" + skillName + " の効果で、戦闘中、攻撃、速さ、守備、魔防 +" + statBonus + " 。<br>";
+		}
+		if (this.hasExactly("雷剣ジークリンデ") && (this.adjacent2_foe - 1 >= this.adjacent2)){
+			statBonus = 3;
+			this.combatSpur.def += 3;
+			this.combatSpur.res += 3;
+			skillName = data.skills[this.weaponIndex].name;
+			boostText += this.name + " は、" + skillName + " の効果で、戦闘中、守備、魔防 +" + statBonus + " 。<br>";
 		}
 
 		//Combat debuff ***does this stack like spurs? does negative combatSpur work correctly?***
@@ -7282,6 +7322,10 @@ function activeHero(hero){
 			damage += 10;
 			skillNames.push(data.skills[this.bIndex].name);
 		}
+		if (this.hasExactly("月の腕輪")){
+			damage += Math.floor(enemy.combatStat.def / 2);
+			skillNames.push(data.skills[this.bIndex].name);
+		}
 
 		return {"damage":damage, "skillNames":skillNames.join("、").replace(/,(?!.*,)/gmi, '、と')};
 	}
@@ -7387,79 +7431,66 @@ function activeHero(hero){
 			else{
 
 				//special will fire if it's an attacking special
+				offensiveSpecialActivated = true;
 				if(this.hasExactly("星影") || this.hasExactly("凶星")){
 					dmgMultiplier = 1.5;
-					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("流星")){
 					dmgMultiplier = 2.5;
-					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("伏竜") || this.hasExactly("竜裂")){
 					//Works like Ignis and Glacies
 					dmgBoost += this.combatStat.atk* 0.3;
-					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("竜穿")){
 					dmgBoost += this.combatStat.atk* 0.5;
-					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("蛍火") || this.hasExactly("緋炎")){
 					dmgBoost += this.combatStat.def / 2;
-					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("華炎")){
 					dmgBoost += this.combatStat.def * 0.8;
-					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("陽影") || this.hasExactly("夕陽")){
 					absorbPct = 0.3;
-					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("太陽")){
 					absorbPct = 0.5;
-					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("影月") || this.hasExactly("月虹")){
 					enemyDefModifier = -0.3;
-					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("月光")){
 					enemyDefModifier = -0.5;
-					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("黒の月光")){
 					enemyDefModifier = -0.8;
-					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("氷点") || this.hasExactly("氷蒼")){
 					dmgBoost += this.combatStat.res / 2;
-					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("氷華")){
 					dmgBoost += this.combatStat.res * 0.8;
-					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("炎の紋章")){
 					dmgBoost += this.combatStat.spd * 0.3;
-					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("剣姫の流星")){
 					dmgBoost += this.combatStat.spd * 0.4;
-					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("雪辱") || this.hasExactly("血讐")){
 					dmgBoost += (this.maxHp-this.hp) * 0.3;
-					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("復讐")){
 					dmgBoost += (this.maxHp-this.hp) * 0.5;
-					offensiveSpecialActivated = true;
 				}
 				else if(this.hasExactly("天空") || this.hasExactly("蒼の天空")){
 					enemyDefModifier = -0.5;
 					absorbPct = 0.5;
-					offensiveSpecialActivated = true;
+				}else if (this.hasExactly("ブルーフレイム")){
+					dmgBoost += (this.adjacent > 0 ? 25 : 10);
+				}else{
+					offensiveSpecialActivated = false;
 				}
 			}
 
@@ -7743,6 +7774,9 @@ function activeHero(hero){
 				weaponModifier = 0.5;
 
 				//Wrathful effects
+				if (this.hasExactly("セック")){
+					weaponModifier = 1;
+				}
 				if(this.has("神罰の杖")){
 					if(this.combatStartHp / this.maxHp >= 1.5 + this.has("神罰の杖") * -0.5){
 						weaponModifier = 1;
@@ -8064,6 +8098,10 @@ function activeHero(hero){
 					gainCharge = Math.max(gainCharge, 1);
 					skillNames.push(data.skills[this.weaponIndex].name);
 				}
+				if (this.hasExactly("雷剣ジークリンデ") && (this.adjacent2_foe - 1 >= this.adjacent2)){
+					gainCharge = Math.max(gainCharge, 1);
+					skillNames.push(data.skills[this.weaponIndex].name);
+				}
 				if (this.hasAtRefineIndex("フェリシアの氷皿・専用", this.refineIndex)){
 					if (enemy.weaponType == "redtome" || enemy.weaponType == "bluetome" || enemy.weaponType == "greentome"){
 						gainCharge = Math.max(gainCharge, 1);
@@ -8120,9 +8158,24 @@ function activeHero(hero){
 				var loseCharge = 0;
 				var skillNames = [];
 
+
 				if(this.initiator && enemy.has("真夏のブレス")){
 					gainCharge = Math.max(gainCharge, 1);
 					skillNames.push(data.skills[enemy.aIndex].name);
+				}
+				if(enemy.hasAtRefineIndex("フェリシアの氷皿・専用", enemy.refineIndex)){
+					if(this.weaponType == "redtome" || this.weaponType == "bluetome" || this.weaponType == "greentome"){
+						gainCharge = Math.max(gainCharge, 1);
+						skillNames.push(data.skills[enemy.weaponIndex].name + " (Refined)");
+					}
+				}
+				if (enemy.hasExactly("ミステルトィン")){
+					gainCharge = Math.max(gainCharge, 1);
+					skillNames.push(data.skills[enemy.weaponIndex].name);
+				}
+				if (enemy.hasExactly("雷剣ジークリンデ") && (enemy.adjacent2_foe - 1 >= enemy.adjacent2)){
+					gainCharge = Math.max(gainCharge, 1);
+					skillNames.push(data.skills[enemy.weaponIndex].name);
 				}
 				if(this.initiator && enemy.has("鬼神の呼吸")){
 					gainCharge = Math.max(gainCharge, 1);
@@ -8140,23 +8193,13 @@ function activeHero(hero){
 					gainCharge = Math.max(gainCharge, 1);
 					skillNames.push(data.skills[enemy.aIndex].name);
 				}
-
-				if(enemy.hasAtRefineIndex("フェリシアの氷皿・専用", enemy.refineIndex)){
-					if(this.weaponType == "redtome" || this.weaponType == "bluetome" || this.weaponType == "greentome"){
-						gainCharge = Math.max(gainCharge, 1);
-						skillNames.push(data.skills[enemy.weaponIndex].name + "(錬成)");
-					}
-				}
-				if (enemy.has("コウモリの弓") || enemy.has("果汁のジュース") || enemy.has("カボチャの斧")){
-					loseCharge = Math.max(loseCharge, 1);
-					skillNames.push(data.skills[this.weaponIndex].name);
-				}
 				if (enemy.has("奥義隊形")){
 					if (enemy.combatStartHp/enemy.maxHp >= 1.1 - enemy.has("奥義隊形") * 0.2){
 						gainCharge = Math.max(gainCharge, 1);
 						skillNames.push(data.skills[enemy.bIndex].name);
 					}
 				}
+
 				if (gainCharge > 0){
 					enemy.charge += gainCharge;
 					damageText += enemy.name + " は、" + skillNames.join("、") + " により、奥義カウント変動量 +" + gainCharge + " 。<br>";
