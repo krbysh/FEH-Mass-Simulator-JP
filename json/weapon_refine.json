@@ -1051,7 +1051,7 @@
 		"def": 0,
 		"res": 4,
 		"prereq": "Vidofnir",
-		"prereq": "ヴィドフニル", 
+		"prereq": "ヴィドフニル",
 		"exclusive": ""
 	},	{
 		"category": "Eckesachs",
@@ -2032,8 +2032,8 @@
 		"spd": 0,
 		"def": 0,
 		"res": 0,
-		"prereq": "Witchy Wand+,Absorb+,Fear+,Slow+,Gravity+,Pain+,Panic+,Candlelight+,Trilemma+",
-		"prereq": "キャンディの杖+,アブゾーブ+,フィアー+,スロウ+,グラビティ+,ペイン+,パニック+,キャンドル+,トリレンマ+",
+		"prereq": "Flash+,Witchy Wand+,Absorb+,Fear+,Slow+,Gravity+,Pain+,Panic+,Candlelight+,Trilemma+",
+		"prereq": "フラッシュ+,キャンディの杖+,アブゾーブ+,フィアー+,スロウ+,グラビティ+,ペイン+,パニック+,キャンドル+,トリレンマ+",
 		"exclusive": ""
 	},	{
 		"category": "Staves",
@@ -2047,7 +2047,7 @@
 		"spd": 0,
 		"def": 0,
 		"res": 0,
-		"prereq": "Witchy Wand+,Absorb+,Fear+,Slow+,Gravity+,Pain+,Panic+,Candlelight+,Trilemma+",
+		"prereq": "Flash+,Witchy Wand+,Absorb+,Fear+,Slow+,Gravity+,Pain+,Panic+,Candlelight+,Trilemma+",
 		"prereq": "キャンディの杖+,アブゾーブ+,フィアー+,スロウ+,グラビティ+,ペイン+,パニック+,キャンドル+,トリレンマ+",
 		"exclusive": ""
 	},	{
