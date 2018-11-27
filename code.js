@@ -8874,7 +8874,7 @@ function activeHero(hero){
 
 			//Check for Wary Fighter
 			if (enemy.has("守備隊形")){
-				if (enemy.hp/enemy.maxHp >= 1.1 - 0.2 * enemy.has("Wary Fighter")){
+				if (enemy.hp/enemy.maxHp >= 1.1 - 0.2 * enemy.has("守備隊形")){
 					thisAttackRank--;
 					enemyAttackRank--;
 					thisAttackRankChanged = true;
@@ -9062,7 +9062,7 @@ function activeHero(hero){
 					enemy.panicked = true;
 					roundText += this.name + " は、" + enemy.name + " に、パニック を付与。<br>";
 				}
-				if (this.has("キャンドルサービス") || this.hasExactly("キャンドル+") || this.has("フラッシュ")){
+				if (this.has("キャンドルサービス") || this.hasExactly("キャンドル+") || this.hasAtIndex("フラッシュ", this.weaponIndex)){
 					enemy.lit = true;
 					roundText += this.name + " は、" + enemy.name + " に、反撃不可 を付与。<br>";
 				}
