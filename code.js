@@ -6143,27 +6143,51 @@ function activeHero(hero){
 		if(this.hp >= enemy.hp + 3){
 			var skillName = "";
 			var buffVal = 0;
-			if(this.has("生命の大地")){
-				buffVal = this.has("生命の大地") * 2;
+			if(this.hasAtIndex("生命の大地", this.aIndex)){
+				buffVal = this.has("生命の大地", this.aIndex) * 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.def += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果でＨＰが " + enemy.name + " のＨＰより 3 以上高いため、守備 +" + buffVal + " 。<br>";
 			}
-			if(this.has("生命の疾風")){
-				buffVal = this.has("生命の疾風") * 2;
+			if(this.hasAtIndex("生命の大地", this.sIndex)){
+				buffVal = this.has("生命の大地", this.sIndex) * 2;
+				skillName = data.skills[this.sIndex].name + "(聖印)";
+				this.combatSpur.def += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果でＨＰが " + enemy.name + " のＨＰより 3 以上高いため、守備 +" + buffVal + " 。<br>";
+			}
+			if(this.hasAtIndex("生命の疾風", this.aIndex)){
+				buffVal = this.has("生命の疾風", this.aIndex) * 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.spd += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果でＨＰが " + enemy.name + " のＨＰより 3 以上高いため、速さ +" + buffVal + " 。<br>";
 			}
-			if(this.has("生命の業火")){
-				buffVal = this.has("生命の業火") * 2;
+			if(this.hasAtIndex("生命の疾風", this.sIndex)){
+				buffVal = this.has("生命の疾風", this.sIndex) * 2;
+				skillName = data.skills[this.sIndex].name + "(聖印)";
+				this.combatSpur.spd += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果でＨＰが " + enemy.name + " のＨＰより 3 以上高いため、速さ +" + buffVal + " 。<br>";
+			}
+			if(this.hasAtIndex("生命の業火", this.aIndex)){
+				buffVal = this.has("生命の業火", this.aIndex) * 2;
 				skillName = data.skills[this.aIndex].name;
 				this.combatSpur.atk += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果でＨＰが " + enemy.name + " のＨＰより 3 以上高いため、攻撃 +" + buffVal + " 。<br>";
 			}
-			if(this.has("生命の静水")){
-				buffVal = this.has("生命の静水") * 2;
+			if(this.hasAtIndex("生命の業火", this.sIndex)){
+				buffVal = this.has("生命の業火", this.sIndex) * 2;
+				skillName = data.skills[this.sIndex].name + "(聖印)";
+				this.combatSpur.atk += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果でＨＰが " + enemy.name + " のＨＰより 3 以上高いため、攻撃 +" + buffVal + " 。<br>";
+			}
+			if(this.hasAtIndex("生命の静水", this.aIndex)){
+				buffVal = this.has("生命の静水", this.aIndex) * 2;
 				skillName = data.skills[this.aIndex].name;
+				this.combatSpur.res += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果でＨＰが " + enemy.name + " のＨＰより 3 以上高いため、魔防 +" + buffVal + " 。<br>";
+			}
+			if(this.hasAtIndex("生命の静水", this.sIndex)){
+				buffVal = this.has("生命の静水", this.sIndex) * 2;
+				skillName = data.skills[this.sIndex].name + "(聖印)";
 				this.combatSpur.res += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果でＨＰが " + enemy.name + " のＨＰより 3 以上高いため、魔防 +" + buffVal + " 。<br>";
 			}
@@ -6224,9 +6248,23 @@ function activeHero(hero){
 				this.combatSpur.spd += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果で味方と隣接しているため、攻撃、速さ +" + buffVal + " 。<br>";
 			}
+			if (this.hasAtIndex("攻撃速さの絆", this.sIndex)){
+				buffVal = this.hasAtIndex("攻撃速さの絆", this.sIndex) + 2;
+				skillName = data.skills[this.sIndex].name + "(聖印)";
+				this.combatSpur.atk += buffVal;
+				this.combatSpur.spd += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で味方と隣接しているため、攻撃、速さ +" + buffVal + " 。<br>";
+			}
 			if (this.hasAtIndex("攻撃守備の絆", this.aIndex)){
 				buffVal = this.hasAtIndex("攻撃守備の絆", this.aIndex) + 2;
 				skillName = data.skills[this.aIndex].name;
+				this.combatSpur.atk += buffVal;
+				this.combatSpur.def += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で味方と隣接しているため、攻撃、守備 +" + buffVal + " 。<br>";
+			}
+			if (this.hasAtIndex("攻撃守備の絆", this.sIndex)){
+				buffVal = this.hasAtIndex("攻撃守備の絆", this.sIndex) + 2;
+				skillName = data.skills[this.sIndex].name + "(聖印)";
 				this.combatSpur.atk += buffVal;
 				this.combatSpur.def += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果で味方と隣接しているため、攻撃、守備 +" + buffVal + " 。<br>";
@@ -6238,9 +6276,23 @@ function activeHero(hero){
 				this.combatSpur.res += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果で、味方と隣接している時、攻撃、魔防 +" + buffVal + " 。<br>";
 			}
+			if (this.hasAtIndex("攻撃魔防の絆", this.sIndex)){
+				buffVal = this.hasAtIndex("攻撃魔防の絆", this.sIndex) + 2;
+				skillName = data.skills[this.sIndex].name + "(聖印)";
+				this.combatSpur.atk += buffVal;
+				this.combatSpur.res += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で、味方と隣接している時、攻撃、魔防 +" + buffVal + " 。<br>";
+			}
 			if (this.hasAtIndex("速さ守備の絆", this.aIndex)){
 				buffVal = this.hasAtIndex("速さ守備の絆", this.aIndex) + 2;
 				skillName = data.skills[this.aIndex].name;
+				this.combatSpur.spd += buffVal;
+				this.combatSpur.def += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で、味方と隣接している時、速さ、守備 +" + buffVal + " 。<br>";
+			}
+			if (this.hasAtIndex("速さ守備の絆", this.sIndex)){
+				buffVal = this.hasAtIndex("速さ守備の絆", this.sIndex) + 2;
+				skillName = data.skills[this.sIndex].name + "(聖印)";
 				this.combatSpur.spd += buffVal;
 				this.combatSpur.def += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果で、味方と隣接している時、速さ、守備 +" + buffVal + " 。<br>";
@@ -6252,6 +6304,13 @@ function activeHero(hero){
 				this.combatSpur.res += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果で、味方と隣接している時、速さ、魔防 +" + buffVal +  "。<br>";
 			}
+			if (this.hasAtIndex("速さ魔防の絆", this.sIndex)){
+				buffVal = this.hasAtIndex("速さ魔防の絆", this.sIndex) + 2;
+				skillName = data.skills[this.sIndex].name + "(聖印)";
+				this.combatSpur.spd += buffVal;
+				this.combatSpur.res += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で、味方と隣接している時、速さ、魔防 +" + buffVal +  "。<br>";
+			}
 			if (this.hasAtIndex("守備魔防の絆", this.aIndex)){
 				buffVal = this.hasAtIndex("守備魔防の絆", this.aIndex) + 2;
 				skillName = data.skills[this.aIndex].name;
@@ -6259,12 +6318,12 @@ function activeHero(hero){
 				this.combatSpur.res += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果で、味方と隣接している時、守備、魔防 +" + buffVal + " 。<br>";
 			}
-			if (this.hasAtRefineIndex("シムベリン・専用", this.refineIndex)){
-				buffVal = 5;
-				skillName = data.skills[this.weaponIndex].name;
-				this.combatSpur.atk += buffVal;
+			if (this.hasAtIndex("守備魔防の絆", this.sIndex)){
+				buffVal = this.hasAtIndex("守備魔防の絆", this.sIndex) + 2;
+				skillName = data.skills[this.sIndex].name + "(聖印)";
+				this.combatSpur.def += buffVal;
 				this.combatSpur.res += buffVal;
-				boostText += this.name + " は、" + skillName + "(錬成) の効果で、飛行の味方が２マス以内にいる時、攻撃、魔防 +" + buffVal + " 。<br>";
+				boostText += this.name + " は、" + skillName + " の効果で、味方と隣接している時、守備、魔防 +" + buffVal + " 。<br>";
 			}
 			if (this.hasAtRefineIndex("フェンサリル・専用", this.refineIndex)){
 				buffVal = 5;
@@ -6272,6 +6331,13 @@ function activeHero(hero){
 				this.combatSpur.spd += buffVal;
 				this.combatSpur.def += buffVal;
 				boostText += this.name + " は、" + skillName + "(錬成) の効果で、味方と隣接している時、速さ、守備 +" + buffVal + " 。<br>";
+			}
+			if (this.hasAtRefineIndex("シムベリン・専用", this.refineIndex)){
+				buffVal = 5;
+				skillName = data.skills[this.weaponIndex].name;
+				this.combatSpur.atk += buffVal;
+				this.combatSpur.res += buffVal;
+				boostText += this.name + " は、" + skillName + "(錬成) の効果で、飛行の味方が２マス以内にいる時、攻撃、魔防 +" + buffVal + " 。<br>";
 			}
 			if (this.hasAtRefineIndex("リガルブレイド・専用", this.refineIndex)){
 				buffVal = 3;
