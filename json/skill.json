@@ -19395,7 +19395,36 @@
 		"charge": 0,
 		"inheritrule": "",
 		"affectsduel": 1
-
+	}, {
+		"skill_id": 1294,
+		"name_en": "Spd Def 1",
+		"name": "速さ守備 1",
+		"slot": "s",
+		"sp": 80,
+		"description": "Grants Spd\/Def+1.",
+		"hp": 0,
+		"atk": 0,
+		"spd": 1,
+		"def": 1,
+		"res": 0,
+		"charge": 0,
+		"inheritrule": "",
+		"affectsduel": 1
+	}, {
+		"skill_id": 1295,
+		"name_en": "Spd Def 2",
+		"name": "速さ守備 2",
+		"slot": "s",
+		"sp": 160,
+		"description": "Grants Spd\/Def+2.",
+		"hp": 0,
+		"atk": 0,
+		"spd": 2,
+		"def": 2,
+		"res": 0,
+		"charge": 0,
+		"inheritrule": "",
+		"affectsduel": 1
 
 
 
