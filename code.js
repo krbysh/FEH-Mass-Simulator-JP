@@ -5803,7 +5803,7 @@ function activeHero(hero){
 			buffVal.spd = Math.max(buffVal.spd, 4);
 			buffVal.def = Math.max(buffVal.def, 4);
 			buffVal.res = Math.max(buffVal.res, 4);
-			skillNames.push(data.skills[this.weaponIndex].name);
+			skillNames.push(data.skills[this.cIndex].name);
 		}
 
 		var statJp;
