@@ -7448,35 +7448,36 @@ function activeHero(hero){
 
 	//Check if hero has adaptive attack
 	this.isAdaptive = function(enemy){
-		if (this.hasExactly("フェリシアの氷皿")){
-			return true;
+		if (!enemy.has("生命の護符")){
+			if (this.hasExactly("フェリシアの氷皿")){
+				return true;
+			}
+			if (this.has("魔道の刃") && this.adjacent >= 1) { // TODO: add adjacent MAGIC ally to UI and use this instead
+				if (this.hasExactly("魔道の刃 1") && this.hp == this.maxHp){
+					return true;
+				}
+				if (this.hasExactly("魔道の刃 2") && this.hp/this.maxHp >= .50){
+					return true;
+				}
+				if (this.hasExactly("魔道の刃 3")){
+					return true;
+				}
+			}
+			if (enemy.range == "ranged"){
+				if (this.hasExactly("神炎のブレス") || this.hasExactly("邪竜のブレス") || this.has("水のブレス")
+				|| this.hasExactly("霧のブレス") || this.hasExactly("真夏のブレス") || this.hasExactly("暗夜竜のブレス")
+				|| this.hasExactly("神霧のブレス") || this.hasExactly("精霊のブレス") || this.hasExactly("水の飛沫")
+				|| this.has("綺羅星のブレス")
+				){
+					return true;
+				}
+				if (this.weaponType == "dragon" && (this.refineIndex != -1)){
+					return true;
+				}
+			}
 		}
-		if (this.has("魔道の刃") && this.adjacent >= 1) { // TODO: add adjacent MAGIC ally to UI and use this instead
-			if (this.hasExactly("魔道の刃 1") && this.hp == this.maxHp){
-				return true;
-			}
-			if (this.hasExactly("魔道の刃 2") && this.hp/this.maxHp >= .50){
-				return true;
-			}
-			if (this.hasExactly("魔道の刃 3")){
-				return true;
-			}
-		}
-		if (enemy.range == "ranged"){
-			if (this.hasExactly("神炎のブレス") || this.hasExactly("邪竜のブレス") || this.has("水のブレス")
-			 || this.hasExactly("霧のブレス") || this.hasExactly("真夏のブレス") || this.hasExactly("暗夜竜のブレス")
-			 || this.hasExactly("神霧のブレス") || this.hasExactly("精霊のブレス") || this.hasExactly("水の飛沫")
-			 || this.has("綺羅星のブレス")
-			 ){
-				return true;
-			}
-			if (this.weaponType == "dragon" && (this.refineIndex != -1)){
-				return true;
-			}
-		}
-
-		//Hero does not have adaptive attack
-		return false;
+			//Hero does not have adaptive attack
+			return false;
 	}
 
 	//Return bonus damage for specials
@@ -7952,16 +7953,18 @@ function activeHero(hero){
 				weaponModifier = 0.5;
 
 				//Wrathful effects
-				if (this.hasExactly("セック")){
-					weaponModifier = 1;
-				}
-				if(this.has("神罰の杖")){
-					if(this.combatStartHp / this.maxHp >= 1.5 + this.has("神罰の杖") * -0.5){
+				if (!enemy.has("生命の護符")){
+					if (this.hasExactly("セック")){
 						weaponModifier = 1;
 					}
-				}
-				if(this.hasExactly("神罰")){
-					weaponModifier = 1;
+					if(this.has("神罰の杖")){
+						if(this.combatStartHp / this.maxHp >= 1.5 + this.has("神罰の杖") * -0.5){
+							weaponModifier = 1;
+						}
+					}
+					if(this.hasExactly("神罰")){
+						weaponModifier = 1;
+					}
 				}
 			}
 
