@@ -155,11 +155,12 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"アクア(あなたに逢う前は) (5★);Weapon: 泡影の書;Assist: 歌う;A: 速さ魔防の絆 3;B: 静水の舞い 3;",
-	"カミラ(浮雲、朝露) (5★);Weapon: 夢幻の書;Assist: 引き寄せ;A: 攻撃魔防の絆 3;B: 攻撃魔防の連携 3;C: 飛刃の紋章;",
-	"カムイ(男)(浮雲、朝露) (5★);Weapon: 水の飛沫;Special: 竜穿;A: 攻撃守備の絆 3;B: 見切り・追撃効果 3;C: 竜刃の鼓舞;",
-	"カムイ(女)(浮雲、朝露) (5★);Weapon: 水の飛沫;Assist: 攻撃速さの応援+;Special: 竜裂;A: 攻撃速さの絆 3;C: 竜盾の鼓舞;",
-	"ミコト(浮雲、朝露) (5★);Weapon: フラッシュ+;Assist: セインツ+;Special: 祈り;A: 攻撃魔防の大覚醒 3;C: 歩行の剛撃 3;",
+	"ファ(枕元のプレゼント) (5★);Weapon: 綺羅星のブレス+;Special: 月光;A: 守備魔防の絆 3;B: 迎撃隊形 3;C: 重装の行軍 3;",
+	"エイル (5★);Weapon: リフィア;Special: 氷蒼;A: 鬼神飛燕の一撃 2;B: 生命の護符 3;C: 生命の輝き;",
+	"フリーズ (5★);Weapon: ギョッル;Special: 月虹;A: 遠距離反撃;B: 凍結の封印;C: 攻撃の紫煙 3;",
+	"ガーネフ (5★);Weapon: マフー;Special: 華炎;A: 鬼神明鏡の構え 2;B: 攻撃の封印 3;",
+	"スルト (5★);Weapon: シンモラ;Special: 緋炎;A: 金剛の構え 4;B: 守備隊形 3;C: 炎王の威嚇;",
+	"ユルグ (5★);Weapon: シュルグ;Special: 凶星;A: 魔道の刃 3;B: 速さの封印 3;C: 速さの指揮 3;",
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -5429,6 +5430,13 @@ function activeHero(hero){
 			threatDebuffs.res = Math.min(threatDebuffs.res,-this.hasAtIndex("魔防の威嚇", this.sIndex)-2);
 			skillNames.push(data.skills[this.sIndex].name + "(聖印)");
 		}
+		if(this.hasAtIndex("炎王の威嚇", this.cIndex)){
+			threatDebuffs.atk = Math.min(threatDebuffs.atk,-4);
+			threatDebuffs.spd = Math.min(threatDebuffs.spd,-4);
+			threatDebuffs.def = Math.min(threatDebuffs.def,-4);
+			threatDebuffs.res = Math.min(threatDebuffs.res,-4);
+			skillNames.push(data.skills[this.cIndex].name);
+		}
 
 		//Weapons
 		if (this.has("フェンサリル" && this.refineIndex == -1)){
@@ -5570,7 +5578,12 @@ function activeHero(hero){
 					this.hp += healAmount;
 				}
 				startText += this.name + " は、" + skillName + " を発動、ＨＰ " + healAmount + " 回復。<br>";
-
+			}
+			if (this.has("マフー")){
+				skillName = data.skills[this.weaponIndex].name;
+				damage = 5;
+				enemy.lit = true;
+				startText += this.name + " は、" + skillName + " を発動、" + enemy.name + " に反撃不可の効果。<br>";
 			}
 		}
 
@@ -5583,6 +5596,11 @@ function activeHero(hero){
 		if (damage != 0){
 			enemy.hp -= damage;
 			startText += enemy.name + " は、ターンの開始時、" + skillName + " の効果で " + damage + " ダメージを受ける。<br>";
+		}
+		if (this.hasExactly("シンモラ")){
+			skillName = data.skills[this.weaponIndex].name;
+			enemy.hp -= 20;
+			startText += enemy.name + " は、ターンの開始時、" + skillName + " の効果で 20 ダメージを受ける。<br>";
 		}
 
 		return startText;
@@ -5642,6 +5660,11 @@ function activeHero(hero){
 			if(this.hasExactly("フォルブレイズ")){
 				debuffVal.res = Math.min(debuffVal.res, -7);
 				skillNames.push("フォルブレイズ");
+			}
+			if (this.hasExactly("凍結の封印") && this.hp / this.maxHp >= 0.5){
+				debuffVal.atk = Math.min(debuffVal.atk, -6);
+				debuffVal.spd = Math.min(debuffVal.spd, -6);
+				skillNames.push("凍結の封印");
 			}
 			if(this.has("攻撃の封印")){
 				debuffVal.atk = Math.min(debuffVal.atk, -this.hasAtIndex("攻撃の封印", this.bIndex) * 2 - 1);
@@ -5774,6 +5797,13 @@ function activeHero(hero){
 				buffVal.res = Math.max(buffVal.res, 5);
 				skillNames.push(data.skills[this.cIndex].name);
 			}
+		}
+		if (this.hasExactly("炎王の威嚇")){// && this.adjacent2 > 0)){
+			buffVal.atk = Math.max(buffVal.atk, 4);
+			buffVal.spd = Math.max(buffVal.spd, 4);
+			buffVal.def = Math.max(buffVal.def, 4);
+			buffVal.res = Math.max(buffVal.res, 4);
+			skillNames.push(data.skills[this.weaponIndex].name);
 		}
 
 		var statJp;
@@ -5920,6 +5950,20 @@ function activeHero(hero){
 			this.combatSpur.res += 3;
 			skillName = data.skills[this.weaponIndex].name;
 			boostText += this.name + " は、" + skillName + " の効果で、戦闘中、守備、魔防 +" + statBonus + " 。<br>";
+		}
+		if (this.hasExactly("シュルグ") && (this.spd > enemy.spd)){
+			statBonus = 4;
+			this.combatSpur.atk += 4;
+			this.combatSpur.spd += 4;
+			skillName = data.skills[this.weaponIndex].name;
+			boostText += this.name + " は、" + skillName + " の効果で、戦闘中、攻撃、速さ +" + statBonus + " 。<br>";
+		}
+		if (this.hasExactly("リフィア") && this.hp/this.maxHp >= .5){
+			statBonus = 4;
+			this.combatSpur.atk += 4;
+			this.combatSpur.spd += 4;
+			skillName = data.skills[this.weaponIndex].name;
+			boostText += this.name + " は、" + skillName + " の効果で、戦闘中、攻撃、速さ +" + statBonus + " 。<br>";
 		}
 
 		//Combat debuff ***does this stack like spurs? does negative combatSpur work correctly?***
@@ -6390,6 +6434,13 @@ function activeHero(hero){
 				this.combatSpur.atk += buffVal;
 				this.combatSpur.spd += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果で、攻撃、速さ +" + buffVal + " (最大 +6)。<br>";
+			}
+			if (this.has("綺羅星のブレス")){
+				buffVal = 2 * Math.min(3, this.adjacent2);
+				skillName = data.skills[this.weaponIndex].name;
+				this.combatSpur.def += buffVal;
+				this.combatSpur.res += buffVal;
+				boostText += this.name + " は、" + skillName + " の効果で、守備、魔防 +" + buffVal + " (最大 +6)。<br>";
 			}
 			if (this.hasAtRefineIndex("オーラ・専用", this.refineIndex) || this.hasAtRefineIndex("エクスカリバー・専用", this.refineIndex)){
 				buffVal = 5;
@@ -6950,6 +7001,12 @@ function activeHero(hero){
 				damageText += this.name + " は、"  + skillName + "(錬成) の効果で、戦闘後、" + damage + " ダメージ。<br>";
 				totalDamage += damage;
 			}
+			if(this.hasExactly("リフィア") && this.hp/this.maxHp >= .5 && this.didAttack){
+				damage = 4;
+				skillName = data.skills[this.weaponIndex].name;
+				damageText += this.name + " は、"  + skillName + " の効果で、戦闘後、" + damage + " ダメージ。<br>";
+				totalDamage += damage;
+			}
 
 			//Cursed Lance
 			if(this.has("魔性の槍")){
@@ -7173,7 +7230,12 @@ function activeHero(hero){
 			if (this.hasExactly("紫煙の暗器+") && this.refineIndex != -1){
 				sealStats(data.skills[this.weaponIndex].name, ["atk","spd","def","res"], [-6]);
 			}
-
+			if (this.hasExactly("シュルグ")){
+				sealStats(data.skills[this.weaponIndex].name, ["def","res"], [-7]);
+			}
+			if (this.hasExactly("リフィア")){
+				sealStats(data.skills[this.weaponIndex].name, ["def","res"], [-7]);
+			}
 			//Other
 			if (this.hasExactly("魔書ギムレー")){
 				sealStats(data.skills[this.weaponIndex].name, ["atk","spd"], [-5]);
@@ -7323,7 +7385,17 @@ function activeHero(hero){
 				}
 			}
 		}
-
+		if(this.has("生命の護符")){
+			skillName = data.skills[this.bIndex].name;
+			healAmount = this.has("生命の護符") * 2;
+			if(this.maxHp - this.hp < healAmount) {
+				healAmount = this.maxHp - this.hp;
+			}
+			if(healAmount > 0){
+				this.hp += healAmount;
+				postCombatHealText += this.name + " は、" + skillName + " の効果で、戦闘後、ＨＰ " + healAmount + " 回復。<br>";
+			}
+		}
 		return postCombatHealText;
 	}
 
@@ -7379,11 +7451,23 @@ function activeHero(hero){
 		if (this.hasExactly("フェリシアの氷皿")){
 			return true;
 		}
+		if (this.has("魔道の刃") && this.adjacent >= 1) { // TODO: add adjacent MAGIC ally to UI and use this instead
+			if (this.hasExactly("魔道の刃 1") && this.hp == this.maxHp){
+				return true;
+			}
+			if (this.hasExactly("魔道の刃 2") && this.hp/this.maxHp >= .50){
+				return true;
+			}
+			if (this.hasExactly("魔道の刃 3")){
+				return true;
+			}
+		}
 		if (enemy.range == "ranged"){
 			if (this.hasExactly("神炎のブレス") || this.hasExactly("邪竜のブレス") || this.has("水のブレス")
 			 || this.hasExactly("霧のブレス") || this.hasExactly("真夏のブレス") || this.hasExactly("暗夜竜のブレス")
 			 || this.hasExactly("神霧のブレス") || this.hasExactly("精霊のブレス") || this.hasExactly("水の飛沫")
-			){
+			 || this.has("綺羅星のブレス")
+			 ){
 				return true;
 			}
 			if (this.weaponType == "dragon" && (this.refineIndex != -1)){
@@ -8233,7 +8317,10 @@ function activeHero(hero){
 						skillNames.push(data.skills[enemy.bIndex].name);
 					}
 				}
-
+				if (!enemy.initiator && enemy.hasExactly("金剛の構え 4")){
+					loseCharge = Math.max(loseCharge, 1);
+					skillNames.push(data.skills[enemy.aIndex].name);
+				}
 				if (loseCharge > 0){
 					this.charge -= loseCharge;
 					damageText += this.name + " は、" + skillNames.join("、") + " の効果で、奥義カウント変動量 -" + loseCharge + " 。<br>";
@@ -8317,6 +8404,10 @@ function activeHero(hero){
 						loseCharge = Math.max(loseCharge, 1);
 						skillNames.push(data.skills[this.bIndex].name);
 					}
+				}
+				if (!this.initiator && this.hasExactly("金剛の構え 4")){
+					loseCharge = Math.max(loseCharge, 1);
+					skillNames.push(data.skills[this.aIndex].name);
 				}
 
 				if (loseCharge > 0){
@@ -8714,8 +8805,12 @@ function activeHero(hero){
 			roundText += enemy.name + " は、フリズスキャルヴの効果で反撃不可。<br>";
 			enemyCanCounter = false;
 		}
-		if (this.hasExactly("封印の盾") && enemy.weaponType == "dragon" && enemyCanCounter){
+		if (this.hasExactly("封印の盾") && enemy.weaponType == "dragon" && enemyCanCounter) {
 			roundText += enemy.name + " は、封印の盾の効果で反撃不可。<br>";
+			enemyCanCounter = false;
+		}
+		if (this.hasExactly("ギョッル") && (enemy.panicked || 0 < (enemy.combatDebuffs.atk + enemy.combatDebuffs.spd + enemy.combatDebuffs.def + enemy.combatDebuffs.res))){
+			roundText += enemy.name + " は、ギョッルの効果で反撃不可。<br>";
 			enemyCanCounter = false;
 		}
 
@@ -8816,6 +8911,10 @@ function activeHero(hero){
 				thisAttackRank++;
 				thisAttackRankChanged = true;
 			}
+			if (this.hasExactly("ギョッル") && (enemy.panicked || 0 < (enemy.combatDebuffs.atk + enemy.combatDebuffs.spd + enemy.combatDebuffs.def + enemy.combatDebuffs.res))){
+				thisAttackRank++;
+				thisAttackRankChanged = true;
+			}
 			//Check for Wary Fighter
 			if (this.has("守備隊形")){
 				if (this.hp/this.maxHp >= 1.1 - 0.2 * this.has("守備隊形")){
@@ -8837,7 +8936,10 @@ function activeHero(hero){
 				enemyAttackRank--;
 				enemyAttackRankChanged = true;
 			}
-
+			if (this.hasExactly("リフィア") && this.initiator && this.hp/this.maxHp >= .5){
+				enemyAttackRank--;
+				enemyAttackRankChanged = true;
+			}
 			//Check for Breaker skills
 			if(this.weaponType=="sword" && enemy.has("剣殺し")){
 				thisBreakLevel = 1.1 - enemy.has("剣殺し") * 0.2;
@@ -8937,6 +9039,10 @@ function activeHero(hero){
 				enemyAttackRank++;
 				enemyAttackRankChanged = true;
 			}
+			if (enemy.hasExactly("ギョッル") && (this.panicked || 0 < (this.combatDebuffs.atk + this.combatDebuffs.spd + this.combatDebuffs.def + this.combatDebuffs.res))){
+				enemyAttackRank++;
+				enemyAttackRankChanged = true;
+			}
 
 			//Check for Wary Fighter
 			if (enemy.has("守備隊形")){
@@ -8963,7 +9069,14 @@ function activeHero(hero){
 				thisAttackRank--;
 				thisAttackRankChanged = true;
 			}
-
+			if (enemy.hasExactly("ギョッル") && (this.panicked || 0 < (this.combatDebuffs.atk + this.combatDebuffs.spd + this.combatDebuffs.def + this.combatDebuffs.res))){
+				thisAttackRank--;
+				thisAttackRankChanged = true;
+			}
+			if (enemy.hasExactly("リフィア") && enemy.initiator && enemy.hp/enemy.maxHp >= .5){
+				thisAttackRank--;
+				thisAttackRankChanged = true;
+			}
 			//Check for Breaker skills
 			if(enemy.weaponType=="sword" && this.has("剣殺し")){
 				enemyBreakLevel = 1.1 - this.has("剣殺し") * 0.2;
