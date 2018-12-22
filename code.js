@@ -7557,7 +7557,7 @@ function activeHero(hero){
 		//Check for adaptive attack
 		if (this.isAdaptive(enemy)){
 			relevantDef = (enemy.combatStat.def > enemy.combatStat.res) ? enemy.combatStat.res : enemy.combatStat.def;
-			if (!AOE) {damageText += this.name + " は、" + data.skills[hero.weapon].name + (this.refineIndex != -1 ? "(錬成)" : "") + " の効果で " + ((enemy.combatStat.def > enemy.combatStat.res) ? "魔防" : "守備" ) + " で計算。<br>";}
+			if (!AOE) {damageText += this.name + " は、" + (!this.has("魔道の刃") ? data.skills[hero.weapon].name : "魔道の刃")+ (this.refineIndex != -1 ? "(錬成)" : "") + " の効果で " + ((enemy.combatStat.def > enemy.combatStat.res) ? "魔防" : "守備" ) + " で計算。<br>";}
 		}
 
 		//Offensive Specials
