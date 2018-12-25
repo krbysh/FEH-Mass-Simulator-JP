@@ -155,6 +155,9 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
+	"セシリア(瞬きほどの一生を) (5★);Weapon: 冬祭のブーツ+;Special: 氷蒼;A: 攻撃魔防の絆 3;C: 守備の謀策 3;",
+	"エイリーク(枕元のプレゼント) (5★);Weapon: ランタンの杖+;Assist: レスト+;Special: 天照;B: 幻惑の杖 3;C: 攻撃の開放 3;",
+	"エフラム(枕元のプレゼント) (5★);Weapon: 業槍ジークムント;Special: 竜穿;A: 攻撃守備の孤軍 3;B: 攻撃隊形 3;C: 近距離警戒 3;",
 	"ファ(枕元のプレゼント) (5★);Weapon: 綺羅星のブレス+;Special: 月光;A: 守備魔防の絆 3;B: 迎撃隊形 3;C: 重装の行軍 3;",
 	"エイル (5★);Weapon: リフィア;Special: 氷蒼;A: 鬼神飛燕の一撃 2;B: 生命の護符 3;C: 生命の輝き;",
 	"フリーズ (5★);Weapon: ギョッル;Special: 月虹;A: 遠距離反撃;B: 凍結の封印;C: 攻撃の紫煙 3;",
@@ -1190,7 +1193,7 @@ function getCDChange(skill, slot){
 			|| skillName.indexOf("狂斧アルマーズ") != -1 || skillName.indexOf("無銘の一門の剣") != -1 || skillName.indexOf("暗殺手裏剣") != -1
 			|| skillName.indexOf("トールハンマー") != -1 || skillName.indexOf("剣姫の刀") != -1 || skillName.indexOf("義勇の槍") != -1
 			|| skillName.indexOf("マルテ") != -1 || skillName.indexOf("霧氷のナイフ") != -1 || skillName.indexOf("魔書ミステルトィン") != -1
-			|| skillName.indexOf("水の飛沫") != -1
+			|| skillName.indexOf("水の飛沫") != -1 || skillName.indexOf("業槍ジークムント") != -1
 			){
 				return -1;
 		}
@@ -6025,6 +6028,15 @@ function activeHero(hero){
 				skillName = data.skills[this.aIndex].name;
 				boostText += this.name + " は、" + skillName + " の効果で１マス以内に味方がない時、守備、魔防 +" + statBonus + " 。<br>";
 			}
+			if (this.hasExactly("業槍ジークムント")){
+				statBonus = 4;
+				this.combatSpur.atk += statBonus;
+				this.combatSpur.spd += statBonus;
+				this.combatSpur.def += statBonus;
+				this.combatSpur.res += statBonus;
+				skillName = data.skills[this.weaponIndex].name;
+				boostText += this.name + " は、" + skillName + " の効果で１マス以内に味方がない時、攻撃、速さ、守備、魔防 +" + statBonus + " 。<br>";
+			}
 		}
 
 		//Brazen Skills
@@ -6435,7 +6447,7 @@ function activeHero(hero){
 				this.combatSpur.spd += buffVal;
 				boostText += this.name + " は、" + skillName + " の効果で、攻撃、速さ +" + buffVal + " (最大 +6)。<br>";
 			}
-			if (this.has("綺羅星のブレス")){
+			if (this.has("綺羅星のブレス") || this.has("冬祭のブーツ")){
 				buffVal = 2 * Math.min(3, this.adjacent2);
 				skillName = data.skills[this.weaponIndex].name;
 				this.combatSpur.def += buffVal;
@@ -7202,7 +7214,7 @@ function activeHero(hero){
 			}
 			if (this.has("銀の暗器") || this.has("貝殻") || this.has("舞踏祭の扇子") || this.has("鏡餅")
 				|| this.has("暗殺手裏剣") || this.has("フェリシアの氷皿") || this.has("ベビーキャロット") || this.has("ヒトデ") || this.has("果汁のボトル")
-				|| this.has("緑雲の舞扇") || this.has("青天の舞扇") || this.has("宵闇の団扇")
+				|| this.has("緑雲の舞扇") || this.has("青天の舞扇") || this.has("宵闇の団扇") || this.has("冬祭のブーツ")
 			){
 				sealStats(data.skills[this.weaponIndex].name, ["def","res"], [-5, -7]);
 			}
