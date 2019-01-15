@@ -286,6 +286,51 @@
 		"prereq": "銀の暗器+",
 		"exclusive": ""
 	},	{
+		"category": "Whitewing Blade",
+		"name_en": "Triangle_Attack",
+		"name": "白騎の長剣・専用",
+		"sp": 400,
+		"description": "If the number of flying allies within 2 spaces ≥ 2, grants Atk/Spd/Def/Res+3 during combat, and if unit initiates combat, unit attacks twice.",
+		"description": "If the number of flying allies within 2 spaces ≥ 2, grants Atk/Spd/Def/Res+3 during combat, and if unit initiates combat, unit attacks twice.",
+		"hp": 3,
+		"atk": 0,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"prereq": "Whitewing Blade",
+		"prereq": "白騎の長剣",
+		"exclusive": ""
+	},	{
+		"category": "Whitewing Lance",
+		"name_en": "Triangle Attack",
+		"name": "白騎の直槍・専用",
+		"sp": 400,
+		"description": "If the number of flying allies within 2 spaces ≥ 2, grants Atk/Spd/Def/Res+3 during combat, and if unit initiates combat, unit attacks twice.",
+		"description": "If the number of flying allies within 2 spaces ≥ 2, grants Atk/Spd/Def/Res+3 during combat, and if unit initiates combat, unit attacks twice.",
+		"hp": 3,
+		"atk": 0,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"prereq": "Whitewing Lance",
+		"prereq": "白騎の直槍",
+		"exclusive": ""
+	},	{
+		"category": "Whitewing Spear",
+		"name_en": "Triangle Attack",
+		"name": "白騎の短槍・専用",
+		"sp": 400,
+		"description": "If the number of flying allies within 2 spaces ≥ 2, grants Atk/Spd/Def/Res+3 during combat, and if unit initiates combat, unit attacks twice.",
+		"description": "If the number of flying allies within 2 spaces ≥ 2, grants Atk/Spd/Def/Res+3 during combat, and if unit initiates combat, unit attacks twice.",
+		"hp": 3,
+		"atk": 0,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"prereq": "Whitewing Spear",
+		"prereq": "白騎の短槍",
+		"exclusive": ""
+	},	{
 		"category": "Basilikos",
 		"name_en": "Life and Death",
 		"name": "バシリコス・専用",
@@ -480,8 +525,8 @@
 		"spd": 0,
 		"def": 0,
 		"res": 0,
-		"prereq": "Hack-o'-Lantern+,Barrier Blade+,Reprisal Lance+,Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+,Camilla's Axe,Rhomphaia,Ardent Service+,Breath of Fog,Shell Lance+,Beach Banner+,Dauntless Lance,Draconic Poleax",
-		"prereq": "カボチャの斧+,バリアの剣+,反攻の槍+,キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+,カミラの艶斧,ロムファイア,愛のケーキサーバ+,霧のブレス,貝殻の槍+,ビーチフラッグ+,義勇の槍,傭兵団の戦斧",
+		"prereq": "Whitewing Blade,Whitewing Lance,Whitewing Spear,Hack-o'-Lantern+,Barrier Blade+,Reprisal Lance+,Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+,Camilla's Axe,Rhomphaia,Ardent Service+,Breath of Fog,Shell Lance+,Beach Banner+,Dauntless Lance,Draconic Poleax",
+		"prereq": "白騎の長剣,白騎の直槍,白騎の短槍,カボチャの斧+,バリアの剣+,反攻の槍+,キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+,カミラの艶斧,ロムファイア,愛のケーキサーバ+,霧のブレス,貝殻の槍+,ビーチフラッグ+,義勇の槍,傭兵団の戦斧",
 		"exclusive": ""
 	},	{
 		"category": "Advanced Melee",
@@ -494,8 +539,8 @@
 		"spd": 3,
 		"def": 0,
 		"res": 0,
-		"prereq": "Hack-o'-Lantern+,Cherche's Axe,Barrier Blade+,Reprisal Lance+,Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+,Camilla's Axe,Rhomphaia,Ardent Service+,Breath of Fog,Shell Lance+,Beach Banner+,Dauntless Lance,Draconic Poleax",
-		"prereq": "カボチャの斧+,セルジュの恐斧,バリアの剣+,反攻の槍+,キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+,カミラの艶斧,ロムファイア,愛のケーキサーバ+,霧のブレス,貝殻の槍+,ビーチフラッグ+,義勇の槍,傭兵団の戦斧",
+		"prereq": "Whitewing Blade,Whitewing Lance,Whitewing Spear,Hack-o'-Lantern+,Cherche's Axe,Barrier Blade+,Reprisal Lance+,Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+,Camilla's Axe,Rhomphaia,Ardent Service+,Breath of Fog,Shell Lance+,Beach Banner+,Dauntless Lance,Draconic Poleax",
+		"prereq": "白騎の長剣,白騎の直槍,白騎の短槍,カボチャの斧+,セルジュの恐斧,バリアの剣+,反攻の槍+,キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+,カミラの艶斧,ロムファイア,愛のケーキサーバ+,霧のブレス,貝殻の槍+,ビーチフラッグ+,義勇の槍,傭兵団の戦斧",
 		"exclusive": ""
 	},	{
 		"category": "Advanced Melee",
@@ -508,8 +553,8 @@
 		"spd": 0,
 		"def": 4,
 		"res": 0,
-		"prereq": "Hack-o'-Lantern+,Cherche's Axe,Barrier Blade+,Reprisal Lance+,Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+,Camilla's Axe,Rhomphaia,Ardent Service+,Breath of Fog,Shell Lance+,Beach Banner+,Dauntless Lance,Draconic Poleax",
-		"prereq": "カボチャの斧+,セルジュの恐斧,バリアの剣+,反攻の槍+,キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+,カミラの艶斧,ロムファイア,愛のケーキサーバ+,霧のブレス,貝殻の槍+,ビーチフラッグ+,義勇の槍,傭兵団の戦斧",
+		"prereq": "Whitewing Blade,Whitewing Lance,Whitewing Spear,Hack-o'-Lantern+,Cherche's Axe,Barrier Blade+,Reprisal Lance+,Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+,Camilla's Axe,Rhomphaia,Ardent Service+,Breath of Fog,Shell Lance+,Beach Banner+,Dauntless Lance,Draconic Poleax",
+		"prereq": "白騎の長剣,白騎の直槍,白騎の短槍,カボチャの斧+,セルジュの恐斧,バリアの剣+,反攻の槍+,キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+,カミラの艶斧,ロムファイア,愛のケーキサーバ+,霧のブレス,貝殻の槍+,ビーチフラッグ+,義勇の槍,傭兵団の戦斧",
 		"exclusive": ""
 	},	{
 		"category": "Advanced Melee",
@@ -522,8 +567,8 @@
 		"spd": 0,
 		"def": 0,
 		"res": 4,
-		"prereq": "Hack-o'-Lantern+,Cherche's Axe,Barrier Blade+,Reprisal Lance+,Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+,Camilla's Axe,Rhomphaia,Ardent Service+,Breath of Fog,Shell Lance+,Beach Banner+,Dauntless Lance,Draconic Poleax",
-		"prereq": "カボチャの斧+,セルジュの恐斧,バリアの剣+,反攻の槍+,キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+,カミラの艶斧,ロムファイア,愛のケーキサーバ+,霧のブレス,貝殻の槍+,ビーチフラッグ+,義勇の槍,傭兵団の戦斧",
+		"prereq": "Whitewing Blade,Whitewing Lance,Whitewing Spear,Hack-o'-Lantern+,Cherche's Axe,Barrier Blade+,Reprisal Lance+,Slaying Edge+,Slaying Lance+,Slaying Axe+,Deft Harpoon+,Melon Crusher+,Lilith Floatie+,Sack o' Gifts+,Handbell+,Tannenboom!+,Hagoita+,Kadomatsu+,Basilikos,Hauteclere,Hinoka's Spear,Mystletainn,Winged Sword,Casa Blanca+,Nameless Blade,Water Breath+,Safeguard+,Camilla's Axe,Rhomphaia,Ardent Service+,Breath of Fog,Shell Lance+,Beach Banner+,Dauntless Lance,Draconic Poleax",
+		"prereq": "白騎の長剣,白騎の直槍,白騎の短槍,カボチャの斧+,セルジュの恐斧,バリアの剣+,反攻の槍+,キルソード鍛+,キラーランス鍛+,キラーアクス鍛+,魚を突いた銛+,スイカ割りの棍棒+,リリスの浮き輪+,プレゼント袋+,ハンドベル+,聖樹+,羽子板+,門松+,バシリコス,オートクレール,ヒノカの紅薙刀,ミストルティン,ウイングソード,カサブランカ+,無銘の一門の剣,水のブレス+,守りの剣+,カミラの艶斧,ロムファイア,愛のケーキサーバ+,霧のブレス,貝殻の槍+,ビーチフラッグ+,義勇の槍,傭兵団の戦斧",
 		"exclusive": ""
 	},	{
 		"category": "Wedding Melee",

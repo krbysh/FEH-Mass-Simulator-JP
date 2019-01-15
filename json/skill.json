@@ -19890,9 +19890,51 @@
 		"charge": 0,
 		"inheritrule": "dagger",
 		"affectsduel": 1
-	
-
-
+	}, {
+		"skill_id": 1327,
+		"name_en": "Whitewing Blade",
+		"name": "白騎の長剣",
+		"slot": "weapon",
+		"sp": 300,
+		"description": "If unit has weapon-triangle advantage, boosts Atk by 20%. If unit has weapon-triangle disadvantage, reduces Atk by 20%. ",
+		"hp": 0,
+		"atk": 16,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"charge": 0,
+		"inheritrule": "unique",
+		"affectsduel": 1
+	}, {
+		"skill_id": 1328,
+		"name_en": "Whitewing Lance",
+		"name": "白騎の直槍",
+		"slot": "weapon",
+		"sp": 300,
+		"description": "Accelerates Special trigger (cooldown count-1).",
+		"hp": 0,
+		"atk": 16,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"charge": 0,
+		"inheritrule": "unique",
+		"affectsduel": 1
+	}, {
+		"skill_id": 1329,
+		"name_en": "Whitewing Spear",
+		"name": "白騎の短槍",
+		"slot": "weapon",
+		"sp": 300,
+		"description": "Effective against armored foes. ",
+		"hp": 0,
+		"atk": 16,
+		"spd": 0,
+		"def": 0,
+		"res": 0,
+		"charge": 0,
+		"inheritrule": "unique",
+		"affectsduel": 1
 
 
 

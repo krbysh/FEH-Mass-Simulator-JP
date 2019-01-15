@@ -1193,7 +1193,7 @@ function getCDChange(skill, slot){
 			|| skillName.indexOf("狂斧アルマーズ") != -1 || skillName.indexOf("無銘の一門の剣") != -1 || skillName.indexOf("暗殺手裏剣") != -1
 			|| skillName.indexOf("トールハンマー") != -1 || skillName.indexOf("剣姫の刀") != -1 || skillName.indexOf("義勇の槍") != -1
 			|| skillName.indexOf("マルテ") != -1 || skillName.indexOf("霧氷のナイフ") != -1 || skillName.indexOf("魔書ミステルトィン") != -1
-			|| skillName.indexOf("水の飛沫") != -1 || skillName.indexOf("業槍ジークムント") != -1
+			|| skillName.indexOf("水の飛沫") != -1 || skillName.indexOf("業槍ジークムント") != -1 || skillName.indexOf("白騎の直槍") != -1
 			){
 				return -1;
 		}
@@ -6402,7 +6402,16 @@ function activeHero(hero){
 				this.combatSpur.spd += buffVal;
 				this.combatSpur.def += buffVal;
 				this.combatSpur.res += buffVal;
-				boostText += this.name + " は、" + skillName + "(錬成) の効果で、魔法かつ歩行の味方が２マス以内にいる時、攻撃、速さ、守備、魔防 +" + buffVal + " 。<br>";
+				boostText += this.name + " は、" + skillName + "(錬成) の効果で、魔法かつ歩行の味方が２マス以内に２体以上いる時、攻撃、速さ、守備、魔防 +" + buffVal + " 。<br>";
+			}
+			if (this.hasAtRefineIndex("白騎の長剣・専用", this.refineIndex) || this.hasAtRefineIndex("白騎の直槍・専用", this.refineIndex) || this.hasAtRefineIndex("白騎の短槍・専用", this.refineIndex)){
+				buffVal = 3;
+				skillName = data.skills[this.weaponIndex].name;
+				this.combatSpur.atk += buffVal;
+				this.combatSpur.spd += buffVal;
+				this.combatSpur.def += buffVal;
+				this.combatSpur.res += buffVal;
+				boostText += this.name + " は、" + skillName + "(錬成) の効果で、飛行の味方が２マス以内にいる時、攻撃、速さ、守備、魔防 +" + buffVal + " 。<br>";
 			}
 		}
 
@@ -7776,8 +7785,8 @@ function activeHero(hero){
 			*/
 
 			var extraWeaponAdvantage = 0;
-			var thisHasGemWeapon = (this.triangled || this.hasAtRefineIndex("フォルクヴァング・専用", this.refineIndex) || this.has("旭日の剣") || this.has("蒼海の槍") || this.has("深緑の斧") || this.has("傭兵団の戦斧")) ? true : false;
-			var enemyHasGemWeapon = (enemy.triangled || enemy.hasAtRefineIndex("フォルクヴァング・専用", enemy.refineIndex) || enemy.has("旭日の剣") || enemy.has("蒼海の槍") || enemy.has("深緑の斧") || enemy.has("傭兵団の戦斧")) ? true : false;
+			var thisHasGemWeapon = (this.triangled || this.hasAtRefineIndex("フォルクヴァング・専用", this.refineIndex) || this.has("旭日の剣") || this.has("蒼海の槍") || this.has("深緑の斧") || this.has("傭兵団の戦斧") || this.has("白騎の長剣")) ? true : false;
+			var enemyHasGemWeapon = (enemy.triangled || enemy.hasAtRefineIndex("フォルクヴァング・専用", enemy.refineIndex) || enemy.has("旭日の剣") || enemy.has("蒼海の槍") || enemy.has("深緑の斧") || enemy.has("傭兵団の戦斧") || enemy.has("白騎の長剣")) ? true : false;
 
 
 			//If weapon advantage is not neutral, and Attacker and Defender do not both have Cancel Affinity
@@ -7908,7 +7917,7 @@ function activeHero(hero){
 					|| this.has("貫きの槍") || this.has("貫きの槍鍛")
 					|| this.hasExactly("セイニー") || this.hasExactly("ウイングソード")
 					|| this.hasExactly("戦姫の和弓") || this.hasExactly("ロムファイア") || this.hasExactly("義勇の槍")
-					|| this.has("青天の舞扇") || this.hasExactly("暁天の神楽鈴")
+					|| this.has("青天の舞扇") || this.hasExactly("暁天の神楽鈴") || this.hasExactly("白騎の短槍")
 					)
 				){
 				effectiveBonus = (enemy.has("スヴェルの盾")) ? 1 : 1.5;
@@ -8662,6 +8671,15 @@ function activeHero(hero){
 			doubleInitiate = true;
 		}
 		if (this.hasAtRefineIndex("ファルシオン外伝・専用", this.refineIndex) && (this.combatStartHp / this.maxHp == 1)){
+			doubleInitiate = true;
+		}
+		if (this.hasAtRefineIndex("白騎の長剣・専用", this.refineIndex) && (this.adjacent > 0)){
+			doubleInitiate = true;
+		}
+		if (this.hasAtRefineIndex("白騎の直槍・専用", this.refineIndex) && (this.adjacent > 0)){
+			doubleInitiate = true;
+		}
+		if (this.hasAtRefineIndex("白騎の短槍・専用", this.refineIndex) && (this.adjacent > 0)){
 			doubleInitiate = true;
 		}
 		if (enemy.hasExactly("マスターソード")){
