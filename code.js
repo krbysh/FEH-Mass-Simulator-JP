@@ -1194,6 +1194,7 @@ function getCDChange(skill, slot){
 			|| skillName.indexOf("トールハンマー") != -1 || skillName.indexOf("剣姫の刀") != -1 || skillName.indexOf("義勇の槍") != -1
 			|| skillName.indexOf("マルテ") != -1 || skillName.indexOf("霧氷のナイフ") != -1 || skillName.indexOf("魔書ミステルトィン") != -1
 			|| skillName.indexOf("水の飛沫") != -1 || skillName.indexOf("業槍ジークムント") != -1 || skillName.indexOf("白騎の直槍") != -1
+			|| skillName.indexOf("紅の剣") != -1
 			){
 				return -1;
 		}
@@ -1245,6 +1246,13 @@ function getPrechargeChange(skill, slot){
 	}
 
 	var skillName = skill.name;
+
+	//Refine
+	if	(slot == "refine"){
+		if (skill.name == '紅の剣・専用') {
+			return 2;
+		}
+	}
 
 	//Weapon Skill
 	if (slot == "weapon"){
@@ -2675,6 +2683,10 @@ function updateHeroUI(hero){
 
 			//Precharge
 			//TODO: Combine this from hero
+			//Refine
+			if(hero.refine != -1){
+				precharge += getPrechargeChange(data.refine[hero.refine], "refine");
+			}
 			//Weapon
 			if (hero.weapon != -1){
 				precharge += getPrechargeChange(data.skills[hero.weapon], "weapon");
@@ -5290,6 +5302,12 @@ function activeHero(hero){
 		if(this.has("奥義の鼓動")){
 			this.precharge++;
 		}
+		if(this.hasAtRefineIndex("紅の剣・専用", this.refineIndex)){
+			this.precharge += 2;
+		}
+		if(this.has("魔書ミステルトィン")){
+			this.precharge++;
+		}
 		if(this.has("Ｓドリンク")){
 			this.precharge++;
 		}
@@ -6388,31 +6406,6 @@ function activeHero(hero){
 				this.combatSpur.def += buffVal;
 				boostText += this.name + " は、" + skillName + "(錬成) の効果で、味方と隣接している時、速さ、守備 +" + buffVal + " 。<br>";
 			}
-			if (this.hasAtRefineIndex("シムベリン・専用", this.refineIndex)){
-				buffVal = 5;
-				skillName = data.skills[this.weaponIndex].name;
-				this.combatSpur.atk += buffVal;
-				this.combatSpur.res += buffVal;
-				boostText += this.name + " は、" + skillName + "(錬成) の効果で、飛行の味方が２マス以内にいる時、攻撃、魔防 +" + buffVal + " 。<br>";
-			}
-			if (this.hasAtRefineIndex("リガルブレイド・専用", this.refineIndex)){
-				buffVal = 3;
-				skillName = data.skills[this.weaponIndex].name;
-				this.combatSpur.atk += buffVal;
-				this.combatSpur.spd += buffVal;
-				this.combatSpur.def += buffVal;
-				this.combatSpur.res += buffVal;
-				boostText += this.name + " は、" + skillName + "(錬成) の効果で、魔法かつ歩行の味方が２マス以内に２体以上いる時、攻撃、速さ、守備、魔防 +" + buffVal + " 。<br>";
-			}
-			if (this.hasAtRefineIndex("白騎の長剣・専用", this.refineIndex) || this.hasAtRefineIndex("白騎の直槍・専用", this.refineIndex) || this.hasAtRefineIndex("白騎の短槍・専用", this.refineIndex)){
-				buffVal = 3;
-				skillName = data.skills[this.weaponIndex].name;
-				this.combatSpur.atk += buffVal;
-				this.combatSpur.spd += buffVal;
-				this.combatSpur.def += buffVal;
-				this.combatSpur.res += buffVal;
-				boostText += this.name + " は、" + skillName + "(錬成) の効果で、飛行の味方が２マス以内にいる時、攻撃、速さ、守備、魔防 +" + buffVal + " 。<br>";
-			}
 		}
 
 
@@ -6483,6 +6476,38 @@ function activeHero(hero){
 				this.combatSpur.atk += buffVal;
 				this.combatSpur.spd += buffVal;
 				boostText += this.name + " は、" + skillName + "(錬成) の効果で、歩行か重装の味方が２マス以内にいる時、攻撃、速さ +" + buffVal + " 。<br>";
+			}
+			if (this.hasAtRefineIndex("シムベリン・専用", this.refineIndex)){
+				buffVal = 5;
+				skillName = data.skills[this.weaponIndex].name;
+				this.combatSpur.atk += buffVal;
+				this.combatSpur.res += buffVal;
+				boostText += this.name + " は、" + skillName + "(錬成) の効果で、飛行の味方が２マス以内にいる時、攻撃、魔防 +" + buffVal + " 。<br>";
+			}
+			if (this.hasAtRefineIndex("リガルブレイド・専用", this.refineIndex)){
+				buffVal = 3;
+				skillName = data.skills[this.weaponIndex].name;
+				this.combatSpur.atk += buffVal;
+				this.combatSpur.spd += buffVal;
+				this.combatSpur.def += buffVal;
+				this.combatSpur.res += buffVal;
+				boostText += this.name + " は、" + skillName + "(錬成) の効果で、魔法かつ歩行の味方が２マス以内に２体以上いる時、攻撃、速さ、守備、魔防 +" + buffVal + " 。<br>";
+			}
+			if (this.hasAtRefineIndex("白騎の長剣・専用", this.refineIndex) || this.hasAtRefineIndex("白騎の直槍・専用", this.refineIndex) || this.hasAtRefineIndex("白騎の短槍・専用", this.refineIndex)){
+				buffVal = 3;
+				skillName = data.skills[this.weaponIndex].name;
+				this.combatSpur.atk += buffVal;
+				this.combatSpur.spd += buffVal;
+				this.combatSpur.def += buffVal;
+				this.combatSpur.res += buffVal;
+				boostText += this.name + " は、" + skillName + "(錬成) の効果で、飛行の味方が２マス以内にいる時、攻撃、速さ、守備、魔防 +" + buffVal + " 。<br>";
+			}
+			if (this.hasAtRefineIndex("剣闘士の剛剣・専用", this.refineIndex)){
+				buffVal = 4;
+				skillName = data.skills[this.weaponIndex].name;
+				this.combatSpur.atk += buffVal;
+				this.combatSpur.spd += buffVal;
+				boostText += this.name + " は、" + skillName + "(錬成) の効果で、歩行か飛行の味方が２マス以内に２体以上いる時、攻撃、速さ +" + buffVal + " 。<br>";
 			}
 		}
 
@@ -7724,13 +7749,13 @@ function activeHero(hero){
 			if((enemy.color=="green"&&this.color=="red")||(enemy.color=="red"&&this.color=="blue")||(enemy.color=="blue"&&this.color=="green")){
 				weaponAdvantage = 1;
 			}
-			else if(enemy.color=="gray" && (this.has("ラウアレイヴン") || this.has("ブラーレイヴン") || this.has("グルンレイヴン") || this.has("ナグルファル"))){
+			else if(enemy.color=="gray" && (this.has("ラウアレイヴン") || this.has("ブラーレイヴン") || this.has("グルンレイヴン") || this.has("ナグルファル") || this.has("軍師の雷書") || this.has("軍師の風書"))){
 				weaponAdvantage = 1;
 			}
 			else if((this.color=="green"&&enemy.color=="red")||(this.color=="red"&&enemy.color=="blue")||(this.color=="blue"&&enemy.color=="green")){
 				weaponAdvantage = -1;
 			}
-			else if(this.color=="gray" && (enemy.has("ラウアレイヴン") || enemy.has("ブラーレイヴン") || enemy.has("グルンレイヴン") || enemy.has("ナグルファル"))){
+			else if(this.color=="gray" && (enemy.has("ラウアレイヴン") || enemy.has("ブラーレイヴン") || enemy.has("グルンレイヴン") || enemy.has("ナグルファル") || enemy.has("軍師の雷書") || enemy.has("軍師の風書"))){
 				weaponAdvantage = -1;
 			}
 
@@ -8252,6 +8277,12 @@ function activeHero(hero){
 					if (this.combatStat.atk- enemy.combatStat.atk >= 7 - (this.hasAtIndex("剛剣", this.sIndex) * 2)){
 						gainCharge = Math.max(gainCharge, 1);
 						skillNames.push(data.skills[this.sIndex].name + "(聖印)");
+					}
+				}
+				if (this.hasExactly("剣闘士の剛剣")){
+					if (this.combatStat.atk- enemy.combatStat.atk >= 1){
+						gainCharge = Math.max(gainCharge, 1);
+						skillNames.push(data.skills[this.weaponIndex].name);
 					}
 				}
 				if (this.hasExactly("烈剣デュランダル")){
