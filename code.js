@@ -1194,7 +1194,7 @@ function getCDChange(skill, slot){
 			|| skillName.indexOf("トールハンマー") != -1 || skillName.indexOf("剣姫の刀") != -1 || skillName.indexOf("義勇の槍") != -1
 			|| skillName.indexOf("マルテ") != -1 || skillName.indexOf("霧氷のナイフ") != -1 || skillName.indexOf("魔書ミステルトィン") != -1
 			|| skillName.indexOf("水の飛沫") != -1 || skillName.indexOf("業槍ジークムント") != -1 || skillName.indexOf("白騎の直槍") != -1
-			|| skillName.indexOf("紅の剣") != -1
+			|| skillName.indexOf("紅の剣") != -1 || skillName.indexOf("黄金の短剣") != -1 || skillName.indexOf("シャニーの誓槍") != -1
 			){
 				return -1;
 		}
@@ -6723,6 +6723,15 @@ function activeHero(hero){
 					boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、剣、槍、斧の敵から攻撃された時、守備 +7 。<br>";
 				}
 			}
+			if (this.hasExactly("フロリーナの誓槍・専用")) {
+				if (enemy.weaponType == "sword" || enemy.weaponType == "axe" || enemy.weaponType == "lance"  || enemy.weaponType == "dragon" ) {
+					this.combatSpur.atk += 4;
+					this.combatSpur.spf += 4;
+					this.combatSpur.def += 4;
+					this.combatSpur.res += 4;
+					boostText += this.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) の効果で、剣、槍、斧、竜の敵から攻撃された時、攻撃、速さ、守備、魔防 +4 。<br>";		
+				}
+			}
 			if (this.hasExactly("ティルフィング") && this.hp / this.maxHp <= 0.5){
 				this.combatSpur.def += 4;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、ＨＰ 50% 以下の時、守備 +4 。<br>";
@@ -7036,6 +7045,12 @@ function activeHero(hero){
 				totalDamage += damage;
 			}
 			if(this.hasAtRefineIndex("ミストルティン・専用", this.refineIndex)){
+				damage = 6;
+				skillName = data.skills[this.weaponIndex].name;
+				damageText += this.name + " は、"  + skillName + "(錬成) の効果で、戦闘後、" + damage + " ダメージ。<br>";
+				totalDamage += damage;
+			}
+			if(this.hasAtRefineIndex("バアトルの豪斧・専用", this.refineIndex)){
 				damage = 6;
 				skillName = data.skills[this.weaponIndex].name;
 				damageText += this.name + " は、"  + skillName + "(錬成) の効果で、戦闘後、" + damage + " ダメージ。<br>";
@@ -7535,6 +7550,7 @@ function activeHero(hero){
 		if(this.has("倭刀") || this.has("ビッグスプーン") || this.has("ベビーキャロット")
 			|| this.hasExactly("共鳴エクスカリバー") || this.hasExactly("気鋭ワユの剣") || this.has("倭鉾")
 			|| this.hasExactly("オートクレール・専用") || this.hasExactly("無銘の一門の剣・専用") || this.has("倭棍")
+			|| this.hasExactly("シャニーの誓槍・専用")
 			|| (this.has("狂斧アルマーズ") && (this.hp / this.maxHp <= .75))
 		){
 			damage += 10;
@@ -7943,6 +7959,7 @@ function activeHero(hero){
 					|| this.hasExactly("セイニー") || this.hasExactly("ウイングソード")
 					|| this.hasExactly("戦姫の和弓") || this.hasExactly("ロムファイア") || this.hasExactly("義勇の槍")
 					|| this.has("青天の舞扇") || this.hasExactly("暁天の神楽鈴") || this.hasExactly("白騎の短槍")
+					|| this.hasExactly("フロリーナの誓槍") || this.hasExactly("バアトルの豪斧")
 					)
 				){
 				effectiveBonus = (enemy.has("スヴェルの盾")) ? 1 : 1.5;
@@ -8089,6 +8106,10 @@ function activeHero(hero){
 			if(enemy.specialIndex != -1 && data.skills[enemy.specialIndex].charge <= enemy.charge){
 				//gotta check range
 				var anyRangeCounter = canCounterAnyRange(this);
+				
+				if(this.hasExactly("黄金の短剣・専用") && (this.specialIndex != -1 && data.skills[this.specialIndex].charge <= this.charge)){
+					anyRangeCounter = true
+				}
 
 				if(this.range == "melee" || (!this.initiator && enemy.range == "melee" && anyRangeCounter)){
 					if(enemy.has("小盾") || enemy.has("長盾")){
@@ -8704,13 +8725,13 @@ function activeHero(hero){
 		if (this.hasAtRefineIndex("ファルシオン外伝・専用", this.refineIndex) && (this.combatStartHp / this.maxHp == 1)){
 			doubleInitiate = true;
 		}
-		if (this.hasAtRefineIndex("白騎の長剣・専用", this.refineIndex) && (this.adjacent > 0)){
+		if (this.hasAtRefineIndex("白騎の長剣・専用", this.refineIndex) && (this.adjacent + this.adjacent2 >= 2)){
 			doubleInitiate = true;
 		}
-		if (this.hasAtRefineIndex("白騎の直槍・専用", this.refineIndex) && (this.adjacent > 0)){
+		if (this.hasAtRefineIndex("白騎の直槍・専用", this.refineIndex) && (this.adjacent + this.adjacent2 >= 2)){
 			doubleInitiate = true;
 		}
-		if (this.hasAtRefineIndex("白騎の短槍・専用", this.refineIndex) && (this.adjacent > 0)){
+		if (this.hasAtRefineIndex("白騎の短槍・専用", this.refineIndex) && (this.adjacent + this.adjacent2 >= 2)){
 			doubleInitiate = true;
 		}
 		if (enemy.hasExactly("マスターソード")){
@@ -8820,6 +8841,10 @@ function activeHero(hero){
 
 		//Check for any-distance counterattack
 		var anyRangeCounter = canCounterAnyRange(enemy);
+
+		if(enemy.hasExactly("黄金の短剣・専用") && (enemy.specialIndex != -1 && data.skills[enemy.specialIndex].charge <= enemy.charge)){
+			anyRangeCounter = true
+		}
 
 		//Check if enemy can counter
 		var enemyCanCounter = true;
