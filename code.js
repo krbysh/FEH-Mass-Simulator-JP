@@ -5640,6 +5640,13 @@ function activeHero(hero){
 			}
 		}
 
+		if (this.hasExactly("トローン") && getSpecialType(data.skills[this.specialIndex]) == "offensive"){
+			if(this.hp/this.maxHp <= .75){
+				this.charge++;
+				chargingText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、奥義カウント -1 。<br>";
+			}
+		}
+
 		//Wrath
 		if(this.has("怒り") && getSpecialType(data.skills[this.specialIndex]) == "offensive"){
 			if(this.hp/this.maxHp <= .25 * this.has("怒り")){
@@ -6267,6 +6274,17 @@ function activeHero(hero){
 			}
 		}
 
+		// Skills
+		if(this.hasExactly("聖書ナーガ・専用") && this.res >= enemy.res + 3){
+			var skillName = data.skills[this.weaponIndex].name;
+			var buffVal = 3;
+			this.combatSpur.atk += buffVal;
+			this.combatSpur.spd += buffVal;
+			this.combatSpur.def += buffVal;
+			this.combatSpur.res += buffVal;
+			boostText += this.name + " は、" + skillName + "(錬成) の効果で、魔防が " + enemy.name + " の魔防より 3 以上高いため、攻撃、速さ、守備、魔防 +" + buffVal + " 。<br>";
+		}
+
 		//Adjacent Foe Buffs
 		if (this.hasExactly("ヴォルフベルグ") && this.adjacent2_foe - 1 >= this.adjacent2){
 			var buffVal = 4;
@@ -6405,6 +6423,13 @@ function activeHero(hero){
 				this.combatSpur.spd += buffVal;
 				this.combatSpur.def += buffVal;
 				boostText += this.name + " は、" + skillName + "(錬成) の効果で、味方と隣接している時、速さ、守備 +" + buffVal + " 。<br>";
+			}
+			if (this.hasAtRefineIndex("ティルフィング・専用", this.refineIndex)){
+				buffVal = 5;
+				skillName = data.skills[this.weaponIndex].name;
+				this.combatSpur.atk += buffVal;
+				this.combatSpur.def += buffVal;
+				boostText += this.name + " は、" + skillName + "(錬成) の効果で、味方と隣接している時、攻撃、守備 +" + buffVal + " 。<br>";
 			}
 		}
 
@@ -6559,6 +6584,10 @@ function activeHero(hero){
 			if(this.hasAtRefineIndex("フォルブレイズ・専用", this.refineIndex)){
 				this.combatSpur.atk += 6;
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) の効果で、自分から攻撃時、攻撃 +6 。<br>"
+			}
+			if(this.hasAtRefineIndex("トローン・専用", this.refineIndex)){
+				this.combatSpur.spd += 6;
+				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) の効果で、自分から攻撃時、速さ +6 。<br>"
 			}
 			if (this.hasExactly("霧氷のナイフ") && enemy.range == "melee"){
 				this.combatSpur.def += 20;
@@ -7509,7 +7538,11 @@ function activeHero(hero){
 
 	//Check if hero has adaptive attack
 	this.isAdaptive = function(enemy){
-		if (!enemy.has("生命の護符")){
+		if (!(
+			enemy.has("生命の護符")
+			|| (enemy.hasExactly("ナーガ・専用") && this.weaponType == "dragon")
+			|| (enemy.hasExactly("聖書ナーガ") && enemy.refineIndex != -1)
+			)){
 			if (this.hasExactly("フェリシアの氷皿")){
 				return true;
 			}
@@ -7551,7 +7584,8 @@ function activeHero(hero){
 			|| this.hasExactly("共鳴エクスカリバー") || this.hasExactly("気鋭ワユの剣") || this.has("倭鉾")
 			|| this.hasExactly("オートクレール・専用") || this.hasExactly("無銘の一門の剣・専用") || this.has("倭棍")
 			|| this.hasExactly("シャニーの誓槍・専用")
-			|| (this.has("狂斧アルマーズ") && (this.hp / this.maxHp <= .75))
+			|| (this.hasExactly("狂斧アルマーズ") && (this.hp / this.maxHp <= .75))
+			|| (this.hasExactly("トローン") && (this.hp / this.maxHp <= .75))
 		){
 			damage += 10;
 			skillNames.push(data.skills[this.weaponIndex].name);
@@ -8110,7 +8144,10 @@ function activeHero(hero){
 				if(this.hasExactly("黄金の短剣・専用") && (this.specialIndex != -1 && data.skills[this.specialIndex].charge <= this.charge)){
 					anyRangeCounter = true
 				}
-
+				if(this.hasExactly("ナーガ・専用") && enemy.weaponType == "dragon"){
+					anyRangeCounter = true
+				}
+		
 				if(this.range == "melee" || (!this.initiator && enemy.range == "melee" && anyRangeCounter)){
 					if(enemy.has("小盾") || enemy.has("長盾")){
 						dmgReduction *= 0.7;
@@ -8139,6 +8176,12 @@ function activeHero(hero){
 				if(enemy.has("祈り") && enemy.hp > 1){
 					miracle = true;
 				}
+			}
+
+			if(enemy.hasExactly("ティルフィング") && enemy.refineIndex != -1){
+				if(enemy.combatStartHp / enemy.maxHp >= 0.5 && enemy.hp > 1){
+					miracle = true;	
+				}				
 			}
 
 			if(defensiveSpecialActivated){
@@ -8846,6 +8889,10 @@ function activeHero(hero){
 			anyRangeCounter = true
 		}
 
+		if(enemy.hasExactly("ナーガ・専用") && this.weaponType == "dragon"){
+			anyRangeCounter = true		
+		}
+
 		//Check if enemy can counter
 		var enemyCanCounter = true;
 
@@ -8879,7 +8926,7 @@ function activeHero(hero){
 			enemyCanCounter = false;
 		}
 		if (enemy.lit && enemyCanCounter){
-			roundText += enemy.name + " は、キャンドルサービス の効果で反撃不可。<br>";
+			roundText += enemy.name + " は、反撃不可。<br>";
 			enemyCanCounter = false;
 		}
 		if (this.has("サカの加護") && (enemy.weaponType == "axe" || enemy.weaponType == "sword" ||enemy.weaponType == "lance")){
