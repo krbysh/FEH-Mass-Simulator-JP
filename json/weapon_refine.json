@@ -1406,7 +1406,7 @@
 		"exclusive": ""
 	},	{
 		"category": "Naga",
-		"name_en": "Combat Bonuses Resistance Victory",
+		"name_en": "Unique Range Dragons",
 		"name": "ナーガ・専用",
 		"sp": 400,
 		"description": "Effective against dragon foes. If foe initiates combat, grants Def/Res+4 during combat. In combat against a dragon foe, disables foe's skills that calculate damage using the lower of foe's Def or Res and unit can counterattack regardless of foe's range.",

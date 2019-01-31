@@ -7570,8 +7570,8 @@ function activeHero(hero){
 				}
 			}
 		}
-			//Hero does not have adaptive attack
-			return false;
+		//Hero does not have adaptive attack
+		return false;
 	}
 
 	//Return bonus damage for specials
