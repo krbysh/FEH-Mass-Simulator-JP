@@ -90,10 +90,10 @@ data.lists = loadJSON('json/custom_lists.json')
 
 var debug = true;
 
-data.weaponTypes = ["sword","lance","axe","redtome","bluetome","greentome","dragon","redbow","bluebow","greenbow","graybow","bow","reddagger","bluedagger","greendagger","graydagger","dagger","staff"];
+data.weaponTypes = ["sword","lance","axe","redtome","bluetome","greentome","dragon","beast","redbow","bluebow","greenbow","graybow","bow","reddagger","bluedagger","greendagger","graydagger","dagger","staff"];
 data.rangedWeapons = ["redtome","bluetome","greentome","redbow","bluebow","greenbow","graybow","bow","reddagger","bluedagger","greendagger","graydagger","dagger","staff"];
-data.meleeWeapons = ["sword","lance","axe","dragon"];
-data.physicalWeapons = ["sword","lance","axe","redbow","bluebow","greenbow","graybow","bow","reddagger","bluedagger","greendagger","graydagger","dagger"];
+data.meleeWeapons = ["sword","lance","axe","dragon","beast"];
+data.physicalWeapons = ["sword","lance","axe","beast","redbow","bluebow","greenbow","graybow","bow","reddagger","bluedagger","greendagger","graydagger","dagger"];
 data.magicalWeapons = ["redtome","bluetome","greentome","dragon","staff"];
 data.moveTypes = ["infantry","armored","flying","cavalry","mounted"];
 data.colors = ["red","blue","green","gray"];
@@ -155,15 +155,12 @@ data.enemyPrompts = {
 }
 
 data.newHeroesCsvs = [
-	"セシリア(瞬きほどの一生を) (5★);Weapon: 冬祭のブーツ+;Special: 氷蒼;A: 攻撃魔防の絆 3;C: 守備の謀策 3;",
-	"エイリーク(枕元のプレゼント) (5★);Weapon: ランタンの杖+;Assist: レスト+;Special: 天照;B: 幻惑の杖 3;C: 攻撃の開放 3;",
-	"エフラム(枕元のプレゼント) (5★);Weapon: 業槍ジークムント;Special: 竜穿;A: 攻撃守備の孤軍 3;B: 攻撃隊形 3;C: 近距離警戒 3;",
-	"ファ(枕元のプレゼント) (5★);Weapon: 綺羅星のブレス+;Special: 月光;A: 守備魔防の絆 3;B: 迎撃隊形 3;C: 重装の行軍 3;",
-	"エイル (5★);Weapon: リフィア;Special: 氷蒼;A: 鬼神飛燕の一撃 2;B: 生命の護符 3;C: 生命の輝き;",
-	"フリーズ (5★);Weapon: ギョッル;Special: 月虹;A: 遠距離反撃;B: 凍結の封印;C: 攻撃の紫煙 3;",
-	"ガーネフ (5★);Weapon: マフー;Special: 華炎;A: 鬼神明鏡の構え 2;B: 攻撃の封印 3;",
-	"スルト (5★);Weapon: シンモラ;Special: 緋炎;A: 金剛の構え 4;B: 守備隊形 3;C: 炎王の威嚇;",
-	"ユルグ (5★);Weapon: シュルグ;Special: 凶星;A: 魔道の刃 3;B: 速さの封印 3;C: 速さの指揮 3;",
+	"アクア(透魔の歌姫) (5★);Weapon: 清冷の法具;Assist: ユラリユルレリ;A: 青の死闘・飛行 3;B: 曲技飛行 3;C: 攻撃の指揮 3;",
+	"フィヨルム(氷と炎のお正月) (5★);Weapon: 鏑矢+;Assist: 引き戻し;A: 攻撃速さの絆 3;B: 攻撃速さの連携 3;C: 魔防の波・偶数 3;",
+	"スリーズ(氷と炎のお正月) (5★);Weapon: 氷神刀;Special: 凶星;A: 鬼神飛燕の一撃 2;B: 攻め立て 3;C: 速さの相互鼓舞;",
+	"レーヴァテイン(氷と炎のお正月) (5★);Weapon: 熊手+;Assist: リバース+;Special: 業火大地の祝福+;B: 神罰の杖 3;C: 守備の波・偶数 3;",
+	"フリーズ(氷と炎のお正月) (5★);Weapon: 迎春の剣+;Assist: 入れ替え;A: 攻撃守備の絆 3;B: 切り返し 3;C: 攻撃の鼓舞 4;",
+	"レーギャルン(王女三人寄れば) (5★);Weapon: 和傘+;Assist: 回り込み;B: 魔防の封印 3;C: 守備の指揮 3;",
 ];
 
 //Make list of all skill ids that are a strictly inferior prereq to exclude from dropdown boxes
@@ -362,7 +359,7 @@ function initOptions(){
 	enemies.fl.list = []; //May not actually use - might be too much redundant data
 
 	//enemies.fl.include = {"melee":1,"ranged":1,"red":1,"blue":1,"green":1,"gray":1,"physical":1,"magical":1,"infantry":1,"cavalry":1,"flying":1,"armored":1,"staff":0,"nonstaff":1};
-	enemies.fl.include = {"melee":1,"ranged":1,"red":1,"blue":1,"green":1,"gray":1,"physical":1,"magical":1,"infantry":1,"cavalry":1,"flying":1,"armored":1,"staff":0,"nonstaff":1,"dragon":1,"nondragon":1,"mob":0};
+	enemies.fl.include = {"melee":1,"ranged":1,"red":1,"blue":1,"green":1,"gray":1,"physical":1,"magical":1,"infantry":1,"cavalry":1,"flying":1,"armored":1,"staff":0,"nonstaff":1,"dragon":1,"nondragon":1,"beast":1,"nonbeast":1,"mob":0};
 
 	enemies.fl.merge = 0;
 	enemies.fl.rarity = 5;
@@ -1310,6 +1307,7 @@ function getSpecialType(skill){
 	//Else if special is supportive
 	}else if (skillName.indexOf("天照") != -1 	|| skillName.indexOf("治癒") != -1 	|| skillName.indexOf("業火の祝福") != -1
 		|| skillName.indexOf("大地の祝福") != -1 	|| skillName.indexOf("静水の祝福") != -1 	|| skillName.indexOf("疾風の祝福") != -1
+		|| skillName.indexOf("業火疾風の祝福") != -1 	|| skillName.indexOf("業火大地の祝福") != -1 	|| skillName.indexOf("大地静水の祝福") != -1
 		){
 		return "supportive";
 	//Else if special is offensive
@@ -2005,7 +2003,7 @@ function resetHero(hero,blockInit){//also resets fl, despite singular name - pas
 			hero.replaceS = 0;
 
 			//hero.include = {"melee":1,"ranged":1,"red":1,"blue":1,"green":1,"gray":1,"physical":1,"magical":1,"infantry":1,"cavalry":1,"flying":1,"armored":1,"staff":0,"nonstaff":1};
-			hero.include = {"melee":1,"ranged":1,"red":1,"blue":1,"green":1,"gray":1,"physical":1,"magical":1,"infantry":1,"cavalry":1,"flying":1,"armored":1,"staff":0,"nonstaff":1,"dragon":1,"nondragon":1,"mob":0};
+			hero.include = {"melee":1,"ranged":1,"red":1,"blue":1,"green":1,"gray":1,"physical":1,"magical":1,"infantry":1,"cavalry":1,"flying":1,"armored":1,"staff":0,"nonstaff":1,"dragon":1,"nondragon":1,"beast":1,"nonbeast":1,"mob":0};
 
 			if(!blockInit){
 				initEnemyList();
@@ -2127,6 +2125,12 @@ function setFlEnemies(){
 			confirmed = false;
 		}
 		else if(!enemies.fl.include["nondragon"] && data.heroes[i].weapontype != "dragon"){
+			confirmed = false;
+		}
+		else if(!enemies.fl.include["beast"] && data.heroes[i].weapontype == "beast"){
+			confirmed = false;
+		}
+		else if(!enemies.fl.include["nonbeast"] && data.heroes[i].weapontype != "beast"){
 			confirmed = false;
 		}
 		else if(!enemies.fl.include["mob"] && data.heroes[i].name.indexOf("＠") != -1){
@@ -2638,7 +2642,7 @@ function updateHeroUI(hero){
 
 		//Hero portrait
 		if (data.heroes[hero.index].name.indexOf("＠") != -1){
-			if(data.heroes[hero.index].weapontype == "dragon" || data.heroes[hero.index].weapontype == "bow" ){
+			if(data.heroes[hero.index].weapontype == "dragon" || data.heroes[hero.index].weapontype == "bow" || data.heroes[hero.index].weapontype == "beast"){
 				$("#" + htmlPrefix + "picture").attr("src","heroes/generic/" + data.heroes[hero.index].movetype + "_" + data.heroes[hero.index].color + data.heroes[hero.index].weapontype + ".png");
 			}else{
 				$("#" + htmlPrefix + "picture").attr("src","heroes/generic/" + data.heroes[hero.index].movetype + "_" + data.heroes[hero.index].weapontype + ".png");
@@ -2648,7 +2652,7 @@ function updateHeroUI(hero){
 		}
 
 		//Weapon and movement icons
-		if(data.heroes[hero.index].weapontype == "dragon" || data.heroes[hero.index].weapontype == "bow" || data.heroes[hero.index].weapontype == "dagger"){
+		if(data.heroes[hero.index].weapontype == "dragon" || data.heroes[hero.index].weapontype == "bow" || data.heroes[hero.index].weapontype == "dagger" || data.heroes[hero.index].weapontype == "beast"){
 			$("#" + htmlPrefix + "weapon_icon").attr("src","weapons/" + data.heroes[hero.index].color + data.heroes[hero.index].weapontype + ".png");
 		}
 		else{
@@ -3575,7 +3579,7 @@ function importText(side, customList){
 		}
 		else if(includeObject){
 //			var value = {"melee":0,"ranged":0,"red":0,"blue":0,"green":0,"gray":0,"physical":0,"magical":0,"infantry":0,"cavalry":0,"flying":0,"armored":0,"staff":0,"nonstaff":0};
-			var value = {"melee":0,"ranged":0,"red":0,"blue":0,"green":0,"gray":0,"physical":0,"magical":0,"infantry":0,"cavalry":0,"flying":0,"armored":0,"staff":0,"nonstaff":0,"dragon":0,"nondragon":0,"mob":0};
+			var value = {"melee":0,"ranged":0,"red":0,"blue":0,"green":0,"gray":0,"physical":0,"magical":0,"infantry":0,"cavalry":0,"flying":0,"armored":0,"staff":0,"nonstaff":0,"dragon":0,"nondragon":0,"beast":0,"nonbeast":0,"mob":0};
 			var splitInclude = trySplit(keyValue[1],[","," "]);
 			for(var i = 0; i < splitInclude.length; i++){
 				for(var includeKey in value){
@@ -4088,6 +4092,12 @@ function fight(enemyIndex,resultIndex){
 		weaponTypeName = ahEnemy.color + "dragon";
 	}
 
+	//Set weapon icon name for beast
+	var weaponTypeName = ahEnemy.weaponType;
+	if(weaponTypeName == "beast"){
+		weaponTypeName = ahEnemy.color + "beast";
+	}
+
 	//Set weapon icon name for bow
 	if (weaponTypeName == "bow"){
 		weaponTypeName = ahEnemy.color + "bow";
@@ -4106,11 +4116,11 @@ function fight(enemyIndex,resultIndex){
 	passFilters.push(outcome);
 
 	//Filter Color
-	if (weaponTypeName == "sword" || weaponTypeName == "redtome" || weaponTypeName == "redbow" || weaponTypeName == "reddagger" || weaponTypeName == "reddragon"){
+	if (weaponTypeName == "sword" || weaponTypeName == "redtome" || weaponTypeName == "redbow" || weaponTypeName == "reddagger" || weaponTypeName == "reddragon" || weaponTypeName == "redbeast"){
 		passFilters.push("red");
-	}else if (weaponTypeName == "lance" || weaponTypeName == "bluetome" || weaponTypeName == "bluebow" || weaponTypeName == "bluedagger" || weaponTypeName == "bluedragon"){
+	}else if (weaponTypeName == "lance" || weaponTypeName == "bluetome" || weaponTypeName == "bluebow" || weaponTypeName == "bluedagger" || weaponTypeName == "bluedragon" || weaponTypeName == "bluebeast"){
 		passFilters.push("blue");
-	}else if (weaponTypeName == "axe" || weaponTypeName == "greentome" || weaponTypeName == "greenbow" || weaponTypeName == "greendagger" || weaponTypeName == "greendragon"){
+	}else if (weaponTypeName == "axe" || weaponTypeName == "greentome" || weaponTypeName == "greenbow" || weaponTypeName == "greendagger" || weaponTypeName == "greendragon" || weaponTypeName == "greenbeast"){
 		passFilters.push("green");
 	}else{
 		passFilters.push("gray");
@@ -5666,6 +5676,16 @@ function activeHero(hero){
 
 		//Chilling Seal Debuff
 		if ((enemy.challenger && options.chilled_challenger) || (!enemy.challenger && options.chilled_enemy)){
+			if (this.hasExactly("熊手+")){
+				debuffVal.atk = Math.min(debuffVal.atk, -5);
+				debuffVal.spd = Math.min(debuffVal.spd, -5);
+				skillNames.push("熊手+");
+			}
+			if (this.hasExactly("熊手")){
+				debuffVal.atk = Math.min(debuffVal.atk, -3);
+				debuffVal.spd = Math.min(debuffVal.spd, -3);
+				skillNames.push("熊手");
+			}
 			if (this.hasExactly("フギンの魔卵") && this.hp / this.maxHp >= 0.5 ){
 				debuffVal.atk = Math.min(debuffVal.atk, -5);
 				debuffVal.def = Math.min(debuffVal.def, -5);
@@ -5681,9 +5701,28 @@ function activeHero(hero){
 				debuffVal.res = Math.min(debuffVal.res, -5);
 				skillNames.push("氷の封印");
 			}
+			if(this.hasExactly("氷神刀")){
+				debuffVal.atk = Math.min(debuffVal.atk, -4);
+				debuffVal.spd = Math.min(debuffVal.spd, -4);
+				debuffVal.def = Math.min(debuffVal.def, -4);
+				debuffVal.res = Math.min(debuffVal.res, -4);
+				skillNames.push("氷神刀");
+			}
 			if(this.hasExactly("深き印の風")){
 				debuffVal.atk = Math.min(debuffVal.atk, -7);
 				skillNames.push("深き印の風");
+			}
+			if(this.has("迎春の剣")){
+				debuffVal.atk = Math.min(debuffVal.atk, -7);
+				skillNames.push("迎春の剣");
+			}
+			if(this.has("鏑矢")){
+				debuffVal.spd = Math.min(debuffVal.spd, -7);
+				skillNames.push("鏑矢");
+			}
+			if(this.has("和傘")){
+				debuffVal.def = Math.min(debuffVal.def, -7);
+				skillNames.push("和傘");
 			}
 			if(this.hasExactly("フォルブレイズ")){
 				debuffVal.res = Math.min(debuffVal.res, -7);
@@ -6743,22 +6782,22 @@ function activeHero(hero){
 				boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、攻撃された時、攻撃、速さ、守備、魔防 +2 。<br>";
 			}
 			if (this.hasExactly("ヴィドフニル")) {
-				if (this.refineIndex != -1 && (enemy.weaponType == "sword" || enemy.weaponType == "axe" || enemy.weaponType == "lance"  || enemy.weaponType == "dragon" )) {
+				if (this.refineIndex != -1 && (enemy.weaponType == "sword" || enemy.weaponType == "axe" || enemy.weaponType == "lance" || enemy.weaponType == "dragon" || enemy.weaponType == "beast")) {
 					this.combatSpur.def += 7;
 					this.combatSpur.res += 7;
-					boostText += this.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) の効果で、剣、槍、斧、竜の敵から攻撃された時、守備、魔防 +7 。<br>";
+					boostText += this.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) の効果で、剣、槍、斧、竜、獣の敵から攻撃された時、守備、魔防 +7 。<br>";
 				} else if (this.refineIndex == -1 && (enemy.weaponType == "sword" || enemy.weaponType == "axe" || enemy.weaponType == "lance")) {
 					this.combatSpur.def += 7;
 					boostText += this.name + " は、" + data.skills[this.weaponIndex].name + " の効果で、剣、槍、斧の敵から攻撃された時、守備 +7 。<br>";
 				}
 			}
 			if (this.hasExactly("フロリーナの誓槍・専用")) {
-				if (enemy.weaponType == "sword" || enemy.weaponType == "axe" || enemy.weaponType == "lance"  || enemy.weaponType == "dragon" ) {
+				if (enemy.weaponType == "sword" || enemy.weaponType == "axe" || enemy.weaponType == "lance"  || enemy.weaponType == "dragon" || enemy.weaponType == "beast") {
 					this.combatSpur.atk += 4;
 					this.combatSpur.spf += 4;
 					this.combatSpur.def += 4;
 					this.combatSpur.res += 4;
-					boostText += this.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) の効果で、剣、槍、斧、竜の敵から攻撃された時、攻撃、速さ、守備、魔防 +4 。<br>";		
+					boostText += this.name + " は、" + data.skills[this.weaponIndex].name + "(錬成) の効果で、剣、槍、斧、竜、獣の敵から攻撃された時、攻撃、速さ、守備、魔防 +4 。<br>";		
 				}
 			}
 			if (this.hasExactly("ティルフィング") && this.hp / this.maxHp <= 0.5){
@@ -6836,61 +6875,81 @@ function activeHero(hero){
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、魔防 +4 。<br>";
 			}
 
-			if (this.has("鬼神飛燕の構え")){
-				buffVal = this.has("鬼神飛燕の構え") * 2;
+			if(this.hasAtIndex("鬼神飛燕の構え", this.aIndex)){
+				buffVal = this.hasAtIndex("鬼神飛燕の構え", this.aIndex) * 2;
 				this.combatSpur.atk += buffVal;
 				this.combatSpur.spd += buffVal;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、攻撃、速さ +" + buffVal + " 。<br>";
 			}
-			else if (this.has("鬼神金剛の構え")){
-				buffVal = this.has("鬼神金剛の構え") * 2;
+			if(this.hasAtIndex("鬼神金剛の構え", this.aIndex)){
+				buffVal = this.hasAtIndex("鬼神金剛の構え", this.aIndex) * 2;
 				this.combatSpur.atk += buffVal;
 				this.combatSpur.def += buffVal;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、攻撃、守備 +" + buffVal + " 。<br>";
 			}
-			else if (this.has("鬼神明鏡の構え")){
-				buffVal = this.has("鬼神明鏡の構え") * 2;
+			if(this.hasAtIndex("鬼神明鏡の構え", this.aIndex)){
+				buffVal = this.hasAtIndex("鬼神明鏡の構え", this.aIndex) * 2;
 				this.combatSpur.atk += buffVal;
 				this.combatSpur.res += buffVal;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、攻撃、魔防 +" + buffVal + " 。<br>";
 			}
-			else if (this.has("飛燕金剛の構え")){
-				buffVal = this.has("飛燕金剛の構え") * 2;
+			if(this.hasAtIndex("飛燕金剛の構え", this.aIndex)){
+				buffVal = this.hasAtIndex("飛燕金剛の構え", this.aIndex) * 2;
 				this.combatSpur.spd += buffVal;
 				this.combatSpur.def += buffVal;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、速さ、守備 +" + buffVal + " 。<br>";
 			}
-			else if (this.has("飛燕明鏡の構え")){
-				buffVal = this.has("飛燕明鏡の構え") * 2;
+			if(this.hasAtIndex("飛燕明鏡の構え", this.aIndex)){
+				buffVal = this.hasAtIndex("飛燕明鏡の構え", this.aIndex) * 2;
 				this.combatSpur.spd += buffVal;
 				this.combatSpur.res += buffVal;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、速さ、魔防 +" + buffVal + " 。<br>";
 			}
-			else if (this.has("金剛明鏡の構え")){
-				buffVal = this.has("金剛明鏡の構え") * 2;
+			if(this.hasAtIndex("金剛明鏡の構え", this.aIndex)){
+				buffVal = this.hasAtIndex("金剛明鏡の構え", this.aIndex) * 2;
 				this.combatSpur.def += buffVal;
 				this.combatSpur.res += buffVal;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、守備、魔防 +" + buffVal + " 。<br>";
 			}
-			else if (this.has("鬼神の構え")){
-				buffVal = this.has("鬼神の構え") * 2;
+			if(this.hasAtIndex("鬼神の構え", this.aIndex)){
+				buffVal = this.hasAtIndex("鬼神の構え", this.aIndex) * 2;
 				this.combatSpur.atk += buffVal;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、攻撃 +" + buffVal + " 。<br>";
 			}
-			else if (this.has("飛燕の構え")){
-				buffVal = this.has("飛燕の構え") * 2;
+			if(this.hasAtIndex("鬼神の構え", this.sIndex)){
+				buffVal = this.hasAtIndex("鬼神の構え", this.sIndex) * 2;
+				this.combatSpur.atk += buffVal;
+				boostText += this.name + " は、" + data.skills[this.sIndex].name + "(聖印) の効果で、敵から攻撃された時、攻撃 +" + buffVal + " 。<br>";
+			}
+			if(this.hasAtIndex("飛燕の構え", this.aIndex)){
+				buffVal = this.hasAtIndex("飛燕の構え", this.aIndex) * 2;
 				this.combatSpur.spd += buffVal;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、速さ +" + buffVal + " 。<br>";
 			}
-			else if (this.has("金剛の構え")){
-				buffVal = this.has("金剛の構え") * 2;
+			if(this.hasAtIndex("飛燕の構え", this.sIndex)){
+				buffVal = this.hasAtIndex("飛燕の構え", this.sIndex) * 2;
+				this.combatSpur.spd += buffVal;
+				boostText += this.name + " は、" + data.skills[this.sIndex].name + "(聖印) の効果で、敵から攻撃された時、速さ +" + buffVal + " 。<br>";
+			}
+			if(this.hasAtIndex("金剛の構え", this.aIndex)){
+				buffVal = this.hasAtIndex("金剛の構え", this.aIndex) * 2;
 				this.combatSpur.def += buffVal;
 				boostText += this.name + " は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、守備 +" + buffVal + " 。<br>";
 			}
-			else if (this.has("明鏡の構え")){
-				buffVal = this.has("明鏡の構え") * 2;
+			if(this.hasAtIndex("金剛の構え", this.sIndex)){
+				buffVal = this.hasAtIndex("金剛の構え", this.sIndex) * 2;
+				this.combatSpur.def += buffVal;
+				boostText += this.name + " は、" + data.skills[this.sIndex].name + "(聖印) の効果で、敵から攻撃された時、守備 +" + buffVal + " 。<br>";
+			}
+			if(this.hasAtIndex("明鏡の構え", this.aIndex)){
+				buffVal = this.hasAtIndex("明鏡の構え", this.aIndex) * 2;
 				this.combatSpur.res += buffVal;
 				boostText += this.name + "は、" + data.skills[this.aIndex].name + " の効果で、敵から攻撃された時、魔防 +" + buffVal + " 。<br>";
+			}
+			if(this.hasAtIndex("明鏡の構え", this.sIndex)){
+				buffVal = this.hasAtIndex("明鏡の構え", this.sIndex) * 2;
+				this.combatSpur.res += buffVal;
+				boostText += this.name + "は、" + data.skills[this.sIndex].name + "(聖印) の効果で、敵から攻撃された時、魔防 +" + buffVal + " 。<br>";
 			}
 			if (this.has("邪竜の鱗")){
 				buffVal = 4;
